@@ -119,7 +119,7 @@ ALTER TABLE `departments` ADD FOREIGN KEY (`faculty_id`) REFERENCES `faculties` 
 
 ALTER TABLE `lectureres` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
-ALTER TABLE `user_type` ADD FOREIGN KEY (`id`) REFERENCES `users` (`user_type_id`);
+ALTER TABLE `users` ADD FOREIGN KEY (`user_type_id`) REFERENCES `user_type` (`id`);
 
 ALTER TABLE `students` ADD FOREIGN KEY (`user_id`) REFERENCES `users` (`id`);
 
