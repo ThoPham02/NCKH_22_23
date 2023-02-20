@@ -13,6 +13,8 @@ app.use(compression())
 const db = require('./models/config');
 
 //add routes
+const router = require('./routes');
+app.use(router)
 
 //add handle error
 

@@ -13,7 +13,7 @@ con.connect((err) => {
         console.log("Connection error: " + err);
         return;
     }
-    console.log("Connection successful host: " + "host" + " port: " + "port");
+    console.log("Connection successful!");
 })
 
 module.exports = con;
