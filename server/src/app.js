@@ -13,11 +13,6 @@ app.use(compression())
 const db = require('./models/config');
 
 //add routes
-app.get('/', (req, res, next) => {
-    res.status(200).json({
-        message: "Test app"
-    })
-})
 
 //add handle error
 
