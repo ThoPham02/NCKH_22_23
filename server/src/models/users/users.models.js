@@ -1,12 +1,13 @@
 const db = require('../config.js')
 
-const Reference = function(rf){
-    this.id = rf.id;
-    this.reference_url = rf.reference_url;
-    this.name = rf.name;
-    this.created_at = rf.reated_at;
-    this.update_at = rf.update_at;
-    this.deleted_at = rf.deleted_at;
+const Reference = function(us){
+    this.id = us.id;
+    this.username = us.username;
+    this.password = us.password;
+    this.user_type_id = us.user_type_id;
+    this.created_at = us.created_at;
+    this.update_at = us.update_at
+    this.deleted_at = us.deleted_at;
 }
 
  Reference.get_all = function(result) {
