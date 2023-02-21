@@ -15,10 +15,16 @@ Users.GetUsers = function(conditions, result) {
     const query = "SELECT * FROM users"
     db.query(query, function(err, rows) {
         if (err) {
-            result(err)
+            result({
+                status: 400,
+                error: err
+            })
             return
         }
-        result(rows)
+        result({
+            status: 200,
+            data: rows
+        })
     })
 }
 
