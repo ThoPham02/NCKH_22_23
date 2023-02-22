@@ -4,3 +4,23 @@ GET http://localhost:8000/test/2
 GET http://localhost:8000/showListReference
 ###
 GET http://localhost:8000/admin/users
+###
+POST http://localhost:8000/admin/createUsers
+Content-Type: application/json
+
+{
+    "username": "lão hạc",
+    "password": 123,
+    "user_type_id": 1
+}
+###
+PUT http://localhost:8000/admin/update/7
+Content-Type: application/json
+
+{
+    "username": "lão hạc33",
+    "password": "1234a",
+    "user_type_id": 1
+}
+###
+DELETE http://localhost:8000/admin/delete/9

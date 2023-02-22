@@ -3,14 +3,16 @@ const morgan = require('morgan');
 const { default: helmet } = require('helmet');
 const compression = require('compression');
 const app = express();
+const bodyParser = require('body-parser')
 
 //add middleware
+app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.json());
 app.use(morgan("dev"))
 app.use(helmet())
 app.use(compression())
 
 //add db
-const db = require('./models/config');
 
 //add routes
 const router = require('./routes');

@@ -1,6 +1,6 @@
 var express = require('express');
 const router = express.Router();
-const referenceRoutes = require('../controllers/admin.controller.js')
+const referenceRoutes = require('../controllers/reference.controller.js')
 
 router.get('/', referenceRoutes.get_list );
 
