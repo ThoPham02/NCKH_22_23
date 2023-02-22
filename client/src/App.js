@@ -11,13 +11,13 @@ import {
 } from "./Router";
 import "./App.css";
 import DefaultLayout from "./components/Layout/DefaultLayout";
-import Home from "./pages/Home";
 
 function App() {
+  console.log(publicRoutes)
   return (
     <Router>
       <Routes>
-        {/* {publicRoutes.map((route, index) => {
+        {publicRoutes.map((route, index) => {
           const Layout = route.Layout || DefaultLayout;
           const Page = route.component;
           return (
@@ -32,7 +32,7 @@ function App() {
             />
           );
         })}
-        {adminRoutes.map((route, index) => {
+        {/* {adminRoutes.map((route, index) => {
           const Layout = route.Layout || DefaultLayout;
           const Page = route.component;
           return (
@@ -107,7 +107,6 @@ function App() {
             />
           );
         })} */}
-        <Route path="/" element={<Home />} />
       </Routes>
     </Router>
   );

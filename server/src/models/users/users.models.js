@@ -1,25 +1,30 @@
-const db = require('../config.js')
+const db = require('../config')
 
-const Reference = function(us){
-    this.id = us.id;
-    this.username = us.username;
-    this.password = us.password;
-    this.user_type_id = us.user_type_id;
-    this.created_at = us.created_at;
-    this.update_at = us.update_at
-    this.deleted_at = us.deleted_at;
+const Users = function(user) {
+    this.id = user.id,
+    this.name = user.name,
+    this.password = user.password,
+    this.user_type = user.user_type,
+    this.created_at = user.created_at,
+    this.update_at = user.update_at,
+    this.deleted_at = user.deleted_at
 }
 
- Reference.get_all = function(result) {
-    db.query("SELECT * FROM reference",function(err,rf){
-        if(err){
-            result(err);
-            return;
+Users.GetUsers = function(conditions, result) {
+    const query = "SELECT * FROM users"
+    db.query(query, function(err, rows) {
+        if (err) {
+            result({
+                status: 400,
+                error: err
+            })
+            return
         }
-        else {
-            result(rf);
-        }
+        result({
+            status: 200,
+            data: rows
+        })
     })
 }
 
-module.exports = Reference;
+module.exports = Users;
