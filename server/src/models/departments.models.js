@@ -1,20 +1,26 @@
 const db = require("./config");
 
-const Users = function (user) {
-  (this.id = user.id),
-    (this.username = user.username),
-    (this.password = user.password),
-    (this.user_type_id = user.user_type_id),
-    (this.created_at = user.created_at),
-    (this.update_at = user.update_at),
-    (this.deleted_at = user.deleted_at);
+const Department = function (department) {
+  (this.id = department.id),
+    (this.name = department.name),
+    (this.faculty_id = department.faculty_id),
+    (this.user_id = department.user_id),
+    (this.created_at = department.created_at),
+    (this.update_at = department.update_at),
+    (this.deleted_at = department.deleted_at);
 };
 
-Users.GetUsers = function (conditions, result) {
-  var query = "SELECT * FROM users Where deleted_at is null";
+Department.GetDepartments = function (conditions, result) {
+  var query = "SELECT * FROM departments Where deleted_at is null";
 
-  if (conditions.user_type_id) {
-    query += " AND user_type_id = " + conditions.user_type_id;
+  if (conditions.name) {
+    query += `AND name like '${conditions.name}';`
+  }
+  if (conditions.faculty_id) {
+    query += " AND faculty_id = " + conditions.faculty_id;
+  }
+  if (conditions.user_id) {
+    query += " AND user_id = " + conditions.user_id;
   }
 
   db.query(query, function (err, rows) {
@@ -26,8 +32,8 @@ Users.GetUsers = function (conditions, result) {
   });
 };
 
-Users.Create = function (data, result) {
-  db.query("INSERT INTO users SET ?", data, function (err, user) {
+Department.Create = function (data, result) {
+  db.query("INSERT INTO departments SET ?", data, function (err, user) {
     if (err) {
       if (err) {
         result(err, null);
@@ -41,8 +47,8 @@ Users.Create = function (data, result) {
   });
 };
 
-Users.Delete = function (id, result) {
-  db.query("UPDATE users SET deleted_at = NOW() Where id = ?", id, function (err, user) {
+Department.Delete = function (id, result) {
+  db.query("UPDATE departments SET deleted_at = NOW() Where id = ?", id, function (err, _) {
     if (err) {
       result(err, null);
     } else {
@@ -51,10 +57,10 @@ Users.Delete = function (id, result) {
   });
 };
 
-Users.Update = function (data, result) {
+Department.Update = function (data, result) {
   db.query(
-    "UPDATE users SET update_at = NOW(), username = ?, password = ?, user_type_id = ? WHERE id = ?",
-    [data.username, data.password, data.user_type_id, data.id],
+    "UPDATE departments SET update_at = NOW(), name = ?, faculty_id = ?, user_id = ? WHERE id = ?",
+    [data.name, data.faculty_id, data.user_id, data.id],
     function (err, _) {
       if (err) {
         result(err, null);
@@ -65,4 +71,4 @@ Users.Update = function (data, result) {
   );
 };
 
-module.exports = Users;
+module.exports = Department;

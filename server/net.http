@@ -41,6 +41,29 @@ Content-Type: application/json
 ###
 DELETE http://localhost:8000/admin/faculty/1
 
+###
+GET http://localhost:8000/admin/department
+###
+POST http://localhost:8000/admin/department
+Content-Type: application/json
+
+{
+    "name": "Department 123",
+    "faculty_id": 5,
+    "user_id": 6
+}
+###
+PUT http://localhost:8000/admin/department/1
+Content-Type: application/json
+
+{
+    "name": "Department 12355",
+    "faculty_id": 5,
+    "user_id": 6
+}
+###
+DELETE http://localhost:8000/admin/department/1
+
 
 
 

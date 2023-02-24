@@ -14,11 +14,11 @@ router.put('/faculty/:id', updateFaculties);
 router.delete('/faculty/:id', deleteFaculties);
 
 
-// const { getDepartments, createDepartments, updateDepartments, deleteDepartments } = require('../controllers/admin/departments.controller');
-router.get('/department', getFaculties);
-router.post('/department', createFaculties);
-router.put('/department/:id', updateFaculties);
-router.delete('/department/:id', deleteFaculties);
+const { getDepartment, createDepartment, updateDepartment, deleteDepartment } = require('../controllers/admin/departments.controller');
+router.get('/department', getDepartment);
+router.post('/department', createDepartment);
+router.put('/department/:id', updateDepartment);
+router.delete('/department/:id', deleteDepartment);
 
 // const { getStudents, createStudents, updateStudents, deleteStudents } = require('../controllers/admin/students.controller');
 router.get('/student', getFaculties);
