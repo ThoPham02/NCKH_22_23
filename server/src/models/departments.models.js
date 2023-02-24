@@ -1,4 +1,4 @@
-const db = require('../config')
+const db = require('./config')
 
 const Users = function(user) {
     this.id = user.id,

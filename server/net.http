@@ -3,7 +3,7 @@ GET http://localhost:8000/test/2
 ###
 GET http://localhost:8000/showListReference
 ###
-GET http://localhost:8000/admin/users
+GET http://localhost:8000/admin/users?user_type_id=1
 ###
 POST http://localhost:8000/admin/createUsers
 Content-Type: application/json
@@ -14,7 +14,7 @@ Content-Type: application/json
     "user_type_id": 1
 }
 ###
-PUT http://localhost:8000/admin/update/7
+PUT http://localhost:8000/admin/update/4
 Content-Type: application/json
 
 {
@@ -23,4 +23,4 @@ Content-Type: application/json
     "user_type_id": 1
 }
 ###
-DELETE http://localhost:8000/admin/delete/9
+DELETE http://localhost:8000/admin/delete/3
