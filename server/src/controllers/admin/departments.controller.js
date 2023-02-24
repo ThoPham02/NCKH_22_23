@@ -3,8 +3,7 @@ const { handleResponse } = require("../utils");
 
 module.exports = {
   getDepartment: function (req, res) {
-    var conditions = req.query
-    console.log(conditions)
+    var conditions = req.query;
     Department.GetDepartments(conditions, (err, data) =>
       handleResponse(res, err, data)
     );

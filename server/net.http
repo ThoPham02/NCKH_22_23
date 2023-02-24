@@ -4,9 +4,9 @@ POST http://localhost:8000/admin/user
 Content-Type: application/json
 
 {
-    "username": "lão hạc",
+    "username": "ChiDau",
     "password": 123,
-    "user_type_id": 1
+    "user_type_id": 3
 }
 ###
 PUT http://localhost:8000/admin/user/4
@@ -28,7 +28,7 @@ Content-Type: application/json
 
 {
     "name": "faculty 123",
-    "user_id": 4
+    "user_id": 18
 }
 ###
 PUT http://localhost:8000/admin/faculty/1
@@ -42,15 +42,15 @@ Content-Type: application/json
 DELETE http://localhost:8000/admin/faculty/1
 
 ###
-GET http://localhost:8000/admin/department
+GET http://localhost:8000/admin/department?name=Depart&&user_id=6&&faculty_id=5
 ###
 POST http://localhost:8000/admin/department
 Content-Type: application/json
 
 {
     "name": "Department 123",
-    "faculty_id": 5,
-    "user_id": 6
+    "faculty_id": 22,
+    "user_id": 20
 }
 ###
 PUT http://localhost:8000/admin/department/1
@@ -61,9 +61,27 @@ Content-Type: application/json
     "faculty_id": 5,
     "user_id": 6
 }
-###
-DELETE http://localhost:8000/admin/department/1
 
+###
+GET http://localhost:8000/admin/lecture
+###
+POST http://localhost:8000/admin/lecture
+Content-Type: application/json
+
+{
+    "name": "Lecture 123",
+    "user_id": 30
+}
+###
+PUT http://localhost:8000/admin/lecture/3
+Content-Type: application/json
+
+{
+    "name": "Lecture 123",
+    "user_id": 9
+}
+###
+DELETE http://localhost:8000/admin/lecture/1
 
 
 

@@ -14,7 +14,7 @@ Department.GetDepartments = function (conditions, result) {
   var query = "SELECT * FROM departments Where deleted_at is null";
 
   if (conditions.name) {
-    query += `AND name like '${conditions.name}';`
+    query += ` AND name like '${conditions.name}%'`
   }
   if (conditions.faculty_id) {
     query += " AND faculty_id = " + conditions.faculty_id;

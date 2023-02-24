@@ -26,11 +26,11 @@ router.post('/student', createFaculties);
 router.put('/student/:id', updateFaculties);
 router.delete('/student/:id', deleteFaculties);
 
-// const { getLectures, createLectures, updateLectures, deleteLectures } = require('../controllers/admin/lectures.controller');
-router.get('/lecture', getFaculties);
-router.post('/lecture', createFaculties);
-router.put('/lecture/:id', updateFaculties);
-router.delete('/lecture/:id', deleteFaculties);
+const { getLecturers, createLecturers, updateLecturers, deleteLecturers } = require('../controllers/admin/lecturers.controller');
+router.get('/lecture', getLecturers);
+router.post('/lecture', createLecturers);
+router.put('/lecture/:id', updateLecturers);
+router.delete('/lecture/:id', deleteLecturers);
 
 // const { getEvents, createEvents, updateEvents, deleteEvents } = require('../controllers/admin/events.controller');
 router.get('/events', getFaculties);
