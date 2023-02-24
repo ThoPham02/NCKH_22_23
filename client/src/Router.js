@@ -5,17 +5,9 @@ const publicRoutes = [
   { path: "/home", component: Home },
 ];
 
-const adminRoutes = [];
-const studentRoutes = [];
-const lecturerRoutes = [];
-const departmentRoutes = [];
-const facultyRoutes = [];
+const privateRoutes = [];
 
 export {
   publicRoutes,
-  adminRoutes,
-  studentRoutes,
-  lecturerRoutes,
-  departmentRoutes,
-  facultyRoutes,
+  privateRoutes,
 };

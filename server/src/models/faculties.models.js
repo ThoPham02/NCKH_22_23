@@ -1,91 +1,66 @@
-const db = require('./config')
+const db = require("./config");
 
-const Users = function(user) {
-    this.id = user.id,
-    this.username = user.username,
-    this.password = user.password,
-    this.user_type_id = user.user_type_id,
-    this.created_at = user.created_at,
-    this.update_at = user.update_at,
-    this.deleted_at = user.deleted_at
-}
+const Faculties = function (faculties) {
+  (this.id = faculties.id),
+    (this.name = faculties.name),
+    (this.user_id = faculties.user_id),
+    (this.created_at = faculties.created_at),
+    (this.update_at = faculties.update_at),
+    (this.deleted_at = faculties.deleted_at);
+};
 
-Users.GetUsers = function(conditions, result) {
-    const query = "SELECT * FROM users"
-    db.query(query, function(err, rows) {
-        if (err) {
-            result({
-                status: 400,
-                error: err
-            })
-            return
-        }
-        result({
-            status: 200,
-            data: rows
-        })
-    })
-}
+Faculties.GetFaculties = function (conditions, result) {
+  var query = "SELECT * FROM faculties Where deleted_at is null";
 
-Users.create = function(data, result) {
-    db.query("INSERT INTO users SET ?", data, function(err,user){
-        if(err){
-            if(err){
-                result(err);
-            }
-        }
-        else {
-            result({
-                id: user.insertId,
-                ...data,
-            });
-        }
-    })
-}
+  db.query(query, function (err, rows) {
+    if (err) {
+      result(err, null);
+      return;
+    }
+    result(null, rows);
+  });
+};
 
-Users.create = function(data, result) {
-    db.query("INSERT INTO users SET ?", data, function(err,user){
-        if(err){
-            if(err){
-                result(err);
-            }
-        }
-        else {
-            result({
-                id: user.insertId,
-                ...data,
-            });
-        }
-    })
-}
+Faculties.Create = function (data, result) {
+  db.query("INSERT INTO faculties SET ?", data, function (err, user) {
+    if (err) {
+      if (err) {
+        result(err, null);
+      }
+    } else {
+      result(null, {
+        id: user.insertId,
+        ...data,
+      });
+    }
+  });
+};
 
-Users.remove = function(id, result) {
-    db.query("DELETE FROM users WHERE id = ?", id, function(err,user){
-        if(err){
-            result(err);
-        }
-        else {
-            result("đã xóa "+ id);
-        }
-    })
-}
+Faculties.Delete = function (id, result) {
+  db.query(
+    "UPDATE faculties SET deleted_at = NOW() Where id = ?",
+    id,
+    function (err, _) {
+      if (err) {
+        result(err, null);
+      } else {
+        result(null, null);
+      }
+    }
+  );
+};
 
-Users.update = function(data, result) {
-    db.query("UPDATE users SET username = ?, password = ?, user_type_id = ? WHERE id = ?",
-    [
-        data.username,
-        data.password,
-        data.user_type_id,
-        data.id
-    ],
-    function(err,user){
-        if(err){
-            result(err);
-        }
-        else {
-            result("dữ liệu đã được update");
-        }
-    })
-}
+Faculties.Update = function (data, result) {
+  db.query(
+    "UPDATE faculties SET update_at = NOW(), name = ? WHERE id = ?", [data.name, data.id],
+    function (err, _) {
+      if (err) {
+        result(err, null);
+      } else {
+        result(null, null);
+      }
+    }
+  );
+};
 
-module.exports = Users;
+module.exports = Faculties;
