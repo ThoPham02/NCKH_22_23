@@ -9,6 +9,7 @@ import (
 
 func RegisterRouter(store store.Store, router *gin.Engine) *gin.Engine {
 	router.GET("/user/:id", handler.GetUserHandler(store))
+	router.GET("/student/:id", handler.GetStudentHandler(store))
 
 	return router
 }
