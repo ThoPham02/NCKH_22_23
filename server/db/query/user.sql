@@ -11,14 +11,19 @@ FROM
     users
 WHERE id = $1 AND deleted_at IS NULL;
 
+-- name: GetUserByName :one
+SELECT
+    *
+FROM
+    users
+WHERE username = $1 AND deleted_at IS NULL;
+
 -- name: ListUsers :many
 SELECT
     *
 FROM
     users
-ORDER BY
-    id
-LIMIT $1 OFFSET $2;
+WHERE deleted_at IS NULL;
 
 -- name: UpdateUser :one
 UPDATE
