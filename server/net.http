@@ -1,5 +1,6 @@
 ###
-GET http://localhost:8080/user/8
+GET http://localhost:8080/user
+Authorization: "Bearer v2.local.zG-9TT3P3TVQnxqL8eJfNBYNDK1K2M6BMtY7nWL1xpFlAsEaPECTrkpMJDGYVxkTHMDfO1ZBaCzQkqUnv1fNdV-GYtMATheAkEcOZSywfnH61LN95Bdp39NV9gjDEHt5HoF9177uKQ89PG7DLe-efaeqs1w-XOKk8e2Ux6TQKLEE5WTYvnB-mCkQkHB1TieC-dsaBJ6DOshonH69kN_LZckqyh2YW-fSvkWUAgLPXYT5IT7O-O3xxwcRBJYfrk1yJ8klRd9Y7MAe46CadA1i4VI.bnVsbA"
 
 ###
 POST http://localhost:8080/user/login

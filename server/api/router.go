@@ -2,14 +2,14 @@ package api
 
 import (
 	"github/ThoPham02/research_management/api/handler"
-	"github/ThoPham02/research_management/db/store"
+	"github/ThoPham02/research_management/api/middleware"
+	"github/ThoPham02/research_management/service"
 
 	"github.com/gin-gonic/gin"
 )
 
-func RegisterRouter(store store.Store, router *gin.Engine) *gin.Engine {
-	router.GET("/user/:id", handler.GetUserHandler(store))
-	router.GET("/student/:id", handler.GetStudentHandler(store))
-
-	return router
+func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
+	router.Use(middleware.CorsMiddleware())
+	router.POST("user/login", handler.UserRegister(svc))
+	router.GET("/user", middleware.AdminAuthentication(svc), handler.GetUserHandler(svc))
 }
