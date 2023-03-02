@@ -1,0 +1,92 @@
+#header {
+    z-index: 1;
+    position: fixed;
+    top: 0px;
+    left : 0px;
+    right: 0px;
+}
+#header-logo{
+   display: flex;
+    height: 150px;
+    background-color:#00ace9;
+   justify-content: space-around;
+}
+#logo{
+    display: flex;
+}
+#logo img {
+    border-radius: 50%;
+ 
+}
+.logo-name{
+    margin:auto;
+    list-style: none;
+    color: white;
+    line-height: 32px
+}
+.name-VN{
+    font-weight: bold;
+    font-size: 24px;
+    text-transform: uppercase
+}
+.name-EN{
+    font-weight: bold;
+    font-size: 17px;
+    text-transform: uppercase
+}
+#header-logo__right{
+    color: white;
+    line-height: 32px;
+    font-weight: bold;
+    font-size: 18px;
+    text-transform: uppercase
+}
+#header-logo__right>p {
+    margin-top:40px;
+}
+#nav {
+    display: flex;
+    justify-content: space-around;
+    height: 45px;
+    background-color: white;
+    box-shadow: 0 3px 3px 0 rgb(0 0 0 / 40%);
+    position: relative;
+}
+
+#nav>ul {
+    left: 10%;
+    position:absolute;
+    display: flex;
+    text-transform: uppercase;
+    list-style: none;
+    
+}
+#nav>ul>li{
+    margin-top: 8px;
+    margin-right: 100px;
+}
+
+#nav>ul> li> a:hover{
+    color: #00afea;
+}
+#nav ul li a {
+    text-decoration: none;
+    color: black;
+    font-weight: 500;
+   
+}
+#acc{
+    position:absolute;
+    right: 10%;
+    margin-top: 8px;
+}
+#acc_1{
+    text-decoration: none;
+    color: black;
+}
+#acc_2{
+    text-decoration: none;color: black;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-weight: 500;
+}

@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { publicRoutes, privateRoutes } from "./Router";
 import "./App.css";
 import DefaultLayout from "./components/Layout/DefaultLayout";
