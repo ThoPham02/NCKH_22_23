@@ -5,6 +5,10 @@
     left : 0px;
     right: 0px;
 }
+.header__below {
+    width: 100%;
+    height: 200px;
+}
 #header-logo{
    display: flex;
     height: 150px;

@@ -5,6 +5,7 @@ import {Link} from "react-router-dom";
 import {BiUserCircle} from "react-icons/bi"
 function Header() {
     return (
+        <>
         <div id="header">
             <div id="header-logo">
                 <div id ="logo">
@@ -35,6 +36,8 @@ function Header() {
                 </div>
             </div>
         </div>
+        <div className="header__below"></div>
+        </>
     )
 }
 
