@@ -1,10 +1,10 @@
 package api
 
 import (
+	"github/ThoPham02/research_management/api/db/store"
+	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/token"
 	"github/ThoPham02/research_management/config"
-	"github/ThoPham02/research_management/db/store"
-	"github/ThoPham02/research_management/service"
 	"log"
 
 	"github.com/gin-gonic/gin"

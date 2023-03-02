@@ -2,8 +2,8 @@ package handler
 
 import (
 	"database/sql"
-	"github/ThoPham02/research_management/db/store"
-	"github/ThoPham02/research_management/utils"
+	"github/ThoPham02/research_management/api/db/store"
+	"github/ThoPham02/research_management/api/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -22,14 +22,14 @@ func GetStudentHandler(store store.Store) gin.HandlerFunc {
 		}
 
 		student, err := store.GetStudent(ctx, req.ID)
-		if err!= nil {
+		if err != nil {
 			if err == sql.ErrNoRows {
 				ctx.JSON(http.StatusNotFound, utils.ErrResourceNotFound)
-                return
+				return
 			}
-            ctx.JSON(http.StatusInternalServerError, utils.ErrResposive(err))
-            return
-        }
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResposive(err))
+			return
+		}
 
 		ctx.JSON(http.StatusOK, student)
 	}

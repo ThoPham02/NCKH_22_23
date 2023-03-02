@@ -3,7 +3,7 @@ package api
 import (
 	"github/ThoPham02/research_management/api/handler"
 	"github/ThoPham02/research_management/api/middleware"
-	"github/ThoPham02/research_management/service"
+	"github/ThoPham02/research_management/api/service"
 
 	"github.com/gin-gonic/gin"
 )

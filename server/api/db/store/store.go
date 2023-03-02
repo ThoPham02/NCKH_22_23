@@ -2,7 +2,7 @@ package store
 
 import (
 	"database/sql"
-	db "github/ThoPham02/research_management/db/sqlc"
+	db "github/ThoPham02/research_management/api/db/sqlc"
 )
 
 type Store struct {

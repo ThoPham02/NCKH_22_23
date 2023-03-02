@@ -3,9 +3,9 @@ package handler
 import (
 	"database/sql"
 	"fmt"
+	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/token"
-	"github/ThoPham02/research_management/service"
-	"github/ThoPham02/research_management/utils"
+	"github/ThoPham02/research_management/api/utils"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

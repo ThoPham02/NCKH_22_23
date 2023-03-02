@@ -3,8 +3,8 @@ package main
 import (
 	"database/sql"
 	"github/ThoPham02/research_management/api"
+	"github/ThoPham02/research_management/api/db/store"
 	"github/ThoPham02/research_management/config"
-	"github/ThoPham02/research_management/db/store"
 	"log"
 
 	_ "github.com/lib/pq"

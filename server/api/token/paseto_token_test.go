@@ -1,7 +1,7 @@
 package token
 
 import (
-	"github/ThoPham02/research_management/utils"
+	"github/ThoPham02/research_management/api/utils"
 	"testing"
 	"time"
 
