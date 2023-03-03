@@ -5,7 +5,9 @@ const DefaultLayout = ({ children }) => {
   return (
     <>
       <Header />
-      {children}
+      <div style={{minHeight: "calc(100vh - 275px)"}}>
+        {children}
+      </div>
       <Footer />
     </>
   );

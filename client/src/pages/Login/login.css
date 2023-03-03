@@ -1,39 +1,49 @@
-#login {
-    z-index: 1;
-    border-style: solid;
-    display: flex;
-    justify-content: center;
-    width: 500px;
-    padding: 10px 30px 30px;
-    border-radius: 10px;
-    height: 500px;
-    margin: 0 auto;
-  }
-  .login-heading{
-    color: rgb(71, 46, 13);
-  }
-  #login form{
-    position: absolute;
-    top: 150px;
-    width: 300px;
-  }
-  /*thiết kế input*/
-  #login input {
-    padding-left: 10px;
-    margin-bottom: 10px;
-    height: 45px;
-    width: 100%;
-    border: 1px solid #0093ab;
-    border-radius: 10px;
-  }
+.loginContainer {
+  width: 400px;
+  padding: 20px;
 
-  #btn {
-    width: 120px;
-    margin: 20px auto;
-    border: 1px solid;
-    border-radius: 5px;
-    transition: all 0.2s linear;
-  }
-  #btn:hover {
-    transform: scale(1.1);
-  }
+  background-color: #fff;
+  border-radius: 10px;
+}
+
+.login__header {
+  text-align: center;
+}
+
+.login__input {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin: 20px 0;
+  font-size: 20px;
+}
+
+.login__input input {
+  border: none;
+  outline: none;
+  padding: 10px;
+  border-bottom: 2px solid #000;
+}
+
+.login__input input:focus {
+  transition: 0.5s;
+  border-bottom: 2px solid #30aaf6;
+}
+
+.login__submitBtn {
+  display: block;
+  width: 90%;
+  margin: 40px auto;
+  border-radius: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 40px;
+  color: #fff;
+  background-color: #2691d9;
+}
+
+.login__submitBtn:hover {
+  background-color: #08609a;
+  transform: scale(1.1);
+  transition: 0.5s ;
+}
