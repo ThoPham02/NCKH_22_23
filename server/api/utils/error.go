@@ -7,7 +7,7 @@ import (
 	"github.com/go-playground/validator"
 )
 
-func ErrResposive(err error) gin.H {
+func ErrResponse(err error) gin.H {
 	return gin.H{"error": err}
 }
 

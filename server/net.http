@@ -10,3 +10,6 @@ Content-Type: "application/json"
     "username": "humgsv01",
     "password": "12345678"
 }
+###
+GET http://localhost:8080/topics?page=1&&page_size=10
+Content-Type: "application/json"

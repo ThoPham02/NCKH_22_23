@@ -17,10 +17,10 @@ func GetUserHandler(svc *service.ServiceContext) gin.HandlerFunc {
 		user, err := svc.Store.GetUserByName(ctx, payload.UserName)
 		if err != nil {
 			if err == sql.ErrNoRows {
-				ctx.JSON(http.StatusNotFound, utils.ErrResposive(err))
+				ctx.JSON(http.StatusNotFound, utils.ErrResponse(err))
 				return
 			}
-			ctx.JSON(http.StatusInternalServerError, utils.ErrResposive(err))
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
 			return
 		}
 		ctx.JSON(http.StatusOK, user)
@@ -52,16 +52,16 @@ func UserRegister(svc *service.ServiceContext) gin.HandlerFunc {
 		user, err := svc.Store.GetUserByName(ctx, req.Username)
 		if err != nil {
 			if err == sql.ErrNoRows {
-				ctx.JSON(http.StatusNotFound, utils.ErrResposive(err))
+				ctx.JSON(http.StatusNotFound, utils.ErrResponse(err))
 				return
 			}
-			ctx.JSON(http.StatusInternalServerError, utils.ErrResposive(err))
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
 			return
 		}
 
 		isUser := utils.ComparePassword(req.Password, user.Password)
 		if !isUser {
-			ctx.JSON(http.StatusBadRequest, utils.ErrResposive(fmt.Errorf("%s is wrong password", req.Password)))
+			ctx.JSON(http.StatusBadRequest, utils.ErrResponse(fmt.Errorf("%s is wrong password", req.Password)))
 			return
 		}
 
@@ -73,13 +73,13 @@ func UserRegister(svc *service.ServiceContext) gin.HandlerFunc {
 
 		tokenMaker, err := token.NewPasetoMaker(svc.Config.TokenSemmetricKey)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, utils.ErrResposive(err))
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
 			return
 		}
 
 		accessToken, err := tokenMaker.CreateToken(user.Username, svc.Config.AccessTokenDuration)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, utils.ErrResposive(err))
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
 			return
 		}
 
