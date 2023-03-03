@@ -3,9 +3,9 @@ project:
     id: "research_management"
 packages: 
   - name: "db"
-    path: ".api/db/sqlc"
-    queries: ".api/db/query/"
-    schema: ".api/db/migration/"
+    path: "./api/db/sqlc"
+    queries: "./api/db/query/"
+    schema: "./api/db/migration/"
     engine: "postgresql"
     emit_json_tags: true
     emit_prepared_queries: false

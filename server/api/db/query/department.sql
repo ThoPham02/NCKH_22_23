@@ -10,16 +10,14 @@ SELECT
 FROM
     departments
 WHERE
-    id = $1;
+    user_id = $1;
 
 -- name: ListDepartments :many
 SELECT
     *
 FROM
     departments
-ORDER BY
-    id
-LIMIT $1 OFFSET $2;
+WHERE faculty_id = $1;
 
 -- name: UpdateDepartment :one
 UPDATE

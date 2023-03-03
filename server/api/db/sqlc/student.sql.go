@@ -64,11 +64,11 @@ SELECT
 FROM
     students
 WHERE
-    id = $1
+    user_id = $1
 `
 
-func (q *Queries) GetStudent(ctx context.Context, id int64) (Student, error) {
-	row := q.db.QueryRowContext(ctx, getStudent, id)
+func (q *Queries) GetStudent(ctx context.Context, userID int64) (Student, error) {
+	row := q.db.QueryRowContext(ctx, getStudent, userID)
 	var i Student
 	err := row.Scan(
 		&i.ID,

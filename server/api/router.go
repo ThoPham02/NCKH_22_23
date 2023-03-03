@@ -14,13 +14,11 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.GET("/user", middleware.AdminAuthentication(svc), handler.GetUserHandler(svc))
 
 	router.GET("/topics", handler.GetListTopicsHandler(svc))
-	router.GET("/departments", handler.GetStudentHandler(svc))
-	router.GET("/faculties", handler.GetUserHandler(svc))
-	router.GET("/students", handler.GetUserHandler(svc))
-	router.GET("/lectures", handler.GetUserHandler(svc))
+	router.GET("/departments", handler.GetListDepartmentsHandler(svc))
+	router.GET("/faculties", handler.GetListFacultiesHandler(svc))
 
-	router.GET("/department/info", middleware.UserAuthentication(svc), handler.GetStudentHandler(svc))
-	router.GET("/faculty/info", middleware.UserAuthentication(svc), handler.GetUserHandler(svc))
-	router.GET("/student/info", middleware.UserAuthentication(svc), handler.GetUserHandler(svc))
-	router.GET("/lecture/info", middleware.UserAuthentication(svc), handler.GetUserHandler(svc))
+	router.GET("/department/info", middleware.UserAuthentication(svc), handler.GetDepartmentInfoHandler(svc))
+	router.GET("/faculty/info", middleware.UserAuthentication(svc), handler.GetFacultyInfoHandler(svc))
+	router.GET("/student/info", middleware.UserAuthentication(svc), handler.GetStudentInfoHandler(svc))
+	router.GET("/lecture/info", middleware.UserAuthentication(svc), handler.GetLecturerInfoHandler(svc))
 }
