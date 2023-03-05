@@ -10,7 +10,7 @@ SELECT
 FROM
     students
 WHERE
-    id = $1;
+    user_id = $1;
 
 -- name: ListStudents :many
 SELECT

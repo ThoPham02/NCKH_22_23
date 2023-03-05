@@ -1,0 +1,20 @@
+version: '3.9'
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=secret
+      - POSTGRES_DB=research_management
+    ports:
+      - "5432:5432"
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - DB_SOURCE=postgres://root:secret@db:5432/research_management?sslmode=disable
+    depends_on:
+      - db
+    entrypoint: ["/app/wait-for.sh", "db:5432", "--", "/app/start.sh"]
+    command: ["/app/main"]

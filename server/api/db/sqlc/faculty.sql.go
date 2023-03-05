@@ -64,11 +64,11 @@ SELECT
 FROM
     faculties
 WHERE
-    id = $1
+    user_id = $1
 `
 
-func (q *Queries) GetFaculty(ctx context.Context, id int64) (Faculty, error) {
-	row := q.db.QueryRowContext(ctx, getFaculty, id)
+func (q *Queries) GetFaculty(ctx context.Context, userID int64) (Faculty, error) {
+	row := q.db.QueryRowContext(ctx, getFaculty, userID)
 	var i Faculty
 	err := row.Scan(
 		&i.ID,
@@ -86,18 +86,10 @@ SELECT
     id, name, user_id, created_at, updated_at, deleted_at
 FROM
     faculties
-ORDER BY
-    id
-LIMIT $1 OFFSET $2
 `
 
-type ListFacultiesParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListFaculties(ctx context.Context, arg ListFacultiesParams) ([]Faculty, error) {
-	rows, err := q.db.QueryContext(ctx, listFaculties, arg.Limit, arg.Offset)
+func (q *Queries) ListFaculties(ctx context.Context) ([]Faculty, error) {
+	rows, err := q.db.QueryContext(ctx, listFaculties)
 	if err != nil {
 		return nil, err
 	}

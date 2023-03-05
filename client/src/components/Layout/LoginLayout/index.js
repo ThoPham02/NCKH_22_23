@@ -1,9 +1,11 @@
-const LoginLayout = ({children}) => {
-    return (
-        <>
-        {children}
-        </>
-    )
-}
+import "./loginlayout.css"
 
-export default LoginLayout
+const LoginLayout = ({ children }) => {
+    return (
+        <div className="login">
+            {children}
+        </div>
+    );
+};
+
+export default LoginLayout;

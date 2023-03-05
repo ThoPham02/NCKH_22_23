@@ -67,11 +67,11 @@ SELECT
 FROM
     departments
 WHERE
-    id = $1
+    user_id = $1
 `
 
-func (q *Queries) GetDepartment(ctx context.Context, id int64) (Department, error) {
-	row := q.db.QueryRowContext(ctx, getDepartment, id)
+func (q *Queries) GetDepartment(ctx context.Context, userID int64) (Department, error) {
+	row := q.db.QueryRowContext(ctx, getDepartment, userID)
 	var i Department
 	err := row.Scan(
 		&i.ID,
@@ -90,18 +90,11 @@ SELECT
     id, name, faculty_id, user_id, created_at, updated_at, deleted_at
 FROM
     departments
-ORDER BY
-    id
-LIMIT $1 OFFSET $2
+WHERE faculty_id = $1
 `
 
-type ListDepartmentsParams struct {
-	Limit  int32 `json:"limit"`
-	Offset int32 `json:"offset"`
-}
-
-func (q *Queries) ListDepartments(ctx context.Context, arg ListDepartmentsParams) ([]Department, error) {
-	rows, err := q.db.QueryContext(ctx, listDepartments, arg.Limit, arg.Offset)
+func (q *Queries) ListDepartments(ctx context.Context, facultyID int64) ([]Department, error) {
+	rows, err := q.db.QueryContext(ctx, listDepartments, facultyID)
 	if err != nil {
 		return nil, err
 	}

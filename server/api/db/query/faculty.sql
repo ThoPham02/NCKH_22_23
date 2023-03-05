@@ -10,16 +10,13 @@ SELECT
 FROM
     faculties
 WHERE
-    id = $1;
+    user_id = $1;
 
 -- name: ListFaculties :many
 SELECT
     *
 FROM
-    faculties
-ORDER BY
-    id
-LIMIT $1 OFFSET $2;
+    faculties;
 
 -- name: UpdateFaculty :one
 UPDATE

@@ -1,6 +1,6 @@
 ###
-GET http://localhost:8080/user
-Authorization: "Bearer v2.local.zG-9TT3P3TVQnxqL8eJfNBYNDK1K2M6BMtY7nWL1xpFlAsEaPECTrkpMJDGYVxkTHMDfO1ZBaCzQkqUnv1fNdV-GYtMATheAkEcOZSywfnH61LN95Bdp39NV9gjDEHt5HoF9177uKQ89PG7DLe-efaeqs1w-XOKk8e2Ux6TQKLEE5WTYvnB-mCkQkHB1TieC-dsaBJ6DOshonH69kN_LZckqyh2YW-fSvkWUAgLPXYT5IT7O-O3xxwcRBJYfrk1yJ8klRd9Y7MAe46CadA1i4VI.bnVsbA"
+GET http://localhost:8080/department/info
+Authorization: Bearer v2.local.kc-P6wLzatf0V2ineZJqWcjbZJaWQEYJgFI1tGsU_FeHulLi4w04xLhWXyFa_Us2gE7O2zcOldbjtllOI3hUNyew0xjSGgHULHLSqJR-jq_SsrLtIVLFjvu_q67ZZbZ6F7WiumkQ7F1TVbzjkx1wsnLo9s3b9uyOEa5ueCXDjvUYB993m8fHhcCRgJZXLLWXWeEZs5Y4fZTVfeGyfcSmsPeji7Hd2H-ugTkvxjf_gjKY9jyJBWrK692HRMrmR0MMO2LSLzqWMIgwJUAO2NEbJ4k.bnVsbA
 
 ###
 POST http://localhost:8080/user/login
@@ -12,4 +12,7 @@ Content-Type: "application/json"
 }
 ###
 GET http://localhost:8080/topics?page=1&&page_size=10
-Content-Type: "application/json"
+###
+GET http://localhost:8080/departments?faculty_id=2
+###
+GET http://localhost:8080/faculties
