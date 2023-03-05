@@ -1,0 +1,15 @@
+#main {
+    background-color: red;
+    height: 100%;
+}
+#topic {
+    margin-top:100px
+}
+#topic__name {
+    font-weight: bold;
+    font-size: 17px;
+    text-transform: uppercase;  
+    display: flex;
+    justify-content: space-around;
+    
+}

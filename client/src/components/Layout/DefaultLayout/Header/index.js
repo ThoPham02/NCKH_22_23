@@ -1,8 +1,8 @@
 import "./header.css"
 import logo from "./lg.jpg"
 import {Link} from "react-router-dom";
-
 import {BiUserCircle} from "react-icons/bi"
+
 function Header() {
     return (
         <>
