@@ -1,7 +1,4 @@
-#main {
-    background-color: red;
-    height: 100%;
-}
+
 #topic {
     margin-top:100px
 }
@@ -12,4 +9,11 @@
     display: flex;
     justify-content: space-around;
     
+}
+
+#topic__search{
+    width: 70vw;
+    height: 23vh;
+    margin-left:auto;
+    margin-right:auto;  
 }

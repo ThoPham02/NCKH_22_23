@@ -8,3 +8,9 @@
     display: none;
 }
 /*===*/
+#topic__search--table select {
+    margin-top: 20px;
+}
+#selectDate{
+    margin-top: 20px;
+}
