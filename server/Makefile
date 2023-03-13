@@ -1,3 +1,9 @@
+postgres:
+	docker run --name nckh_db -p 5432:5432 -e POSTGRES_USER=root -e POSTGRES_PASSWORD=secret -d postgres:15-alpine 
+createdb:
+	docker exec -it nckh_db createdb research_management --username=root --owner=root
+dropdb:
+	docker exec -it nckh_db dropdb research_management
 migrateup:
 	migrate -path api/db/migration -database "postgres://root:secret@localhost:5432/research_management?sslmode=disable" -verbose up
 migratedown:
