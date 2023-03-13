@@ -41,7 +41,7 @@ func getPayload(ctx *gin.Context, svc *service.ServiceContext) *token.Payload {
 	accessToken := fields[1]
 	payload, err := tokenMaker.VerifyToken(accessToken)
 	if err != nil {
-		ctx.AbortWithStatusJSON(http.StatusInternalServerError, utils.ErrResponse(err))
+		ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(err))
 		return nil
 	}
 

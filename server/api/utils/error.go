@@ -8,7 +8,7 @@ import (
 )
 
 func ErrResponse(err error) gin.H {
-	return gin.H{"error": err}
+	return gin.H{"error": err.Error()}
 }
 
 func ErrRequest(err error) gin.H {

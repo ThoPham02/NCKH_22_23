@@ -38,12 +38,13 @@ func GetDepartmentInfoHandler(svc *service.ServiceContext) gin.HandlerFunc {
 		user, err := svc.Store.GetUserByName(ctx, payload.UserName)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
+			return
 		}
 
 		department, err := svc.Store.GetDepartment(ctx, user.ID)
 		if err != nil {
 			if err == sql.ErrNoRows {
-				ctx.JSON(http.StatusNotFound, utils.ErrResourceNotFound)
+				ctx.JSON(http.StatusNotFound, utils.ErrResourceNotFound())
 				return
 			}
 			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
