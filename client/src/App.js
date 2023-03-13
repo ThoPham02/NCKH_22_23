@@ -7,6 +7,7 @@ import DefaultLayout from "./components/Layout/DefaultLayout";
 
 function App() {
   return (
+    
     <Router>
       <Routes>
         {publicRoutes.map((route, index) => {
