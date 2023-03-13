@@ -14,6 +14,8 @@ services:
       dockerfile: Dockerfile
     environment:
       - DB_SOURCE=postgres://root:secret@db:5432/research_management?sslmode=disable
+    ports:
+      - "8080:8080"
     depends_on:
       - db
     entrypoint: ["/app/wait-for.sh", "db:5432", "--", "/app/start.sh"]

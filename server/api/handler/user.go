@@ -3,6 +3,7 @@ package handler
 import (
 	"database/sql"
 	"fmt"
+	db "github/ThoPham02/research_management/api/db/sqlc"
 	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/token"
 	"github/ThoPham02/research_management/api/utils"
@@ -88,5 +89,35 @@ func UserRegister(svc *service.ServiceContext) gin.HandlerFunc {
 			User:        userResponse,
 		}
 		ctx.JSON(http.StatusOK, res)
+	}
+}
+
+func ChangePassword(svc *service.ServiceContext) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		users, err := svc.Store.ListUsers(ctx)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
+			return
+		}
+
+		for _, user := range users {
+			hashPassword, err := utils.HashPassword(user.Password)
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
+				return
+			}
+			_, err = svc.Store.UpdateUser(ctx, db.UpdateUserParams{
+				ID:         user.ID,
+				Username:   user.Username,
+				Password:   hashPassword,
+				Email:      user.Email,
+				Permission: user.Permission,
+			})
+			if err != nil {
+				ctx.JSON(http.StatusInternalServerError, utils.ErrResponse(err))
+				return
+			}
+		}
+		ctx.Status(http.StatusOK)
 	}
 }

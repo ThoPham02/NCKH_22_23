@@ -10,8 +10,10 @@ import (
 
 func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.Use(middleware.CorsMiddleware())
+	// router.Use(middleware.ApiSignMiddleware())
 	router.POST("user/login", handler.UserRegister(svc))
 	router.GET("/user", middleware.AdminAuthentication(svc), handler.GetUserHandler(svc))
+	// router.GET("/user/changepassword", handler.ChangePassword(svc))
 
 	router.GET("/topics", handler.GetListTopicsHandler(svc))
 	router.GET("/departments", handler.GetListDepartmentsHandler(svc))
