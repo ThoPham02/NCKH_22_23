@@ -3,6 +3,7 @@ import Topic from "./pages/Topic"
 import Login from "./pages/Login"
 import LoginLayout from "./components/Layout/LoginLayout";
 
+
 const publicRoutes = [
   { path: "/", component: Home },
   { path: "/home", component: Home },

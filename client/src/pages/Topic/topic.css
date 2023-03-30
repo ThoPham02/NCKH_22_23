@@ -7,13 +7,25 @@
     font-size: 17px;
     text-transform: uppercase;  
     display: flex;
-    justify-content: space-around;
-    
+    justify-content: space-around; 
 }
 
 #topic__search{
-    width: 70vw;
-    height: 23vh;
+    position: relative;
+    width: 75vw;
+ 
     margin-left:auto;
     margin-right:auto;  
+}
+#topic__search-1{
+
+}
+#topic__search-2{
+    position: absolute;
+    top: 0;
+    left: 120px;
+}
+
+#topic__table{
+    margin-top: 30px;
 }

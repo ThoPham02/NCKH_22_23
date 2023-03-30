@@ -1,6 +1,8 @@
 import Form from 'react-bootstrap/Form';
 import { useState } from 'react';
 import "./search__form.css"
+<>
+</>
 
 
 function SelectBasicExample(props) {
@@ -11,25 +13,24 @@ function SelectBasicExample(props) {
 
   return (
     <>
-
-      <button onClick={myFunction}>
+      <button onClick={myFunction} id= "filter">
         lọc chi tiết
       </button>
       <div id="topic__search--table" style={open?{display:"block"}:{display:"none"}}>
       <Form.Select aria-label="Default select example">
-        <option>Open this select menu</option>
+        <option value="tất cả trạng thái">tất cả trạng thái</option>
+        <option value="hoàn thành">hoàn thành</option>
+        <option value="quá hạn">quá hạn</option>
+        <option value="đang thực hiện">đang thực hiện</option>
+      </Form.Select>
+      <Form.Select aria-label="Default select example">
+        <option value="tất cả bộ môn">tất cả bộ môn</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
       </Form.Select>
       <Form.Select aria-label="Default select example">
-        <option>Open this select menu</option>
-        <option value="1">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-      </Form.Select>
-      <Form.Select aria-label="Default select example">
-        <option>Open this select menu</option>
+        <option value = "tất cả khoa">tất cả khoa</option>
         <option value="1">One</option>
         <option value="2">Two</option>
         <option value="3">Three</option>
@@ -47,9 +48,5 @@ function SelectBasicExample(props) {
     
   );
 }
-
-
-
-
 
 export default SelectBasicExample;
