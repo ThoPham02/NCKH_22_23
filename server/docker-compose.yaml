@@ -1,22 +1,12 @@
 version: '3.9'
 services:
-  db:
-    image: postgres:15-alpine
-    environment:
-      - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=secret
-      - POSTGRES_DB=research_management
-    ports:
-      - "5432:5432"
   api:
     build:
       context: .
       dockerfile: Dockerfile
     environment:
-      - DB_SOURCE=postgres://root:secret@db:5432/research_management?sslmode=disable
+      - DB_SOURCE=postgresql://u7xfvwpftmunpstzixfb:C966Tikw9TVr5CT3oICZkPpOlMMqPQ@bpjvf0abkz3vn3j7p5qx-postgresql.services.clever-cloud.com:5432/bpjvf0abkz3vn3j7p5qx
     ports:
       - "8080:8080"
-    depends_on:
-      - db
-    entrypoint: ["/app/wait-for.sh", "db:5432", "--", "/app/start.sh"]
+    entrypoint: ["/app/wait-for.sh", "bpjvf0abkz3vn3j7p5qx-postgresql.services.clever-cloud.com:5432", "--", "/app/start.sh"]
     command: ["/app/main"]
