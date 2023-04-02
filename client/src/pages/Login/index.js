@@ -1,20 +1,22 @@
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
-import client from "../../apis";
 import "./login.css";
+import { fetchLoginUser } from "./LoginSlice";
 
 const Login = () => {
+  const dispatch = useDispatch()
+
   const handleLoginSubmit = (e) => {
     e.preventDefault();
-
-    client
-      .post("/user/login", {
-        username: e.target.username.value,
-        password: e.target.password.value,
-      })
-      .then((response) => console.log(response.data))
-      .catch((error) => console.error(error));
+    const payload = {
+      username: e.target[0].value,
+      password: e.target[1].value
+    }
+    dispatch(fetchLoginUser(payload))
   };
+
+  
 
   return (
     <div className="loginContainer">

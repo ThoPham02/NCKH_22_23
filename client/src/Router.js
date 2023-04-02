@@ -18,7 +18,7 @@ const publicRoutes = [
 ];
 
 const privateRoutes = [
-  { path: "/statistical", component: Topic, Layout: LoginLayout},
+  { path: "/statistical", component: Topic},
 ];
 
 export {

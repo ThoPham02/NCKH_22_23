@@ -33,6 +33,6 @@ export const fetchLoginUser = createAsyncThunk(
   }
 );
 
-
-
 export default loginSlice;
+
+export const loginReducer = loginSlice.reducer
