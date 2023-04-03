@@ -7,23 +7,25 @@ import (
 )
 
 type Payload struct {
-	ID        uuid.UUID `json:"id"`
-	UserName  string    `json:"user_name"`
-	IssuedAt  time.Time `json:"issued_at"`
-	ExpiredAt time.Time `json:"expired_at"`
+	ID          uuid.UUID `json:"id"`
+	UserID      int64     `json:"user_id"`
+	AccountType int64     `json:"account_type"`
+	IssuedAt    time.Time `json:"issued_at"`
+	ExpiredAt   time.Time `json:"expired_at"`
 }
 
-func NewPayload(username string, daration time.Duration) (*Payload, error) {
+func NewPayload(userID int64, accountType int64, daration time.Duration) (*Payload, error) {
 	tokenID, err := uuid.NewRandom()
 	if err != nil {
 		return nil, err
 	}
 
 	payload := &Payload{
-		ID:        tokenID,
-		UserName:  username,
-		IssuedAt:  time.Now(),
-		ExpiredAt: time.Now().Add(daration),
+		ID:          tokenID,
+		UserID:      userID,
+		AccountType: accountType,
+		IssuedAt:    time.Now(),
+		ExpiredAt:   time.Now().Add(daration),
 	}
 
 	return payload, nil

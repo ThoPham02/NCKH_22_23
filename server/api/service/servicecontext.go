@@ -10,9 +10,9 @@ type ServiceContext struct {
 	Store  store.Store
 }
 
-func NewServiceContext(config config.Config, store store.Store) *ServiceContext {
+func NewServiceContext(c config.Config, store store.Store) *ServiceContext {
 	return &ServiceContext{
-		Config: config,
+		Config: c,
 		Store:  store,
 	}
 }

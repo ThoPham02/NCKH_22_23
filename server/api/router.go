@@ -10,17 +10,11 @@ import (
 
 func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.Use(middleware.CorsMiddleware())
-	// router.Use(middleware.ApiSignMiddleware())
-	router.POST("user/login", handler.UserRegister(svc))
-	router.GET("/user", middleware.AdminAuthentication(svc), handler.GetUserHandler(svc))
-	// router.GET("/user/changepassword", handler.ChangePassword(svc))
+	// router.Use(middleware.)
+	// user api
+	router.POST("api/user/login", handler.UserLoginHandler(svc))
+	router.POST("api/user/register", handler.UserRegisterHandler(svc))
+	router.GET("api/user/info", middleware.UserAuthentication(svc), handler.GetUserInfoHandler(svc))
 
-	router.GET("/topics", handler.GetListTopicsHandler(svc))
-	router.GET("/departments", handler.GetListDepartmentsHandler(svc))
-	router.GET("/faculties", handler.GetListFacultiesHandler(svc))
-
-	router.GET("/department/info", middleware.UserAuthentication(svc), handler.GetDepartmentInfoHandler(svc))
-	router.GET("/faculty/info", middleware.UserAuthentication(svc), handler.GetFacultyInfoHandler(svc))
-	router.GET("/student/info", middleware.UserAuthentication(svc), handler.GetStudentInfoHandler(svc))
-	router.GET("/lecture/info", middleware.UserAuthentication(svc), handler.GetLecturerInfoHandler(svc))
+	//topic api
 }
