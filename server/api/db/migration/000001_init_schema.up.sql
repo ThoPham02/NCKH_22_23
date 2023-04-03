@@ -1,14 +1,14 @@
-CREATE TABLE "type_account" (
-  "id" BIGSERIAL PRIMARY KEY,
-  "name" VARCHAR(255)
-);
-
 CREATE TABLE "user" (
   "id" BIGSERIAL PRIMARY KEY,
   "name" VARCHAR(255) NOT NULL,
   "hash_password" VARCHAR(255) NOT NULL,
-  "type_account_id" INT NOT NULL,
+  "type_account_id" BIGSERIAL NOT NULL,
   "email" VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE "type_account" (
+  "id" BIGSERIAL PRIMARY KEY,
+  "name" VARCHAR(255)
 );
 
 CREATE TABLE "user_info" (
@@ -18,10 +18,10 @@ CREATE TABLE "user_info" (
   "avata_url" VARCHAR(255),
   "birthday" date,
   "faculity_id" BIGSERIAL NOT NULL,
-  "year_start" INT NOT NULL,
+  "year_start" BIGSERIAL NOT NULL,
   "bank_account" VARCHAR(20),
   "phone" VARCHAR(20),
-  "sex" INT
+  "sex" BIGSERIAL
 );
 
 CREATE TABLE "notification" (

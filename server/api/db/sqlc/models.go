@@ -6,53 +6,63 @@ package db
 
 import (
 	"database/sql"
+	"time"
 )
 
+type AcceptanceBoard struct {
+	ID        int64          `json:"id"`
+	Name      sql.NullString `json:"name"`
+	Chairman  int64          `json:"chairman"`
+	Reviewer1 int64          `json:"reviewer1"`
+	Reviewer2 sql.NullInt64  `json:"reviewer2"`
+	Secretary sql.NullInt64  `json:"secretary"`
+}
+
+type AcceptanceReport struct {
+	ID                int64          `json:"id"`
+	AcceptanceBoardID int64          `json:"acceptance_board_id"`
+	TopicID           int64          `json:"topic_id"`
+	TotalScore        float64        `json:"total_score"`
+	Comment           sql.NullString `json:"comment"`
+	ReportUrl         sql.NullString `json:"report_url"`
+}
+
 type Department struct {
-	ID        int64        `json:"id"`
-	Name      string       `json:"name"`
-	FacultyID int64        `json:"faculty_id"`
-	UserID    int64        `json:"user_id"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
-	DeletedAt sql.NullTime `json:"deleted_at"`
+	ID         int64  `json:"id"`
+	Name       string `json:"name"`
+	FaculityID int64  `json:"faculity_id"`
 }
 
-type Faculty struct {
-	ID        int64        `json:"id"`
-	Name      string       `json:"name"`
-	UserID    int64        `json:"user_id"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
-	DeletedAt sql.NullTime `json:"deleted_at"`
+type Exam struct {
+	ID            int64          `json:"id"`
+	Name          string         `json:"name"`
+	Year          int32          `json:"year"`
+	EstimatedCost sql.NullString `json:"estimated_cost"`
 }
 
-type Group struct {
-	ID         int64        `json:"id"`
-	TopicID    int64        `json:"topic_id"`
-	LecturerID int64        `json:"lecturer_id"`
-	TermID     int64        `json:"term_id"`
-	CreatedAt  sql.NullTime `json:"created_at"`
-	UpdatedAt  sql.NullTime `json:"updated_at"`
-	DeletedAt  sql.NullTime `json:"deleted_at"`
+type Faculity struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
-type Lecturer struct {
-	ID        int64        `json:"id"`
-	Name      string       `json:"name"`
-	UserID    int64        `json:"user_id"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
-	DeletedAt sql.NullTime `json:"deleted_at"`
+type GroupDetail struct {
+	ID         int64 `json:"id"`
+	NumStudent int32 `json:"num_student"`
 }
 
-type Reference struct {
-	ID           int64        `json:"id"`
-	ReferenceUrl string       `json:"reference_url"`
-	Name         string       `json:"name"`
-	CreatedAt    sql.NullTime `json:"created_at"`
-	UpdateAt     sql.NullTime `json:"update_at"`
-	DeletedAt    sql.NullTime `json:"deleted_at"`
+type GroupStudent struct {
+	ID        int64 `json:"id"`
+	GroupID   int64 `json:"group_id"`
+	StudentID int64 `json:"student_id"`
+}
+
+type Notification struct {
+	ID         int64         `json:"id"`
+	Name       string        `json:"name"`
+	Content    string        `json:"content"`
+	FromUserID int64         `json:"from_user_id"`
+	ToUserID   sql.NullInt64 `json:"to_user_id"`
+	CreatedAt  time.Time     `json:"created_at"`
 }
 
 type Status struct {
@@ -60,49 +70,60 @@ type Status struct {
 	Name string `json:"name"`
 }
 
-type Student struct {
-	ID        int64        `json:"id"`
-	Name      string       `json:"name"`
-	UserID    int64        `json:"user_id"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
-	DeletedAt sql.NullTime `json:"deleted_at"`
-}
-
-type StudentGroup struct {
-	GroupID   int64 `json:"group_id"`
-	StudentID int64 `json:"student_id"`
-}
-
-type Term struct {
-	ID        int64        `json:"id"`
-	Name      string       `json:"name"`
-	CreatedAt sql.NullTime `json:"created_at"`
-	UpdatedAt sql.NullTime `json:"updated_at"`
-	DeletedAt sql.NullTime `json:"deleted_at"`
-}
-
 type Topic struct {
-	ID           int64          `json:"id"`
-	Name         string         `json:"name"`
-	Description  sql.NullString `json:"description"`
-	DepartmentID int64          `json:"department_id"`
-	TimeStart    sql.NullTime   `json:"time_start"`
-	TimeEnd      sql.NullTime   `json:"time_end"`
-	Deadline     sql.NullTime   `json:"deadline"`
-	StatusID     int64          `json:"status_id"`
-	CreatedAt    sql.NullTime   `json:"created_at"`
-	UpdatedAt    sql.NullTime   `json:"updated_at"`
-	DeletedAt    sql.NullTime   `json:"deleted_at"`
+	ID                int64          `json:"id"`
+	Name              string         `json:"name"`
+	Description       string         `json:"description"`
+	DescriptionUrl    sql.NullString `json:"description_url"`
+	LectureID         int64          `json:"lecture_id"`
+	GroupID           int64          `json:"group_id"`
+	DepartmentID      int64          `json:"department_id"`
+	StatusID          int64          `json:"status_id"`
+	ExamID            int64          `json:"exam_id"`
+	TopicReportID     sql.NullInt64  `json:"topic_report_id"`
+	AcceptanceBoardID sql.NullInt64  `json:"acceptance_board_id"`
+	TimeStart         time.Time      `json:"time_start"`
+	TimeEnd           sql.NullTime   `json:"time_end"`
+}
+
+type TopicRegistration struct {
+	ID             int64          `json:"id"`
+	Name           string         `json:"name"`
+	Description    string         `json:"description"`
+	DescriptionUrl sql.NullString `json:"description_url"`
+	LectureID      int64          `json:"lecture_id"`
+	FaculityID     sql.NullInt64  `json:"faculity_id"`
+	CreatedAt      sql.NullTime   `json:"created_at"`
+}
+
+type TopicReport struct {
+	ID             int64          `json:"id"`
+	SummaryContent string         `json:"summary_content"`
+	ContentUrl     sql.NullString `json:"content_url"`
+}
+
+type TypeAccount struct {
+	ID   int64          `json:"id"`
+	Name sql.NullString `json:"name"`
 }
 
 type User struct {
-	ID         int64        `json:"id"`
-	Username   string       `json:"username"`
-	Password   string       `json:"password"`
-	Email      string       `json:"email"`
-	Permission int64        `json:"permission"`
-	CreatedAt  sql.NullTime `json:"created_at"`
-	UpdatedAt  sql.NullTime `json:"updated_at"`
-	DeletedAt  sql.NullTime `json:"deleted_at"`
+	ID            int64  `json:"id"`
+	Name          string `json:"name"`
+	HashPassword  string `json:"hash_password"`
+	TypeAccountID int64  `json:"type_account_id"`
+	Email         string `json:"email"`
+}
+
+type UserInfo struct {
+	UserID      int64          `json:"user_id"`
+	Name        string         `json:"name"`
+	Description sql.NullString `json:"description"`
+	AvataUrl    sql.NullString `json:"avata_url"`
+	Birthday    sql.NullTime   `json:"birthday"`
+	FaculityID  int64          `json:"faculity_id"`
+	YearStart   int64          `json:"year_start"`
+	BankAccount sql.NullString `json:"bank_account"`
+	Phone       sql.NullString `json:"phone"`
+	Sex         sql.NullInt64  `json:"sex"`
 }

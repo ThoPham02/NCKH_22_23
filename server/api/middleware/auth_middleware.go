@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"errors"
+	"github/ThoPham02/research_management/api/constant"
 	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/token"
 	"github/ThoPham02/research_management/api/utils"
@@ -11,15 +12,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-const (
-	authorizationHeaderKey  = "Authorization"
-	authorizationTypeBearer = "Bearer"
-	payloadKey              = "payload_key"
-	adminUsername           = "humgkhcn"
-)
-
 func getPayload(ctx *gin.Context, svc *service.ServiceContext) *token.Payload {
-	authorizationHeader := ctx.GetHeader(authorizationHeaderKey)
+	authorizationHeader := ctx.GetHeader(constant.AuthorizationHeaderKey)
 	if len(authorizationHeader) == 0 {
 		err := errors.New("authorization header is not provided")
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(err))
@@ -27,7 +21,7 @@ func getPayload(ctx *gin.Context, svc *service.ServiceContext) *token.Payload {
 	}
 
 	fields := strings.Fields(authorizationHeader)
-	if len(fields) != 2 || fields[0] != authorizationTypeBearer {
+	if len(fields) != 2 || fields[0] != constant.AuthorizationTypeBearer {
 		err := errors.New("invalid authorization header")
 		ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(err))
 		return nil
@@ -52,12 +46,12 @@ func AdminAuthentication(svc *service.ServiceContext) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		payload := getPayload(ctx, svc)
 		if payload != nil {
-			if payload.UserName != adminUsername {
+			if payload.AccountType != constant.AdminType {
 				err := errors.New("permission denied")
 				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(err))
 				return
 			}
-			ctx.Set(payloadKey, payload)
+			ctx.Set(constant.PayloadKey, payload)
 		}
 		ctx.Next()
 	}
@@ -67,7 +61,7 @@ func UserAuthentication(svc *service.ServiceContext) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		payload := getPayload(ctx, svc)
 		if payload != nil {
-			ctx.Set(payloadKey, payload)
+			ctx.Set(constant.PayloadKey, payload)
 		}
 		ctx.Next()
 	}

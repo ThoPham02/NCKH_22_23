@@ -9,193 +9,45 @@ import (
 	"context"
 )
 
-const createUser = `-- name: CreateUser :one
-INSERT INTO
-    users (username, password, email, permission)
-VALUES
-    ($1, $2, $3, $4) RETURNING id, username, password, email, permission, created_at, updated_at, deleted_at
+const createUser = `-- name: CreateUser :exec
+INSERT INTO "user" (
+  name, hash_password, type_account_id, email
+) VALUES (
+  $1, $2, $3, $4
+)
 `
 
 type CreateUserParams struct {
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	Email      string `json:"email"`
-	Permission int64  `json:"permission"`
+	Name          string `json:"name"`
+	HashPassword  string `json:"hash_password"`
+	TypeAccountID int64  `json:"type_account_id"`
+	Email         string `json:"email"`
 }
 
-func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, createUser,
-		arg.Username,
-		arg.Password,
+func (q *Queries) CreateUser(ctx context.Context, arg CreateUserParams) error {
+	_, err := q.db.ExecContext(ctx, createUser,
+		arg.Name,
+		arg.HashPassword,
+		arg.TypeAccountID,
 		arg.Email,
-		arg.Permission,
 	)
-	var i User
-	err := row.Scan(
-		&i.ID,
-		&i.Username,
-		&i.Password,
-		&i.Email,
-		&i.Permission,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-	)
-	return i, err
-}
-
-const deleteUser = `-- name: DeleteUser :one
-UPDATE
-    users
-SET
-    deleted_at = NOW()
-WHERE
-    id = $1 RETURNING id, username, password, email, permission, created_at, updated_at, deleted_at
-`
-
-func (q *Queries) DeleteUser(ctx context.Context, id int64) (User, error) {
-	row := q.db.QueryRowContext(ctx, deleteUser, id)
-	var i User
-	err := row.Scan(
-		&i.ID,
-		&i.Username,
-		&i.Password,
-		&i.Email,
-		&i.Permission,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-	)
-	return i, err
-}
-
-const getUser = `-- name: GetUser :one
-SELECT
-    id, username, password, email, permission, created_at, updated_at, deleted_at
-FROM
-    users
-WHERE id = $1 AND deleted_at IS NULL
-`
-
-func (q *Queries) GetUser(ctx context.Context, id int64) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUser, id)
-	var i User
-	err := row.Scan(
-		&i.ID,
-		&i.Username,
-		&i.Password,
-		&i.Email,
-		&i.Permission,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-	)
-	return i, err
+	return err
 }
 
 const getUserByName = `-- name: GetUserByName :one
-SELECT
-    id, username, password, email, permission, created_at, updated_at, deleted_at
-FROM
-    users
-WHERE username = $1 AND deleted_at IS NULL
+SELECT id, name, hash_password, type_account_id, email FROM "user"
+WHERE name = $1 LIMIT 1
 `
 
-func (q *Queries) GetUserByName(ctx context.Context, username string) (User, error) {
-	row := q.db.QueryRowContext(ctx, getUserByName, username)
+func (q *Queries) GetUserByName(ctx context.Context, name string) (User, error) {
+	row := q.db.QueryRowContext(ctx, getUserByName, name)
 	var i User
 	err := row.Scan(
 		&i.ID,
-		&i.Username,
-		&i.Password,
+		&i.Name,
+		&i.HashPassword,
+		&i.TypeAccountID,
 		&i.Email,
-		&i.Permission,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
-	)
-	return i, err
-}
-
-const listUsers = `-- name: ListUsers :many
-SELECT
-    id, username, password, email, permission, created_at, updated_at, deleted_at
-FROM
-    users
-WHERE deleted_at IS NULL
-`
-
-func (q *Queries) ListUsers(ctx context.Context) ([]User, error) {
-	rows, err := q.db.QueryContext(ctx, listUsers)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []User{}
-	for rows.Next() {
-		var i User
-		if err := rows.Scan(
-			&i.ID,
-			&i.Username,
-			&i.Password,
-			&i.Email,
-			&i.Permission,
-			&i.CreatedAt,
-			&i.UpdatedAt,
-			&i.DeletedAt,
-		); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
-}
-
-const updateUser = `-- name: UpdateUser :one
-UPDATE
-    users
-SET
-    username = $2,
-    password = $3,
-    email=$4,
-    permission = $5,
-    updated_at = NOW()
-WHERE
-    id = $1 RETURNING id, username, password, email, permission, created_at, updated_at, deleted_at
-`
-
-type UpdateUserParams struct {
-	ID         int64  `json:"id"`
-	Username   string `json:"username"`
-	Password   string `json:"password"`
-	Email      string `json:"email"`
-	Permission int64  `json:"permission"`
-}
-
-func (q *Queries) UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error) {
-	row := q.db.QueryRowContext(ctx, updateUser,
-		arg.ID,
-		arg.Username,
-		arg.Password,
-		arg.Email,
-		arg.Permission,
-	)
-	var i User
-	err := row.Scan(
-		&i.ID,
-		&i.Username,
-		&i.Password,
-		&i.Email,
-		&i.Permission,
-		&i.CreatedAt,
-		&i.UpdatedAt,
-		&i.DeletedAt,
 	)
 	return i, err
 }

@@ -5,10 +5,12 @@ createdb:
 dropdb:
 	docker exec -it nckh_db dropdb research_management
 migrateup:
-	migrate -path api/db/migration -database "postgresql://u7xfvwpftmunpstzixfb:C966Tikw9TVr5CT3oICZkPpOlMMqPQ@bpjvf0abkz3vn3j7p5qx-postgresql.services.clever-cloud.com:5432/bpjvf0abkz3vn3j7p5qx" -verbose up
+	migrate -path api/db/migration -database "postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb" -verbose up
 migratedown:
-	migrate -path api/db/migration -database "postgresql://u7xfvwpftmunpstzixfb:C966Tikw9TVr5CT3oICZkPpOlMMqPQ@bpjvf0abkz3vn3j7p5qx-postgresql.services.clever-cloud.com:5432/bpjvf0abkz3vn3j7p5qx" -verbose down
+	migrate -path api/db/migration -database "postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb" -verbose down
 sqlcinit:
 	docker run --rm -v "$$(pwd):/src" -w /src kjconroy/sqlc:1.17.0 /workspace/sqlc init
 sqlc:
 	docker run --rm -v "$$(pwd):/src" -w /src kjconroy/sqlc:1.17.0 /workspace/sqlc generate
+run:
+	go run main.go

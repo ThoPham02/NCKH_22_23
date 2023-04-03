@@ -7,7 +7,7 @@ type UserLoginRequest struct {
 	Password string `json:"password"`
 }
 
-type UserInfo struct {
+type User struct {
 	Name        string `json:"name"`
 	Email       string `json:"email"`
 	AccountType int64  `json:"account_type"`
@@ -18,5 +18,5 @@ type UserLoginResponse struct {
 	AccessExpiredAt  time.Time `json:"access_expired_at"`
 	RefreshToken     string    `json:"refresh_token"`
 	RefreshExpiredAt time.Time `json:"refresh_expired_at"`
-	UserInfo         UserInfo  `json:"user_info"`
+	User             User      `json:"user"`
 }

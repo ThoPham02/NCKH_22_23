@@ -24,8 +24,13 @@ func main() {
 	store := store.NewStore(conn)
 	server := api.NewServer(*store)
 
+	// go func ()  {
+
+	// }
 	err = server.Router.Run(config.ServerAddress)
 	if err != nil {
 		log.Fatal("Can't run server:", err)
 	}
+
+	// os.Signal()
 }

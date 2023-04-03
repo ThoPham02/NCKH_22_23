@@ -5,8 +5,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      - DB_SOURCE=postgresql://u7xfvwpftmunpstzixfb:C966Tikw9TVr5CT3oICZkPpOlMMqPQ@bpjvf0abkz3vn3j7p5qx-postgresql.services.clever-cloud.com:5432/bpjvf0abkz3vn3j7p5qx
+      - DB_SOURCE=postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb
     ports:
       - "8080:8080"
-    entrypoint: ["/app/wait-for.sh", "bpjvf0abkz3vn3j7p5qx-postgresql.services.clever-cloud.com:5432", "--", "/app/start.sh"]
+    entrypoint: ["/app/wait-for.sh", "dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com", "--", "/app/start.sh"]
     command: ["/app/main"]

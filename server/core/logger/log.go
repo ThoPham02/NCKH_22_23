@@ -11,14 +11,14 @@ import (
 
 func Trace() log.Valuer {
 	return func(ctx context.Context) interface{} {
-		s := ctx.Value("trace_id").(string)
+		s := ctx.Value("trace-id").(string)
 		return s
 	}
 }
 
 func NewContextLog(ctx context.Context) *log.Helper {
 	logger := log.With(log.NewStdLogger(os.Stdout),
-		"trace", Trace(),
+		"trace-id", Trace(),
 	)
 	logger = log.With(logger, "ts", log.DefaultTimestamp, "caller", log.DefaultCaller)
 	return log.NewHelper(logger).WithContext(ctx)
