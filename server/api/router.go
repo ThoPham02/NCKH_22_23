@@ -16,6 +16,6 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.POST("api/user/register", handler.UserRegisterHandler(svc))
 	router.GET("api/user/info", middleware.UserAuthentication(svc), handler.GetUserInfoHandler(svc))
 	router.PUT("api/user/info", middleware.UserAuthentication(svc), handler.UpdateUserInfoHandler(svc))
-
+	router.POST("api/refresh-token", handler.RefreshTokenHandler(svc))
 	//topic api
 }
