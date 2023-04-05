@@ -14,6 +14,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UserRegisterHandler godoc
+//
+//	@Summary	register_user
+//	@Schemes
+//	@Description	register_user
+//	@Tags			user
+//	@Param			RegisterUser	body	types.UserRegisterRequest	true	"register user"
+//	@Success		200
+//	@Failure		400
+//	@Router			/api/user/register [POST]
 func UserRegisterHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(context.Background(), "trace-id", logger.GenerateTraceID("user-register-api"))

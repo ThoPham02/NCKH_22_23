@@ -10,8 +10,10 @@ import (
 
 type Querier interface {
 	CreateUser(ctx context.Context, arg CreateUserParams) error
+	CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) error
 	GetUserByName(ctx context.Context, name string) (User, error)
 	GetUserInfo(ctx context.Context, userID int64) (UserInfo, error)
+	UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error
 }
 
 var _ Querier = (*Queries)(nil)

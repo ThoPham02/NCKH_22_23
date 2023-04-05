@@ -14,6 +14,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UserLoginHandler godoc
+//
+//	@Summary	login_user
+//	@Schemes
+//	@Description	login_user
+//	@Tags			user
+//	@Param			LoginUser	body		types.UserLoginRequest	true	"register user"
+//	@Success		200			{object}	types.UserLoginResponse
+//	@Failure		404
+//	@Router			/api/user/login [POST]
 func UserLoginHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("user-login-api"))

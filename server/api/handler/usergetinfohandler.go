@@ -13,14 +13,24 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetUserInfoHandler godoc
+//
+//	@Summary	get_user_info
+//	@Schemes
+//	@Description	get_user_info
+//	@Tags			user
+//	@Success		200
+//	@Failure		400
+//	@Security		AccessToken
+//	@Router			/api/user/info [GET]
 func GetUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("get-user-info-api"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
-		test := c.Value(constant.PayloadKey).(*token.Payload)
-		info, err := logic.GetUserInfo(test.UserID)
+		payload := c.Value(constant.PayloadKey).(*token.Payload)
+		info, err := logic.GetUserInfo(payload.UserID)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return

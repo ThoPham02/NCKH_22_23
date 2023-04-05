@@ -6,13 +6,13 @@ import (
 	"time"
 )
 
-func (l *Logic) GetUserInfo(userID int64) (*types.GetUserInfoResponse, error) {
+func (l *Logic) GetUserInfo(userID int64) (*types.UserInfoResponse, error) {
 	l.logHelper.Infof("Start processing get user info, input: %d", userID)
 
 	userInfo, err := l.svcCtx.Store.GetUserInfo(l.ctx, userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return &types.GetUserInfoResponse{}, nil
+			return &types.UserInfoResponse{}, nil
 		}
 		l.logHelper.Errorf("Failed to get user info: %s", err.Error())
 		return nil, err
@@ -45,7 +45,7 @@ func (l *Logic) GetUserInfo(userID int64) (*types.GetUserInfoResponse, error) {
 		sex = &userInfo.Sex.Int64
 	}
 
-	return &types.GetUserInfoResponse{
+	return &types.UserInfoResponse{
 		Name:        userInfo.Name,
 		Description: description,
 		AvatarUrl:   avataUrl,

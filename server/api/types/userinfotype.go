@@ -2,7 +2,7 @@ package types
 
 import "time"
 
-type GetUserInfoResponse struct {
+type UserInfoResponse struct {
 	Name        string     `json:"name"`
 	Description *string    `json:"description"`
 	AvatarUrl   *string    `json:"avatar_url"`

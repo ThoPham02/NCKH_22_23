@@ -1,0 +1,167 @@
+definitions:
+  types.AccessTokenResponse:
+    properties:
+      access_token:
+        type: string
+    type: object
+  types.RefreshTokenRequest:
+    properties:
+      refresh_token:
+        type: string
+    type: object
+  types.User:
+    properties:
+      account_type:
+        type: integer
+      email:
+        type: string
+      name:
+        type: string
+    type: object
+  types.UserInfoResponse:
+    properties:
+      avatar_url:
+        type: string
+      bank_account:
+        type: string
+      birthday:
+        type: string
+      description:
+        type: string
+      faculity_id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+      sex:
+        type: integer
+      year_start:
+        type: integer
+    type: object
+  types.UserLoginRequest:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  types.UserLoginResponse:
+    properties:
+      access_expired_at:
+        type: string
+      access_token:
+        type: string
+      refresh_expired_at:
+        type: string
+      refresh_token:
+        type: string
+      user:
+        $ref: '#/definitions/types.User'
+    type: object
+  types.UserRegisterRequest:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      password:
+        type: string
+      type_account_id:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /api/refresh-token:
+    get:
+      description: refresh_token
+      parameters:
+      - description: refresh_token
+        in: body
+        name: RefreshToken
+        required: true
+        schema:
+          $ref: '#/definitions/types.RefreshTokenRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.AccessTokenResponse'
+        "400":
+          description: Bad Request
+      security:
+      - AccessToken: []
+      summary: refresh_token
+      tags:
+      - user
+  /api/user/info:
+    get:
+      description: get_user_info
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+      - AccessToken: []
+      summary: get_user_info
+      tags:
+      - user
+    put:
+      description: update_user_info
+      parameters:
+      - description: update user info
+        in: body
+        name: UpdateUserInfo
+        schema:
+          $ref: '#/definitions/types.UserInfoResponse'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      security:
+      - ApiKeyAuth: []
+      summary: update_user_info
+      tags:
+      - user
+  /api/user/login:
+    post:
+      description: login_user
+      parameters:
+      - description: register user
+        in: body
+        name: LoginUser
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserLoginRequest'
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/types.UserLoginResponse'
+        "404":
+          description: Not Found
+      summary: login_user
+      tags:
+      - user
+  /api/user/register:
+    post:
+      description: register_user
+      parameters:
+      - description: register user
+        in: body
+        name: RegisterUser
+        required: true
+        schema:
+          $ref: '#/definitions/types.UserRegisterRequest'
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+      summary: register_user
+      tags:
+      - user
+swagger: "2.0"
