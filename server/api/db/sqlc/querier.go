@@ -9,57 +9,11 @@ import (
 )
 
 type Querier interface {
-	CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error)
-	CreateFaculty(ctx context.Context, arg CreateFacultyParams) (Faculty, error)
-	CreateGroup(ctx context.Context, arg CreateGroupParams) (Group, error)
-	CreateLecturer(ctx context.Context, arg CreateLecturerParams) (Lecturer, error)
-	CreateReference(ctx context.Context, arg CreateReferenceParams) (Reference, error)
-	CreateStudent(ctx context.Context, arg CreateStudentParams) (Student, error)
-	CreateStudentGroup(ctx context.Context, arg CreateStudentGroupParams) (StudentGroup, error)
-	CreateTerm(ctx context.Context, name string) (Term, error)
-	CreateTopic(ctx context.Context, arg CreateTopicParams) (Topic, error)
-	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
-	DeleteDepartment(ctx context.Context, id int64) (Department, error)
-	DeleteFaculty(ctx context.Context, id int64) (Faculty, error)
-	DeleteGroup(ctx context.Context, id int64) (Group, error)
-	DeleteLecturer(ctx context.Context, id int64) (Lecturer, error)
-	DeleteReference(ctx context.Context, id int64) error
-	DeleteStudent(ctx context.Context, id int64) (Student, error)
-	DeleteStudentGroup(ctx context.Context, arg DeleteStudentGroupParams) error
-	DeleteTerm(ctx context.Context, id int64) error
-	DeleteTopic(ctx context.Context, id int64) error
-	DeleteUser(ctx context.Context, id int64) (User, error)
-	GetDepartment(ctx context.Context, userID int64) (Department, error)
-	GetFaculty(ctx context.Context, userID int64) (Faculty, error)
-	GetGroup(ctx context.Context, id int64) (Group, error)
-	GetLecturer(ctx context.Context, userID int64) (Lecturer, error)
-	GetReference(ctx context.Context, id int64) (Reference, error)
-	GetStudent(ctx context.Context, userID int64) (Student, error)
-	GetTerm(ctx context.Context, id int64) (Term, error)
-	GetTopic(ctx context.Context, id int64) (Topic, error)
-	GetUser(ctx context.Context, id int64) (User, error)
-	GetUserByName(ctx context.Context, username string) (User, error)
-	ListDepartments(ctx context.Context, facultyID int64) ([]Department, error)
-	ListFaculties(ctx context.Context) ([]Faculty, error)
-	ListGroups(ctx context.Context) ([]Group, error)
-	ListLecturers(ctx context.Context, arg ListLecturersParams) ([]Lecturer, error)
-	ListReferences(ctx context.Context, arg ListReferencesParams) ([]Reference, error)
-	ListStatus(ctx context.Context) ([]Status, error)
-	ListStudentGroups(ctx context.Context, groupID int64) ([]StudentGroup, error)
-	ListStudents(ctx context.Context, arg ListStudentsParams) ([]Student, error)
-	ListTerms(ctx context.Context) ([]Term, error)
-	ListTopics(ctx context.Context, arg ListTopicsParams) ([]Topic, error)
-	ListUsers(ctx context.Context) ([]User, error)
-	UpdateDepartment(ctx context.Context, arg UpdateDepartmentParams) (Department, error)
-	UpdateFaculty(ctx context.Context, arg UpdateFacultyParams) (Faculty, error)
-	UpdateGroup(ctx context.Context, arg UpdateGroupParams) (Group, error)
-	UpdateLecturer(ctx context.Context, arg UpdateLecturerParams) (Lecturer, error)
-	UpdateReference(ctx context.Context, arg UpdateReferenceParams) (Reference, error)
-	UpdateStudent(ctx context.Context, arg UpdateStudentParams) (Student, error)
-	UpdateStudentGroup(ctx context.Context, arg UpdateStudentGroupParams) (StudentGroup, error)
-	UpdateTerm(ctx context.Context, arg UpdateTermParams) (Term, error)
-	UpdateTopic(ctx context.Context, arg UpdateTopicParams) (Topic, error)
-	UpdateUser(ctx context.Context, arg UpdateUserParams) (User, error)
+	CreateUser(ctx context.Context, arg CreateUserParams) error
+	CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) error
+	GetUserByName(ctx context.Context, name string) (User, error)
+	GetUserInfo(ctx context.Context, userID int64) (UserInfo, error)
+	UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error
 }
 
 var _ Querier = (*Queries)(nil)

@@ -3,7 +3,6 @@ package api
 import (
 	"github/ThoPham02/research_management/api/db/store"
 	"github/ThoPham02/research_management/api/service"
-	"github/ThoPham02/research_management/api/token"
 	"github/ThoPham02/research_management/config"
 	"log"
 
@@ -11,9 +10,8 @@ import (
 )
 
 type Server struct {
-	svc        *service.ServiceContext
-	TokenMaker token.Maker
-	Router     *gin.Engine
+	svc    *service.ServiceContext
+	Router *gin.Engine
 }
 
 func NewServer(store store.Store) *Server {
@@ -22,18 +20,13 @@ func NewServer(store store.Store) *Server {
 		log.Fatal("Can't load config::", err)
 	}
 
-	tokenMaker, err := token.NewPasetoMaker(config.TokenSemmetricKey)
-	if err != nil {
-		log.Fatal("Can't create a new token::", err)
-	}
 	router := gin.Default()
 	svc := service.NewServiceContext(*config, store)
 	RegisterRouter(router, svc)
 
 	server := &Server{
-		svc:        svc,
-		TokenMaker: tokenMaker,
-		Router:     router,
+		svc:    svc,
+		Router: router,
 	}
 
 	return server

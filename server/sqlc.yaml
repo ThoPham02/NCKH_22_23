@@ -1,6 +1,6 @@
 version: "1"
 project:
-    id: "research_management"
+    id: "nckh-db"
 packages: 
   - name: "db"
     path: "./api/db/sqlc"
@@ -12,4 +12,3 @@ packages:
     emit_interface: true
     emit_exact_table_names: false
     emit_empty_slices: true
-
