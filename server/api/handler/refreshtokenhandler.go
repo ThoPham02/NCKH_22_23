@@ -22,7 +22,7 @@ import (
 //	@Param			RefreshToken	body		types.RefreshTokenRequest	true	"refresh_token"
 //	@Success		200				{object}	types.AccessTokenResponse
 //	@Failure		400
-//	@Security		AccessToken
+//	@Security		ApiAuthKey
 //	@Router			/api/refresh-token [GET]
 func RefreshTokenHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
