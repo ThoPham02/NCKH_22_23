@@ -21,7 +21,7 @@ import (
 //	@Tags			user
 //	@Success		200
 //	@Failure		400
-//	@Security		AccessToken
+//	@securityDefinitions.basic	BasicAuth
 //	@Router			/api/user/info [GET]
 func GetUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {

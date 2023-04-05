@@ -24,7 +24,7 @@ import (
 //	@Param			UpdateUserInfo	body	types.UserInfoResponse	false	"update user info"
 //	@Success		200
 //	@Failure		400
-//	@Security		ApiKeyAuth
+//	@securityDefinitions.basic	BasicAuth
 //	@Router			/api/user/info [PUT]
 func UpdateUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
