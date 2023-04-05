@@ -15,6 +15,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UpdateUserInfoHandler godoc
+//
+//	@Summary		update_user_info
+//	@Schemes		User
+//	@Description	update_user_info
+//	@Tags			user
+//	@Param			UpdateUserInfo	body	types.UserInfoResponse	false	"update user info"
+//	@Success		200
+//	@Failure		400
+//	@Security		ApiKeyAuth
+//	@Router			/api/user/info [PUT]
 func UpdateUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("update-user-info-api"))

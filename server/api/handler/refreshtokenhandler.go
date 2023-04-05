@@ -13,6 +13,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// RefreshTokenHandler godoc
+//
+//	@Summary	refresh_token
+//	@Schemes
+//	@Description	refresh_token
+//	@Tags			user
+//	@Param			RefreshToken	body		types.RefreshTokenRequest	true	"refresh_token"
+//	@Success		200				{object}	types.AccessTokenResponse
+//	@Failure		400
+//	@Security		AccessToken
+//	@Router			/api/refresh-token [GET]
 func RefreshTokenHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("refresh-token-api"))

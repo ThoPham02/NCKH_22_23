@@ -13,6 +13,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GetUserInfoHandler godoc
+//
+//	@Summary	get_user_info
+//	@Schemes
+//	@Description	get_user_info
+//	@Tags			user
+//	@Success		200
+//	@Failure		400
+//	@Security		AccessToken
+//	@Router			/api/user/info [GET]
 func GetUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("get-user-info-api"))
