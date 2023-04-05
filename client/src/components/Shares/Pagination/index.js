@@ -3,7 +3,7 @@ function Pagination1({setPagi, currentPage, numberItem}) {
   let content = <></>
  
   if (currentPage < 5) {
-    for ( const i = 1; i<5; i++) {
+    for ( let i = 1; i<5; i++) {
       document.getElementById("Pagination").innerHTML = `<li>${i}<li>`
     }
   }
