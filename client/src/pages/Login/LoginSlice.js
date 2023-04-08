@@ -5,7 +5,7 @@ const loginSlice = createSlice({
   name: "user",
   initialState: {
     status: "idle",
-    accessToken: "",
+    token: {},
     user: {},
   },
   reducers: {},
@@ -15,7 +15,12 @@ const loginSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchLoginUser.fulfilled, (state, action) => {
-        state.accessToken = action.payload.access_token;
+        state.token = {
+          accessToken: action.payload.access_token,
+          accessExpiredAt: action.payload.access_expired_at,
+          refreshToken: action.payload.refresh_token,
+          refreshExpiredAt: action.payload.refresh_expired_at
+        }
         state.user = action.payload.user;
         state.status = "idle";
       });
@@ -25,8 +30,8 @@ const loginSlice = createSlice({
 export const fetchLoginUser = createAsyncThunk(
   "user/login",
   async (payload) => {
-    const response = await client.post("/user/login", {
-      username: payload.username,
+    const response = await client.post("/api/user/login", {
+      name: payload.username,
       password: payload.password,
     });
     return response.data;
