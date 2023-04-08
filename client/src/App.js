@@ -1,15 +1,19 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { publicRoutes, privateRoutes } from "./Router";
 import "./App.css";
-import DefaultLayout from "./components/Layout/DefaultLayout";
+
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React from "react";
 import { useSelector } from "react-redux";
+
+import DefaultLayout from "./components/Layout/DefaultLayout";
+import { publicRoutes, privateRoutes } from "./Router";
 import { loginSelector } from "./store/selectors";
+import { CompareTime } from './utils/time';
+
 
 function App() {
-  const user = useSelector(loginSelector)
-  console.log(user)
+  const login = useSelector(loginSelector)
+  console.log(CompareTime(login.token.accessExpiredAt))
   return (
     <Router>
       <Routes>
@@ -29,9 +33,6 @@ function App() {
           );
         })}
         {privateRoutes.map((route, index) => {
-          if (user.permission === undefined) {
-            // TODO: redirect to login page
-          }
           const Layout = route.Layout || DefaultLayout;
           const Page = route.component;
           return (
