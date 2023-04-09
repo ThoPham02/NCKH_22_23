@@ -14,7 +14,7 @@ import (
 func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	docs.SwaggerInfo.BasePath = ""
 	router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	// router.Use(middleware.CorsMiddleware())
+	router.Use(middleware.CorsMiddleware())
 	// user api
 	router.POST("api/user/login", handler.UserLoginHandler(svc))
 	router.POST("api/user/register", handler.UserRegisterHandler(svc))
