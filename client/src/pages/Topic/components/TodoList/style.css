@@ -1,9 +1,0 @@
-#addTodo{
-    display: flex;
-}
-#state {
-    width: 155px;
-}
-#addTodo button {
-    width: 40px;
-}
