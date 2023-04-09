@@ -8,7 +8,13 @@ const loginSlice = createSlice({
     token: {},
     user: {},
   },
-  reducers: {},
+  reducers: {
+    logout: (state, action) => {
+      state.status = "idle";
+      state.token = {};
+      state.user = {};
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchLoginUser.pending, (state, action) => {
