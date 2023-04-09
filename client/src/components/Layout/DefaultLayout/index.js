@@ -1,11 +1,13 @@
 import Header from "./Header";
 import Footer from "./Footer";
+import NavBar from "./Navbar";
 
 const DefaultLayout = ({ children }) => {
   return (
     <>
       <Header />
-      <div style={{minHeight: "calc(100vh - 275px)"}}>
+      <NavBar />
+      <div style={{minHeight: "calc(100vh - 212px)"}}>
         {children}
       </div>
       <Footer />
