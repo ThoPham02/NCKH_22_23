@@ -3,17 +3,11 @@ import "./App.css";
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import React from "react";
-import { useSelector } from "react-redux";
 
 import DefaultLayout from "./components/Layout/DefaultLayout";
 import { publicRoutes, privateRoutes } from "./Router";
-import { loginSelector } from "./store/selectors";
-import { CompareTime } from './utils/time';
-
 
 function App() {
-  const login = useSelector(loginSelector)
-  console.log(CompareTime(login.token.accessExpiredAt))
   return (
     <Router>
       <Routes>

@@ -10,7 +10,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const navige = useNavigate();
   const isAuthenticated = useSelector(loginSelector).user.name !== undefined;
-  
   const handleLoginSubmit = (e) => {
     e.preventDefault();
     const payload = {
