@@ -29,7 +29,11 @@ const loginSlice = createSlice({
           refreshToken: action.payload.refresh_token,
           refreshExpiredAt: action.payload.refresh_expired_at,
         };
-        state.user = action.payload.user;
+        state.user = {
+          name: action.payload.user.name,
+          email: action.payload.user.email,
+          type: action.payload.user.account_type,
+        }
         state.status = "idle";
       })
       .addCase(getUserInfo.pending, (state,action) => {
@@ -43,7 +47,7 @@ const loginSlice = createSlice({
       })
       .addCase(getUserInfo.fulfilled, (state, action) => {
         state.status = "idle";
-        state.info = action.payload;
+        state.info = {}
       });
   },
 });
@@ -55,6 +59,26 @@ export const fetchLoginUser = createAsyncThunk(
       name: payload.username,
       password: payload.password,
     });
+
+    switch (response.data.user.account_type) {
+      case 1:
+        response.data.user.account_type = "student"
+        break;
+      case 2:
+        response.data.user.account_type = "lecture"
+        break;
+      case 3:
+        response.data.user.account_type = "department"
+        break;
+      case 4:
+        response.data.user.account_type = "faculty"
+        break;
+      case 5:
+        response.data.user.account_type = "admin"
+        break;
+      default:
+        break;
+    }
     return response.data;
   }
 );
