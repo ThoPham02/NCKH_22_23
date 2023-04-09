@@ -1,37 +1,33 @@
-import SelectBasicExample from '../../components/Shares/search/search__form.js'
-import SelectInput from '../Topic/components/Filters/index.js'
-import AddTodo from "../Topic/components/TodoList/index.js"
-import '../Topic/components/TodoList'
-import './topic.css'
-import { useSelector } from 'react-redux';
-import { todoRemainingSelector } from '../../store/selectors.js'
-import TodoTable from '../Topic/components/Todo/index.js'
+import "./topic.css"
+import { Search } from "../../components/Shares/Search";
+import TableTopic from "../../components/Shares/Table";
 
 function Topic() {
-  const todoList = useSelector(todoRemainingSelector)
-  var openSearch = false
+  const listHead = ["First Name", "Last Name", "UserName"];
+  const listKey = ["first", "last", "name"];
+  const listItem = [
+    {
+      first: "Mark",
+      last: "Otto",
+      name: "@mdo",
+    },
+    {
+      first: "Mark",
+      last: "Otto",
+      name: "@mdo",
+    },
+    {
+      first: "Mark",
+      last: "Otto",
+      name: "@mdo",
+    },
+  ];
+
   return (
-    <>
-      <div id="topic__name">
-        <p>Đề tài nghiên cứu khoa học</p>
-      </div>
-       <div>
-        <AddTodo></AddTodo>
-      </div> 
-      <div id="topic__search">
-        <div id="topic__search-1">
-          <SelectBasicExample openSearch={openSearch}></SelectBasicExample>
-        </div>
-        <div id="topic__search-2">
-          <SelectInput></SelectInput>
-        </div>
-
-        <div id="topic__table">
-          <TodoTable todoList={todoList}></TodoTable>
-        </div>
-      </div>
-
-    </>
+    <div className="topic">
+      <Search />
+      <TableTopic listHead={listHead} listKey={listKey} listItem={listItem} />
+    </div>
   );
 }
 

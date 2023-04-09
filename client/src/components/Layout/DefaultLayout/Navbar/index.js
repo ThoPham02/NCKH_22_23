@@ -4,7 +4,7 @@ import { loginSelector } from "../../../../store/selectors";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { BiUserCircle } from "react-icons/bi";
-import loginSlice, { getUserInfo } from "../../../../pages/Login/LoginSlice";
+import loginSlice from "../../../../pages/Login/LoginSlice";
 
 const NavBar = () => {
   const login = useSelector(loginSelector);
@@ -12,6 +12,10 @@ const NavBar = () => {
   const dispatch = useDispatch();
   function handleLogout() {
     dispatch(loginSlice.actions.logout());
+  }
+  let switchLink = ""
+  if (login.user.type) {
+    switchLink = "/" + login.user.type
   }
 
   var loginAccount = (
@@ -23,18 +27,13 @@ const NavBar = () => {
     </div>
   );
 
-  const handleGetInfo = () => {
-    dispatch(getUserInfo())
-  }
-  console.log(useSelector(loginSelector).info)
-
   if (login.user.name !== undefined) {
     loginAccount = (
       <div>
         <span>Xin Chào, {login.user.name}</span>
         <ul className="account__nav">
           <li>
-            <Link onClick={handleGetInfo}>Thông tin</Link>
+            <Link to="/user-info">Thông tin</Link>
           </li>
           <li onClick={handleLogout} to="/login">
             Đăng xuất
@@ -50,10 +49,10 @@ const NavBar = () => {
         <Link to="/">Trang Chủ</Link>
       </li>
       <li>
-        <Link to="/topic">Đề tài</Link>
+        <Link to={`${switchLink}/topic`}>Đề tài</Link>
       </li>
       <li>
-        <Link to="/statistical">Thống Kê</Link>
+        <Link to={`${switchLink}/statistical`}>Thống Kê</Link>
       </li>
       <li>
         <Link to="/category">Danh mục</Link>

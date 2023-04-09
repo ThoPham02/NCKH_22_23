@@ -1,12 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import todoSlice from '../pages/Topic/components/TodoList/todoSlice.js'
-import filtersSlice from '../pages/Topic/components/Filters/filtersSlice.js'
 import { loginReducer } from '../pages/Login/LoginSlice.js'
+import { FilterReducer } from '../components/Shares/Search/SearchSlice.js'
 
 const store = configureStore({
   reducer: {
-    filters: filtersSlice.reducer,
-    todoList: todoSlice.reducer,
+    topicFilter: FilterReducer,
     login: loginReducer
   }
 })

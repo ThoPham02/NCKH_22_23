@@ -7,7 +7,7 @@ const DefaultLayout = ({ children }) => {
     <>
       <Header />
       <NavBar />
-      <div style={{minHeight: "calc(100vh - 212px)"}}>
+      <div style={{ minHeight: "calc(100vh - 212px)", paddingTop: "4px" }}>
         {children}
       </div>
       <Footer />
