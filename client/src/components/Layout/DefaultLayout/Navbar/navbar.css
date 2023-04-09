@@ -58,6 +58,7 @@
 
 .account__nav li{
     padding: 8px 12px;
+    cursor: pointer;
 }
 
 .account__nav li a{

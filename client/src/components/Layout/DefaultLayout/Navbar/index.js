@@ -4,7 +4,7 @@ import { loginSelector } from "../../../../store/selectors";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { BiUserCircle } from "react-icons/bi";
-import loginSlice from "../../../../pages/Login/LoginSlice";
+import loginSlice, { getUserInfo } from "../../../../pages/Login/LoginSlice";
 
 const NavBar = () => {
   const login = useSelector(loginSelector);
@@ -23,13 +23,18 @@ const NavBar = () => {
     </div>
   );
 
+  const handleGetInfo = () => {
+    dispatch(getUserInfo())
+  }
+  console.log(useSelector(loginSelector).info)
+
   if (login.user.name !== undefined) {
     loginAccount = (
       <div>
         <span>Xin Chào, {login.user.name}</span>
         <ul className="account__nav">
           <li>
-            <Link to="/user/info">Thông tin</Link>
+            <Link onClick={handleGetInfo}>Thông tin</Link>
           </li>
           <li onClick={handleLogout} to="/login">
             Đăng xuất
