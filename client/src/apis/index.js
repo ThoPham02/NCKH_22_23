@@ -2,7 +2,8 @@ import axios from 'axios';
 import store from '../store/store';
 
 const client = axios.create({
-    baseURL: "https://nckh-be.onrender.com",
+    baseURL: "localhost:8080",
+    //baseURL: "https://nckh-be.onrender.com",
     headers: {
         'Accept': "application/json",
         'Content-Type': "application/json",

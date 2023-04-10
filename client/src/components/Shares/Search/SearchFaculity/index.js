@@ -1,15 +1,31 @@
+import { useEffect, useState } from "react";
 import Form from "react-bootstrap/Form";
+import { useDispatch, useSelector } from "react-redux";
+import { faculitySelector } from "../../../../store/selectors";
+import { fetchFaculity } from "./FaculitySlice";
 
 const SearchFaculity = ({ setSearchFaculity }) => {
+  const dispatch = useDispatch();
+  const list = useSelector(faculitySelector);
+  const [listFaculties, setListFaculties] = useState(list);
+
+  useEffect(() => {
+    dispatch(fetchFaculity());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setListFaculties(list);
+  }, [list]);
+
   const handleSearchFaculity = (e) => {
     setSearchFaculity(e.target.value);
   };
   return (
     <Form.Select onChange={handleSearchFaculity}>
       <option value="0">Tất cả các khoa</option>
-      <option value="1">hoàn thành</option>
-      <option value="2">quá hạn</option>
-      <option value="3">đang thực hiện</option>
+      {listFaculties.map((faculity) => {
+        return <option value={faculity.id}>{faculity.name}</option>;
+      })}
     </Form.Select>
   );
 };
