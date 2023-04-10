@@ -1,9 +1,9 @@
-import "./navbar.css";
-import { loginSelector } from "../../../../store/selectors";
-
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { BiUserCircle } from "react-icons/bi";
+import { Link } from "react-router-dom";
+
+import "./navbar.css";
+import { loginSelector } from "../../../../store/selectors";
 import loginSlice from "../../../../pages/Login/LoginSlice";
 
 const NavBar = () => {
@@ -20,7 +20,7 @@ const NavBar = () => {
 
   var loginAccount = (
     <div>
-      <Link to="login">
+      <Link to="/login">
         <BiUserCircle />
         <span>Đăng nhập</span>
       </Link>
@@ -50,6 +50,12 @@ const NavBar = () => {
       </li>
       <li>
         <Link to={`${switchLink}/topic`}>Đề tài</Link>
+      </li>
+      <li>
+        <Link to={`${switchLink}/topic-registation`}>Đề Xuất</Link>
+      </li>
+      <li>
+        <Link to={`${switchLink}/conference`}>Hội Nghị</Link>
       </li>
       <li>
         <Link to={`${switchLink}/statistical`}>Thống Kê</Link>
