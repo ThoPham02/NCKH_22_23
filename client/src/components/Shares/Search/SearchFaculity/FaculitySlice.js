@@ -16,7 +16,7 @@ const FaculitySlice = createSlice({
       })
       .addCase(fetchFaculity.fulfilled, (state, action) => {
         state.status = "idle";
-        state.listFaculities = action.payload;
+        state.listFaculities = action.payload.list_faculity;
       });
   },
 });

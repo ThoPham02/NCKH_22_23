@@ -15,18 +15,16 @@ const DepartmentSlice = createSlice({
       })
       .addCase(fetchDepartment.fulfilled, (state, action) => {
         state.status = "idle";
-        state.listDepartments = action.payload;
+        state.listDepartments = action.payload.list_department;
       });
   },
 });
 
 export const fetchDepartment = createAsyncThunk(
   "getDepartment",
-  async (payload) => {
-    let url = "/api/department";
-    if (payload.faculityId !== 0) {
-      url += "?faculty_id=" + payload.facultyId;
-    }
+  async (_, {getState}) => {
+    const state = getState()
+    let url = "/api/department?faculty_id=" + state.topicFilter.faculity
     const response = await client.get(url);
 
     return response.data;

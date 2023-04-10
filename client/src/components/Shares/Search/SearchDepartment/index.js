@@ -1,6 +1,21 @@
 import Form from "react-bootstrap/Form";
+import { useDispatch, useSelector } from "react-redux";
+import { departmentSelector } from "../../../../store/selectors";
+import { useEffect, useState } from "react";
+import { fetchDepartment } from "./DepartmentSlice";
 
 const SearchDepartment = ({ setSearchDepartment }) => {
+  const dispatch = useDispatch();
+  const list = useSelector(departmentSelector);
+  const [listDepartments, setListDepartments] = useState(list);
+  useEffect(() => {
+    dispatch(fetchDepartment());
+  }, [dispatch]);
+
+  useEffect(() => {
+    setListDepartments(list);
+  }, [list]);
+
   const handleSearchDepartment = (e) => {
     setSearchDepartment(e.target.value);
   };
@@ -8,9 +23,9 @@ const SearchDepartment = ({ setSearchDepartment }) => {
   return (
     <Form.Select onChange={handleSearchDepartment}>
       <option value="0">Tất cả các bộ môn</option>
-      <option value="1">hoàn thành</option>
-      <option value="2">quá hạn</option>
-      <option value="3">đang thực hiện</option>
+      {listDepartments.map((department) => {
+        return <option value={department.id}>{department.name}</option>
+      })}
     </Form.Select>
   );
 };
