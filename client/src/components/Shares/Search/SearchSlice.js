@@ -14,6 +14,9 @@ const FilterSlice =  createSlice({
         searchFilterChange(state, action) {
             state = action.payload;
         },
+        searchFaculityChange(state, action) {
+            state.faculity = action.payload
+        }
     }
 })
 
