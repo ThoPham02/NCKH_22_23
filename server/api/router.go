@@ -24,9 +24,9 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	//topic api
 
 	//department api
-	router.GET("/api/department", handler.GetListDepartmentHandler(svc))
-	router.GET("/api/department/:id", handler.GetDepartmentByIDHandler(svc))
+	router.GET("api/department", handler.GetListDepartmentHandler(svc))
+	router.GET("api/department/:id", handler.GetDepartmentByIDHandler(svc))
 	//faculity api
-	router.GET("/api/faculity", handler.GetListFaculityHandler(svc))
-	router.GET("/api/faculity/:id", handler.GetFaculityByIDHandler(svc))
+	router.GET("api/faculity", handler.GetListFaculityHandler(svc))
+	router.GET("api/faculity/:id", handler.GetFaculityByIDHandler(svc))
 }
