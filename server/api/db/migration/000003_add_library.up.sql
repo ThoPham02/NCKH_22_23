@@ -1,5 +1,5 @@
 CREATE TABLE "library" (
   "id" BIGSERIAL PRIMARY KEY,
   "name" VARCHAR(255) NOT NULL,
-  "url" VARCHAR(255),
+  "url" VARCHAR(255)
 );
