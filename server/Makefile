@@ -5,7 +5,7 @@ createdb:
 dropdb:
 	docker exec -it nckh_db dropdb research_management
 migrate:
-	migrate create -ext sql -dir api/db/migration -seq change_data_pk
+	migrate create -ext sql -dir api/db/migration -seq add_library
 migrateup:
 	migrate -path api/db/migration -database "postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb" -verbose up
 migratedown:
