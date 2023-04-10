@@ -11,6 +11,11 @@ import (
 type Querier interface {
 	CreateUser(ctx context.Context, arg CreateUserParams) error
 	CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) error
+	GetDepartmentByID(ctx context.Context, id int64) (Department, error)
+	GetFaculityByID(ctx context.Context, id int64) (Faculity, error)
+	GetListDepartment(ctx context.Context) ([]Department, error)
+	GetListDepartmentByFaculity(ctx context.Context, faculityID int64) ([]Department, error)
+	GetListFaculity(ctx context.Context) ([]Faculity, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
 	GetUserInfo(ctx context.Context, userID int64) (UserInfo, error)
 	UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error
