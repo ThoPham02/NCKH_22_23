@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	CreateTopicRegistation(ctx context.Context, arg CreateTopicRegistationParams) (TopicRegistration, error)
 	CreateUser(ctx context.Context, arg CreateUserParams) error
 	CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) error
 	GetDepartmentByID(ctx context.Context, id int64) (Department, error)
@@ -16,8 +17,12 @@ type Querier interface {
 	GetListDepartment(ctx context.Context) ([]Department, error)
 	GetListDepartmentByFaculity(ctx context.Context, faculityID int64) ([]Department, error)
 	GetListFaculity(ctx context.Context) ([]Faculity, error)
+	GetListTopicRegistation(ctx context.Context, name string) ([]TopicRegistration, error)
+	GetTopicRegistationById(ctx context.Context, id int64) (TopicRegistration, error)
+	GetTopicRegistationByLectureId(ctx context.Context, lectureID int64) ([]TopicRegistration, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
 	GetUserInfo(ctx context.Context, userID int64) (UserInfo, error)
+	UpdateTopicRegistation(ctx context.Context, arg UpdateTopicRegistationParams) (TopicRegistration, error)
 	UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error
 }
 
