@@ -1,26 +1,30 @@
 import Pagination from "react-bootstrap/Pagination";
-function Pagination1({ setPagi, currentPage, numberItem }) {
-  let content = <></>;
 
-  if (currentPage < 5) {
-    for (let i = 1; i < 5; i++) {
-      document.getElementById("Pagination").innerHTML = `<li>${i}<li>`;
-    }
+import "./pagination.css";
+
+const Pagination1 = ({ setPagi, currentPage, total, limit }) => {
+  let num = Math.ceil(total / limit);
+  let pagiList = [];
+  for (let i = 0; i < num; i++) {
+    pagiList.push(i + 1);
   }
-
   return (
-    <Pagination>
-      <Pagination.Item
-        onClick={(e) => {
-          setPagi(1);
-        }}
-        id="Pagination"
-      >
-        {1}
-      </Pagination.Item>
-      {content}
-    </Pagination>
+    <div className="pagination">
+      <Pagination>
+        {pagiList.map((number) => {
+          return (
+            <Pagination.Item
+              key={number}
+              active={number === currentPage}
+              onClick={(e) => setPagi(e.target.value)}
+            >
+              {number}
+            </Pagination.Item>
+          );
+        })}
+      </Pagination>
+    </div>
   );
-}
+};
 
 export default Pagination1;

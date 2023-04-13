@@ -23,8 +23,8 @@ const SearchDepartment = ({ setSearchDepartment }) => {
   return (
     <Form.Select onChange={handleSearchDepartment}>
       <option value="0">Tất cả các bộ môn</option>
-      {listDepartments.map((department) => {
-        return <option value={department.id}>{department.name}</option>
+      {listDepartments.map((department, index) => {
+        return <option value={department.id} key={index}>{department.name}</option>
       })}
     </Form.Select>
   );
