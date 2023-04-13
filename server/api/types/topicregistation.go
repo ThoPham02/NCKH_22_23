@@ -76,3 +76,17 @@ type (
 		ID int64 `uri:"id"`
 	}
 )
+
+type (
+	GetTopicRegistationByIDRequest struct {
+		ID int64 `uri:"id"`
+	}
+	GetTopicRegistationByIdResponse struct {
+		ID             int64  `json:"id"`
+		Name           string `json:"name"`
+		Description    string `json:"description"`
+		DescriptionUrl string `json:"description_url"`
+		LectureID      int64  `json:"lecture_id"`
+		FaculityID     int64  `json:"faculity_id"`
+	}
+)

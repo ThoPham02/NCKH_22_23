@@ -24,6 +24,11 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetListTopicRegistationR
 
 	data, err := l.svcCtx.Store.GetListTopicRegistation(l.ctx, fmt.Sprintf("%%%s%%", req.Search))
 	if err != nil {
+		if err == sql.ErrNoRows {
+			return &types.GetListTopicRegistationResponse{
+				Total: 0,
+			}, nil
+		}
 		l.logHelper.Error(err)
 		return nil, err
 	}
@@ -38,13 +43,12 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetListTopicRegistationR
 	total := len(data)
 
 	if req.Limit != 0 {
-		start := int(req.Limit * req.Offset)
-		end := int(req.Limit*req.Offset + req.Limit)
-		data = utils.SliceArray(data, start, end)
+		data = utils.SliceArray(data, req.Limit, req.Offset-1)
 	}
 
 	for _, item := range data {
 		list = append(list, types.TopicRegistation{
+			ID:             item.ID,
 			Name:           item.Name,
 			Description:    item.Description,
 			DescriptionURL: item.DescriptionUrl.String,
@@ -75,12 +79,12 @@ func (l *Logic) CreateTopicRegistation(req *types.CreateTopicRegistationRequest)
 		Name:        req.Name,
 		Description: req.Description,
 		DescriptionUrl: sql.NullString{
-			Valid:  req.DescriptionUrl == "",
+			Valid:  req.DescriptionUrl != "",
 			String: req.DescriptionUrl,
 		},
 		LectureID: req.LectureID,
 		FaculityID: sql.NullInt64{
-			Valid: req.FaculityID == 0,
+			Valid: req.FaculityID != 0,
 			Int64: req.FaculityID,
 		},
 		CreatedAt: sql.NullTime{
@@ -101,4 +105,67 @@ func (l *Logic) CreateTopicRegistation(req *types.CreateTopicRegistationRequest)
 		LectureID:      data.LectureID,
 		FaculityID:     data.FaculityID.Int64,
 	}, nil
+}
+
+func (l *Logic) UpdateTopicRegistationLogic(req *types.UpdateTopicRegistationRequest) (*types.UpdateTopicRegistationResponse, error) {
+	l.logHelper.Info("UpdateTopicRegistation", req)
+
+	var err error
+
+	if req == nil {
+		err = errors.New("invalid request")
+		l.logHelper.Error(err)
+		return nil, err
+	}
+
+	data, err := l.svcCtx.Store.GetTopicRegistationById(l.ctx, req.ID)
+	if err != nil {
+		l.logHelper.Error(err)
+		return nil, err
+	}
+
+	res, err := l.svcCtx.Store.UpdateTopicRegistation(l.ctx, db.UpdateTopicRegistationParams{
+		ID:          req.ID,
+		Name:        req.Name,
+		Description: req.Description,
+		DescriptionUrl: sql.NullString{
+			Valid:  req.DescriptionUrl != "",
+			String: req.DescriptionUrl,
+		},
+		LectureID:  req.LectureID,
+		FaculityID: data.FaculityID,
+	})
+	if err != nil {
+		l.logHelper.Error(err)
+		return nil, err
+	}
+
+	return &types.UpdateTopicRegistationResponse{
+		ID:             res.ID,
+		Name:           res.Name,
+		Description:    res.Description,
+		DescriptionUrl: res.DescriptionUrl.String,
+		LectureID:      res.LectureID,
+		FaculityID:     res.FaculityID.Int64,
+	}, nil
+}
+
+func (l *Logic) GetTopicRegistationByIdLogic(req *types.GetTopicRegistationByIDRequest) (*types.GetTopicRegistationByIdResponse, error) {
+	l.logHelper.Info("GetTopicRegistation", req)
+	data, err := l.svcCtx.Store.GetTopicRegistationById(l.ctx, req.ID)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return nil, nil
+		}
+		l.logHelper.Error(err)
+		return nil, err
+	}
+	return &types.GetTopicRegistationByIdResponse{
+		ID:             data.ID,
+		Name:           data.Name,
+		Description:    data.Description,
+		DescriptionUrl: data.DescriptionUrl.String,
+		LectureID:      data.LectureID,
+		FaculityID:     data.FaculityID.Int64,
+	}, err
 }
