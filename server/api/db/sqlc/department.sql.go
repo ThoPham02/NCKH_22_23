@@ -9,52 +9,57 @@ import (
 	"context"
 )
 
-const getDepartmentByID = `-- name: GetDepartmentByID :one
-SELECT id, name, faculity_id FROM "department"
-WHERE id = $1 LIMIT 1
+const createDepartment = `-- name: CreateDepartment :one
+INSERT INTO "department" (
+  "id", "name", "faculty_id"
+) VALUES (
+  $1, $2, $3
+)
+RETURNING id, name, faculty_id
 `
 
-func (q *Queries) GetDepartmentByID(ctx context.Context, id int64) (Department, error) {
-	row := q.db.QueryRowContext(ctx, getDepartmentByID, id)
+type CreateDepartmentParams struct {
+	ID        int32  `json:"id"`
+	Name      string `json:"name"`
+	FacultyID int32  `json:"faculty_id"`
+}
+
+func (q *Queries) CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error) {
+	row := q.db.QueryRowContext(ctx, createDepartment, arg.ID, arg.Name, arg.FacultyID)
 	var i Department
-	err := row.Scan(&i.ID, &i.Name, &i.FaculityID)
+	err := row.Scan(&i.ID, &i.Name, &i.FacultyID)
 	return i, err
 }
 
-const getListDepartment = `-- name: GetListDepartment :many
-SELECT id, name, faculity_id FROM "department"
+const deleteDepartment = `-- name: DeleteDepartment :exec
+DELETE FROM "department"
+WHERE id = $1
 `
 
-func (q *Queries) GetListDepartment(ctx context.Context) ([]Department, error) {
-	rows, err := q.db.QueryContext(ctx, getListDepartment)
-	if err != nil {
-		return nil, err
-	}
-	defer rows.Close()
-	items := []Department{}
-	for rows.Next() {
-		var i Department
-		if err := rows.Scan(&i.ID, &i.Name, &i.FaculityID); err != nil {
-			return nil, err
-		}
-		items = append(items, i)
-	}
-	if err := rows.Close(); err != nil {
-		return nil, err
-	}
-	if err := rows.Err(); err != nil {
-		return nil, err
-	}
-	return items, nil
+func (q *Queries) DeleteDepartment(ctx context.Context, id int32) error {
+	_, err := q.db.ExecContext(ctx, deleteDepartment, id)
+	return err
 }
 
-const getListDepartmentByFaculity = `-- name: GetListDepartmentByFaculity :many
-SELECT id, name, faculity_id FROM "department"
-WHERE faculity_id = $1
+const getDepartment = `-- name: GetDepartment :one
+SELECT id, name, faculty_id FROM "department"
+WHERE id = $1 LIMIT 1
 `
 
-func (q *Queries) GetListDepartmentByFaculity(ctx context.Context, faculityID int64) ([]Department, error) {
-	rows, err := q.db.QueryContext(ctx, getListDepartmentByFaculity, faculityID)
+func (q *Queries) GetDepartment(ctx context.Context, id int32) (Department, error) {
+	row := q.db.QueryRowContext(ctx, getDepartment, id)
+	var i Department
+	err := row.Scan(&i.ID, &i.Name, &i.FacultyID)
+	return i, err
+}
+
+const listDepartments = `-- name: ListDepartments :many
+SELECT id, name, faculty_id FROM "department"
+ORDER BY "type_account"
+`
+
+func (q *Queries) ListDepartments(ctx context.Context) ([]Department, error) {
+	rows, err := q.db.QueryContext(ctx, listDepartments)
 	if err != nil {
 		return nil, err
 	}
@@ -62,7 +67,7 @@ func (q *Queries) GetListDepartmentByFaculity(ctx context.Context, faculityID in
 	items := []Department{}
 	for rows.Next() {
 		var i Department
-		if err := rows.Scan(&i.ID, &i.Name, &i.FaculityID); err != nil {
+		if err := rows.Scan(&i.ID, &i.Name, &i.FacultyID); err != nil {
 			return nil, err
 		}
 		items = append(items, i)

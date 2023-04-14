@@ -9,21 +9,59 @@ import (
 )
 
 type Querier interface {
-	CreateTopicRegistation(ctx context.Context, arg CreateTopicRegistationParams) (TopicRegistration, error)
-	CreateUser(ctx context.Context, arg CreateUserParams) error
-	CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) error
-	GetDepartmentByID(ctx context.Context, id int64) (Department, error)
-	GetFaculityByID(ctx context.Context, id int64) (Faculity, error)
-	GetListDepartment(ctx context.Context) ([]Department, error)
-	GetListDepartmentByFaculity(ctx context.Context, faculityID int64) ([]Department, error)
-	GetListFaculity(ctx context.Context) ([]Faculity, error)
-	GetListTopicRegistation(ctx context.Context, name string) ([]TopicRegistration, error)
-	GetTopicRegistationById(ctx context.Context, id int64) (TopicRegistration, error)
-	GetTopicRegistationByLectureId(ctx context.Context, lectureID int64) ([]TopicRegistration, error)
+	CreateConference(ctx context.Context, arg CreateConferenceParams) (Conference, error)
+	CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error)
+	CreateFaculty(ctx context.Context, arg CreateFacultyParams) (Faculty, error)
+	CreateGetTopicRegistration(ctx context.Context, arg CreateGetTopicRegistrationParams) (TopicRegistration, error)
+	CreateGroup(ctx context.Context, arg CreateGroupParams) (Group, error)
+	CreateGroupSupervisor(ctx context.Context, arg CreateGroupSupervisorParams) (GroupSupervisor, error)
+	CreateLibrary(ctx context.Context, arg CreateLibraryParams) (Library, error)
+	CreateNotification(ctx context.Context, arg CreateNotificationParams) (Notification, error)
+	CreateStudentTopic(ctx context.Context, arg CreateStudentTopicParams) (StudentTopic, error)
+	CreateTopic(ctx context.Context, arg CreateTopicParams) (Topic, error)
+	CreateTopicResult(ctx context.Context, arg CreateTopicResultParams) (TopicResult, error)
+	CreateUser(ctx context.Context, arg CreateUserParams) (User, error)
+	CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) (UserInfo, error)
+	DeleteConference(ctx context.Context, id int32) error
+	DeleteDepartment(ctx context.Context, id int32) error
+	DeleteFaculty(ctx context.Context, id int32) error
+	DeleteGetTopicRegistration(ctx context.Context, id int32) error
+	DeleteGroup(ctx context.Context, id int32) error
+	DeleteGroupSupervisor(ctx context.Context, id int32) error
+	DeleteLibrary(ctx context.Context, id int32) error
+	DeleteNotification(ctx context.Context, id int32) error
+	DeleteStudentTopic(ctx context.Context, id int32) error
+	DeleteTopic(ctx context.Context, id int32) error
+	DeleteTopicResult(ctx context.Context, id int32) error
+	DeleteUser(ctx context.Context, id int32) error
+	DeleteUserInfo(ctx context.Context, id int32) error
+	GetConference(ctx context.Context, id int32) (Conference, error)
+	GetDepartment(ctx context.Context, id int32) (Department, error)
+	GetFaculty(ctx context.Context, id int32) (Faculty, error)
+	GetGroup(ctx context.Context, id int32) (Group, error)
+	GetGroupSupervisor(ctx context.Context, id int32) (GroupSupervisor, error)
+	GetLibrary(ctx context.Context, id int32) (Library, error)
+	GetNotification(ctx context.Context, id int32) (Notification, error)
+	GetStudentTopic(ctx context.Context, id int32) (StudentTopic, error)
+	GetTopic(ctx context.Context, id int32) (Topic, error)
+	GetTopicRegistration(ctx context.Context, id int32) (TopicRegistration, error)
+	GetTopicResult(ctx context.Context, id int32) (TopicResult, error)
+	GetUser(ctx context.Context, id int32) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
-	GetUserInfo(ctx context.Context, userID int64) (UserInfo, error)
-	UpdateTopicRegistation(ctx context.Context, arg UpdateTopicRegistationParams) (TopicRegistration, error)
-	UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error
+	GetUserInfo(ctx context.Context, id int32) (UserInfo, error)
+	ListConferences(ctx context.Context) ([]Conference, error)
+	ListDepartments(ctx context.Context) ([]Department, error)
+	ListFaculties(ctx context.Context) ([]Faculty, error)
+	ListGetTopicRegistrations(ctx context.Context) ([]TopicRegistration, error)
+	ListGroupSupervisors(ctx context.Context) ([]GroupSupervisor, error)
+	ListGroups(ctx context.Context) ([]Group, error)
+	ListLibrarys(ctx context.Context) ([]Library, error)
+	ListNotifications(ctx context.Context) ([]Notification, error)
+	ListStudentTopics(ctx context.Context) ([]StudentTopic, error)
+	ListTopicResults(ctx context.Context) ([]TopicResult, error)
+	ListTopics(ctx context.Context) ([]Topic, error)
+	ListUserInfos(ctx context.Context) ([]UserInfo, error)
+	ListUsers(ctx context.Context) ([]User, error)
 }
 
 var _ Querier = (*Queries)(nil)

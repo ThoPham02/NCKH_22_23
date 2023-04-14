@@ -2,6 +2,7 @@ CREATE TABLE "user" (
   "id" INT PRIMARY KEY,
   "name" VARCHAR(255) NOT NULL,
   "hash_password" VARCHAR(255) NOT NULL,
+  "email" VARCHAR(255) NOT NULL,
   "type_account" INT NOT NULL
 );
 
@@ -21,10 +22,11 @@ CREATE TABLE "library" (
 CREATE TABLE "user_info" (
   "id" INT PRIMARY KEY,
   "user_id" INT NOT NULL,
-  "name" NVARCHAR(255) NOT NULL,
+  "name" VARCHAR(255) NOT NULL,
   "email" VARCHAR(255) NOT NULL,
   "phone" VARCHAR(20) NOT NULL,
   "faculty_id" INT NOT NULL,
+  "degree" INT NOT NULL,
   "year_start" INT NOT NULL,
   "avata_url" VARCHAR(255),
   "birthday" VARCHAR(255),
@@ -33,18 +35,18 @@ CREATE TABLE "user_info" (
 
 CREATE TABLE "department" (
   "id" INT PRIMARY KEY,
-  "name" NVARCHAR(255) NOT NULL,
+  "name" VARCHAR(255) NOT NULL,
   "faculty_id" INT NOT NULL
 );
 
 CREATE TABLE "faculty" (
   "id" INT PRIMARY KEY,
-  "name" NVARCHAR(255) NOT NULL
+  "name" VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE "topic_registration" (
   "id" INT PRIMARY KEY,
-  "name" NVARCHAR(255) NOT NULL,
+  "name" VARCHAR(255) NOT NULL,
   "lecture_id" INT NOT NULL,
   "faculty_id" INT NOT NULL,
   "status" INT,
@@ -94,6 +96,7 @@ CREATE TABLE "group_supervisor" (
 CREATE TABLE "topic_result" (
   "id" INT PRIMARY KEY,
   "score" float NOT NULL DEFAULT 0,
+  "comment" VARCHAR(255) NOT NULL,
   "topic_id" INT NOT NULL,
   "supervisor_id" INT NOT NULL
 );

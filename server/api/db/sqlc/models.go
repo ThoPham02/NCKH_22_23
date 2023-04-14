@@ -9,127 +9,105 @@ import (
 	"time"
 )
 
-type AcceptanceBoard struct {
-	ID        int64          `json:"id"`
-	Name      sql.NullString `json:"name"`
-	Chairman  int64          `json:"chairman"`
-	Reviewer1 int64          `json:"reviewer1"`
-	Reviewer2 sql.NullInt64  `json:"reviewer2"`
-	Secretary sql.NullInt64  `json:"secretary"`
-}
-
-type AcceptanceReport struct {
-	ID                int64          `json:"id"`
-	AcceptanceBoardID int64          `json:"acceptance_board_id"`
-	TopicID           int64          `json:"topic_id"`
-	TotalScore        float64        `json:"total_score"`
-	Comment           sql.NullString `json:"comment"`
-	ReportUrl         sql.NullString `json:"report_url"`
+type Conference struct {
+	ID          int32          `json:"id"`
+	Name        string         `json:"name"`
+	CashSupport sql.NullInt32  `json:"cash_support"`
+	SchoolYear  sql.NullString `json:"school_year"`
 }
 
 type Department struct {
-	ID         int64  `json:"id"`
-	Name       string `json:"name"`
-	FaculityID int64  `json:"faculity_id"`
+	ID        int32  `json:"id"`
+	Name      string `json:"name"`
+	FacultyID int32  `json:"faculty_id"`
 }
 
-type Exam struct {
-	ID            int64          `json:"id"`
-	Name          string         `json:"name"`
-	Year          int32          `json:"year"`
-	EstimatedCost sql.NullString `json:"estimated_cost"`
-}
-
-type Faculity struct {
-	ID   int64  `json:"id"`
+type Faculty struct {
+	ID   int32  `json:"id"`
 	Name string `json:"name"`
 }
 
-type GroupDetail struct {
-	ID         int64 `json:"id"`
-	NumStudent int32 `json:"num_student"`
+type Group struct {
+	ID           int32  `json:"id"`
+	Name         string `json:"name"`
+	ConferenceID int32  `json:"conference_id"`
+	FacultyID    int32  `json:"faculty_id"`
 }
 
-type GroupStudent struct {
-	ID        int64 `json:"id"`
-	GroupID   int64 `json:"group_id"`
-	StudentID int64 `json:"student_id"`
+type GroupSupervisor struct {
+	ID            int32 `json:"id"`
+	SupervisorID  int32 `json:"supervisor_id"`
+	Role          int32 `json:"role"`
+	GroupReportID int32 `json:"group_report_id"`
 }
 
 type Library struct {
-	ID   int64          `json:"id"`
+	ID      int32          `json:"id"`
+	Name    string         `json:"name"`
+	Url     sql.NullString `json:"url"`
+	OwnerID int32          `json:"owner_id"`
+}
+
+type Notification struct {
+	ID   int32          `json:"id"`
 	Name string         `json:"name"`
 	Url  sql.NullString `json:"url"`
 }
 
-type Notification struct {
-	ID         int64         `json:"id"`
-	Name       string        `json:"name"`
-	Content    string        `json:"content"`
-	FromUserID int64         `json:"from_user_id"`
-	ToUserID   sql.NullInt64 `json:"to_user_id"`
-	CreatedAt  time.Time     `json:"created_at"`
-}
-
-type Status struct {
-	ID   int64  `json:"id"`
-	Name string `json:"name"`
+type StudentTopic struct {
+	ID        int32 `json:"id"`
+	StudentID int32 `json:"student_id"`
+	TopicID   int32 `json:"topic_id"`
 }
 
 type Topic struct {
-	ID                int64          `json:"id"`
-	Name              string         `json:"name"`
-	Description       string         `json:"description"`
-	DescriptionUrl    sql.NullString `json:"description_url"`
-	LectureID         int64          `json:"lecture_id"`
-	GroupID           int64          `json:"group_id"`
-	DepartmentID      int64          `json:"department_id"`
-	StatusID          int64          `json:"status_id"`
-	ExamID            int64          `json:"exam_id"`
-	TopicReportID     sql.NullInt64  `json:"topic_report_id"`
-	AcceptanceBoardID sql.NullInt64  `json:"acceptance_board_id"`
-	TimeStart         time.Time      `json:"time_start"`
-	TimeEnd           sql.NullTime   `json:"time_end"`
+	ID           int32          `json:"id"`
+	Name         string         `json:"name"`
+	LectureID    int32          `json:"lecture_id"`
+	FacultyID    int32          `json:"faculty_id"`
+	Status       int32          `json:"status"`
+	ResultUrl    sql.NullString `json:"result_url"`
+	ConferenceID int32          `json:"conference_id"`
+	GroupID      sql.NullInt32  `json:"group_id"`
+	TimeStart    time.Time      `json:"time_start"`
+	TimeEnd      time.Time      `json:"time_end"`
 }
 
 type TopicRegistration struct {
-	ID             int64          `json:"id"`
-	Name           string         `json:"name"`
-	Description    string         `json:"description"`
-	DescriptionUrl sql.NullString `json:"description_url"`
-	LectureID      int64          `json:"lecture_id"`
-	FaculityID     sql.NullInt64  `json:"faculity_id"`
-	CreatedAt      sql.NullTime   `json:"created_at"`
+	ID        int32         `json:"id"`
+	Name      string        `json:"name"`
+	LectureID int32         `json:"lecture_id"`
+	FacultyID int32         `json:"faculty_id"`
+	Status    sql.NullInt32 `json:"status"`
+	CreatedAt time.Time     `json:"created_at"`
 }
 
-type TopicReport struct {
-	ID             int64          `json:"id"`
-	SummaryContent string         `json:"summary_content"`
-	ContentUrl     sql.NullString `json:"content_url"`
-}
-
-type TypeAccount struct {
-	ID   int64          `json:"id"`
-	Name sql.NullString `json:"name"`
+type TopicResult struct {
+	ID           int32   `json:"id"`
+	Score        float64 `json:"score"`
+	Comment      string  `json:"comment"`
+	TopicID      int32   `json:"topic_id"`
+	SupervisorID int32   `json:"supervisor_id"`
 }
 
 type User struct {
-	ID            int64  `json:"id"`
-	Name          string `json:"name"`
-	HashPassword  string `json:"hash_password"`
-	TypeAccountID int64  `json:"type_account_id"`
-	Email         string `json:"email"`
+	ID           int32  `json:"id"`
+	Name         string `json:"name"`
+	HashPassword string `json:"hash_password"`
+	Email        string `json:"email"`
+	TypeAccount  int32  `json:"type_account"`
 }
 
 type UserInfo struct {
-	UserID      int64          `json:"user_id"`
+	ID          int32          `json:"id"`
+	UserID      int32          `json:"user_id"`
 	Name        string         `json:"name"`
-	Description sql.NullString `json:"description"`
+	Email       string         `json:"email"`
+	Phone       string         `json:"phone"`
+	FacultyID   int32          `json:"faculty_id"`
+	Degree      int32          `json:"degree"`
+	YearStart   int32          `json:"year_start"`
 	AvataUrl    sql.NullString `json:"avata_url"`
-	Birthday    sql.NullTime   `json:"birthday"`
-	FaculityID  int64          `json:"faculity_id"`
-	YearStart   int64          `json:"year_start"`
+	Birthday    sql.NullString `json:"birthday"`
 	BankAccount sql.NullString `json:"bank_account"`
-	Phone       sql.NullString `json:"phone"`
-	Sex         sql.NullInt64  `json:"sex"`
 }
