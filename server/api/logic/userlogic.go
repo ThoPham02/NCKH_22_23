@@ -49,9 +49,9 @@ func (l *Logic) Login(req *types.UserLoginRequest) (*types.UserLoginResponse, er
 
 	return &types.UserLoginResponse{
 		AccessToken:      accessToken,
-		AccessExpiredAt:  currency.Add(l.svcCtx.Config.AccessTokenDuration),
+		AccessExpiredAt:  currency.Add(l.svcCtx.Config.AccessTokenDuration).String(),
 		RefreshToken:     refreshToken,
-		RefreshExpiredAt: currency.Add(l.svcCtx.Config.RefreshTokenDuration),
+		RefreshExpiredAt: currency.Add(l.svcCtx.Config.RefreshTokenDuration).String(),
 		User: types.User{
 			Name:        user.Name,
 			Email:       user.Email,
@@ -112,142 +112,79 @@ func (l *Logic) Register(req *types.UserRegisterRequest) error {
 	return nil
 }
 
-func (l *Logic) UpdateUserInfo(userID int64, req *types.UserInfoResponse) error {
+func (l *Logic) UpdateUserInfo(userID int64, req *types.UpdateUserInfoRequest) (*types.UpdateUserInfoResponse, error) {
 	l.logHelper.Infof("Start processing update user info, input: %d, %v", userID, req)
 
-	description := sql.NullString{
-		Valid:  req.Description != nil,
-		String: getString(req.Description),
-	}
-	avataUrl := sql.NullString{
-		Valid:  req.AvatarUrl != nil,
-		String: getString(req.AvatarUrl),
-	}
-	birthday := sql.NullTime{
-		Valid: req.Birthday != nil,
-		Time:  getTime(req.Birthday),
-	}
-	bankAccount := sql.NullString{
-		Valid:  req.BankAccount != nil,
-		String: getString(req.BankAccount),
-	}
-	phone := sql.NullString{
-		Valid:  req.Phone != nil,
-		String: getString(req.Phone),
-	}
-	sex := sql.NullInt64{
-		Valid: req.Sex != nil,
-		Int64: getInt64(req.Sex),
+	var err error
+	var birthday *time.Time
+
+	if req.Birthday != nil {
+		birthday, err = utils.ConvertStringToTime(*req.Birthday)
+		if err != nil {
+			l.logHelper.Error(err)
+			return nil, err
+		}
 	}
 
-	_, err := l.svcCtx.Store.GetUserInfo(l.ctx, userID)
+	_, err = l.svcCtx.Store.GetUserInfo(l.ctx, userID)
 	if err == sql.ErrNoRows {
 		err = l.svcCtx.Store.CreateUserInfo(l.ctx, db.CreateUserInfoParams{
 			UserID:      userID,
 			Name:        req.Name,
-			Description: description,
-			AvataUrl:    avataUrl,
+			Description: utils.GetString(req.Description),
+			AvataUrl:    utils.GetString(req.AvatarUrl),
 			FaculityID:  req.FaculityID,
 			YearStart:   req.YearStart,
-			Birthday:    birthday,
-			BankAccount: bankAccount,
-			Phone:       phone,
-			Sex:         sex,
+			Birthday:    utils.GetTime(birthday),
+			BankAccount: utils.GetString(req.BankAccount),
+			Phone:       utils.GetString(req.Phone),
+			Sex:         utils.GetInt64(req.Sex),
 		})
 	}
 	if err != nil {
 		l.logHelper.Errorf("Failed while creating user info, error: %v", err)
-		return err
+		return nil, err
 	}
 
 	if err = l.svcCtx.Store.UpdateUserInfo(l.ctx, db.UpdateUserInfoParams{
 		UserID:      userID,
 		Name:        req.Name,
-		Description: description,
-		AvataUrl:    avataUrl,
+		Description: utils.GetString(req.Description),
+		AvataUrl:    utils.GetString(req.AvatarUrl),
 		FaculityID:  req.FaculityID,
 		YearStart:   req.YearStart,
-		Birthday:    birthday,
-		BankAccount: bankAccount,
-		Phone:       phone,
-		Sex:         sex,
+		Birthday:    utils.GetTime(birthday),
+		BankAccount: utils.GetString(req.BankAccount),
+		Phone:       utils.GetString(req.Phone),
+		Sex:         utils.GetInt64(req.Sex),
 	}); err != nil {
 		l.logHelper.Errorf("Failed while update user info: %v", err)
-		return err
+		return nil, err
 	}
-
-	return nil
+	return &types.UpdateUserInfoResponse{}, nil
 }
 
-func getString(input *string) string {
-	if input == nil {
-		return ""
-	}
-	return *input
-}
-
-func getInt64(input *int64) int64 {
-	if input == nil {
-		return 0
-	}
-	return *input
-}
-
-func getTime(input *time.Time) time.Time {
-	if input == nil {
-		return time.Now()
-	}
-	return *input
-}
-
-func (l *Logic) GetUserInfo(userID int64) (*types.UserInfoResponse, error) {
+func (l *Logic) GetUserInfo(userID int64) (*types.GetUserInfoResponse, error) {
 	l.logHelper.Infof("Start processing get user info, input: %d", userID)
 
 	userInfo, err := l.svcCtx.Store.GetUserInfo(l.ctx, userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return &types.UserInfoResponse{}, nil
+			return &types.GetUserInfoResponse{}, nil
 		}
 		l.logHelper.Errorf("Failed to get user info: %s", err.Error())
 		return nil, err
 	}
 
-	var (
-		description *string
-		avataUrl    *string
-		birthday    *time.Time
-		bankAccount *string
-		phone       *string
-		sex         *int64
-	)
-	if userInfo.Description.Valid {
-		description = &userInfo.Description.String
-	}
-	if userInfo.Birthday.Valid {
-		birthday = &userInfo.Birthday.Time
-	}
-	if userInfo.AvataUrl.Valid {
-		avataUrl = &userInfo.AvataUrl.String
-	}
-	if userInfo.BankAccount.Valid {
-		bankAccount = &userInfo.BankAccount.String
-	}
-	if userInfo.Phone.Valid {
-		phone = &userInfo.Phone.String
-	}
-	if userInfo.Sex.Valid {
-		sex = &userInfo.Sex.Int64
-	}
-
-	return &types.UserInfoResponse{
+	return &types.GetUserInfoResponse{
 		Name:        userInfo.Name,
-		Description: description,
-		AvatarUrl:   avataUrl,
-		Birthday:    birthday,
+		Description: userInfo.Description.String,
+		AvatarUrl:   userInfo.AvataUrl.String,
+		Birthday:    userInfo.Birthday.Time.String(),
 		FaculityID:  userInfo.FaculityID,
 		YearStart:   userInfo.YearStart,
-		BankAccount: bankAccount,
-		Phone:       phone,
-		Sex:         sex,
+		BankAccount: userInfo.BankAccount.String,
+		Phone:       userInfo.Phone.String,
+		Sex:         userInfo.Sex.Int64,
 	}, nil
 }

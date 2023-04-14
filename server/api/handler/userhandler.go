@@ -77,7 +77,7 @@ func UpdateUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
-		req := &types.UserInfoResponse{}
+		req := &types.UpdateUserInfoRequest{}
 		err := http_request.BindBodyJson(c, req)
 		if err != nil {
 			logHelper.Errorf("Failed while parse user info response: %v", err)
@@ -85,14 +85,14 @@ func UpdateUserInfoHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		payload := c.Value(constant.PayloadKey).(*token.Payload)
-		err = logic.UpdateUserInfo(payload.UserID, req)
+		payload := token.GetPayload(c)
+		data, err := logic.UpdateUserInfo(payload.UserID, req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
 		}
 
-		http_response.ResponseJSON(c, http.StatusOK, nil)
+		http_response.ResponseJSON(c, http.StatusOK, data)
 	}
 }
 
