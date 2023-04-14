@@ -34,10 +34,22 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetListTopicRegistationR
 	}
 
 	if req.FaculityID != 0 {
-		data = utils.FilterByField(data, "FaculityID", req.FaculityID).([]db.TopicRegistration)
+		filterData := make([]db.TopicRegistration, 0)
+		for _, tmp := range data {
+			if tmp.FaculityID.Valid && tmp.FaculityID.Int64 == req.FaculityID {
+				filterData = append(filterData, tmp)
+			}
+			data = filterData
+		}
 	}
 	if req.LectureID != 0 {
-		data = utils.FilterByField(data, "LectureID", req.FaculityID).([]db.TopicRegistration)
+		filterData := make([]db.TopicRegistration, 0)
+		for _, tmp := range data {
+			if tmp.LectureID == req.LectureID {
+				filterData = append(filterData, tmp)
+			}
+			data = filterData
+		}
 	}
 
 	total := len(data)

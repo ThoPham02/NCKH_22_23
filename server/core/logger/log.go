@@ -3,6 +3,7 @@ package logger
 import (
 	"context"
 	"fmt"
+	"github/ThoPham02/research_management/api/constant"
 	"os"
 	"time"
 
@@ -11,14 +12,14 @@ import (
 
 func Trace() log.Valuer {
 	return func(ctx context.Context) interface{} {
-		s := ctx.Value("trace-id").(string)
+		s := ctx.Value(constant.TraceIDKey).(string)
 		return s
 	}
 }
 
 func NewContextLog(ctx context.Context) *log.Helper {
 	logger := log.With(log.NewStdLogger(os.Stdout),
-		"trace-id", Trace(),
+		constant.TraceIDKey, Trace(),
 	)
 	logger = log.With(logger, "ts", log.DefaultTimestamp, "caller", log.DefaultCaller)
 	return log.NewHelper(logger).WithContext(ctx)

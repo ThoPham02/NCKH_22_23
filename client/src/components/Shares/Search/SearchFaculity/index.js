@@ -24,9 +24,8 @@ const SearchFaculity = ({ setSearchFaculity }) => {
   return (
     <Form.Select onChange={handleSearchFaculity}>
       <option value="0">Tất cả các khoa</option>
-      {listFaculties.map((faculity) => {
-        console.log(faculity)
-        return <option value={faculity.id}>{faculity.name}</option>;
+      {listFaculties.map((faculity, index) => {
+        return <option value={faculity.id} key={index}>{faculity.name}</option>;
       })}
     </Form.Select>
   );

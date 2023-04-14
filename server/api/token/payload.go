@@ -1,8 +1,10 @@
 package token
 
 import (
+	"github/ThoPham02/research_management/api/constant"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 )
 
@@ -29,4 +31,10 @@ func NewPayload(userID int64, accountType int64, daration time.Duration) (*Paylo
 	}
 
 	return payload, nil
+}
+
+func GetPayload(c *gin.Context) *Payload {
+	payload := c.Value(constant.PayloadKey).(*Payload)
+
+	return payload
 }
