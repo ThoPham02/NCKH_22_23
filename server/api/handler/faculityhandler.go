@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"github/ThoPham02/research_management/api/constant"
 	"github/ThoPham02/research_management/api/logic"
 	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/types"
@@ -15,7 +16,7 @@ import (
 
 func GetFaculityByIDHandler(svc *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("get-faculity-by-id"))
+		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("get-faculity-by-id"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svc, logHelper)
 
@@ -37,7 +38,7 @@ func GetFaculityByIDHandler(svc *service.ServiceContext) gin.HandlerFunc {
 
 func GetListFaculityHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("get-list-faclity"))
+		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("get-list-faclity"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
