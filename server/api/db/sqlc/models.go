@@ -56,6 +56,12 @@ type GroupStudent struct {
 	StudentID int64 `json:"student_id"`
 }
 
+type Library struct {
+	ID   int64          `json:"id"`
+	Name string         `json:"name"`
+	Url  sql.NullString `json:"url"`
+}
+
 type Notification struct {
 	ID         int64         `json:"id"`
 	Name       string        `json:"name"`
