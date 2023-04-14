@@ -2,6 +2,7 @@ package handler
 
 import (
 	"context"
+	"github/ThoPham02/research_management/api/constant"
 	"github/ThoPham02/research_management/api/logic"
 	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/types"
@@ -15,7 +16,7 @@ import (
 
 func GetListTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("get-list-topic-registation"))
+		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("get-list-topic-registation"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
@@ -37,7 +38,7 @@ func GetListTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerF
 
 func GetTopicRegistaionByIDHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("get-topic-registation-by-id"))
+		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("get-topic-registation-by-id"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
@@ -59,7 +60,7 @@ func GetTopicRegistaionByIDHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 
 func CreateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("create-topic-registation"))
+		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("create-topic-registation"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
@@ -81,7 +82,7 @@ func CreateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 
 func UpdateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), "trace-id", logger.GenerateTraceID("update-topic-registation"))
+		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("update-topic-registation"))
 		logHelper := logger.NewContextLog(ctx)
 		logic := logic.NewLogic(ctx, svcCtx, logHelper)
 
