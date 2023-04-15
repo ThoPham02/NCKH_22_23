@@ -13,8 +13,3 @@ func ValidateEmail(email string) bool {
 
 	return true
 }
-
-type User struct {
-	Email string `json:"email", required:"true"`
-}
-

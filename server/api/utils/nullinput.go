@@ -17,15 +17,15 @@ func GetString(input *string) sql.NullString {
 	}
 }
 
-func GetInt64(input *int64) sql.NullInt64 {
+func GetInt32(input *int32) sql.NullInt32 {
 	if input == nil {
-		return sql.NullInt64{
+		return sql.NullInt32{
 			Valid: false,
 		}
 	}
-	return sql.NullInt64{
+	return sql.NullInt32{
 		Valid: input != nil,
-		Int64: *input,
+		Int32: *input,
 	}
 }
 

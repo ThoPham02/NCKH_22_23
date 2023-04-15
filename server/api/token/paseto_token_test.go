@@ -26,7 +26,7 @@ func TestCreatePaseto(t *testing.T) {
 	require.NoError(t, err)
 
 	require.Equal(t, userID, payload.UserID)
-	require.Equal(t, accountType, payload.AccountType)
+	require.Equal(t, accountType, payload.TypeAccount)
 	require.WithinDuration(t, issuedAt, payload.IssuedAt, time.Second)
 	require.WithinDuration(t, expiredAt, payload.ExpiredAt, time.Second)
 

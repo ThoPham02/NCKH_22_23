@@ -10,105 +10,214 @@ import (
 	"database/sql"
 )
 
-const createUserInfo = `-- name: CreateUserInfo :exec
+const createUserInfo = `-- name: CreateUserInfo :one
 INSERT INTO "user_info" (
-  user_id, name, description, avata_url, birthday, faculity_id, year_start, bank_account, phone, sex
+  "id", "user_id", "name", "email", "phone", "faculty_id", "degree", "year_start", "avata_url", "birthday", "bank_account"
 ) VALUES (
-  $1, $2, $3, $4, $5, $6, $7, $8, $9, $10
+  $1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11
 )
+RETURNING id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account
 `
 
 type CreateUserInfoParams struct {
-	UserID      int64          `json:"user_id"`
+	ID          int32          `json:"id"`
+	UserID      int32          `json:"user_id"`
 	Name        string         `json:"name"`
-	Description sql.NullString `json:"description"`
+	Email       string         `json:"email"`
+	Phone       string         `json:"phone"`
+	FacultyID   int32          `json:"faculty_id"`
+	Degree      int32          `json:"degree"`
+	YearStart   int32          `json:"year_start"`
 	AvataUrl    sql.NullString `json:"avata_url"`
-	Birthday    sql.NullTime   `json:"birthday"`
-	FaculityID  int64          `json:"faculity_id"`
-	YearStart   int64          `json:"year_start"`
+	Birthday    sql.NullString `json:"birthday"`
 	BankAccount sql.NullString `json:"bank_account"`
-	Phone       sql.NullString `json:"phone"`
-	Sex         sql.NullInt64  `json:"sex"`
 }
 
-func (q *Queries) CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) error {
-	_, err := q.db.ExecContext(ctx, createUserInfo,
+func (q *Queries) CreateUserInfo(ctx context.Context, arg CreateUserInfoParams) (UserInfo, error) {
+	row := q.db.QueryRowContext(ctx, createUserInfo,
+		arg.ID,
 		arg.UserID,
 		arg.Name,
-		arg.Description,
+		arg.Email,
+		arg.Phone,
+		arg.FacultyID,
+		arg.Degree,
+		arg.YearStart,
 		arg.AvataUrl,
 		arg.Birthday,
-		arg.FaculityID,
-		arg.YearStart,
 		arg.BankAccount,
-		arg.Phone,
-		arg.Sex,
 	)
+	var i UserInfo
+	err := row.Scan(
+		&i.ID,
+		&i.UserID,
+		&i.Name,
+		&i.Email,
+		&i.Phone,
+		&i.FacultyID,
+		&i.Degree,
+		&i.YearStart,
+		&i.AvataUrl,
+		&i.Birthday,
+		&i.BankAccount,
+	)
+	return i, err
+}
+
+const deleteUserInfo = `-- name: DeleteUserInfo :exec
+DELETE FROM "user_info"
+WHERE id = $1
+`
+
+func (q *Queries) DeleteUserInfo(ctx context.Context, id int32) error {
+	_, err := q.db.ExecContext(ctx, deleteUserInfo, id)
 	return err
 }
 
 const getUserInfo = `-- name: GetUserInfo :one
-SELECT user_id, name, description, avata_url, birthday, faculity_id, year_start, bank_account, phone, sex FROM "user_info"
-WHERE user_id = $1 LIMIT 1
+SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
+WHERE "user_id" = $1 LIMIT 1
 `
 
-func (q *Queries) GetUserInfo(ctx context.Context, userID int64) (UserInfo, error) {
+func (q *Queries) GetUserInfo(ctx context.Context, userID int32) (UserInfo, error) {
 	row := q.db.QueryRowContext(ctx, getUserInfo, userID)
 	var i UserInfo
 	err := row.Scan(
+		&i.ID,
 		&i.UserID,
 		&i.Name,
-		&i.Description,
+		&i.Email,
+		&i.Phone,
+		&i.FacultyID,
+		&i.Degree,
+		&i.YearStart,
 		&i.AvataUrl,
 		&i.Birthday,
-		&i.FaculityID,
-		&i.YearStart,
 		&i.BankAccount,
-		&i.Phone,
-		&i.Sex,
 	)
 	return i, err
+}
+
+const listUserInfos = `-- name: ListUserInfos :many
+SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
+ORDER BY "name"
+`
+
+func (q *Queries) ListUserInfos(ctx context.Context) ([]UserInfo, error) {
+	rows, err := q.db.QueryContext(ctx, listUserInfos)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []UserInfo{}
+	for rows.Next() {
+		var i UserInfo
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.Name,
+			&i.Email,
+			&i.Phone,
+			&i.FacultyID,
+			&i.Degree,
+			&i.YearStart,
+			&i.AvataUrl,
+			&i.Birthday,
+			&i.BankAccount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
+const listUserInfosByType = `-- name: ListUserInfosByType :many
+SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
+WHERE user_id in (SELECT id FROM "user" WHERE "type_account" = $1)
+ORDER BY "name"
+`
+
+func (q *Queries) ListUserInfosByType(ctx context.Context, typeAccount int32) ([]UserInfo, error) {
+	rows, err := q.db.QueryContext(ctx, listUserInfosByType, typeAccount)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []UserInfo{}
+	for rows.Next() {
+		var i UserInfo
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.Name,
+			&i.Email,
+			&i.Phone,
+			&i.FacultyID,
+			&i.Degree,
+			&i.YearStart,
+			&i.AvataUrl,
+			&i.Birthday,
+			&i.BankAccount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
 }
 
 const updateUserInfo = `-- name: UpdateUserInfo :exec
 UPDATE "user_info"
   set name = $2,
-  description = $3,
-  avata_url = $4,
-  birthday = $5,
-  faculity_id = $6,
+  email = $3,
+  phone = $4,
+  faculty_id = $5,
+  degree = $6,
   year_start = $7,
-  bank_account = $8,
-  phone = $9,
-  sex = $10
-WHERE user_id = $1
+  avata_url = $8,
+  birthday = $9,
+  bank_account = $10
+WHERE "user_id" = $1
 `
 
 type UpdateUserInfoParams struct {
-	UserID      int64          `json:"user_id"`
+	UserID      int32          `json:"user_id"`
 	Name        string         `json:"name"`
-	Description sql.NullString `json:"description"`
+	Email       string         `json:"email"`
+	Phone       string         `json:"phone"`
+	FacultyID   int32          `json:"faculty_id"`
+	Degree      int32          `json:"degree"`
+	YearStart   int32          `json:"year_start"`
 	AvataUrl    sql.NullString `json:"avata_url"`
-	Birthday    sql.NullTime   `json:"birthday"`
-	FaculityID  int64          `json:"faculity_id"`
-	YearStart   int64          `json:"year_start"`
+	Birthday    sql.NullString `json:"birthday"`
 	BankAccount sql.NullString `json:"bank_account"`
-	Phone       sql.NullString `json:"phone"`
-	Sex         sql.NullInt64  `json:"sex"`
 }
 
 func (q *Queries) UpdateUserInfo(ctx context.Context, arg UpdateUserInfoParams) error {
 	_, err := q.db.ExecContext(ctx, updateUserInfo,
 		arg.UserID,
 		arg.Name,
-		arg.Description,
+		arg.Email,
+		arg.Phone,
+		arg.FacultyID,
+		arg.Degree,
+		arg.YearStart,
 		arg.AvataUrl,
 		arg.Birthday,
-		arg.FaculityID,
-		arg.YearStart,
 		arg.BankAccount,
-		arg.Phone,
-		arg.Sex,
 	)
 	return err
 }

@@ -1,11 +1,25 @@
--- name: GetDepartmentByID :one
+-- name: GetDepartment :one
 SELECT * FROM "department"
 WHERE id = $1 LIMIT 1;
 
-
--- name: GetListDepartment :many
-SELECT * FROM "department";
-
--- name: GetListDepartmentByFaculity :many
+-- name: ListDepartments :many
 SELECT * FROM "department"
-WHERE faculity_id = $1;
+ORDER BY "type_account";
+
+-- name: CreateDepartment :one
+INSERT INTO "department" (
+  "id", "name", "faculty_id"
+) VALUES (
+  $1, $2, $3
+)
+RETURNING *;
+
+-- name: DeleteDepartment :exec
+DELETE FROM "department"
+WHERE id = $1;
+
+-- name: UpdateDepartment :exec
+UPDATE "department"
+  set name = $2,
+  faculty_id = $3
+WHERE "id" = $1;

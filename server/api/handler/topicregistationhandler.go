@@ -1,14 +1,10 @@
 package handler
 
 import (
-	"context"
-	"github/ThoPham02/research_management/api/constant"
-	"github/ThoPham02/research_management/api/logic"
 	"github/ThoPham02/research_management/api/service"
 	"github/ThoPham02/research_management/api/types"
 	"github/ThoPham02/research_management/core/http_request"
 	"github/ThoPham02/research_management/core/http_response"
-	"github/ThoPham02/research_management/core/logger"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,11 +12,9 @@ import (
 
 func GetListTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("get-list-topic-registation"))
-		logHelper := logger.NewContextLog(ctx)
-		logic := logic.NewLogic(ctx, svcCtx, logHelper)
+		logic := InitLogic(svcCtx, c, "get-list-topic-registation")
 
-		req := types.GetListTopicRegistationRequest{}
+		req := types.GetTopicRegistrationsRequest{}
 		err := http_request.BindQueryString(c, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusBadRequest, nil)
@@ -38,18 +32,22 @@ func GetListTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerF
 
 func GetTopicRegistaionByIDHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("get-topic-registation-by-id"))
-		logHelper := logger.NewContextLog(ctx)
-		logic := logic.NewLogic(ctx, svcCtx, logHelper)
+		logic := InitLogic(svcCtx, c, "get-topic-regist-by-id")
 
-		req := types.GetTopicRegistationByIDRequest{}
+		req := types.GetTopicRegistrationByIdRequest{}
 		err := http_request.BindUri(c, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusBadRequest, err)
 			return
 		}
 
-		res, err := logic.GetTopicRegistationByIdLogic(&req)
+		id, err := GetUriID(c)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusBadRequest, err)
+			return
+		}
+
+		res, err := logic.GetTopicRegistationByIdLogic(id, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
@@ -60,18 +58,16 @@ func GetTopicRegistaionByIDHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 
 func CreateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("create-topic-registation"))
-		logHelper := logger.NewContextLog(ctx)
-		logic := logic.NewLogic(ctx, svcCtx, logHelper)
+		logic := InitLogic(svcCtx, c, "create-topic-regis")
 
-		var req types.CreateTopicRegistationRequest
+		req := types.CreateTopicRegistrationRequest{}
 		err := http_request.BindBodyJson(c, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusBadRequest, err)
 			return
 		}
 
-		res, err := logic.CreateTopicRegistation(&req)
+		res, err := logic.CreateTopicRegistationLogic(&req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
@@ -82,18 +78,22 @@ func CreateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 
 func UpdateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		ctx := context.WithValue(c.Request.Context(), constant.TraceIDKey, logger.GenerateTraceID("update-topic-registation"))
-		logHelper := logger.NewContextLog(ctx)
-		logic := logic.NewLogic(ctx, svcCtx, logHelper)
+		logic := InitLogic(svcCtx, c, "update-topic-regis")
 
-		var req types.UpdateTopicRegistationRequest
+		var req types.UpdateTopicRegistrationRequest
 		err := http_request.BindBodyJson(c, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusBadRequest, err)
 			return
 		}
 
-		res, err := logic.UpdateTopicRegistationLogic(&req)
+		id, err := GetUriID(c)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusBadRequest, err)
+			return
+		}
+
+		res, err := logic.UpdateTopicRegistationLogic(id, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
