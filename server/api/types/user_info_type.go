@@ -25,7 +25,6 @@ type (
 
 type (
 	UpdateUserInfoRequest struct {
-		UserID      int32   `json:"userID"`
 		Name        string  `json:"name"`
 		Email       string  `json:"email"`
 		Phone       string  `json:"phone"`
