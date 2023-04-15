@@ -49,7 +49,7 @@ CREATE TABLE "topic_registration" (
   "name" VARCHAR(255) NOT NULL,
   "lecture_id" INT NOT NULL,
   "faculty_id" INT NOT NULL,
-  "status" INT,
+  "status" INT NOT NULL,
   "created_at" timestamptz NOT NULL DEFAULT (now())
 );
 

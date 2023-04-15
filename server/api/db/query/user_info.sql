@@ -30,3 +30,8 @@ UPDATE "user_info"
   birthday = $9,
   bank_account = $10
 WHERE "user_id" = $1;
+
+-- name: ListUserInfosByType :many
+SELECT * FROM "user_info"
+WHERE user_id in (SELECT id FROM "user" WHERE "type_account" = $1)
+ORDER BY "name";

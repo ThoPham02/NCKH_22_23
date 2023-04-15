@@ -138,6 +138,47 @@ func (q *Queries) ListUserInfos(ctx context.Context) ([]UserInfo, error) {
 	return items, nil
 }
 
+const listUserInfosByType = `-- name: ListUserInfosByType :many
+SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
+WHERE user_id in (SELECT id FROM "user" WHERE "type_account" = $1)
+ORDER BY "name"
+`
+
+func (q *Queries) ListUserInfosByType(ctx context.Context, typeAccount int32) ([]UserInfo, error) {
+	rows, err := q.db.QueryContext(ctx, listUserInfosByType, typeAccount)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []UserInfo{}
+	for rows.Next() {
+		var i UserInfo
+		if err := rows.Scan(
+			&i.ID,
+			&i.UserID,
+			&i.Name,
+			&i.Email,
+			&i.Phone,
+			&i.FacultyID,
+			&i.Degree,
+			&i.YearStart,
+			&i.AvataUrl,
+			&i.Birthday,
+			&i.BankAccount,
+		); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const updateUserInfo = `-- name: UpdateUserInfo :exec
 UPDATE "user_info"
   set name = $2,

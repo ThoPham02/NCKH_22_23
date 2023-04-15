@@ -74,12 +74,12 @@ type Topic struct {
 }
 
 type TopicRegistration struct {
-	ID        int32         `json:"id"`
-	Name      string        `json:"name"`
-	LectureID int32         `json:"lecture_id"`
-	FacultyID int32         `json:"faculty_id"`
-	Status    sql.NullInt32 `json:"status"`
-	CreatedAt time.Time     `json:"created_at"`
+	ID        int32     `json:"id"`
+	Name      string    `json:"name"`
+	LectureID int32     `json:"lecture_id"`
+	FacultyID int32     `json:"faculty_id"`
+	Status    int32     `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 type TopicResult struct {

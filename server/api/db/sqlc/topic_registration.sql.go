@@ -7,7 +7,6 @@ package db
 
 import (
 	"context"
-	"database/sql"
 	"time"
 )
 
@@ -21,12 +20,12 @@ RETURNING id, name, lecture_id, faculty_id, status, created_at
 `
 
 type CreateTopicRegistrationParams struct {
-	ID        int32         `json:"id"`
-	Name      string        `json:"name"`
-	LectureID int32         `json:"lecture_id"`
-	FacultyID int32         `json:"faculty_id"`
-	Status    sql.NullInt32 `json:"status"`
-	CreatedAt time.Time     `json:"created_at"`
+	ID        int32     `json:"id"`
+	Name      string    `json:"name"`
+	LectureID int32     `json:"lecture_id"`
+	FacultyID int32     `json:"faculty_id"`
+	Status    int32     `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (q *Queries) CreateTopicRegistration(ctx context.Context, arg CreateTopicRegistrationParams) (TopicRegistration, error) {
@@ -81,11 +80,12 @@ func (q *Queries) GetTopicRegistration(ctx context.Context, id int32) (TopicRegi
 
 const listTopicRegistrations = `-- name: ListTopicRegistrations :many
 SELECT id, name, lecture_id, faculty_id, status, created_at FROM "topic_registration"
+WHERE name like $1 
 ORDER BY "name"
 `
 
-func (q *Queries) ListTopicRegistrations(ctx context.Context) ([]TopicRegistration, error) {
-	rows, err := q.db.QueryContext(ctx, listTopicRegistrations)
+func (q *Queries) ListTopicRegistrations(ctx context.Context, name string) ([]TopicRegistration, error) {
+	rows, err := q.db.QueryContext(ctx, listTopicRegistrations, name)
 	if err != nil {
 		return nil, err
 	}
@@ -125,12 +125,12 @@ WHERE "id" = $1
 `
 
 type UpdateTopicRegistrationParams struct {
-	ID        int32         `json:"id"`
-	Name      string        `json:"name"`
-	LectureID int32         `json:"lecture_id"`
-	FacultyID int32         `json:"faculty_id"`
-	Status    sql.NullInt32 `json:"status"`
-	CreatedAt time.Time     `json:"created_at"`
+	ID        int32     `json:"id"`
+	Name      string    `json:"name"`
+	LectureID int32     `json:"lecture_id"`
+	FacultyID int32     `json:"faculty_id"`
+	Status    int32     `json:"status"`
+	CreatedAt time.Time `json:"created_at"`
 }
 
 func (q *Queries) UpdateTopicRegistration(ctx context.Context, arg UpdateTopicRegistrationParams) error {

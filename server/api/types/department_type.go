@@ -1,6 +1,7 @@
 package types
 
 type Department struct {
+	ID        int32  `json:"id"`
 	Name      string `json:"name"`
 	FacultyID int32  `json:"facultyId"`
 }
@@ -17,7 +18,6 @@ type (
 
 type (
 	GetDepartmentByIDRequest struct {
-		DepartmentID int32 `uri:"DepartmentID"`
 	}
 	GetDepartmentByIDResponse struct {
 		Result     Result     `json:"result"`

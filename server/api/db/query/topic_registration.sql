@@ -4,6 +4,7 @@ WHERE id = $1 LIMIT 1;
 
 -- name: ListTopicRegistrations :many
 SELECT * FROM "topic_registration"
+WHERE name like $1 
 ORDER BY "name";
 
 -- name: CreateTopicRegistration :one

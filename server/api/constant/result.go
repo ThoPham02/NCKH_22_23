@@ -18,14 +18,19 @@ const (
 )
 
 const (
-	DEPARTMENT_NOT_FOUND_CODE    = 404
-	DEPARTMENT_NOT_FOUND_MESSAGE = "Department not found"
-)
-
-const (
 	USER_NOT_FOUND_CODE    = 10000
 	USER_NOT_FOUND_MESSAGE = "User not found"
 
 	WRONG_PASSWORD_CODE    = 10001
 	WRONG_PASSWORD_MESSAGE = "Wrong password"
+)
+
+const (
+	DEPARTMENT_NOT_FOUND_CODE    = 20000
+	DEPARTMENT_NOT_FOUND_MESSAGE = "Department not found"
+)
+
+const (
+	TOPIC_REGIS_NOT_FOUND_CODE    = 30000
+	TOPIC_REGIS_NOT_FOUND_MESSAGE = "Topic registration not found"
 )

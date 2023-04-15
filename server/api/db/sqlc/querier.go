@@ -57,10 +57,11 @@ type Querier interface {
 	ListLibrarys(ctx context.Context) ([]Library, error)
 	ListNotifications(ctx context.Context) ([]Notification, error)
 	ListStudentTopics(ctx context.Context) ([]StudentTopic, error)
-	ListTopicRegistrations(ctx context.Context) ([]TopicRegistration, error)
+	ListTopicRegistrations(ctx context.Context, name string) ([]TopicRegistration, error)
 	ListTopicResults(ctx context.Context) ([]TopicResult, error)
 	ListTopics(ctx context.Context) ([]Topic, error)
 	ListUserInfos(ctx context.Context) ([]UserInfo, error)
+	ListUserInfosByType(ctx context.Context, typeAccount int32) ([]UserInfo, error)
 	ListUsers(ctx context.Context) ([]User, error)
 	UpdateConference(ctx context.Context, arg UpdateConferenceParams) error
 	UpdateDepartment(ctx context.Context, arg UpdateDepartmentParams) error
