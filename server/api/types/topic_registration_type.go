@@ -9,15 +9,24 @@ type TopicRegistration struct {
 }
 
 type (
-	GetTopicRegistrationRequest struct {
+	GetTopicRegistrationsRequest struct {
 		Search    string `form:"search"`
 		LectureID int32  `form:"lectureId"`
 		FacultyID int32  `form:"facultyId"`
 		Status    int32  `form:"status"`
 	}
-	GetTopicRegistrationResponse struct {
+	GetTopicRegistrationsResponse struct {
 		Result             Result              `json:"result"`
 		TopicRegistrations []TopicRegistration `json:"topicRegistrations"`
+	}
+)
+
+type (
+	GetTopicRegistrationByIdRequest struct {
+	}
+	GetTopicRegistrationByIdResponse struct {
+		Result            Result            `json:"result"`
+		TopicRegistration TopicRegistration `json:"topicRegistration"`
 	}
 )
 

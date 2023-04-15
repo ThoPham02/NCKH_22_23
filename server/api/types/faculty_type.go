@@ -15,10 +15,9 @@ type (
 
 type (
 	GetFacultyByIDRequest struct {
-		FacultyID int32 `uri:"facultyID"`
 	}
 	GetFacultyByIDResponse struct {
 		Result  Result  `json:"result"`
-		Faculty Faculty `json:"Faculty"`
+		Faculty Faculty `json:"faculty"`
 	}
 )

@@ -1,48 +1,58 @@
 package logic
 
+import (
+	"database/sql"
+	"errors"
+	"github/ThoPham02/research_management/api/constant"
+	"github/ThoPham02/research_management/api/types"
+)
+
 // import (
 // 	"errors"
 // 	"github/ThoPham02/research_management/api/types"
 // )
 
-// func (l *Logic) GetFaculityByIDLogic(req *types.GetFaculityByIDRequest) (*types.GetFaculityByIDResponse, error) {
-// 	l.logHelper.Info(req)
-// 	if req == nil || req.ID <= 0 {
-// 		l.logHelper.Errorf("request invalid")
-// 		return nil, errors.New("request invalid")
-// 	}
-// 	l.logHelper.Infof("Start process get faculity by ID, id: %v", req.ID)
+func (l *Logic) GetFaculityByIDLogic(id int32, req *types.GetFacultyByIDRequest) (*types.GetFacultyByIDResponse, error) {
+	l.logHelper.Info(req)
 
-// 	faculity, err := l.svcCtx.Store.GetFaculityByID(l.ctx, req.ID)
-// 	if err != nil {
-// 		l.logHelper.Errorf("Failed while getting facility by id, err: %v", err)
-// 		return nil, err
-// 	}
+	var err error
 
-// 	return &types.GetFaculityByIDResponse{
-// 		ID:   faculity.ID,
-// 		Name: faculity.Name,
-// 	}, nil
-// }
+	if req == nil || id <= 0 {
+		err = errors.New("request invalid")
+		l.logHelper.Error(err)
+		return nil, err
+	}
 
-// func (l *Logic) GetListFaculityLogic() (*types.GetListFaculityResponse, error) {
-// 	l.logHelper.Infof("Start process get list facility")
-// 	data, err := l.svcCtx.Store.GetListFaculity(l.ctx)
-// 	if err != nil {
-// 		l.logHelper.Errorf("Failed while getting list facility, err: %v", err)
-// 		return nil, err
-// 	}
+	faculity, err := l.svcCtx.Store.GetFaculty(l.ctx, id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return &types.GetFacultyByIDResponse{
+				Result: types.Result{
+					Code:    constant.SUCCESS_CODE,
+					Message: constant.SUCCESS_MESSAGE,
+				},
+			}, nil
+		}
+		l.logHelper.Error(err)
+		return &types.GetFacultyByIDResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
 
-// 	var listFaulity []*types.Faculity
+	return &types.GetFacultyByIDResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		Faculty: types.Faculty{
+			Name: faculity.Name,
+		},
+	}, nil
+}
 
-// 	for _, tmp := range data {
-// 		listFaulity = append(listFaulity, &types.Faculity{
-// 			ID:   tmp.ID,
-// 			Name: tmp.Name,
-// 		})
-// 	}
-
-// 	return &types.GetListFaculityResponse{
-// 		ListFaculity: listFaulity,
-// 	}, nil
-// }
+func (l *Logic) GetListFaculityLogic(req *types.GetFacultysRequest) (resp *types.GetFacultysResponse, err error) {
+	return
+}

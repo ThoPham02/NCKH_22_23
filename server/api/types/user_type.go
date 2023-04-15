@@ -38,3 +38,14 @@ type (
 		Token  Token  `json:"token"`
 	}
 )
+
+type (
+	UserRefreshTokenRequest struct {
+		RefreshToken     string `json:"refreshToken"`
+		RefreshExpiresAt string `json:"refreshExpiresAt"`
+	}
+	UserRefreshTokenResponse struct {
+		Result Result `json:"result"`
+		Token  Token  `json:"token"`
+	}
+)
