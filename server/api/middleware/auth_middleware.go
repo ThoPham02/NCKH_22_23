@@ -46,7 +46,7 @@ func AdminAuthentication(svc *service.ServiceContext) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		payload := getPayload(ctx, svc)
 		if payload != nil {
-			if payload.AccountType != constant.AdminType {
+			if payload.TypeAccount != constant.AdminType {
 				err := errors.New("permission denied")
 				ctx.AbortWithStatusJSON(http.StatusUnauthorized, utils.ErrResponse(err))
 				return

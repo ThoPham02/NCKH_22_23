@@ -2,7 +2,6 @@ package logic
 
 import (
 	"database/sql"
-	"errors"
 	"github/ThoPham02/research_management/api/constant"
 	db "github/ThoPham02/research_management/api/db/sqlc"
 	"github/ThoPham02/research_management/api/token"
@@ -11,180 +10,279 @@ import (
 	"time"
 )
 
-func (l *Logic) Login(req *types.UserLoginRequest) (*types.UserLoginResponse, error) {
-	l.logHelper.Infof("Start login process, input: %v", req)
+func (l *Logic) UserLogin(req *types.UserLoginRequest) (resp *types.UserLoginResponse, err error) {
+	l.logHelper.Info("UserLogin", req)
 	user, err := l.svcCtx.Store.GetUserByName(l.ctx, req.Name)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, errors.New(constant.UserIsNotExistErrMsg)
+			return &types.UserLoginResponse{
+				Result: types.Result{
+					Code:    constant.USER_NOT_FOUND_CODE,
+					Message: constant.USER_NOT_FOUND_MESSAGE,
+				},
+			}, nil
 		}
-		l.logHelper.Errorf("failed to get user, error: %s", err.Error())
-		return nil, err
+		return &types.UserLoginResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
 	}
 
 	correctPassword := utils.ComparePassword(req.Password, user.HashPassword)
 	if !correctPassword {
-		return nil, errors.New(constant.WrongPasswordErrMsg)
+		return &types.UserLoginResponse{
+			Result: types.Result{
+				Code:    constant.USER_NOT_FOUND_CODE,
+				Message: constant.USER_NOT_FOUND_MESSAGE,
+			},
+		}, nil
 	}
 
 	tokenMaker, err := token.NewPasetoMaker(l.svcCtx.Config.TokenSemmetricKey)
 	if err != nil {
-		l.logHelper.Errorf("Failed while create token maker, error: %s", err.Error())
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UserLoginResponse{
+			Result: types.Result{
+				Code:    constant.TOKEN_ERR_CODE,
+				Message: constant.TOKEN_ERR_CODE_MESSAGE,
+			},
+		}, nil
 	}
 
-	accessToken, err := tokenMaker.CreateToken(user.ID, user.TypeAccountID, l.svcCtx.Config.AccessTokenDuration)
+	accessToken, err := tokenMaker.CreateToken(user.ID, user.TypeAccount, l.svcCtx.Config.AccessTokenDuration)
 	if err != nil {
-		l.logHelper.Errorf("Failed while create access token, error: %s", err.Error())
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UserLoginResponse{
+			Result: types.Result{
+				Code:    constant.TOKEN_ERR_CODE,
+				Message: constant.TOKEN_ERR_CODE_MESSAGE,
+			},
+		}, nil
 	}
 
-	refreshToken, err := tokenMaker.CreateToken(user.ID, user.TypeAccountID, l.svcCtx.Config.RefreshTokenDuration)
+	refreshToken, err := tokenMaker.CreateToken(user.ID, user.TypeAccount, l.svcCtx.Config.RefreshTokenDuration)
 	if err != nil {
-		l.logHelper.Errorf("Failed while create refresh token, error: %s", err.Error())
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UserLoginResponse{
+			Result: types.Result{
+				Code:    constant.TOKEN_ERR_CODE,
+				Message: constant.TOKEN_ERR_CODE_MESSAGE,
+			},
+		}, nil
 	}
 
 	currency := time.Now()
-
 	return &types.UserLoginResponse{
-		AccessToken:      accessToken,
-		AccessExpiredAt:  currency.Add(l.svcCtx.Config.AccessTokenDuration).String(),
-		RefreshToken:     refreshToken,
-		RefreshExpiredAt: currency.Add(l.svcCtx.Config.RefreshTokenDuration).String(),
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		Token: types.Token{
+			AccessToken:      accessToken,
+			AccessExpiresAt:  currency.Add(l.svcCtx.Config.AccessTokenDuration).String(),
+			RefreshToken:     refreshToken,
+			RefreshExpiresAt: currency.Add(l.svcCtx.Config.RefreshTokenDuration).String(),
+		},
 		User: types.User{
 			Name:        user.Name,
 			Email:       user.Email,
-			AccountType: user.TypeAccountID,
+			TypeAccount: user.TypeAccount,
 		},
 	}, nil
 }
 
-func (l *Logic) RefreshToken(req *types.RefreshTokenRequest) (*types.AccessTokenResponse, error) {
-	l.logHelper.Infof("Start processing refresh token, input: %v", req)
+func (l *Logic) RefreshToken(req *types.UserRefreshTokenRequest) (resp *types.UserRefreshTokenResponse, err error) {
+	l.logHelper.Info("RefreshToken", req)
+	current := time.Now()
+	if valid, err := utils.CompareTimeStringWithNow(req.RefreshExpiresAt); valid || err != nil {
+		if err != nil {
+			l.logHelper.Error(err)
+			return &types.UserRefreshTokenResponse{
+				Result: types.Result{
+					Code:    constant.TOKEN_EXPIRES_CODE,
+					Message: constant.TOKEN_EXPIRES_MESSAGE,
+				},
+			}, nil
+		}
+	}
 	tokenMaker, err := token.NewPasetoMaker(l.svcCtx.Config.TokenSemmetricKey)
 	if err != nil {
-		l.logHelper.Errorf("Failed while creating token maker, error: %v", err)
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UserRefreshTokenResponse{
+			Result: types.Result{
+				Code:    constant.TOKEN_ERR_CODE,
+				Message: constant.TOKEN_ERR_CODE_MESSAGE,
+			},
+		}, nil
 	}
 
 	payload, err := tokenMaker.VerifyToken(req.RefreshToken)
 	if err != nil {
-		l.logHelper.Errorf("Failed while verify token, error: %v", err)
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UserRefreshTokenResponse{
+			Result: types.Result{
+				Code:    constant.TOKEN_ERR_CODE,
+				Message: constant.TOKEN_ERR_CODE_MESSAGE,
+			},
+		}, nil
 	}
 
-	accessToken, err := tokenMaker.CreateToken(payload.UserID, payload.AccountType, l.svcCtx.Config.AccessTokenDuration)
+	accessToken, err := tokenMaker.CreateToken(payload.UserID, payload.TypeAccount, l.svcCtx.Config.AccessTokenDuration)
 	if err != nil {
-		l.logHelper.Errorf("Failed while creating access token, error: %v", err)
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UserRefreshTokenResponse{
+			Result: types.Result{
+				Code:    constant.TOKEN_ERR_CODE,
+				Message: constant.TOKEN_ERR_CODE_MESSAGE,
+			},
+		}, nil
 	}
-
-	return &types.AccessTokenResponse{
-		AccessToken: accessToken,
+	return &types.UserRefreshTokenResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		Token: types.Token{
+			AccessToken:      accessToken,
+			AccessExpiresAt:  current.Add(l.svcCtx.Config.AccessTokenDuration).String(),
+			RefreshToken:     req.RefreshToken,
+			RefreshExpiresAt: req.RefreshExpiresAt,
+		},
 	}, nil
 }
 
-func (l *Logic) Register(req *types.UserRegisterRequest) error {
-	l.logHelper.Infof("Start processing regiter user, input: %v", req)
-
-	if isEmail := utils.ValidateEmail(req.Email); !isEmail {
-		return errors.New(constant.InputValidationErrMsg)
-	}
+func (l *Logic) Register(req *types.UserRegisterRequest) (resp *types.UserRegisterResponse, err error) {
+	l.logHelper.Info("Register", req)
 
 	hashPassword, err := utils.HashPassword(req.Password)
 	if err != nil {
-		l.logHelper.Errorf("failed to hash password, error: %s", err.Error())
-		return err
+		l.logHelper.Error(err)
+		return &types.UserRegisterResponse{
+			Result: types.Result{
+				Code:    constant.HASH_PASSWORD_ERR_CODE,
+				Message: constant.HASH_PASSWORD_ERR_MESSAGE,
+			},
+		}, nil
 	}
 
-	err = l.svcCtx.Store.CreateUser(l.ctx, db.CreateUserParams{
-		Name:          req.Name,
-		HashPassword:  hashPassword,
-		Email:         req.Email,
-		TypeAccountID: req.TypeAccountID,
+	user, err := l.svcCtx.Store.CreateUser(l.ctx, db.CreateUserParams{
+		ID:           utils.RandomID(),
+		Name:         req.Name,
+		Email:        req.Email,
+		HashPassword: hashPassword,
+		TypeAccount:  req.TypeAccount,
 	})
 	if err != nil {
-		l.logHelper.Errorf("failed while creating user: %s", err.Error())
-		return err
+		return &types.UserRegisterResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
 	}
-
-	return nil
+	return &types.UserRegisterResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		User: types.User{
+			Name:        user.Name,
+			Email:       user.Email,
+			TypeAccount: user.TypeAccount,
+		},
+	}, nil
 }
 
-func (l *Logic) UpdateUserInfo(userID int64, req *types.UpdateUserInfoRequest) (*types.UpdateUserInfoResponse, error) {
-	l.logHelper.Infof("Start processing update user info, input: %d, %v", userID, req)
-
-	var err error
-	var birthday *time.Time
-
-	if req.Birthday != nil {
-		birthday, err = utils.ConvertStringToTime(*req.Birthday)
-		if err != nil {
-			l.logHelper.Error(err)
-			return nil, err
-		}
-	}
-
+func (l *Logic) UpdateUserInfo(userID int32, req *types.UpdateUserInfoRequest) (resp *types.UpdateUserInfoResponse, err error) {
+	l.logHelper.Info("UpdateUserInfo", req)
 	_, err = l.svcCtx.Store.GetUserInfo(l.ctx, userID)
-	if err == sql.ErrNoRows {
-		err = l.svcCtx.Store.CreateUserInfo(l.ctx, db.CreateUserInfoParams{
-			UserID:      userID,
-			Name:        req.Name,
-			Description: utils.GetString(req.Description),
-			AvataUrl:    utils.GetString(req.AvatarUrl),
-			FaculityID:  req.FaculityID,
-			YearStart:   req.YearStart,
-			Birthday:    utils.GetTime(birthday),
-			BankAccount: utils.GetString(req.BankAccount),
-			Phone:       utils.GetString(req.Phone),
-			Sex:         utils.GetInt64(req.Sex),
-		})
-	}
-	if err != nil {
-		l.logHelper.Errorf("Failed while creating user info, error: %v", err)
-		return nil, err
-	}
-
-	if err = l.svcCtx.Store.UpdateUserInfo(l.ctx, db.UpdateUserInfoParams{
-		UserID:      userID,
-		Name:        req.Name,
-		Description: utils.GetString(req.Description),
-		AvataUrl:    utils.GetString(req.AvatarUrl),
-		FaculityID:  req.FaculityID,
-		YearStart:   req.YearStart,
-		Birthday:    utils.GetTime(birthday),
-		BankAccount: utils.GetString(req.BankAccount),
-		Phone:       utils.GetString(req.Phone),
-		Sex:         utils.GetInt64(req.Sex),
-	}); err != nil {
-		l.logHelper.Errorf("Failed while update user info: %v", err)
-		return nil, err
-	}
-	return &types.UpdateUserInfoResponse{}, nil
-}
-
-func (l *Logic) GetUserInfo(userID int64) (*types.GetUserInfoResponse, error) {
-	l.logHelper.Infof("Start processing get user info, input: %d", userID)
-
-	userInfo, err := l.svcCtx.Store.GetUserInfo(l.ctx, userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return &types.GetUserInfoResponse{}, nil
+			return &types.UpdateUserInfoResponse{
+				Result: types.Result{
+					Code:    constant.USER_NOT_FOUND_CODE,
+					Message: constant.USER_NOT_FOUND_MESSAGE,
+				},
+			}, nil
 		}
-		l.logHelper.Errorf("Failed to get user info: %s", err.Error())
-		return nil, err
+		l.logHelper.Error(err)
+		return &types.UpdateUserInfoResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	err = l.svcCtx.Store.UpdateUserInfo(l.ctx, db.UpdateUserInfoParams{
+		UserID:      userID,
+		Name:        req.Name,
+		Email:       req.Email,
+		Phone:       req.Phone,
+		FacultyID:   req.FacultyID,
+		Degree:      req.Degree,
+		YearStart:   req.YearStart,
+		AvataUrl:    utils.GetString(req.AvatarUrl),
+		Birthday:    utils.GetString(req.Birthday),
+		BankAccount: utils.GetString(req.BankAccount),
+	})
+	if err != nil {
+		return &types.UpdateUserInfoResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+	return &types.UpdateUserInfoResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+	}, nil
+}
+
+func (l *Logic) GetUserInfo(userID int32, req *types.GetUserInfoRequest) (resp *types.GetUserInfoResponse, err error) {
+	l.logHelper.Info("GetUserInfo ", userID, req)
+	userInfo, err := l.svcCtx.Store.GetUserInfo(l.ctx, userID)
+	if err != nil {
+		return &types.GetUserInfoResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	faculty, err := l.svcCtx.Store.GetFaculty(l.ctx, userInfo.FacultyID)
+	if err != nil {
+		return &types.GetUserInfoResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
 	}
 
 	return &types.GetUserInfoResponse{
-		Name:        userInfo.Name,
-		Description: userInfo.Description.String,
-		AvatarUrl:   userInfo.AvataUrl.String,
-		Birthday:    userInfo.Birthday.Time.String(),
-		FaculityID:  userInfo.FaculityID,
-		YearStart:   userInfo.YearStart,
-		BankAccount: userInfo.BankAccount.String,
-		Phone:       userInfo.Phone.String,
-		Sex:         userInfo.Sex.Int64,
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		UserInfo: types.UserInfo{
+			ID:          userInfo.ID,
+			UserID:      userInfo.UserID,
+			Name:        userInfo.Name,
+			Email:       userInfo.Email,
+			Phone:       userInfo.Phone,
+			Faculty:     faculty.Name,
+			Degree:      constant.MapDegree[userInfo.Degree],
+			YearStart:   userInfo.YearStart,
+			AvatarUrl:   userInfo.AvataUrl.String,
+			Birthday:    userInfo.Birthday.String,
+			BankAccount: userInfo.BankAccount.String,
+		},
 	}, nil
 }

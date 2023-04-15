@@ -2,182 +2,221 @@ package logic
 
 import (
 	"database/sql"
-	"errors"
 	"fmt"
+	"github/ThoPham02/research_management/api/constant"
 	db "github/ThoPham02/research_management/api/db/sqlc"
 	"github/ThoPham02/research_management/api/types"
 	"github/ThoPham02/research_management/api/utils"
-	"time"
 )
 
-func (l *Logic) GetListTopicRegistationLogic(req *types.GetListTopicRegistationRequest) (*types.GetListTopicRegistationResponse, error) {
+func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsRequest) (resp *types.GetTopicRegistrationsResponse, err error) {
 	l.logHelper.Info("GetListTopicRegistationLogic", req)
+	var data []types.TopicRegistration
+	mapFaculties := make(map[int32]string, 0)
+	mapUserInfo := make(map[int32]string, 0)
 
-	var err error
-	var list []types.TopicRegistation
-
-	if req == nil {
-		err = errors.New("invalid request")
-		l.logHelper.Error(err)
-		return nil, err
-	}
-
-	data, err := l.svcCtx.Store.GetListTopicRegistation(l.ctx, fmt.Sprintf("%%%s%%", req.Search))
+	list, err := l.svcCtx.Store.ListTopicRegistrations(l.ctx, fmt.Sprintf("%%%s%%", req.Search))
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return &types.GetListTopicRegistationResponse{
-				Total: 0,
+			return &types.GetTopicRegistrationsResponse{
+				Result: types.Result{
+					Code:    constant.SUCCESS_CODE,
+					Message: constant.SUCCESS_MESSAGE,
+				},
 			}, nil
 		}
 		l.logHelper.Error(err)
-		return nil, err
+		return &types.GetTopicRegistrationsResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
 	}
 
-	if req.FaculityID != 0 {
-		filterData := make([]db.TopicRegistration, 0)
-		for _, tmp := range data {
-			if tmp.FaculityID.Valid && tmp.FaculityID.Int64 == req.FaculityID {
-				filterData = append(filterData, tmp)
-			}
-			data = filterData
+	faculties, err := l.svcCtx.Store.ListFaculties(l.ctx)
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.GetTopicRegistrationsResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+	for _, faculty := range faculties {
+		mapFaculties[faculty.ID] = faculty.Name
+	}
+
+	users, err := l.svcCtx.Store.ListUserInfosByType(l.ctx, constant.LectureType)
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.GetTopicRegistrationsResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+	for _, user := range users {
+		mapUserInfo[user.ID] = user.Name
+	}
+
+	for _, tmp := range list {
+		if req.Status != 0 && req.Status != tmp.Status {
+			continue
 		}
-	}
-	if req.LectureID != 0 {
-		filterData := make([]db.TopicRegistration, 0)
-		for _, tmp := range data {
-			if tmp.LectureID == req.LectureID {
-				filterData = append(filterData, tmp)
-			}
-			data = filterData
+		if req.FacultyID != 0 && req.FacultyID != tmp.FacultyID {
+			continue
 		}
-	}
-
-	total := len(data)
-
-	if req.Limit != 0 {
-		data = utils.SliceArray(data, req.Limit, req.Offset-1)
-	}
-
-	for _, item := range data {
-		list = append(list, types.TopicRegistation{
-			ID:             item.ID,
-			Name:           item.Name,
-			Description:    item.Description,
-			DescriptionURL: item.DescriptionUrl.String,
-			LectureID:      item.LectureID,
-			FaculityID:     item.FaculityID.Int64,
-			CreatedAt:      item.CreatedAt.Time.String(),
+		if req.LectureID != 0 && req.LectureID != tmp.LectureID {
+			continue
+		}
+		data = append(data, types.TopicRegistration{
+			ID:      tmp.ID,
+			Name:    tmp.Name,
+			Lecture: mapUserInfo[tmp.LectureID],
+			Faculty: mapFaculties[tmp.FacultyID],
+			Status:  constant.MapStatusTopicRegistration[tmp.Status],
 		})
 	}
 
-	return &types.GetListTopicRegistationResponse{
-		Total:                int64(total),
-		ListTopicRegistation: list,
+	return &types.GetTopicRegistrationsResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		TopicRegistrations: data,
 	}, nil
 }
 
-func (l *Logic) CreateTopicRegistation(req *types.CreateTopicRegistationRequest) (*types.CreateTopicRegistationResponse, error) {
-	l.logHelper.Info("CreateTopicRegistation ", req)
-
-	var err error
-
-	if req == nil {
-		err = errors.New("invalid request")
-		l.logHelper.Error(err)
-		return nil, err
-	}
-
-	data, err := l.svcCtx.Store.CreateTopicRegistation(l.ctx, db.CreateTopicRegistationParams{
-		Name:        req.Name,
-		Description: req.Description,
-		DescriptionUrl: sql.NullString{
-			Valid:  req.DescriptionUrl != "",
-			String: req.DescriptionUrl,
-		},
+func (l *Logic) CreateTopicRegistationLogic(req *types.CreateTopicRegistrationRequest) (resp *types.CreateTopicRegistrationResponse, err error) {
+	l.logHelper.Info("CreateTopicRegistationLogic ", req)
+	_, err = l.svcCtx.Store.CreateTopicRegistration(l.ctx, db.CreateTopicRegistrationParams{
+		ID:        utils.RandomID(),
+		Name:      req.Name,
 		LectureID: req.LectureID,
-		FaculityID: sql.NullInt64{
-			Valid: req.FaculityID != 0,
-			Int64: req.FaculityID,
-		},
-		CreatedAt: sql.NullTime{
-			Valid: true,
-			Time:  time.Now(),
-		},
+		FacultyID: req.FacultyID,
+		Status:    1,
 	})
 	if err != nil {
 		l.logHelper.Error(err)
-		return nil, err
+		return &types.CreateTopicRegistrationResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
 	}
-
-	return &types.CreateTopicRegistationResponse{
-		ID:             data.ID,
-		Name:           data.Name,
-		Description:    data.Description,
-		DescriptionUrl: data.DescriptionUrl.String,
-		LectureID:      data.LectureID,
-		FaculityID:     data.FaculityID.Int64,
-	}, nil
-}
-
-func (l *Logic) UpdateTopicRegistationLogic(req *types.UpdateTopicRegistationRequest) (*types.UpdateTopicRegistationResponse, error) {
-	l.logHelper.Info("UpdateTopicRegistation", req)
-
-	var err error
-
-	if req == nil {
-		err = errors.New("invalid request")
-		l.logHelper.Error(err)
-		return nil, err
-	}
-
-	data, err := l.svcCtx.Store.GetTopicRegistationById(l.ctx, req.ID)
-	if err != nil {
-		l.logHelper.Error(err)
-		return nil, err
-	}
-
-	res, err := l.svcCtx.Store.UpdateTopicRegistation(l.ctx, db.UpdateTopicRegistationParams{
-		ID:          req.ID,
-		Name:        req.Name,
-		Description: req.Description,
-		DescriptionUrl: sql.NullString{
-			Valid:  req.DescriptionUrl != "",
-			String: req.DescriptionUrl,
+	return &types.CreateTopicRegistrationResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
 		},
-		LectureID:  req.LectureID,
-		FaculityID: data.FaculityID,
-	})
-	if err != nil {
-		l.logHelper.Error(err)
-		return nil, err
-	}
-
-	return &types.UpdateTopicRegistationResponse{
-		ID:             res.ID,
-		Name:           res.Name,
-		Description:    res.Description,
-		DescriptionUrl: res.DescriptionUrl.String,
-		LectureID:      res.LectureID,
-		FaculityID:     res.FaculityID.Int64,
 	}, nil
 }
 
-func (l *Logic) GetTopicRegistationByIdLogic(req *types.GetTopicRegistationByIDRequest) (*types.GetTopicRegistationByIdResponse, error) {
-	l.logHelper.Info("GetTopicRegistation", req)
-	data, err := l.svcCtx.Store.GetTopicRegistationById(l.ctx, req.ID)
+func (l *Logic) UpdateTopicRegistationLogic(id int32, req *types.UpdateTopicRegistrationRequest) (resp *types.UpdateTopicRegistrationResponse, err error) {
+	l.logHelper.Info("UpdateTopicRegistationLogic", id, req)
+
+	topicRegis, err := l.svcCtx.Store.GetTopicRegistration(l.ctx, id)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return nil, nil
+			return &types.UpdateTopicRegistrationResponse{
+				Result: types.Result{
+					Code:    constant.TOPIC_REGIS_NOT_FOUND_CODE,
+					Message: constant.TOPIC_REGIS_NOT_FOUND_MESSAGE,
+				},
+			}, nil
 		}
 		l.logHelper.Error(err)
-		return nil, err
+		return &types.UpdateTopicRegistrationResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
 	}
-	return &types.GetTopicRegistationByIdResponse{
-		ID:             data.ID,
-		Name:           data.Name,
-		Description:    data.Description,
-		DescriptionUrl: data.DescriptionUrl.String,
-		LectureID:      data.LectureID,
-		FaculityID:     data.FaculityID.Int64,
-	}, err
+
+	err = l.svcCtx.Store.UpdateTopicRegistration(l.ctx, db.UpdateTopicRegistrationParams{
+		ID:        id,
+		Name:      topicRegis.Name,
+		LectureID: topicRegis.LectureID,
+		FacultyID: topicRegis.FacultyID,
+		Status:    req.Status,
+	})
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.UpdateTopicRegistrationResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+	return &types.UpdateTopicRegistrationResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+	}, nil
+}
+
+func (l *Logic) GetTopicRegistationByIdLogic(id int32, req *types.GetTopicRegistrationByIdRequest) (resp *types.GetTopicRegistrationByIdResponse, err error) {
+	l.logHelper.Info("GetTopicRegistationByIdLogic ", id, req)
+
+	topicRegis, err := l.svcCtx.Store.GetTopicRegistration(l.ctx, id)
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return &types.GetTopicRegistrationByIdResponse{
+				Result: types.Result{
+					Code:    constant.TOPIC_REGIS_NOT_FOUND_CODE,
+					Message: constant.TOPIC_REGIS_NOT_FOUND_MESSAGE,
+				},
+			}, nil
+		}
+		l.logHelper.Error(err)
+		return &types.GetTopicRegistrationByIdResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	faculty, err := l.svcCtx.Store.GetFaculty(l.ctx, topicRegis.FacultyID)
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.GetTopicRegistrationByIdResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	lecture, err := l.svcCtx.Store.GetUserInfo(l.ctx, topicRegis.LectureID)
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.GetTopicRegistrationByIdResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	return &types.GetTopicRegistrationByIdResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		TopicRegistration: types.TopicRegistration{
+			ID:      topicRegis.ID,
+			Name:    topicRegis.Name,
+			Lecture: lecture.Name,
+			Faculty: faculty.Name,
+			Status:  constant.MapStatusTopicRegistration[topicRegis.Status],
+		},
+	}, nil
 }

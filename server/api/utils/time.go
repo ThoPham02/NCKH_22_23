@@ -15,3 +15,17 @@ func ConvertStringToTime(s string) (*time.Time, error) {
 	}
 	return &t, nil
 }
+
+func CompareTimeStringWithNow(timeString string) (bool, error) {
+	// Parse the time string into a time.Time object
+	t, err := time.Parse(time.RFC3339, timeString)
+	if err != nil {
+		return false, err
+	}
+
+	// Get the current time
+	now := time.Now()
+
+	// Compare the two times
+	return t.Before(now), nil
+}

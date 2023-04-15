@@ -10,8 +10,8 @@ func init() {
 }
 
 // RandomInt randdom a number between min and max
-func RandomInt(min, max int64) int64 {
-	return rand.Int63n(max-min) + min
+func RandomInt(min, max int32) int32 {
+	return rand.Int31n(max-min) + min
 }
 
 // RandomString random string having n characters
@@ -23,4 +23,8 @@ func RandomString(n int) string {
 		b[i] = letters[rand.Intn(len)]
 	}
 	return string(b)
+}
+
+func RandomID() int32 {
+	return rand.Int31n(899999999) + 100000000
 }
