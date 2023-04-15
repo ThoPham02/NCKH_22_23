@@ -100,3 +100,28 @@ func (q *Queries) ListGroupSupervisors(ctx context.Context) ([]GroupSupervisor, 
 	}
 	return items, nil
 }
+
+const updateGroupSupervisor = `-- name: UpdateGroupSupervisor :exec
+UPDATE "group_supervisor"
+  set supervisor_id = $2,
+  role = $3,
+  group_report_id = $4
+WHERE "id" = $1
+`
+
+type UpdateGroupSupervisorParams struct {
+	ID            int32 `json:"id"`
+	SupervisorID  int32 `json:"supervisor_id"`
+	Role          int32 `json:"role"`
+	GroupReportID int32 `json:"group_report_id"`
+}
+
+func (q *Queries) UpdateGroupSupervisor(ctx context.Context, arg UpdateGroupSupervisorParams) error {
+	_, err := q.db.ExecContext(ctx, updateGroupSupervisor,
+		arg.ID,
+		arg.SupervisorID,
+		arg.Role,
+		arg.GroupReportID,
+	)
+	return err
+}

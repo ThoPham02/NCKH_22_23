@@ -2,11 +2,11 @@
 SELECT * FROM "topic_registration"
 WHERE id = $1 LIMIT 1;
 
--- name: ListGetTopicRegistrations :many
+-- name: ListTopicRegistrations :many
 SELECT * FROM "topic_registration"
 ORDER BY "name";
 
--- name: CreateGetTopicRegistration :one
+-- name: CreateTopicRegistration :one
 INSERT INTO "topic_registration" (
   "id", "name", "lecture_id", "faculty_id", "status", "created_at"
 ) VALUES (
@@ -14,6 +14,15 @@ INSERT INTO "topic_registration" (
 )
 RETURNING *;
 
--- name: DeleteGetTopicRegistration :exec
+-- name: DeleteTopicRegistration :exec
 DELETE FROM "topic_registration"
 WHERE id = $1;
+
+-- name: UpdateTopicRegistration :exec
+UPDATE "topic_registration"
+  set name = $2,
+  lecture_id = $3,
+  faculty_id = $4,
+  status = $5,
+  created_at = $6
+WHERE "id" = $1;

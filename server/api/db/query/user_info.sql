@@ -1,6 +1,6 @@
 -- name: GetUserInfo :one
 SELECT * FROM "user_info"
-WHERE id = $1 LIMIT 1;
+WHERE "user_id" = $1 LIMIT 1;
 
 -- name: ListUserInfos :many
 SELECT * FROM "user_info"
@@ -17,3 +17,16 @@ RETURNING *;
 -- name: DeleteUserInfo :exec
 DELETE FROM "user_info"
 WHERE id = $1;
+
+-- name: UpdateUserInfo :exec
+UPDATE "user_info"
+  set name = $2,
+  email = $3,
+  phone = $4,
+  faculty_id = $5,
+  degree = $6,
+  year_start = $7,
+  avata_url = $8,
+  birthday = $9,
+  bank_account = $10
+WHERE "user_id" = $1;

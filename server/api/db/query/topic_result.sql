@@ -16,3 +16,11 @@ RETURNING *;
 -- name: DeleteTopicResult :exec
 DELETE FROM "topic_result"
 WHERE id = $1;
+
+-- name: UpdateTopicResult :exec
+UPDATE "topic_result"
+  set score = $2,
+  comment = $3,
+  topic_id = $4,
+  supervisor_id = $5
+WHERE id = $1;

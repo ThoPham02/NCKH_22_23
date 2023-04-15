@@ -35,7 +35,6 @@ type (
 	UserRegisterResponse struct {
 		Result Result `json:"result"`
 		User   User   `json:"user"`
-		Token  Token  `json:"token"`
 	}
 )
 

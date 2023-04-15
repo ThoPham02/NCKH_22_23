@@ -17,3 +17,16 @@ RETURNING *;
 -- name: DeleteTopic :exec
 DELETE FROM "topic"
 WHERE id = $1;
+
+-- name: UpdateTopic :exec
+UPDATE "topic"
+  set name = $2,
+  lecture_id = $3,
+  faculty_id = $4,
+  status = $5,
+  result_url = $6,
+  conference_id = $7,
+  group_id = $8,
+  time_start = $9,
+  time_end = $10
+WHERE id = $1;

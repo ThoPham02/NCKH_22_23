@@ -17,3 +17,8 @@ RETURNING *;
 -- name: DeleteFaculty :exec
 DELETE FROM "faculty"
 WHERE id = $1;
+
+-- name: UpdateFaculty :exec
+UPDATE "faculty"
+  set name = $2
+WHERE "id" = $1;

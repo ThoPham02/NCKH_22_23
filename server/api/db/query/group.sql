@@ -17,3 +17,10 @@ RETURNING *;
 -- name: DeleteGroup :exec
 DELETE FROM "group"
 WHERE id = $1;
+
+-- name: UpdateGroup :exec
+UPDATE "group"
+  set name = $2,
+  conference_id = $3,
+  faculty_id = $4
+WHERE "id" = $1;

@@ -105,3 +105,31 @@ func (q *Queries) ListTopicResults(ctx context.Context) ([]TopicResult, error) {
 	}
 	return items, nil
 }
+
+const updateTopicResult = `-- name: UpdateTopicResult :exec
+UPDATE "topic_result"
+  set score = $2,
+  comment = $3,
+  topic_id = $4,
+  supervisor_id = $5
+WHERE id = $1
+`
+
+type UpdateTopicResultParams struct {
+	ID           int32   `json:"id"`
+	Score        float64 `json:"score"`
+	Comment      string  `json:"comment"`
+	TopicID      int32   `json:"topic_id"`
+	SupervisorID int32   `json:"supervisor_id"`
+}
+
+func (q *Queries) UpdateTopicResult(ctx context.Context, arg UpdateTopicResultParams) error {
+	_, err := q.db.ExecContext(ctx, updateTopicResult,
+		arg.ID,
+		arg.Score,
+		arg.Comment,
+		arg.TopicID,
+		arg.SupervisorID,
+	)
+	return err
+}

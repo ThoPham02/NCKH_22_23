@@ -133,3 +133,46 @@ func (q *Queries) ListTopics(ctx context.Context) ([]Topic, error) {
 	}
 	return items, nil
 }
+
+const updateTopic = `-- name: UpdateTopic :exec
+UPDATE "topic"
+  set name = $2,
+  lecture_id = $3,
+  faculty_id = $4,
+  status = $5,
+  result_url = $6,
+  conference_id = $7,
+  group_id = $8,
+  time_start = $9,
+  time_end = $10
+WHERE id = $1
+`
+
+type UpdateTopicParams struct {
+	ID           int32          `json:"id"`
+	Name         string         `json:"name"`
+	LectureID    int32          `json:"lecture_id"`
+	FacultyID    int32          `json:"faculty_id"`
+	Status       int32          `json:"status"`
+	ResultUrl    sql.NullString `json:"result_url"`
+	ConferenceID int32          `json:"conference_id"`
+	GroupID      sql.NullInt32  `json:"group_id"`
+	TimeStart    time.Time      `json:"time_start"`
+	TimeEnd      time.Time      `json:"time_end"`
+}
+
+func (q *Queries) UpdateTopic(ctx context.Context, arg UpdateTopicParams) error {
+	_, err := q.db.ExecContext(ctx, updateTopic,
+		arg.ID,
+		arg.Name,
+		arg.LectureID,
+		arg.FacultyID,
+		arg.Status,
+		arg.ResultUrl,
+		arg.ConferenceID,
+		arg.GroupID,
+		arg.TimeStart,
+		arg.TimeEnd,
+	)
+	return err
+}

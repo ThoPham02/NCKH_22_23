@@ -101,3 +101,28 @@ func (q *Queries) ListGroups(ctx context.Context) ([]Group, error) {
 	}
 	return items, nil
 }
+
+const updateGroup = `-- name: UpdateGroup :exec
+UPDATE "group"
+  set name = $2,
+  conference_id = $3,
+  faculty_id = $4
+WHERE "id" = $1
+`
+
+type UpdateGroupParams struct {
+	ID           int32  `json:"id"`
+	Name         string `json:"name"`
+	ConferenceID int32  `json:"conference_id"`
+	FacultyID    int32  `json:"faculty_id"`
+}
+
+func (q *Queries) UpdateGroup(ctx context.Context, arg UpdateGroupParams) error {
+	_, err := q.db.ExecContext(ctx, updateGroup,
+		arg.ID,
+		arg.Name,
+		arg.ConferenceID,
+		arg.FacultyID,
+	)
+	return err
+}

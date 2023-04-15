@@ -2,7 +2,7 @@ package utils
 
 import "reflect"
 
-func SliceArray[T any](arr []T, limit int64, offset int64) []T {
+func SliceArray[T any](arr []T, limit int32, offset int32) []T {
 	start := int(limit * offset)
 	end := int(limit*offset + limit)
 

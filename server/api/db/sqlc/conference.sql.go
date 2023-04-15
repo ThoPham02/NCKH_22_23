@@ -102,3 +102,28 @@ func (q *Queries) ListConferences(ctx context.Context) ([]Conference, error) {
 	}
 	return items, nil
 }
+
+const updateConference = `-- name: UpdateConference :exec
+UPDATE "conference"
+  set name = $2,
+  cash_support = $3,
+  school_year = $4
+WHERE "id" = $1
+`
+
+type UpdateConferenceParams struct {
+	ID          int32          `json:"id"`
+	Name        string         `json:"name"`
+	CashSupport sql.NullInt32  `json:"cash_support"`
+	SchoolYear  sql.NullString `json:"school_year"`
+}
+
+func (q *Queries) UpdateConference(ctx context.Context, arg UpdateConferenceParams) error {
+	_, err := q.db.ExecContext(ctx, updateConference,
+		arg.ID,
+		arg.Name,
+		arg.CashSupport,
+		arg.SchoolYear,
+	)
+	return err
+}

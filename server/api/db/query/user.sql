@@ -21,3 +21,11 @@ RETURNING *;
 -- name: DeleteUser :exec
 DELETE FROM "user"
 WHERE id = $1;
+
+-- name: UpdateUser :exec
+UPDATE "user"
+  set name = $2,
+  email = $3,
+  hash_password = $4,
+  type_account = $5
+WHERE id = $1;

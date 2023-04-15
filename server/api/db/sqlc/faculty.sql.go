@@ -79,3 +79,19 @@ func (q *Queries) ListFaculties(ctx context.Context) ([]Faculty, error) {
 	}
 	return items, nil
 }
+
+const updateFaculty = `-- name: UpdateFaculty :exec
+UPDATE "faculty"
+  set name = $2
+WHERE "id" = $1
+`
+
+type UpdateFacultyParams struct {
+	ID   int32  `json:"id"`
+	Name string `json:"name"`
+}
+
+func (q *Queries) UpdateFaculty(ctx context.Context, arg UpdateFacultyParams) error {
+	_, err := q.db.ExecContext(ctx, updateFaculty, arg.ID, arg.Name)
+	return err
+}

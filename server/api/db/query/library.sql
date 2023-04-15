@@ -17,3 +17,10 @@ RETURNING *;
 -- name: DeleteLibrary :exec
 DELETE FROM "library"
 WHERE id = $1;
+
+-- name: UpdateLibrary :exec
+UPDATE "library"
+  set name = $2,
+  url = $3,
+  owner_id = $4
+WHERE "id" = $1;

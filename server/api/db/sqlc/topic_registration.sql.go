@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-const createGetTopicRegistration = `-- name: CreateGetTopicRegistration :one
+const createTopicRegistration = `-- name: CreateTopicRegistration :one
 INSERT INTO "topic_registration" (
   "id", "name", "lecture_id", "faculty_id", "status", "created_at"
 ) VALUES (
@@ -20,7 +20,7 @@ INSERT INTO "topic_registration" (
 RETURNING id, name, lecture_id, faculty_id, status, created_at
 `
 
-type CreateGetTopicRegistrationParams struct {
+type CreateTopicRegistrationParams struct {
 	ID        int32         `json:"id"`
 	Name      string        `json:"name"`
 	LectureID int32         `json:"lecture_id"`
@@ -29,8 +29,8 @@ type CreateGetTopicRegistrationParams struct {
 	CreatedAt time.Time     `json:"created_at"`
 }
 
-func (q *Queries) CreateGetTopicRegistration(ctx context.Context, arg CreateGetTopicRegistrationParams) (TopicRegistration, error) {
-	row := q.db.QueryRowContext(ctx, createGetTopicRegistration,
+func (q *Queries) CreateTopicRegistration(ctx context.Context, arg CreateTopicRegistrationParams) (TopicRegistration, error) {
+	row := q.db.QueryRowContext(ctx, createTopicRegistration,
 		arg.ID,
 		arg.Name,
 		arg.LectureID,
@@ -50,13 +50,13 @@ func (q *Queries) CreateGetTopicRegistration(ctx context.Context, arg CreateGetT
 	return i, err
 }
 
-const deleteGetTopicRegistration = `-- name: DeleteGetTopicRegistration :exec
+const deleteTopicRegistration = `-- name: DeleteTopicRegistration :exec
 DELETE FROM "topic_registration"
 WHERE id = $1
 `
 
-func (q *Queries) DeleteGetTopicRegistration(ctx context.Context, id int32) error {
-	_, err := q.db.ExecContext(ctx, deleteGetTopicRegistration, id)
+func (q *Queries) DeleteTopicRegistration(ctx context.Context, id int32) error {
+	_, err := q.db.ExecContext(ctx, deleteTopicRegistration, id)
 	return err
 }
 
@@ -79,13 +79,13 @@ func (q *Queries) GetTopicRegistration(ctx context.Context, id int32) (TopicRegi
 	return i, err
 }
 
-const listGetTopicRegistrations = `-- name: ListGetTopicRegistrations :many
+const listTopicRegistrations = `-- name: ListTopicRegistrations :many
 SELECT id, name, lecture_id, faculty_id, status, created_at FROM "topic_registration"
 ORDER BY "name"
 `
 
-func (q *Queries) ListGetTopicRegistrations(ctx context.Context) ([]TopicRegistration, error) {
-	rows, err := q.db.QueryContext(ctx, listGetTopicRegistrations)
+func (q *Queries) ListTopicRegistrations(ctx context.Context) ([]TopicRegistration, error) {
+	rows, err := q.db.QueryContext(ctx, listTopicRegistrations)
 	if err != nil {
 		return nil, err
 	}
@@ -112,4 +112,35 @@ func (q *Queries) ListGetTopicRegistrations(ctx context.Context) ([]TopicRegistr
 		return nil, err
 	}
 	return items, nil
+}
+
+const updateTopicRegistration = `-- name: UpdateTopicRegistration :exec
+UPDATE "topic_registration"
+  set name = $2,
+  lecture_id = $3,
+  faculty_id = $4,
+  status = $5,
+  created_at = $6
+WHERE "id" = $1
+`
+
+type UpdateTopicRegistrationParams struct {
+	ID        int32         `json:"id"`
+	Name      string        `json:"name"`
+	LectureID int32         `json:"lecture_id"`
+	FacultyID int32         `json:"faculty_id"`
+	Status    sql.NullInt32 `json:"status"`
+	CreatedAt time.Time     `json:"created_at"`
+}
+
+func (q *Queries) UpdateTopicRegistration(ctx context.Context, arg UpdateTopicRegistrationParams) error {
+	_, err := q.db.ExecContext(ctx, updateTopicRegistration,
+		arg.ID,
+		arg.Name,
+		arg.LectureID,
+		arg.FacultyID,
+		arg.Status,
+		arg.CreatedAt,
+	)
+	return err
 }

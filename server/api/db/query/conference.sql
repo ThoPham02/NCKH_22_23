@@ -17,3 +17,10 @@ RETURNING *;
 -- name: DeleteConference :exec
 DELETE FROM "conference"
 WHERE id = $1;
+
+-- name: UpdateConference :exec
+UPDATE "conference"
+  set name = $2,
+  cash_support = $3,
+  school_year = $4
+WHERE "id" = $1;

@@ -102,3 +102,28 @@ func (q *Queries) ListLibrarys(ctx context.Context) ([]Library, error) {
 	}
 	return items, nil
 }
+
+const updateLibrary = `-- name: UpdateLibrary :exec
+UPDATE "library"
+  set name = $2,
+  url = $3,
+  owner_id = $4
+WHERE "id" = $1
+`
+
+type UpdateLibraryParams struct {
+	ID      int32          `json:"id"`
+	Name    string         `json:"name"`
+	Url     sql.NullString `json:"url"`
+	OwnerID int32          `json:"owner_id"`
+}
+
+func (q *Queries) UpdateLibrary(ctx context.Context, arg UpdateLibraryParams) error {
+	_, err := q.db.ExecContext(ctx, updateLibrary,
+		arg.ID,
+		arg.Name,
+		arg.Url,
+		arg.OwnerID,
+	)
+	return err
+}

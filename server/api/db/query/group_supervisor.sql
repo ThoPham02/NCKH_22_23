@@ -16,3 +16,10 @@ RETURNING *;
 -- name: DeleteGroupSupervisor :exec
 DELETE FROM "group_supervisor"
 WHERE id = $1;
+
+-- name: UpdateGroupSupervisor :exec
+UPDATE "group_supervisor"
+  set supervisor_id = $2,
+  role = $3,
+  group_report_id = $4
+WHERE "id" = $1;

@@ -17,3 +17,9 @@ RETURNING *;
 -- name: DeleteNotification :exec
 DELETE FROM "notification"
 WHERE id = $1;
+
+-- name: UpdateNotification :exec
+UPDATE "notification"
+  set name = $2,
+  url = $3
+WHERE "id" = $1;

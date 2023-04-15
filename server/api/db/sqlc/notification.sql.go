@@ -81,3 +81,21 @@ func (q *Queries) ListNotifications(ctx context.Context) ([]Notification, error)
 	}
 	return items, nil
 }
+
+const updateNotification = `-- name: UpdateNotification :exec
+UPDATE "notification"
+  set name = $2,
+  url = $3
+WHERE "id" = $1
+`
+
+type UpdateNotificationParams struct {
+	ID   int32          `json:"id"`
+	Name string         `json:"name"`
+	Url  sql.NullString `json:"url"`
+}
+
+func (q *Queries) UpdateNotification(ctx context.Context, arg UpdateNotificationParams) error {
+	_, err := q.db.ExecContext(ctx, updateNotification, arg.ID, arg.Name, arg.Url)
+	return err
+}

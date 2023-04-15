@@ -17,3 +17,9 @@ RETURNING *;
 -- name: DeleteStudentTopic :exec
 DELETE FROM "student_topic"
 WHERE id = $1;
+
+-- name: UpdateStudentTopic :exec
+UPDATE "student_topic"
+  set student_id = $2,
+  topic_id = $3
+WHERE "id" = $1;
