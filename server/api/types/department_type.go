@@ -24,3 +24,13 @@ type (
 		Department Department `json:"department"`
 	}
 )
+
+type (
+	CreateDepartmentRequest struct {
+		Name      string `json:"name"`
+		FacultyID int32  `json:"facultyId"`
+	}
+	CreateDepartmentResponse struct {
+		Result Result `json:"result"`
+	}
+)

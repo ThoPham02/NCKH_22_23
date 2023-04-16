@@ -55,7 +55,6 @@ func (q *Queries) GetStudentTopic(ctx context.Context, id int32) (StudentTopic, 
 
 const listStudentTopics = `-- name: ListStudentTopics :many
 SELECT id, student_id, topic_id FROM "student_topic"
-ORDER BY "type_account"
 `
 
 func (q *Queries) ListStudentTopics(ctx context.Context) ([]StudentTopic, error) {

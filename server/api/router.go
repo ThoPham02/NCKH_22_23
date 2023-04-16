@@ -32,7 +32,9 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	//department api
 	router.GET("api/department", handler.GetListDepartmentHandler(svc))
 	router.GET("api/department/:id", handler.GetDepartmentByIDHandler(svc))
+	router.POST("api/department", handler.CreateDepartmentHandler(svc))
 	//faculity api
 	router.GET("api/faculity", handler.GetListFaculityHandler(svc))
 	router.GET("api/faculity/:id", handler.GetFaculityByIDHandler(svc))
+	router.POST("api/faculty", handler.CreateFaculityHandler(svc))
 }

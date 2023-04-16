@@ -71,7 +71,6 @@ func (q *Queries) GetGroup(ctx context.Context, id int32) (Group, error) {
 
 const listGroups = `-- name: ListGroups :many
 SELECT id, name, conference_id, faculty_id FROM "group"
-ORDER BY "type_account"
 `
 
 func (q *Queries) ListGroups(ctx context.Context) ([]Group, error) {

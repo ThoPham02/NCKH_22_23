@@ -3,8 +3,7 @@ SELECT * FROM "group"
 WHERE id = $1 LIMIT 1;
 
 -- name: ListGroups :many
-SELECT * FROM "group"
-ORDER BY "type_account";
+SELECT * FROM "group";
 
 -- name: CreateGroup :one
 INSERT INTO "group" (
