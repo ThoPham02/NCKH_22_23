@@ -61,7 +61,7 @@ type Querier interface {
 	ListTopicResults(ctx context.Context) ([]TopicResult, error)
 	ListTopics(ctx context.Context) ([]Topic, error)
 	ListUserInfos(ctx context.Context) ([]UserInfo, error)
-	ListUserInfosByType(ctx context.Context, typeAccount int32) ([]UserInfo, error)
+	ListUserInfosByName(ctx context.Context, name string) ([]UserInfo, error)
 	ListUsers(ctx context.Context) ([]User, error)
 	UpdateConference(ctx context.Context, arg UpdateConferenceParams) error
 	UpdateDepartment(ctx context.Context, arg UpdateDepartmentParams) error

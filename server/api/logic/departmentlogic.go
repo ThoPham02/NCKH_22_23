@@ -3,7 +3,9 @@ package logic
 import (
 	"database/sql"
 	"github/ThoPham02/research_management/api/constant"
+	db "github/ThoPham02/research_management/api/db/sqlc"
 	"github/ThoPham02/research_management/api/types"
+	"github/ThoPham02/research_management/api/utils"
 )
 
 func (l *Logic) GetListDepartmentLogic(req *types.GetDepartmentsRequest) (resp *types.GetDepartmentsResponse, err error) {
@@ -79,6 +81,31 @@ func (l *Logic) GetDepartmentByIDLogic(id int32, req *types.GetDepartmentByIDReq
 			ID:        department.ID,
 			Name:      department.Name,
 			FacultyID: department.FacultyID,
+		},
+	}, nil
+}
+
+func (l *Logic) CreateDepartmentLogic(req *types.CreateDepartmentRequest) (resp *types.CreateDepartmentResponse, err error) {
+	l.logHelper.Info("CreateDepartmentLogic", req)
+	_, err = l.svcCtx.Store.CreateDepartment(l.ctx, db.CreateDepartmentParams{
+		ID:        utils.RandomID(),
+		Name:      req.Name,
+		FacultyID: req.FacultyID,
+	})
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.CreateDepartmentResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	return &types.CreateDepartmentResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
 		},
 	}, nil
 }

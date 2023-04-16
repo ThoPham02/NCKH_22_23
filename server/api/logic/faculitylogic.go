@@ -4,7 +4,9 @@ import (
 	"database/sql"
 	"errors"
 	"github/ThoPham02/research_management/api/constant"
+	db "github/ThoPham02/research_management/api/db/sqlc"
 	"github/ThoPham02/research_management/api/types"
+	"github/ThoPham02/research_management/api/utils"
 )
 
 func (l *Logic) GetFaculityByIDLogic(id int32, req *types.GetFacultyByIDRequest) (*types.GetFacultyByIDResponse, error) {
@@ -83,5 +85,29 @@ func (l *Logic) GetListFaculityLogic(req *types.GetFacultysRequest) (resp *types
 			Message: constant.SUCCESS_MESSAGE,
 		},
 		Faculties: data,
+	}, nil
+}
+
+func (l *Logic) CreateFacultyLogic(req *types.CreateFacultyRequest) (resp *types.CreateFacultyResponse, err error) {
+	l.logHelper.Info("CreateDepartmentLogic", req)
+	_, err = l.svcCtx.Store.CreateFaculty(l.ctx, db.CreateFacultyParams{
+		ID:   utils.RandomID(),
+		Name: req.Name,
+	})
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.CreateFacultyResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+
+	return &types.CreateFacultyResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
 	}, nil
 }

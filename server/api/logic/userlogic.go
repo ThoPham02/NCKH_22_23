@@ -81,9 +81,9 @@ func (l *Logic) UserLogin(req *types.UserLoginRequest) (resp *types.UserLoginRes
 		},
 		Token: types.Token{
 			AccessToken:      accessToken,
-			AccessExpiresAt:  currency.Add(l.svcCtx.Config.AccessTokenDuration).String(),
+			AccessExpiresAt:  currency.Add(l.svcCtx.Config.AccessTokenDuration).Format(time.RFC3339),
 			RefreshToken:     refreshToken,
-			RefreshExpiresAt: currency.Add(l.svcCtx.Config.RefreshTokenDuration).String(),
+			RefreshExpiresAt: currency.Add(l.svcCtx.Config.RefreshTokenDuration).Format(time.RFC3339),
 		},
 		User: types.User{
 			Name:        user.Name,
@@ -200,12 +200,27 @@ func (l *Logic) UpdateUserInfo(userID int32, req *types.UpdateUserInfoRequest) (
 	_, err = l.svcCtx.Store.GetUserInfo(l.ctx, userID)
 	if err != nil {
 		if err == sql.ErrNoRows {
-			return &types.UpdateUserInfoResponse{
-				Result: types.Result{
-					Code:    constant.USER_NOT_FOUND_CODE,
-					Message: constant.USER_NOT_FOUND_MESSAGE,
-				},
-			}, nil
+			_, err = l.svcCtx.Store.CreateUserInfo(l.ctx, db.CreateUserInfoParams{
+				ID:          utils.RandomID(),
+				UserID:      userID,
+				Name:        req.Name,
+				Email:       req.Email,
+				Phone:       req.Phone,
+				FacultyID:   req.FacultyID,
+				Degree:      req.Degree,
+				YearStart:   req.YearStart,
+				AvataUrl:    utils.GetString(req.AvatarUrl),
+				Birthday:    utils.GetString(req.Birthday),
+				BankAccount: utils.GetString(req.BankAccount),
+			})
+			if err == nil {
+				return &types.UpdateUserInfoResponse{
+					Result: types.Result{
+						Code:    constant.SUCCESS_CODE,
+						Message: constant.SUCCESS_MESSAGE,
+					},
+				}, nil
+			}
 		}
 		l.logHelper.Error(err)
 		return &types.UpdateUserInfoResponse{
