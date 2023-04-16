@@ -22,3 +22,12 @@ type (
 		Faculty Faculty `json:"faculty"`
 	}
 )
+
+type (
+	CreateFacultyRequest struct {
+		Name string `json:"name"`
+	}
+	CreateFacultyResponse struct {
+		Result Result `json:"result"`
+	}
+)

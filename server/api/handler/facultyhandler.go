@@ -48,3 +48,23 @@ func GetListFaculityHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 		http_response.ResponseJSON(c, http.StatusOK, result)
 	}
 }
+
+func CreateFaculityHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		logic := InitLogic(svcCtx, c, "create-faculity")
+
+		req := types.CreateFacultyRequest{}
+		err := http_request.BindBodyJson(c, &req)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusBadRequest, err)
+			return
+		}
+
+		result, err := logic.CreateFacultyLogic(&req)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
+			return
+		}
+		http_response.ResponseJSON(c, http.StatusOK, result)
+	}
+}

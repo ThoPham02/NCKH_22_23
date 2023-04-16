@@ -138,14 +138,13 @@ func (q *Queries) ListUserInfos(ctx context.Context) ([]UserInfo, error) {
 	return items, nil
 }
 
-const listUserInfosByType = `-- name: ListUserInfosByType :many
+const listUserInfosByName = `-- name: ListUserInfosByName :many
 SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
-WHERE user_id in (SELECT id FROM "user" WHERE "type_account" = $1)
-ORDER BY "name"
+WHERE name like $1
 `
 
-func (q *Queries) ListUserInfosByType(ctx context.Context, typeAccount int32) ([]UserInfo, error) {
-	rows, err := q.db.QueryContext(ctx, listUserInfosByType, typeAccount)
+func (q *Queries) ListUserInfosByName(ctx context.Context, name string) ([]UserInfo, error) {
+	rows, err := q.db.QueryContext(ctx, listUserInfosByName, name)
 	if err != nil {
 		return nil, err
 	}

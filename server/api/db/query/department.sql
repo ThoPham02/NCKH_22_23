@@ -4,7 +4,7 @@ WHERE id = $1 LIMIT 1;
 
 -- name: ListDepartments :many
 SELECT * FROM "department"
-ORDER BY "type_account";
+ORDER BY "faculty_id";
 
 -- name: CreateDepartment :one
 INSERT INTO "department" (

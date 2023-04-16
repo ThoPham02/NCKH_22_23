@@ -55,7 +55,7 @@ func (q *Queries) GetDepartment(ctx context.Context, id int32) (Department, erro
 
 const listDepartments = `-- name: ListDepartments :many
 SELECT id, name, faculty_id FROM "department"
-ORDER BY "type_account"
+ORDER BY "faculty_id"
 `
 
 func (q *Queries) ListDepartments(ctx context.Context) ([]Department, error) {

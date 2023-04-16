@@ -4,6 +4,8 @@ type TopicRegistration struct {
 	ID      int32  `json:"id"`
 	Name    string `json:"name"`
 	Lecture string `json:"lecture"`
+	Phone   string `json:"phone"`
+	Email   string `json:"email"`
 	Faculty string `json:"faculty"`
 	Status  string `json:"status"`
 }
@@ -11,7 +13,7 @@ type TopicRegistration struct {
 type (
 	GetTopicRegistrationsRequest struct {
 		Search    string `form:"search"`
-		LectureID int32  `form:"lectureId"`
+		Lecture   string `form:"lecture"`
 		FacultyID int32  `form:"facultyId"`
 		Status    int32  `form:"status"`
 	}
@@ -32,9 +34,7 @@ type (
 
 type (
 	CreateTopicRegistrationRequest struct {
-		Name      string `json:"name"`
-		LectureID int32  `json:"lectureId"`
-		FacultyID int32  `json:"facultyId"`
+		Name string `json:"name"`
 	}
 	CreateTopicRegistrationResponse struct {
 		Result Result `json:"result"`

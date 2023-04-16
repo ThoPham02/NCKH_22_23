@@ -27,5 +27,5 @@ func CompareTimeStringWithNow(timeString string) (bool, error) {
 	now := time.Now()
 
 	// Compare the two times
-	return t.Before(now), nil
+	return t.After(now), nil
 }

@@ -3,8 +3,7 @@ SELECT * FROM "student_topic"
 WHERE id = $1 LIMIT 1;
 
 -- name: ListStudentTopics :many
-SELECT * FROM "student_topic"
-ORDER BY "type_account";
+SELECT * FROM "student_topic";
 
 -- name: CreateStudentTopic :one
 INSERT INTO "student_topic" (
