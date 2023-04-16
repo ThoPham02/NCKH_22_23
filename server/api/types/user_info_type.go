@@ -28,7 +28,7 @@ type (
 		Name        string  `json:"name"`
 		Email       string  `json:"email"`
 		Phone       string  `json:"phone"`
-		FacultyID   int32   `json:"facultyID"`
+		FacultyID   int32   `json:"facultyId"`
 		Degree      int32   `json:"degree"`
 		YearStart   int32   `json:"yearStart"`
 		AvatarUrl   *string `json:"avatarUrl"`

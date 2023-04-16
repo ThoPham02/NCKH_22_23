@@ -2,6 +2,7 @@ package handler
 
 import (
 	"github/ThoPham02/research_management/api/service"
+	"github/ThoPham02/research_management/api/token"
 	"github/ThoPham02/research_management/api/types"
 	"github/ThoPham02/research_management/core/http_request"
 	"github/ThoPham02/research_management/core/http_response"
@@ -67,7 +68,8 @@ func CreateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 			return
 		}
 
-		res, err := logic.CreateTopicRegistationLogic(&req)
+		payload := token.GetPayload(c)
+		res, err := logic.CreateTopicRegistationLogic(payload.UserID, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
