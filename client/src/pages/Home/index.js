@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import "./home.css"
 import { image1, image2, image3 } from "./imgHome"
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai"
+import { MdOutlineKeyboardDoubleArrowRight } from "react-icons/md"
 const Home = () => {
   //  const [pagi, setPagi] = useState(1)
   const [imageIndex, setImageIndex] = useState(0);
@@ -33,14 +34,28 @@ const Home = () => {
           <img className="img--new" src={images[imageIndex]} alt="###" />
           <AiOutlineRight className="nextImg dtImg" onClick={nextImg} />
         </div>
-         <div className="home__notification">
+        <div className="home__notification">
           <p>Thông báo</p>
         </div>
         <div className="home__prize">
           <p>giải thưởng</p>
-        </div> 
+          <ul>
+            <li>
+            <MdOutlineKeyboardDoubleArrowRight />
+            <a href="###">giải thưởng 1</a>
+            </li>
+            <li>
+            <MdOutlineKeyboardDoubleArrowRight />
+            <a href="###">giải thưởng 2</a>
+            </li>
+            <li>
+            <MdOutlineKeyboardDoubleArrowRight />
+            <a href="###">giải thưởng 3</a>
+            </li>
+          </ul>
+        </div>
       </div>
-      
+
     </div>
   );
 }
