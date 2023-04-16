@@ -1,0 +1,69 @@
+.newIMG{
+    margin-left: 100px;
+    width: 450px;
+    height: 400px;
+    position: relative;
+}
+.img--new{
+    width: 450px;
+    height: 400px;
+    border-radius: 20px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.dtImg{
+    width: 40px;
+    height: 30px;
+    background-color: white;
+    border-radius: 50%;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.prevImg{
+    position: absolute;
+    top: 50%;
+    left: 2%;
+}
+.nextImg{
+    position: absolute;
+    top: 50%;
+    right: 2%;
+}
+.name__head{
+    margin: 20px 100px 20px 100px;
+    font-size: 20px;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 3px solid #4e4e4e;
+}
+.home__child{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+.home__notification{  
+    width: 800px;
+    height: 200px;
+    position:absolute;
+    right: 0px;
+    top: 0px;
+    margin-right: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.home__notification > p{
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 3px solid #4e4e4e;
+}
+.home__prize {  
+    width: 800px;
+    height: 170px;
+    position:absolute;
+    right: 0px;
+    bottom: 0;
+    margin-right: 100px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.home__prize>p{
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 3px solid #4e4e4e;
+}
