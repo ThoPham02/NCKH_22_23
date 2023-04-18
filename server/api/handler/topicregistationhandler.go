@@ -89,13 +89,7 @@ func UpdateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 			return
 		}
 
-		id, err := GetUriID(c)
-		if err != nil {
-			http_response.ResponseJSON(c, http.StatusBadRequest, err)
-			return
-		}
-
-		res, err := logic.UpdateTopicRegistationLogic(id, &req)
+		res, err := logic.UpdateTopicRegistationLogic(&req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
