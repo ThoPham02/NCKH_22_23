@@ -21,9 +21,5 @@ WHERE id = $1;
 
 -- name: UpdateTopicRegistration :exec
 UPDATE "topic_registration"
-  set name = $2,
-  lecture_id = $3,
-  faculty_id = $4,
-  status = $5,
-  created_at = $6
-WHERE "id" = $1;
+  set status = $2
+WHERE "id" in ($1);

@@ -116,31 +116,16 @@ func (q *Queries) ListTopicRegistrations(ctx context.Context, name string) ([]To
 
 const updateTopicRegistration = `-- name: UpdateTopicRegistration :exec
 UPDATE "topic_registration"
-  set name = $2,
-  lecture_id = $3,
-  faculty_id = $4,
-  status = $5,
-  created_at = $6
-WHERE "id" = $1
+  set status = $2
+WHERE "id" in ($1)
 `
 
 type UpdateTopicRegistrationParams struct {
-	ID        int32     `json:"id"`
-	Name      string    `json:"name"`
-	LectureID int32     `json:"lecture_id"`
-	FacultyID int32     `json:"faculty_id"`
-	Status    int32     `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
+	ID     int32 `json:"id"`
+	Status int32 `json:"status"`
 }
 
 func (q *Queries) UpdateTopicRegistration(ctx context.Context, arg UpdateTopicRegistrationParams) error {
-	_, err := q.db.ExecContext(ctx, updateTopicRegistration,
-		arg.ID,
-		arg.Name,
-		arg.LectureID,
-		arg.FacultyID,
-		arg.Status,
-		arg.CreatedAt,
-	)
+	_, err := q.db.ExecContext(ctx, updateTopicRegistration, arg.ID, arg.Status)
 	return err
 }

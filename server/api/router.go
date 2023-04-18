@@ -22,13 +22,17 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.PUT("api/user/info", middleware.UserAuthentication(svc), handler.UpdateUserInfoHandler(svc))
 	router.POST("api/refresh-token", handler.RefreshTokenHandler(svc))
 	//topic api
-	router.GET("/api/topic")
-
+	router.POST("api/topic/regis/:id")
+	router.GET("api/topic")
+	
 	//topic registration api
 	router.GET("api/topic-registation", handler.GetListTopicRegistationHandler(svc))
 	router.GET("api/topic-registation/:id", handler.GetTopicRegistaionByIDHandler(svc))
 	router.PUT("api/topic-registation", handler.UpdateTopicRegistationHandler(svc))
 	router.POST("api/topic-registation", middleware.UserAuthentication(svc), handler.CreateTopicRegistationHandler(svc))
+	//conference
+	router.POST("api/conference")
+
 	//department api
 	router.GET("api/department", handler.GetListDepartmentHandler(svc))
 	router.GET("api/department/:id", handler.GetDepartmentByIDHandler(svc))

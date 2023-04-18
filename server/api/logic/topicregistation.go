@@ -2,6 +2,7 @@ package logic
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github/ThoPham02/research_management/api/constant"
 	db "github/ThoPham02/research_management/api/db/sqlc"
@@ -106,12 +107,16 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsReq
 			Status:  constant.MapStatusTopicRegistration[tmp.Status],
 		})
 	}
+	if req.Limit != 0 {
+		data = utils.SliceArray(data, req.Limit, req.Offset)
+	}
 
 	return &types.GetTopicRegistrationsResponse{
 		Result: types.Result{
 			Code:    constant.SUCCESS_CODE,
 			Message: constant.SUCCESS_MESSAGE,
 		},
+		Total:              len(data),
 		TopicRegistrations: data,
 	}, nil
 }
@@ -156,44 +161,56 @@ func (l *Logic) CreateTopicRegistationLogic(lectureID int32, req *types.CreateTo
 	}, nil
 }
 
-func (l *Logic) UpdateTopicRegistationLogic(id int32, req *types.UpdateTopicRegistrationRequest) (resp *types.UpdateTopicRegistrationResponse, err error) {
-	l.logHelper.Info("UpdateTopicRegistationLogic", id, req)
+func (l *Logic) UpdateTopicRegistationLogic(req *types.UpdateTopicRegistrationRequest) (resp *types.UpdateTopicRegistrationResponse, err error) {
+	l.logHelper.Info("UpdateTopicRegistationLogic", req)
 
-	topicRegis, err := l.svcCtx.Store.GetTopicRegistration(l.ctx, id)
+	var listTopicRegistrationId []int32
+
+	err = json.Unmarshal([]byte(req.ListTopicRegistrationId), &listTopicRegistrationId)
 	if err != nil {
-		if err == sql.ErrNoRows {
+		l.logHelper.Error(err)
+		return &types.UpdateTopicRegistrationResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
+	for _, id := range listTopicRegistrationId {
+
+		topicRegis, err := l.svcCtx.Store.GetTopicRegistration(l.ctx, id)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return &types.UpdateTopicRegistrationResponse{
+					Result: types.Result{
+						Code:    constant.TOPIC_REGIS_NOT_FOUND_CODE,
+						Message: constant.TOPIC_REGIS_NOT_FOUND_MESSAGE,
+					},
+				}, nil
+			}
+			l.logHelper.Error(err)
 			return &types.UpdateTopicRegistrationResponse{
 				Result: types.Result{
-					Code:    constant.TOPIC_REGIS_NOT_FOUND_CODE,
-					Message: constant.TOPIC_REGIS_NOT_FOUND_MESSAGE,
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
 				},
 			}, nil
 		}
-		l.logHelper.Error(err)
-		return &types.UpdateTopicRegistrationResponse{
-			Result: types.Result{
-				Code:    constant.DB_ERR_CODE,
-				Message: constant.DB_ERR_MESSAGE,
-			},
-		}, nil
+		err = l.svcCtx.Store.UpdateTopicRegistration(l.ctx, db.UpdateTopicRegistrationParams{
+			ID:     topicRegis.ID,
+			Status: req.Status,
+		})
+		if err != nil {
+			l.logHelper.Error(err)
+			return &types.UpdateTopicRegistrationResponse{
+				Result: types.Result{
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
+				},
+			}, nil
+		}
 	}
 
-	err = l.svcCtx.Store.UpdateTopicRegistration(l.ctx, db.UpdateTopicRegistrationParams{
-		ID:        id,
-		Name:      topicRegis.Name,
-		LectureID: topicRegis.LectureID,
-		FacultyID: topicRegis.FacultyID,
-		Status:    req.Status,
-	})
-	if err != nil {
-		l.logHelper.Error(err)
-		return &types.UpdateTopicRegistrationResponse{
-			Result: types.Result{
-				Code:    constant.DB_ERR_CODE,
-				Message: constant.DB_ERR_MESSAGE,
-			},
-		}, nil
-	}
 	return &types.UpdateTopicRegistrationResponse{
 		Result: types.Result{
 			Code:    constant.SUCCESS_CODE,
