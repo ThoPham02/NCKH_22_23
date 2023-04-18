@@ -1,6 +1,7 @@
 import Home from "./pages/Home";
 import Topic from "./pages/Topic"
 import Login from "./pages/Login"
+import Contact from "./pages/Contact";
 import LoginLayout from "./components/Layout/LoginLayout";
 import UserInfo from "./pages/UserInfo";
 
@@ -10,7 +11,7 @@ const publicRoutes = [
   { path: "/topic", component: Topic},
   { path: "/login", component: Login, Layout: LoginLayout},
   { path: "/category", component: Topic},
-  { path: "/contact", component: Topic},
+  { path: "/contact", component: Contact},
   { path: "/user-info", component: UserInfo},
 ];
 
