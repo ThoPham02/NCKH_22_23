@@ -5,14 +5,15 @@ import { CompareTime } from "../../utils/time";
 const loginSlice = createSlice({
   name: "user",
   initialState: {
-    status: "idle",
     token: {},
-    user: {},
-    info: {},
+    user: {}
   },
   reducers: {
+    login:(state, action) => {
+      state.token = action.payload.token
+      state.user = action.payload.user
+    },
     logout: (state, action) => {
-      state.status = "idle";
       state.token = {};
       state.user = {};
     },
