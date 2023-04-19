@@ -40,6 +40,7 @@
   line-height: 40px;
   color: #fff;
   background-color: #2691d9;
+  position: relative;
 }
 
 .login__submitBtn:hover {
