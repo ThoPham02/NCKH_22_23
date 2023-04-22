@@ -54,7 +54,7 @@ func (q *Queries) GetFaculty(ctx context.Context, id int32) (Faculty, error) {
 
 const listFaculties = `-- name: ListFaculties :many
 SELECT id, name FROM "faculty"
-ORDER BY "name"
+ORDER BY "id"
 `
 
 func (q *Queries) ListFaculties(ctx context.Context) ([]Faculty, error) {

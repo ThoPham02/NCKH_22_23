@@ -5,7 +5,7 @@ const DepartmentSlice = createSlice({
   name: "department",
   initialState: {
     status: "idle",
-    listDepartments: [],
+    departments: [],
   },
   reducers: {},
   extraReducers: (builder) => {
@@ -15,22 +15,18 @@ const DepartmentSlice = createSlice({
       })
       .addCase(fetchDepartment.fulfilled, (state, action) => {
         state.status = "idle";
-        state.listDepartments = action.payload.list_department;
+        if (action.payload.departments !== null) {
+          state.departments = action.payload.departments;
+        }
       });
   },
 });
 
-export const fetchDepartment = createAsyncThunk(
-  "getDepartment",
-  async (_, {getState}) => {
-    const state = getState()
-    let url = "/api/department?faculty_id=" + state.topicFilter.faculity
-    const response = await client.get(url);
+export const fetchDepartment = createAsyncThunk("getDepartment", async () => {
+  const response = await client.get("/api/department");
 
-    return response.data;
-  }
-);
+  return response.data;
+});
 
 export const DepartmentReducer = DepartmentSlice.reducer;
-
 export default DepartmentSlice;

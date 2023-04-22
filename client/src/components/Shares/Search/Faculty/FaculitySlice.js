@@ -5,10 +5,9 @@ const FaculitySlice = createSlice({
   name: "faculity",
   initialState: {
     status: "idle",
-    listFaculities: [],
+    faculties: [],
   },
-  reducers: {
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchFaculity.pending, (state, action) => {
@@ -16,20 +15,18 @@ const FaculitySlice = createSlice({
       })
       .addCase(fetchFaculity.fulfilled, (state, action) => {
         state.status = "idle";
-        state.listFaculities = action.payload.list_faculity;
+        if (action.payload.faculties !== null) {
+          state.faculties = action.payload.faculties;
+        }
       });
   },
 });
 
-export const fetchFaculity = createAsyncThunk(
-  "getFaculities",
-  async () => {
-    const response = await client.get("/api/faculity");
+export const fetchFaculity = createAsyncThunk("getFaculities", async () => {
+  const response = await client.get("/api/faculity");
 
-    return response.data;
-  }
-);
+  return response.data;
+});
 
 export const FaculityReducer = FaculitySlice.reducer;
-
 export default FaculitySlice;

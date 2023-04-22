@@ -4,7 +4,7 @@ WHERE id = $1 LIMIT 1;
 
 -- name: ListFaculties :many
 SELECT * FROM "faculty"
-ORDER BY "name";
+ORDER BY "id";
 
 -- name: CreateFaculty :one
 INSERT INTO "faculty" (
