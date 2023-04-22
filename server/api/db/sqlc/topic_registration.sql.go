@@ -10,6 +10,22 @@ import (
 	"time"
 )
 
+const acceptTopicRegistration = `-- name: AcceptTopicRegistration :exec
+UPDATE "topic_registration"
+  set status = $2
+WHERE "id" in ($1)
+`
+
+type AcceptTopicRegistrationParams struct {
+	ID     int32 `json:"id"`
+	Status int32 `json:"status"`
+}
+
+func (q *Queries) AcceptTopicRegistration(ctx context.Context, arg AcceptTopicRegistrationParams) error {
+	_, err := q.db.ExecContext(ctx, acceptTopicRegistration, arg.ID, arg.Status)
+	return err
+}
+
 const createTopicRegistration = `-- name: CreateTopicRegistration :one
 INSERT INTO "topic_registration" (
   "id", "name", "lecture_id", "faculty_id", "status", "created_at"
@@ -119,18 +135,16 @@ UPDATE "topic_registration"
   set name = $2,
   lecture_id = $3,
   faculty_id = $4,
-  status = $5,
-  created_at = $6
-WHERE "id" = $1
+  status = $5
+WHERE "id" in ($1)
 `
 
 type UpdateTopicRegistrationParams struct {
-	ID        int32     `json:"id"`
-	Name      string    `json:"name"`
-	LectureID int32     `json:"lecture_id"`
-	FacultyID int32     `json:"faculty_id"`
-	Status    int32     `json:"status"`
-	CreatedAt time.Time `json:"created_at"`
+	ID        int32  `json:"id"`
+	Name      string `json:"name"`
+	LectureID int32  `json:"lecture_id"`
+	FacultyID int32  `json:"faculty_id"`
+	Status    int32  `json:"status"`
 }
 
 func (q *Queries) UpdateTopicRegistration(ctx context.Context, arg UpdateTopicRegistrationParams) error {
@@ -140,7 +154,6 @@ func (q *Queries) UpdateTopicRegistration(ctx context.Context, arg UpdateTopicRe
 		arg.LectureID,
 		arg.FacultyID,
 		arg.Status,
-		arg.CreatedAt,
 	)
 	return err
 }

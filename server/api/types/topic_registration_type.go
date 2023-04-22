@@ -16,9 +16,12 @@ type (
 		Lecture   string `form:"lecture"`
 		FacultyID int32  `form:"facultyId"`
 		Status    int32  `form:"status"`
+		Limit     int32  `form:"limit"`
+		Offset    int32  `form:"offset"`
 	}
 	GetTopicRegistrationsResponse struct {
 		Result             Result              `json:"result"`
+		Total              int                 `json:"total"`
 		TopicRegistrations []TopicRegistration `json:"topicRegistrations"`
 	}
 )
@@ -43,9 +46,22 @@ type (
 
 type (
 	UpdateTopicRegistrationRequest struct {
-		Status int32 `json:"status"`
+		Name      string `json:"name"`
+		LectureID int32  `json:"lectureId"`
+		FacultyID int32  `json:"facultyId"`
+		Status    int32  `json:"status"`
 	}
 	UpdateTopicRegistrationResponse struct {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	AccceptTopicRegistrationRequest struct {
+		ListTopicRegistrationId string `json:"listTopicRegistrationId"`
+		Status                  int32  `json:"status"`
+	}
+	AcceptTopicRegistrationResponse struct {
 		Result Result `json:"result"`
 	}
 )

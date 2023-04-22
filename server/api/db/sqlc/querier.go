@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	AcceptTopicRegistration(ctx context.Context, arg AcceptTopicRegistrationParams) error
 	CreateConference(ctx context.Context, arg CreateConferenceParams) (Conference, error)
 	CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error)
 	CreateFaculty(ctx context.Context, arg CreateFacultyParams) (Faculty, error)

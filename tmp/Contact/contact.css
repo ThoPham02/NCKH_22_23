@@ -1,0 +1,6 @@
+.contact {
+    margin-left: 100px;
+}
+.contact > p {
+    font-size: 30px;
+}
