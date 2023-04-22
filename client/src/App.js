@@ -1,50 +1,55 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-import "./App.css";
-
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useSelector } from "react-redux";
 import React from "react";
 
-import DefaultLayout from "./components/Layout/DefaultLayout";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 import { publicRoutes, privateRoutes } from "./Router";
+import { userSelector } from "./store/selectors";
+import { DefaultLayout } from "./components/Layout";
 
 function App() {
+  const user = useSelector(userSelector);
+  const role = user.typeAccount;
   return (
     <Router>
       <Routes>
-        {publicRoutes.map((route, index) => {
-          const Layout = route.Layout || DefaultLayout;
-          const Page = route.component;
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                <Layout>
-                  <Page />
-                </Layout>
-              }
-            />
-          );
-        })}
-        {privateRoutes.map((route, index) => {
-          const Layout = route.Layout || DefaultLayout;
-          const Page = route.component;
-          return (
-            <Route
-              key={index}
-              path={route.path}
-              element={
-                <Layout>
-                  <Page />
-                </Layout>
-              }
-            />
-          );
-        })}
+        {role === undefined
+          ? publicRoutes.map((route, index) => {
+              const Layout = route.Layout || DefaultLayout;
+              const Page = route.component;
+              return (
+                <Route
+                  key={index}
+                  path={route.path}
+                  element={
+                    <Layout>
+                      <Page />
+                    </Layout>
+                  }
+                />
+              );
+            })
+          : privateRoutes
+              .filter((route) => route.role === role)
+              .map((route, index) => {
+                const Layout = route.Layout || DefaultLayout;
+                const Page = route.component;
+                return (
+                  <Route
+                    key={index}
+                    path={route.path}
+                    element={
+                      <Layout>
+                        <Page />
+                      </Layout>
+                    }
+                  />
+                );
+              })}
       </Routes>
     </Router>
-  )
-  
+  );
 }
 
 export default App;
