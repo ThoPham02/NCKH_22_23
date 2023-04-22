@@ -10,11 +10,12 @@ const publicRoutes = [
   { path: "/home", component: PublicHome },
   { path: "/login", component: PublicLogin, Layout: LoginLayout},
   { path: "/contact", component: PublicContact},
-  { path: "/topic", component: PublicTopic},
-  { path: "/topic-regis", component: PublicTopicRegis},
 ];
 
 const privateRoutes = [
+  // user dont login
+  { path: "/topic", component: PublicTopic, role: 0},
+  { path: "/topic-regis", component: PublicTopicRegis, role: 0},
   // student routes
   { path: "/topic", component: StudentTopic, role: 1},
   { path: "/my-topic", component: StudentMyTopic, role: 1},

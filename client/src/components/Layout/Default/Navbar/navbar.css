@@ -52,14 +52,15 @@
 .account__nav {
     list-style-type: none;
     border: 1px solid #000;
-    box-shadow: 0 2px 2px 2px rgb(0 0 0 / 40%);
     padding: 0;
-    display: none;
+    height: 0;
+    overflow: hidden;
 }
 
 .account__nav li{
     padding: 8px 12px;
     cursor: pointer;
+    background-color: #fff;
 }
 
 .account__nav li a{
@@ -74,5 +75,8 @@
 }
 
 .nav__login:hover .account__nav {
-    display: block;
+    box-shadow: 0 2px 2px 2px rgb(0 0 0 / 40%);
+    border-radius: 4px;
+    height: 80px;
+    transition: 0.5s;
 }

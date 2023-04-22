@@ -14,39 +14,38 @@ function App() {
   return (
     <Router>
       <Routes>
-        {role === 0
-          ? publicRoutes.map((route, index) => {
-              const Layout = route.Layout || DefaultLayout;
-              const Page = route.component;
-              return (
-                <Route
-                  key={index}
-                  path={route.path}
-                  element={
-                    <Layout>
-                      <Page />
-                    </Layout>
-                  }
-                />
-              );
-            })
-          : privateRoutes
-              .filter((route) => route.role === role)
-              .map((route, index) => {
-                const Layout = route.Layout || DefaultLayout;
-                const Page = route.component;
-                return (
-                  <Route
-                    key={index}
-                    path={route.path}
-                    element={
-                      <Layout>
-                        <Page />
-                      </Layout>
-                    }
-                  />
-                );
-              })}
+        {publicRoutes.map((route, index) => {
+          const Layout = route.Layout || DefaultLayout;
+          const Page = route.component;
+          return (
+            <Route
+              key={index}
+              path={route.path}
+              element={
+                <Layout>
+                  <Page />
+                </Layout>
+              }
+            />
+          );
+        })}
+        {privateRoutes
+          .filter((route) => route.role === role)
+          .map((route, index) => {
+            const Layout = route.Layout || DefaultLayout;
+            const Page = route.component;
+            return (
+              <Route
+                key={index}
+                path={route.path}
+                element={
+                  <Layout>
+                    <Page />
+                  </Layout>
+                }
+              />
+            );
+          })}
       </Routes>
     </Router>
   );

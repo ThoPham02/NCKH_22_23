@@ -1,9 +1,13 @@
-import { useDispatch } from "react-redux";
-import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 import "./style.css"
 import client from "../../../apis";
 import { LoginActions } from "./loginSlice";
+import { userSelector } from "../../../store/selectors";
+import useForm from "../../../hooks/useForm";
+import Loading from "../../../components/Shares/Loading";
 
 const Login = () => {
     const dispatch = useDispatch();
@@ -27,7 +31,7 @@ const Login = () => {
     const {values, handleChange, handleSubmit} = useForm(onSubmit, { name: "", password: ""})
   
     const navige = useNavigate();
-    const isAuthenticated = useSelector(loginSelector).user.name !== undefined;
+    const isAuthenticated = useSelector(userSelector).typeAccount !== 0;
     useEffect(() => {
       if (isAuthenticated) {
         navige("/")
@@ -41,7 +45,7 @@ const Login = () => {
               <h1>Tài khoản</h1>
             </div>
             <div className="login__input">
-              <input type="text" name="name" placeholder="Tên đăng nhập" value={values.name} onChange={handleChange} autocomplete="off"/>
+              <input type="text" name="name" placeholder="Tên đăng nhập" value={values.name} onChange={handleChange} autoComplete="off"/>
               <span className="err"></span>
             </div>
             <div className="login__input">
