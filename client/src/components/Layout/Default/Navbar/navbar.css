@@ -1,0 +1,82 @@
+.nav {
+    list-style-type: none;
+    box-shadow: 0 3px 3px 0 rgb(0 0 0 / 80%);
+    position: relative;
+    background-color: #fff;
+}
+
+.nav>li>a{
+    line-height: 36px;
+    padding: 8px 24px;
+
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: bold;
+    color: #000;
+}
+
+.nav>li:hover>a{
+    color: aliceblue;
+    background-color: rgb(0 0 0 / 80%);
+    border-radius: 10px 10px 0 0;
+}
+
+.nav__login {
+    position: absolute;
+    right: 24px;
+    width: 200px;
+}
+
+.nav__login svg {
+    font-size: 28px;
+    padding-bottom: 4px;
+}
+
+.nav__login:hover>a{
+    color: #f50909;
+    border-radius: 10px;
+}
+
+.nav__login div a{
+    text-decoration: none;
+    color: #000;
+}
+
+.nav__login div span{
+    line-height: 36px;
+    padding: 8px 0;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.account__nav {
+    list-style-type: none;
+    border: 1px solid #000;
+    padding: 0;
+    height: 0;
+    overflow: hidden;
+}
+
+.account__nav li{
+    padding: 8px 12px;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+.account__nav li a{
+    text-decoration: none;
+    color: #000;
+}
+
+.account__nav li:hover {
+    padding: 8px 12px;
+    color: aliceblue;
+    background-color: #00ace9;
+}
+
+.nav__login:hover .account__nav {
+    box-shadow: 0 2px 2px 2px rgb(0 0 0 / 40%);
+    border-radius: 4px;
+    height: 80px;
+    transition: 0.5s;
+}

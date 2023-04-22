@@ -1,8 +1,6 @@
-// import { createSelector } from 'reselect'
-
+// select login info
 export const loginSelector = (state) => state.login;
-export const topicFilterSelector = (state) => state.topicFilter
-export const faculitySelector = (state) => state.faculity.listFaculities
-export const departmentSelector = (state) => state.department.listDepartments
+export const userSelector = (state) => state.login.user;
+export const roleSelector = (state) => state.login.user.typeAccount;
+export const tokenSelector = (state) => state.login.token;
 
-export const topicSelector = (state) => state.topic

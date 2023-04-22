@@ -46,10 +46,22 @@ type (
 
 type (
 	UpdateTopicRegistrationRequest struct {
+		Name      string `json:"name"`
+		LectureID int32  `json:"lectureId"`
+		FacultyID int32  `json:"facultyId"`
+		Status    int32  `json:"status"`
+	}
+	UpdateTopicRegistrationResponse struct {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	AccceptTopicRegistrationRequest struct {
 		ListTopicRegistrationId string `json:"listTopicRegistrationId"`
 		Status                  int32  `json:"status"`
 	}
-	UpdateTopicRegistrationResponse struct {
+	AcceptTopicRegistrationResponse struct {
 		Result Result `json:"result"`
 	}
 )

@@ -89,7 +89,33 @@ func UpdateTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFu
 			return
 		}
 
-		res, err := logic.UpdateTopicRegistationLogic(&req)
+		id, err := GetUriID(c)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusBadRequest, err)
+			return
+		}
+
+		res, err := logic.UpdateTopicRegistationLogic(id, &req)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
+			return
+		}
+		http_response.ResponseJSON(c, http.StatusOK, res)
+	}
+}
+
+func AcceptTopicRegistationHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
+	return func(c *gin.Context) {
+		logic := InitLogic(svcCtx, c, "accept-topic-regis")
+
+		var req types.AccceptTopicRegistrationRequest
+		err := http_request.BindBodyJson(c, &req)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusBadRequest, err)
+			return
+		}
+
+		res, err := logic.AcceptTopicRegistationLogic(&req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
