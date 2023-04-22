@@ -14,7 +14,7 @@ function App() {
   return (
     <Router>
       <Routes>
-        {role === undefined
+        {role === 0
           ? publicRoutes.map((route, index) => {
               const Layout = route.Layout || DefaultLayout;
               const Page = route.component;

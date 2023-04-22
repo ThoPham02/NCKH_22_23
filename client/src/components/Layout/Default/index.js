@@ -10,7 +10,7 @@ const Default = ({ children }) => {
       <Header />
       <NavBar />
       <div className="container" style={{ 
-        minHeight: "calc(100vh - 219px)",
+        minHeight: "calc(100vh - 215px)",
         marginTop: "4px",
       }}>
         {children}

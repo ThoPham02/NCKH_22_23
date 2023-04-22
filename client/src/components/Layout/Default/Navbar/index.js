@@ -1,19 +1,17 @@
-import { useDispatch, useSelector } from "react-redux";
 import { BiUserCircle } from "react-icons/bi";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./navbar.css";
+import { LoginActions } from "../../../../pages/common/Login/loginSlice";
+import { userSelector } from "../../../../store/selectors";
+import { userNav } from "./data";
 
 const NavBar = () => {
-  const login = {};
-
   const dispatch = useDispatch();
+  const user = useSelector(userSelector);
   function handleLogout() {
-    dispatch(loginSlice.actions.logout());
-  }
-  let switchLink = ""
-  if (login.user.type) {
-    switchLink = "/" + login.user.type
+    dispatch(LoginActions.logout());
   }
 
   var loginAccount = (
@@ -25,10 +23,10 @@ const NavBar = () => {
     </div>
   );
 
-  if (login.user.name !== undefined) {
+  if (user.typeAccount !== 0) {
     loginAccount = (
       <div>
-        <span>Xin Chào, {login.user.name}</span>
+        <span>Xin Chào, {user.name}</span>
         <ul className="account__nav">
           <li>
             <Link to="/user-info">Thông tin</Link>
@@ -40,29 +38,18 @@ const NavBar = () => {
       </div>
     );
   }
-
   return (
     <ul className="nav">
       <li>
-        <Link to="/">Trang Chủ</Link>
+        <Link to="/home">Trang chủ</Link>
       </li>
+      {userNav[user.typeAccount].map((item, index) => (
+        <li key={index}>
+          <Link to={item.path}>{item.name}</Link>
+        </li>
+      ))}
       <li>
-        <Link to={`${switchLink}/topic`}>Đề tài</Link>
-      </li>
-      <li>
-        <Link to={`${switchLink}/topic-registation`}>Đề Xuất</Link>
-      </li>
-      <li>
-        <Link to={`${switchLink}/conference`}>Hội Nghị</Link>
-      </li>
-      <li>
-        <Link to={`${switchLink}/statistical`}>Thống Kê</Link>
-      </li>
-      <li>
-        <Link to="/category">Danh mục</Link>
-      </li>
-      <li>
-        <Link to="/contact">Liên Hệ</Link>
+        <Link to="/contact">Liên hệ</Link>
       </li>
       <li className="nav__login">
         {loginAccount}
