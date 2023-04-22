@@ -33,7 +33,7 @@ func (l *Logic) GetListDepartmentLogic(req *types.GetDepartmentsRequest) (resp *
 	}
 
 	for _, tmp := range listDepartment {
-		if req.FacultyID != 0 && req.FacultyID == tmp.FacultyID {
+		if req.FacultyID == 0 || req.FacultyID == tmp.FacultyID {
 			data = append(data, types.Department{
 				ID:        tmp.ID,
 				Name:      tmp.Name,

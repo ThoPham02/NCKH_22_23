@@ -1,0 +1,11 @@
+.subcard {
+    padding: 0;
+    margin: 8px 0;
+}
+
+.subcard-header {
+    background-color: #fff;
+    padding: 8px 24px;
+    font-weight: 500;
+    font-size: 14px;
+}

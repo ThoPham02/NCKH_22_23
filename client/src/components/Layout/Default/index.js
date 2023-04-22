@@ -6,7 +6,7 @@ const background = require("./background.png")
 
 const Default = ({ children }) => {
   return (
-    <div style={{backgroundImage: `url(${background})`, backgroundSize: "cover"}}>
+    <div style={{backgroundImage: `url(${background})`, backgroundSize: "100% auto"}}>
       <Header />
       <NavBar />
       <div className="container" style={{ 
