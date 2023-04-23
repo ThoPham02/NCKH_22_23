@@ -20,14 +20,14 @@ const Home = () => {
       <Card title="Thông Báo">
         <div  className="notification">
           <div className="notification-img">
-            <img src={images[curent]} alt="..." />
+            <img src={images[curent]} alt="..."/>
           </div>
           <div className="notification-content">
             {listNotifications.map((notification, index) => {
               return (
-                <div>
+                <div key={index}>
                     <MdOutlineKeyboardDoubleArrowRight />
-                  <a key={index} href={notification.url}>
+                  <a href={notification.url}>
                     {notification.name}
                   </a>
                 </div>
@@ -41,9 +41,9 @@ const Home = () => {
       <div className="notification-content">
             {instructions.map((notification, index) => {
               return (
-                <div>
+                <div key={index}>
                     <MdOutlineKeyboardDoubleArrowRight />
-                  <a key={index} href={notification.url}>
+                  <a href={notification.url}>
                     {notification.name}
                   </a>
                 </div>

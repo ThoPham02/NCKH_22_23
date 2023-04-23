@@ -12,19 +12,45 @@ import {
   SearchFaculty,
   SearchStatus,
 } from "../../../components/Shares/Search";
+import { useState } from "react";
 
 const Topic = () => {
+  const [filter, setFilter] = useState({
+    departmentId: 0,
+    facultyId: 0,
+    word: "",
+    status: 0,
+    dateTo: "",
+    dateFrom: "",
+  });
+
   return (
     <div className="topic">
       <Card title="Danh sách đề tài">
         <SubCard title="Tìm kiếm">
           <Form className="search">
-            <SearchWord></SearchWord>
-            <SearchDepartment></SearchDepartment>
-            <SearchFaculty></SearchFaculty>
-            <SearchStatus></SearchStatus>
-            <SearchDateFrom></SearchDateFrom>
-            <SearchDateTo></SearchDateTo>
+            <SearchWord value={filter.word} setFilter={setFilter}></SearchWord>
+            <SearchDepartment
+              faculty={filter.facultyId}
+              value={filter.departmentId}
+              setFilter={setFilter}
+            ></SearchDepartment>
+            <SearchFaculty
+              value={filter.facultyId}
+              setFilter={setFilter}
+            ></SearchFaculty>
+            <SearchStatus
+              value={filter.status}
+              setFilter={setFilter}
+            ></SearchStatus>
+            <SearchDateFrom
+              value={filter.dateFrom}
+              setFilter={setFilter}
+            ></SearchDateFrom>
+            <SearchDateTo
+              value={filter.dateTo}
+              setFilter={setFilter}
+            ></SearchDateTo>
             <Form.Group>
               <Button variant="primary" type="submit" className="search-submit">
                 Tìm kiếm
