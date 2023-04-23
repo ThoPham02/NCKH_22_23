@@ -1,5 +1,6 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import { useState } from "react";
 
 import "./style.css";
 import Card from "../../../components/Shares/Card";
@@ -12,7 +13,6 @@ import {
   SearchFaculty,
   SearchStatus,
 } from "../../../components/Shares/Search";
-import { useState } from "react";
 
 const Topic = () => {
   const [filter, setFilter] = useState({
