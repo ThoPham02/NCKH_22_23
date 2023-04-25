@@ -5,6 +5,10 @@ WHERE id = $1 LIMIT 1;
 -- name: ListStudentTopics :many
 SELECT * FROM "student_topic";
 
+-- name: ListStudentByTopicId :many
+SELECT student_id FROM "student_topic"
+WHERE topic_id = $1;
+
 -- name: CreateStudentTopic :one
 INSERT INTO "student_topic" (
   "id", "student_id", "topic_id"
