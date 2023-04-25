@@ -3,7 +3,7 @@ import Table from 'react-bootstrap/Table'
 import TableHeader from './TableHeader'
 import TableBody from './TableBody';
 
-function TableTopic({listHead, listItem, listKey}) {
+function TableTopic1({listHead, listItem, listKey}) {
   return (
     <Table striped bordered hover>
       <TableHeader listKey={listHead}/>
@@ -12,4 +12,4 @@ function TableTopic({listHead, listItem, listKey}) {
   );
 }
 
-export default TableTopic;
+export default TableTopic1;
