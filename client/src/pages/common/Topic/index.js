@@ -23,7 +23,6 @@ const Topic = () => {
     dateTo: "",
     dateFrom: "",
   });
-
   return (
     <div className="topic">
       <Card title="Danh sách đề tài">
@@ -57,6 +56,14 @@ const Topic = () => {
               </Button>
             </Form.Group>
           </Form>
+        </SubCard>
+
+        <SubCard title="Danh sách đề tài">
+          {/* <TableTopic
+            listHead={['Faculty ID', 'Word', 'Status', 'Date To', 'Date From']}
+            listItem={listDataTopic}
+            listKey={['facultyId', 'word', 'status', 'dateTo', 'dateFrom']}
+          /> */}
         </SubCard>
       </Card>
     </div>

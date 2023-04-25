@@ -3,7 +3,7 @@ const TableHeader = ({listKey}) => {
     <thead>
       <tr>
         {listKey.map((key, index) => {
-            return (<th key={index}>{key}</th>)
+            return (<th style={{alignItems:"center"}}key={index}>{key}</th>)
         })}
       </tr>
     </thead>
