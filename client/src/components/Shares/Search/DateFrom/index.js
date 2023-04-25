@@ -1,9 +1,12 @@
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/esm/Col";
 
-const DateFrom = ({setDateFrom}) => {
+const DateFrom = ({ value, setFilter }) => {
   const handleDateFrom = (e) => {
-    setDateFrom(e.target.value);
+    setFilter(prevState => ({
+      ...prevState,
+      dateFrom: e.target.value
+    }));
   };
 
   return (
@@ -12,6 +15,7 @@ const DateFrom = ({setDateFrom}) => {
         type="date"
         placeholder="Ngày bắt đầu"
         onChange={handleDateFrom}
+        value={value}
       />
     </Form.Group>
   );

@@ -2,13 +2,12 @@ package utils
 
 import (
 	"fmt"
+	"github/ThoPham02/research_management/api/constant"
 	"time"
 )
 
 func ConvertStringToTime(s string) (*time.Time, error) {
-	layout := "2006-01-02 15:04:05" // the format of your string
-
-	t, err := time.Parse(layout, s)
+	t, err := time.Parse(constant.Layout, s)
 	if err != nil {
 		fmt.Println("Error:", err)
 		return nil, err
@@ -18,7 +17,7 @@ func ConvertStringToTime(s string) (*time.Time, error) {
 
 func CompareTimeStringWithNow(timeString string) (bool, error) {
 	// Parse the time string into a time.Time object
-	t, err := time.Parse(time.RFC3339, timeString)
+	t, err := time.Parse(constant.Layout, timeString)
 	if err != nil {
 		return false, err
 	}

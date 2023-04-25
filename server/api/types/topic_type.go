@@ -1,16 +1,15 @@
 package types
 
 type Topic struct {
-	ID           int32   `json:"id"`
-	Name         string  `json:"name"`
-	Lecture      string  `json:"lecture"` // lecture name
-	FacultyID    int32   `json:"facultyId"`
-	Status       string  `json:"status"`
-	ResultUrl    string  `json:"resultUrl"`
-	ListStudents []int32 `json:"listStudents"`
-	GroupId      int32   `json:"groupId"`
-	TimeStart    string  `json:"timeStart"`
-	TimeEnd      string  `json:"timeEnd"`
+	ID           int32    `json:"id"`
+	Name         string   `json:"name"`
+	Lecture      string   `json:"lecture"` // lecture name
+	Faculty      string   `json:"faculty"` // faculty name
+	Status       string   `json:"status"`
+	ResultUrl    string   `json:"resultUrl"`
+	ListStudents []string `json:"listStudents"` // list of students
+	TimeStart    string   `json:"timeStart"`
+	TimeEnd      string   `json:"timeEnd"`
 }
 
 type (
@@ -26,9 +25,10 @@ type (
 type (
 	GetTopicRequest struct {
 		Search       string `form:"search"`
-		LectureID    int32  `form:"lectureId"`
 		ConferenceID int32  `form:"conferenceId"`
-		GroupID      int32  `form:"groupId"`
+		LectureID    int32  `form:"lectureId"`
+		FacultyID    int32  `form:"facultyId"`
+		StudentID    int32  `form:"studentId"`
 		Status       int32  `form:"status"`
 		TimeStart    string `form:"timeStart"`
 		TimeEnd      string `form:"timeEnd"`
@@ -38,6 +38,7 @@ type (
 
 	GetTopicResponse struct {
 		Result     Result  `json:"result"`
+		Total      int     `json:"total"`
 		ListTopics []Topic `json:"listTopics"`
 	}
 )
@@ -51,8 +52,14 @@ type (
 
 type (
 	CreateTopicRequest struct {
+		ListStudent  string `json:"listStudent"`
+		TopicRegisID int32  `json:"topicRegisId"`
+		ConferenceID int32  `json:"conferenceId"`
+		TimeStart    string `json:"timeStart"`
+		TimeEnd      string `json:"timeEnd"`
 	}
 	CreateTopicResponse struct {
+		Result Result `json:"result"`
 	}
 )
 

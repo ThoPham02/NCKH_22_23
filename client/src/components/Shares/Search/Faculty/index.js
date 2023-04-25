@@ -6,7 +6,7 @@ import { fetchFaculity } from "./FaculitySlice";
 import { facultySelector } from "../../../../store/selectors";
 import { useEffect } from "react";
 
-const Faculty = ({ setSearchFaculty }) => {
+const Faculty = ({value, setFilter }) => {
   const dispatch = useDispatch();
   const list = useSelector(facultySelector);
   useEffect(() => {
@@ -15,12 +15,16 @@ const Faculty = ({ setSearchFaculty }) => {
 
 
   const handleSearchFaculity = (e) => {
-    setSearchFaculty(e.target.value);
+    setFilter(prevState => ({
+      ...prevState,
+      facultyId: e.target.value,
+      departmentId: 0
+    }));
   };
   return (
     <Form.Group className="col-12 col-sm-12 col-md-6 col-lg-3">
-      <Form.Select onChange={handleSearchFaculity}>
-        <option value="0">Tất cả các khoa</option>
+      <Form.Select onChange={handleSearchFaculity} value={value}>
+        <option value={0}>Tất cả các khoa</option>
         {list.map((faculity, index) => {
           return (
             <option value={faculity.id} key={index}>
