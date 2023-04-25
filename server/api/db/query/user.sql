@@ -6,6 +6,10 @@ WHERE id = $1 LIMIT 1;
 SELECT * FROM "user"
 WHERE name = $1 LIMIT 1;
 
+-- name: GetUserNameByID :one
+SELECT name FROM "user"
+WHERE id = $1;
+
 -- name: ListUsers :many
 SELECT * FROM "user"
 ORDER BY "type_account";

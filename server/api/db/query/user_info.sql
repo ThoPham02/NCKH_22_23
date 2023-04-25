@@ -6,9 +6,6 @@ WHERE "user_id" = $1 LIMIT 1;
 SELECT * FROM "user_info"
 ORDER BY "name";
 
--- name: GetUserNameByListID :many
-SELECT name FROM "user_info" WHERE user_id in ( );
-
 -- name: CreateUserInfo :one
 INSERT INTO "user_info" (
   "id", "user_id", "name", "email", "phone", "faculty_id", "degree", "year_start", "avata_url", "birthday", "bank_account"

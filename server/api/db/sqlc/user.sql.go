@@ -91,6 +91,18 @@ func (q *Queries) GetUserByName(ctx context.Context, name string) (User, error) 
 	return i, err
 }
 
+const getUserNameByID = `-- name: GetUserNameByID :one
+SELECT name FROM "user"
+WHERE id = $1
+`
+
+func (q *Queries) GetUserNameByID(ctx context.Context, id int32) (string, error) {
+	row := q.db.QueryRowContext(ctx, getUserNameByID, id)
+	var name string
+	err := row.Scan(&name)
+	return name, err
+}
+
 const listUsers = `-- name: ListUsers :many
 SELECT id, name, hash_password, email, type_account FROM "user"
 ORDER BY "type_account"

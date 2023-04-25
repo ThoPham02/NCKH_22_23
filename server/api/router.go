@@ -38,10 +38,7 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.POST("api/topic-registation", middleware.UserAuthentication(svc), handler.CreateTopicRegistationHandler(svc)) // tạo đề tài đề xuất // done
 
 	//conference
-	// lấy danh sách nhóm
-	// lấy danh sach thanh vien theo id nhom
-	// tao nhom
-	// cap nhat thanh vien nhom
+	router.POST("api/conference", handler.CreateConferenceHandler(svc))
 
 	//department api
 	router.GET("api/department", handler.GetListDepartmentHandler(svc))

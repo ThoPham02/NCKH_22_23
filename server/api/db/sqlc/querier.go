@@ -50,7 +50,7 @@ type Querier interface {
 	GetUser(ctx context.Context, id int32) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
 	GetUserInfo(ctx context.Context, userID int32) (UserInfo, error)
-	GetUserNameByListID(ctx context.Context, userID int32) ([]string, error)
+	GetUserNameByID(ctx context.Context, id int32) (string, error)
 	ListConferences(ctx context.Context) ([]Conference, error)
 	ListDepartments(ctx context.Context) ([]Department, error)
 	ListFaculties(ctx context.Context) ([]Faculty, error)

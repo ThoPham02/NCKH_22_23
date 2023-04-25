@@ -52,8 +52,14 @@ type (
 
 type (
 	CreateTopicRequest struct {
+		ListStudent  string `json:"listStudent"`
+		TopicRegisID int32  `json:"topicRegisId"`
+		ConferenceID int32  `json:"conferenceId"`
+		TimeStart    string `json:"timeStart"`
+		TimeEnd      string `json:"timeEnd"`
 	}
 	CreateTopicResponse struct {
+		Result Result `json:"result"`
 	}
 )
 
