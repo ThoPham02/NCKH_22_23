@@ -98,6 +98,33 @@ func (q *Queries) GetUserInfo(ctx context.Context, userID int32) (UserInfo, erro
 	return i, err
 }
 
+const getUserNameByListID = `-- name: GetUserNameByListID :many
+SELECT name FROM "user_info" WHERE user_id in ($1)
+`
+
+func (q *Queries) GetUserNameByListID(ctx context.Context, userID int32) ([]string, error) {
+	rows, err := q.db.QueryContext(ctx, getUserNameByListID, userID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []string{}
+	for rows.Next() {
+		var name string
+		if err := rows.Scan(&name); err != nil {
+			return nil, err
+		}
+		items = append(items, name)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listUserInfos = `-- name: ListUserInfos :many
 SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
 ORDER BY "name"
