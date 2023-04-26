@@ -49,7 +49,7 @@ func GetTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
 	}
 }
 
-func UpdateTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
+func UpdateGroupTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logic := InitLogic(svc, c, "update-topic")
 
@@ -66,7 +66,7 @@ func UpdateTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		resp, err := logic.UpdateTopicLogic(id, &req)
+		resp, err := logic.UpdateGroupTopic(id, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
@@ -105,7 +105,13 @@ func AcceptTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		resp, err := logic.AcceptTopicLogic(&req)
+		id, err := GetUriID(c)
+		if err != nil {
+			http_response.ResponseJSON(c, http.StatusBadRequest, err)
+			return
+		}
+
+		resp, err := logic.AcceptTopicLogic(id, &req)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return

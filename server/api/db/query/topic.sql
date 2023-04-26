@@ -18,7 +18,7 @@ RETURNING *;
 DELETE FROM "topic"
 WHERE id = $1;
 
--- name: UpdateTopic :exec
+-- name: AcceptTopic :exec
 UPDATE "topic"
   set name = $2,
   lecture_id = $3,
@@ -29,4 +29,16 @@ UPDATE "topic"
   group_id = $8,
   time_start = $9,
   time_end = $10
+WHERE id = $1;
+
+-- name: UpdateGroupTopic :exec
+UPDATE "topic"
+set  
+  group_id = $2
+WHERE id = $1;
+
+-- name: UpdateStatusTopic :exec
+UPDATE "topic"
+set  
+  status = $2
 WHERE id = $1;

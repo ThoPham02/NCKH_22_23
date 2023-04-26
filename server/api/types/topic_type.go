@@ -45,8 +45,11 @@ type (
 
 type (
 	UpdateTopicRequest struct {
+		GroupID      *int32 `json:"groupId"`
+		
 	}
 	UpdateTopicResponse struct {
+		Result Result `json:"result"`
 	}
 )
 
@@ -54,9 +57,6 @@ type (
 	CreateTopicRequest struct {
 		ListStudent  string `json:"listStudent"`
 		TopicRegisID int32  `json:"topicRegisId"`
-		ConferenceID int32  `json:"conferenceId"`
-		TimeStart    string `json:"timeStart"`
-		TimeEnd      string `json:"timeEnd"`
 	}
 	CreateTopicResponse struct {
 		Result Result `json:"result"`
@@ -65,7 +65,11 @@ type (
 
 type (
 	AcceptTopicRequest struct {
+		ConferenceID int32  `json:"conferenceId"`
+		TimeStart    string `json:"timeStart"`
+		TimeEnd      string `json:"timeEnd"`
 	}
 	AcceptTopicResponse struct {
+		Result Result `json:"result"`
 	}
 )
