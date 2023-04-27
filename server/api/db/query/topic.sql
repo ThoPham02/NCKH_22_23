@@ -6,6 +6,11 @@ WHERE id = $1 LIMIT 1;
 SELECT * FROM "topic"
 ORDER BY "name";
 
+-- name: ListTopicsFilter :many
+SELECT * FROM "topic"
+WHERE name LIKE $1
+ORDER BY "name";
+
 -- name: CreateTopic :one
 INSERT INTO "topic" (
   "id", "name", "lecture_id", "faculty_id", "status", "result_url", "conference_id", "group_id", "time_start", "time_end"

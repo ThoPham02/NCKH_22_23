@@ -64,6 +64,7 @@ type Querier interface {
 	ListTopicRegistrations(ctx context.Context, name string) ([]TopicRegistration, error)
 	ListTopicResults(ctx context.Context) ([]TopicResult, error)
 	ListTopics(ctx context.Context) ([]Topic, error)
+	ListTopicsFilter(ctx context.Context, name string) ([]Topic, error)
 	ListUserInfos(ctx context.Context) ([]UserInfo, error)
 	ListUserInfosByName(ctx context.Context, name string) ([]UserInfo, error)
 	ListUsers(ctx context.Context) ([]User, error)

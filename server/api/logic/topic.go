@@ -3,6 +3,7 @@ package logic
 import (
 	"database/sql"
 	"encoding/json"
+	"fmt"
 	"github/ThoPham02/research_management/api/constant"
 	db "github/ThoPham02/research_management/api/db/sqlc"
 	"github/ThoPham02/research_management/api/types"
@@ -100,12 +101,119 @@ func (l *Logic) GetTopicByIdLogic(id int32) (resp *types.GetTopicByIdResponse, e
 }
 
 func (l *Logic) GetTopicLogic(req *types.GetTopicRequest) (resp *types.GetTopicResponse, err error) {
+	l.logHelper.Info("Get Topic Logic", req)
+	topics, err := l.svcCtx.Store.ListTopicsFilter(l.ctx, fmt.Sprintf("%%%s%%", req.Search))
+	if err != nil {
+		if err == sql.ErrNoRows {
+			return &types.GetTopicResponse{
+				Result: types.Result{
+					Code:    constant.SUCCESS_CODE,
+					Message: constant.SUCCESS_MESSAGE,
+				},
+			}, nil
+		}
+	}
 
-	return
+	var list []types.Topic
+
+	for _, topic := range topics {
+		if req.FacultyID != 0 && req.FacultyID != topic.FacultyID {
+			continue
+		}
+		if req.LectureID != 0 && req.LectureID != topic.LectureID {
+			continue
+		}
+
+		var listStudent []string
+		studentID, err := l.svcCtx.Store.ListStudentByTopicId(l.ctx, topic.ID)
+		if err != nil {
+			l.logHelper.Error(err)
+			return &types.GetTopicResponse{
+				Result: types.Result{
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
+				},
+			}, nil
+		}
+		for _, id := range studentID {
+			student, err := l.svcCtx.Store.GetUser(l.ctx, id)
+			if err != nil {
+				l.logHelper.Error(err)
+				return &types.GetTopicResponse{
+					Result: types.Result{
+						Code:    constant.DB_ERR_CODE,
+						Message: constant.DB_ERR_MESSAGE,
+					},
+				}, nil
+			}
+			
+			listStudent = append(listStudent, student.Name)
+		}
+		if req.StudentID != 0 && {
+			continue
+		}
+
+
+		lecture, err := l.svcCtx.Store.GetUserNameByID(l.ctx, topic.LectureID)
+		if err != nil {
+			l.logHelper.Error(err)
+			return &types.GetTopicResponse{
+				Result: types.Result{
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
+				},
+			}, nil
+		}
+
+		faculty, err := l.svcCtx.Store.GetFaculty(l.ctx, topic.FacultyID)
+		if err != nil {
+			l.logHelper.Error(err)
+			return &types.GetTopicResponse{
+				Result: types.Result{
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
+				},
+			}, nil
+		}
+
+		list = append(list, types.Topic{
+			ID:           topic.ID,
+			Name:         topic.Name,
+			Lecture:      lecture,
+			Faculty:      faculty.Name,
+			Status:       constant.MapStatusTopic[topic.Status],
+			ResultUrl:    topic.ResultUrl.String,
+			ListStudents: listStudent,
+			TimeStart:    topic.TimeStart.Format(constant.Layout),
+			TimeEnd:      topic.TimeEnd.Format(constant.Layout),
+		})
+	}
+
+	return &types.GetTopicResponse{
+		Result: types.Result{
+			Code:    constant.SUCCESS_CODE,
+			Message: constant.SUCCESS_MESSAGE,
+		},
+		Total:      len(list),
+		ListTopics: list,
+	}, nil
 }
 
-func (l *Logic) AcceptTopicLogic(id int32, req *types.AcceptTopicRequest) (resp *types.AcceptTopicResponse, err error) {
+func (l *Logic) AcceptTopicLogic(req *types.AcceptTopicRequest) (resp *types.AcceptTopicResponse, err error) {
 	l.logHelper.Info("AcceptTopicLogic", req)
+
+	var listTopicId []int32
+
+	err = json.Unmarshal([]byte(req.ListTopicID), &listTopicId)
+	if err != nil {
+		l.logHelper.Error(err)
+		return &types.AcceptTopicResponse{
+			Result: types.Result{
+				Code:    constant.DB_ERR_CODE,
+				Message: constant.DB_ERR_MESSAGE,
+			},
+		}, nil
+	}
 
 	timeStart, err := utils.ConvertStringToTime(req.TimeStart)
 	if err != nil {
@@ -127,39 +235,40 @@ func (l *Logic) AcceptTopicLogic(id int32, req *types.AcceptTopicRequest) (resp 
 			},
 		}, nil
 	}
+	for _, id := range listTopicId {
+		topic, err := l.svcCtx.Store.GetTopic(l.ctx, id)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return &types.AcceptTopicResponse{
+					Result: types.Result{
+						Code:    constant.TOPIC_NOT_FOUND_CODE,
+						Message: constant.TOPIC_NOT_FOUND_MESS,
+					},
+				}, nil
+			}
+		}
 
-	topic, err := l.svcCtx.Store.GetTopic(l.ctx, id)
-	if err != nil {
-		if err == sql.ErrNoRows {
+		err = l.svcCtx.Store.AcceptTopic(l.ctx, db.AcceptTopicParams{
+			ID:           id,
+			Name:         topic.Name,
+			LectureID:    topic.LectureID,
+			FacultyID:    topic.FacultyID,
+			Status:       2,
+			ResultUrl:    sql.NullString{Valid: false},
+			ConferenceID: topic.ConferenceID,
+			GroupID:      sql.NullInt32{Valid: false},
+			TimeStart:    *timeStart,
+			TimeEnd:      *timeEnd,
+		})
+		if err != nil {
+			l.logHelper.Error(err)
 			return &types.AcceptTopicResponse{
 				Result: types.Result{
-					Code:    constant.TOPIC_NOT_FOUND_CODE,
-					Message: constant.TOPIC_NOT_FOUND_MESS,
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
 				},
 			}, nil
 		}
-	}
-
-	err = l.svcCtx.Store.AcceptTopic(l.ctx, db.AcceptTopicParams{
-		ID:           id,
-		Name:         topic.Name,
-		LectureID:    topic.LectureID,
-		FacultyID:    topic.FacultyID,
-		Status:       2,
-		ResultUrl:    sql.NullString{Valid: false},
-		ConferenceID: req.ConferenceID,
-		GroupID:      sql.NullInt32{Valid: false},
-		TimeStart:    *timeStart,
-		TimeEnd:      *timeEnd,
-	})
-	if err != nil {
-		l.logHelper.Error(err)
-		return &types.AcceptTopicResponse{
-			Result: types.Result{
-				Code:    constant.DB_ERR_CODE,
-				Message: constant.DB_ERR_MESSAGE,
-			},
-		}, nil
 	}
 
 	return &types.AcceptTopicResponse{
@@ -204,7 +313,7 @@ func (l *Logic) CreateTopicLogic(req *types.CreateTopicRequest) (resp *types.Cre
 		FacultyID:    topicRegis.FacultyID,
 		Status:       1,
 		ResultUrl:    sql.NullString{Valid: false},
-		ConferenceID: 0,
+		ConferenceID: req.ConferenceID,
 		GroupID:      sql.NullInt32{Valid: false},
 		TimeStart:    time.Time{},
 		TimeEnd:      time.Time{},
@@ -243,25 +352,12 @@ func (l *Logic) CreateTopicLogic(req *types.CreateTopicRequest) (resp *types.Cre
 	}, nil
 }
 
-func (l *Logic) UpdateGroupTopic(id int32, req *types.UpdateTopicRequest) (resp *types.UpdateTopicResponse, err error) {
+func (l *Logic) UpdateGroupTopic(req *types.UpdateTopicRequest) (resp *types.UpdateTopicResponse, err error) {
 	l.logHelper.Info("UpdateTopicLogic", req)
 
-	_, err = l.svcCtx.Store.GetTopic(l.ctx, id)
-	if err != nil {
-		if err == sql.ErrNoRows {
-			return &types.UpdateTopicResponse{
-				Result: types.Result{
-					Code:    constant.TOPIC_NOT_FOUND_CODE,
-					Message: constant.TOPIC_NOT_FOUND_MESS,
-				},
-			}, nil
-		}
-	}
+	var listTopicID []int32
 
-	err = l.svcCtx.Store.UpdateGroupTopic(l.ctx, db.UpdateGroupTopicParams{
-		ID:      id,
-		GroupID: utils.GetInt32(req.GroupID),
-	})
+	err = json.Unmarshal([]byte(req.ListTopicID), &listTopicID)
 	if err != nil {
 		l.logHelper.Error(err)
 		return &types.UpdateTopicResponse{
@@ -270,6 +366,34 @@ func (l *Logic) UpdateGroupTopic(id int32, req *types.UpdateTopicRequest) (resp 
 				Message: constant.DB_ERR_MESSAGE,
 			},
 		}, nil
+	}
+
+	for _, id := range listTopicID {
+		_, err = l.svcCtx.Store.GetTopic(l.ctx, id)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return &types.UpdateTopicResponse{
+					Result: types.Result{
+						Code:    constant.TOPIC_NOT_FOUND_CODE,
+						Message: constant.TOPIC_NOT_FOUND_MESS,
+					},
+				}, nil
+			}
+		}
+
+		err = l.svcCtx.Store.UpdateGroupTopic(l.ctx, db.UpdateGroupTopicParams{
+			ID:      id,
+			GroupID: utils.GetInt32(req.GroupID),
+		})
+		if err != nil {
+			l.logHelper.Error(err)
+			return &types.UpdateTopicResponse{
+				Result: types.Result{
+					Code:    constant.DB_ERR_CODE,
+					Message: constant.DB_ERR_MESSAGE,
+				},
+			}, nil
+		}
 	}
 
 	return &types.UpdateTopicResponse{
