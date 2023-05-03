@@ -29,7 +29,7 @@ func GetTopicByIdHandler(svc *service.ServiceContext) gin.HandlerFunc {
 	}
 }
 
-func GetTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
+func ListTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		logic := InitLogic(svc, c, "get-topic")
 
@@ -40,7 +40,7 @@ func GetTopicHandler(svc *service.ServiceContext) gin.HandlerFunc {
 			return
 		}
 
-		resp, err := logic.GetTopicLogic(&request)
+		resp, err := logic.ListTopicLogic(&request)
 		if err != nil {
 			http_response.ResponseJSON(c, http.StatusInternalServerError, err)
 			return
