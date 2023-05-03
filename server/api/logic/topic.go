@@ -146,13 +146,12 @@ func (l *Logic) GetTopicLogic(req *types.GetTopicRequest) (resp *types.GetTopicR
 					},
 				}, nil
 			}
-			
+
 			listStudent = append(listStudent, student.Name)
 		}
-		if req.StudentID != 0 && {
+		if req.StudentID != 0 {
 			continue
 		}
-
 
 		lecture, err := l.svcCtx.Store.GetUserNameByID(l.ctx, topic.LectureID)
 		if err != nil {
