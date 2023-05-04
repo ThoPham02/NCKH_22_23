@@ -6,6 +6,11 @@ WHERE id = $1 LIMIT 1;
 SELECT * FROM "topic"
 ORDER BY "name";
 
+-- name: ListTopicsFilter :many
+SELECT * FROM "topic"
+WHERE name LIKE $1
+ORDER BY "name";
+
 -- name: CreateTopic :one
 INSERT INTO "topic" (
   "id", "name", "lecture_id", "faculty_id", "status", "result_url", "conference_id", "group_id", "time_start", "time_end"
@@ -18,7 +23,7 @@ RETURNING *;
 DELETE FROM "topic"
 WHERE id = $1;
 
--- name: UpdateTopic :exec
+-- name: AcceptTopic :exec
 UPDATE "topic"
   set name = $2,
   lecture_id = $3,
@@ -29,4 +34,16 @@ UPDATE "topic"
   group_id = $8,
   time_start = $9,
   time_end = $10
+WHERE id = $1;
+
+-- name: UpdateGroupTopic :exec
+UPDATE "topic"
+set  
+  group_id = $2
+WHERE id = $1;
+
+-- name: UpdateStatusTopic :exec
+UPDATE "topic"
+set  
+  status = $2
 WHERE id = $1;

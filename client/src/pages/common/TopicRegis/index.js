@@ -24,9 +24,6 @@ const TopicRegis = () => {
     fetchData();
   };
 
-  console.log(data);
-  console.log(error);
-
   return (
     <div className="topic-regis">
       <Card title="Danh sách đề tài đề xuất">

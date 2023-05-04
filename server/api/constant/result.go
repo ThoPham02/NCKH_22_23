@@ -34,3 +34,8 @@ const (
 	TOPIC_REGIS_NOT_FOUND_CODE    = 30000
 	TOPIC_REGIS_NOT_FOUND_MESSAGE = "Topic registration not found"
 )
+
+const (
+	TOPIC_NOT_FOUND_CODE = 40000
+	TOPIC_NOT_FOUND_MESS = "Topic not found"
+)
