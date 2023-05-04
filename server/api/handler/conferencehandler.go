@@ -29,3 +29,16 @@ func CreateConferenceHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
 		http_response.ResponseJSON(ctx, http.StatusOK, resp)
 	}
 }
+
+func ListConferenceHandler(svcCtx *service.ServiceContext) gin.HandlerFunc {
+	return func(ctx *gin.Context) {
+		logic := InitLogic(svcCtx, ctx, "create-conference")
+
+		resp, err := logic.ListConferenceLogic()
+		if err != nil {
+			http_response.ResponseJSON(ctx, http.StatusInternalServerError, err)
+			return
+		}
+		http_response.ResponseJSON(ctx, http.StatusOK, resp)
+	}
+}

@@ -32,3 +32,7 @@ func (l *Logic) CreateConferenceLogic(req *types.CreateConferenceRequest) (resp 
 		},
 	}, nil
 }
+
+func (l *Logic) ListConferenceLogic() (res *types.ListConferenceResponse, err error) {
+	return
+}
