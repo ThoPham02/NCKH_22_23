@@ -10,7 +10,7 @@ import {
   SearchFaculty,
 } from "../../../components/Shares/Search";
 import { listDataTopicRegis } from "./data";
-import TableTopic2 from "../../../components/Shares/Table/Table2";
+import TableTopic1 from "../../../components/Shares/Table/Table1";
 
 const TopicRegis = () => {
   const [filter, setFilter] = useState({
@@ -42,8 +42,8 @@ const TopicRegis = () => {
         </SubCard>
 
         <SubCard title="Danh sách">
-          <TableTopic2
-            listHead={['STT', 'Khoa','Người hướng dẫn', 'Học hàm/Học vị', 'Số điện thoại liên hệ','Email', 'Tên đề tài', 'Thao tác']}
+          <TableTopic1
+            listHead={['STT', 'Khoa','Người hướng dẫn', 'Học hàm/Học vị', 'Số điện thoại liên hệ','Email', 'Tên đề tài']}
             listItem={listDataTopicRegis}
             listKey={['faculty', 'lecture', 'rank','phone','email','name']}
           />
