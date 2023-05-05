@@ -29,9 +29,9 @@ type (
 
 type (
 	CreateConferenceRequest struct {
-		Name         string `json:"name"`
-		CrashSupport *int32 `json:"crashSupport"`
-		SchoolYear   string `json:"schoolYear"`
+		Name         string  `json:"name"`
+		CrashSupport *int32  `json:"crashSupport"`
+		SchoolYear   *string `json:"schoolYear"`
 	}
 	CreateConferenceResponse struct {
 		Result Result `json:"result"`

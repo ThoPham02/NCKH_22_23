@@ -5,12 +5,9 @@ import { useState } from "react";
 import "./style.css";
 import Card from "../../../components/Shares/Card";
 import SubCard from "../../../components/Shares/Card/SubCard";
-import SearchWord from "../../../components/Shares/Search/Word";
-import {
-  SearchFaculty,
-} from "../../../components/Shares/Search";
-import { listDataTopicRegis } from "./data";
-import TableTopic1 from "../../../components/Shares/Table/Table1";
+import { SearchFaculty, SearchWord } from "../../../components/Shares/Search";
+import useApi from "../../../hooks/useGetApi";
+import Loading from "../../../components/Shares/Loading";
 
 const TopicRegis = () => {
   const [filter, setFilter] = useState({
@@ -19,9 +16,13 @@ const TopicRegis = () => {
     limit: 20,
     offset: 0,
   });
+  let url = `/api/topic-registation?search=${filter.word}&facultyId=${filter.facultyId}&limit=${filter.limit}&offset=${filter.offset}`;
+  const { data, isLoading, error, fetchData } = useApi(url);
 
-
-  const handleSubmit = () => { };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    fetchData();
+  };
 
   return (
     <div className="topic-regis">
@@ -35,19 +36,14 @@ const TopicRegis = () => {
             ></SearchFaculty>
             <Form.Group>
               <Button variant="primary" type="submit" className="search-submit">
+                {isLoading ? <Loading></Loading> : <></>}
                 Tìm kiếm
               </Button>
             </Form.Group>
           </Form>
         </SubCard>
 
-        <SubCard title="Danh sách">
-          <TableTopic1
-            listHead={['STT', 'Khoa','Người hướng dẫn', 'Học hàm/Học vị', 'Số điện thoại liên hệ','Email', 'Tên đề tài']}
-            listItem={listDataTopicRegis}
-            listKey={['faculty', 'lecture', 'rank','phone','email','name']}
-          />
-        </SubCard>
+        <SubCard title="Danh sách"></SubCard>
       </Card>
     </div>
   );

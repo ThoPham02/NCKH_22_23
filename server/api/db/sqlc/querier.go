@@ -9,6 +9,7 @@ import (
 )
 
 type Querier interface {
+	AcceptTopic(ctx context.Context, arg AcceptTopicParams) error
 	AcceptTopicRegistration(ctx context.Context, arg AcceptTopicRegistrationParams) error
 	CreateConference(ctx context.Context, arg CreateConferenceParams) (Conference, error)
 	CreateDepartment(ctx context.Context, arg CreateDepartmentParams) (Department, error)
@@ -50,6 +51,7 @@ type Querier interface {
 	GetUser(ctx context.Context, id int32) (User, error)
 	GetUserByName(ctx context.Context, name string) (User, error)
 	GetUserInfo(ctx context.Context, userID int32) (UserInfo, error)
+	GetUserNameByID(ctx context.Context, id int32) (string, error)
 	ListConferences(ctx context.Context) ([]Conference, error)
 	ListDepartments(ctx context.Context) ([]Department, error)
 	ListFaculties(ctx context.Context) ([]Faculty, error)
@@ -57,10 +59,12 @@ type Querier interface {
 	ListGroups(ctx context.Context) ([]Group, error)
 	ListLibrarys(ctx context.Context) ([]Library, error)
 	ListNotifications(ctx context.Context) ([]Notification, error)
+	ListStudentByTopicId(ctx context.Context, topicID int32) ([]int32, error)
 	ListStudentTopics(ctx context.Context) ([]StudentTopic, error)
 	ListTopicRegistrations(ctx context.Context, name string) ([]TopicRegistration, error)
 	ListTopicResults(ctx context.Context) ([]TopicResult, error)
 	ListTopics(ctx context.Context) ([]Topic, error)
+	ListTopicsFilter(ctx context.Context, name string) ([]Topic, error)
 	ListUserInfos(ctx context.Context) ([]UserInfo, error)
 	ListUserInfosByName(ctx context.Context, name string) ([]UserInfo, error)
 	ListUsers(ctx context.Context) ([]User, error)
@@ -69,10 +73,11 @@ type Querier interface {
 	UpdateFaculty(ctx context.Context, arg UpdateFacultyParams) error
 	UpdateGroup(ctx context.Context, arg UpdateGroupParams) error
 	UpdateGroupSupervisor(ctx context.Context, arg UpdateGroupSupervisorParams) error
+	UpdateGroupTopic(ctx context.Context, arg UpdateGroupTopicParams) error
 	UpdateLibrary(ctx context.Context, arg UpdateLibraryParams) error
 	UpdateNotification(ctx context.Context, arg UpdateNotificationParams) error
+	UpdateStatusTopic(ctx context.Context, arg UpdateStatusTopicParams) error
 	UpdateStudentTopic(ctx context.Context, arg UpdateStudentTopicParams) error
-	UpdateTopic(ctx context.Context, arg UpdateTopicParams) error
 	UpdateTopicRegistration(ctx context.Context, arg UpdateTopicRegistrationParams) error
 	UpdateTopicResult(ctx context.Context, arg UpdateTopicResultParams) error
 	UpdateUser(ctx context.Context, arg UpdateUserParams) error

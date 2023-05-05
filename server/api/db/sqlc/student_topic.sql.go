@@ -53,6 +53,34 @@ func (q *Queries) GetStudentTopic(ctx context.Context, id int32) (StudentTopic, 
 	return i, err
 }
 
+const listStudentByTopicId = `-- name: ListStudentByTopicId :many
+SELECT student_id FROM "student_topic"
+WHERE topic_id = $1
+`
+
+func (q *Queries) ListStudentByTopicId(ctx context.Context, topicID int32) ([]int32, error) {
+	rows, err := q.db.QueryContext(ctx, listStudentByTopicId, topicID)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []int32{}
+	for rows.Next() {
+		var student_id int32
+		if err := rows.Scan(&student_id); err != nil {
+			return nil, err
+		}
+		items = append(items, student_id)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const listStudentTopics = `-- name: ListStudentTopics :many
 SELECT id, student_id, topic_id FROM "student_topic"
 `
