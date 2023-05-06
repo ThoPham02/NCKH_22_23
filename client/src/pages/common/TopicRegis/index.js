@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useState } from "react";
+import { useState, useRef } from "react";
 
 import "./style.css";
 import Card from "../../../components/Shares/Card";
@@ -14,39 +14,29 @@ import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
 
 const TopicRegis = () => {
-  const [filter, setFilter] = useState({
-    facultyId: 0,
-    word: "",
-    limit: 10,
-  });
+  const searchRef = useRef("");
+  const facultyRef = useRef(0);
   const [pagi, setPagi] = useState(1);
-  let url = `/api/topic-registation?search=${filter.word}&facultyId=${
-    filter.facultyId
-  }&limit=${filter.limit}&offset=${pagi - 1}&status=2`;
-  const { data, isLoading, error, fetchData } = useApi(url);
-  console.log(error);
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetchData();
-  };
+  const [url, setUrl] = useState(`api/topic-registation?limit=${10}&offset=${pagi - 1}&status=2`);
+  const { data, isLoading } = useApi(url);
 
   var listTopic = [];
-
   if (data && data.total !== 0) {
     listTopic = data.topicRegistrations;
   }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setUrl(`/api/topic-registation?search=${searchRef.current.value}&facultyId=${facultyRef.current.value}&limit=${10}&offset=${pagi - 1}&status=2`)
+  };
 
   return (
     <div className="topic-regis">
       <Card title="Danh sách đề tài đề xuất">
         <SubCard title="Tìm kiếm">
           <Form className="search" onSubmit={handleSubmit}>
-            <SearchWord value={filter.word} setFilter={setFilter}></SearchWord>
-            <SearchFaculty
-              value={filter.facultyId}
-              setFilter={setFilter}
-            ></SearchFaculty>
+            <SearchWord wordRef={searchRef}></SearchWord>
+            <SearchFaculty faculityRef={facultyRef}></SearchFaculty>
             <Form.Group>
               <Button variant="primary" type="submit" className="search-submit">
                 {isLoading ? <Loading></Loading> : <></>}
@@ -60,12 +50,11 @@ const TopicRegis = () => {
             <EmptyListNoti title={"Không có đề tài nào!"} />
           ) : (
             <div>
-              <Table bordered hover>
+              <Table bordered hover size="sm">
                 <thead>
                   <tr>
                     <th>Mã đề xuất</th>
                     <th>Người hướng dẫn</th>
-                    <th>Khoa</th>
                     <th>Số điện thoại - Email</th>
                     <th>Tên đề tài đề xuất</th>
                     <th>Thao tác</th>
@@ -77,7 +66,6 @@ const TopicRegis = () => {
                       <tr key={index}>
                         <td>{item.id}</td>
                         <td>{item.lecture}</td>
-                        <td>{item.faculty}</td>
                         <td>
                           {item.phone}
                           <br />
@@ -101,8 +89,8 @@ const TopicRegis = () => {
               <PaginationCustom
                 setPagi={setPagi}
                 currentPage={pagi}
-                total={data.total}
-                limit={filter.limit}
+                total={10}
+                limit={10}
               />
             </div>
           )}
