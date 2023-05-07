@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 import "./style.css";
 
@@ -14,7 +15,11 @@ const ActionRedirect = ({ todo }) => {
         {todo.map((item, index) => {
           return (
             <div key={index} className="action-item">
-              <Link to={item.href}>{item.name}</Link>
+              <Button className="button">
+                <Link to={item.href} className="button">
+                  {item.name}
+                </Link>
+              </Button>
             </div>
           );
         })}
