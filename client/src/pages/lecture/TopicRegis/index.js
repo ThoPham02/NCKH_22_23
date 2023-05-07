@@ -65,7 +65,7 @@ const TopicRegis = () => {
                   {listTopic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td>{item.id}</td>
+                        <td style={{textAlign: "center"}}>{item.id}</td>
                         <td>{item.lecture}</td>
                         <td>
                           {item.phone}

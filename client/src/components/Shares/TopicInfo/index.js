@@ -6,30 +6,30 @@ import { MdOutlineDriveFileMove } from "react-icons/md";
 
 import "./style.css";
 
-const TopicInfo = ({ name, dateTo, dateFrom, status, students, fileUrl }) => {
+const TopicInfo = ({ name, dateTo, dateFrom, status, lecture, fileUrl }) => {
   return (
     <div className="topic-info">
       <div className="topic-info-item">
         <HiOutlineDocument /> <p>{name}</p>
       </div>
       <div className="topic-info-item">
-        <BiTimeFive />{" "}
+        <BiTimeFive />
         <p>
-          Thời gian từ {dateFrom} đến {dateTo}
+          Từ {dateFrom.split(' ')[0]} đến {dateTo.split(' ')[0]}
         </p>
       </div>
       <div className="topic-info-item">
         <AiFillStar /> <p>{status}</p>
       </div>
       <div className="topic-info-item">
-        <FaUsers />{" "}
-        <p>{students.length === 0 ? "" : students.map((student) => student)}</p>
+        <FaUsers />
+        <p>{lecture}</p>
       </div>
       {fileUrl === "" ? (
         <></>
       ) : (
         <div className="topic-info-item">
-          <MdOutlineDriveFileMove />{" "}
+          <MdOutlineDriveFileMove />
           <p>
             <a href={fileUrl}>Tệp đính kèm</a>
           </p>

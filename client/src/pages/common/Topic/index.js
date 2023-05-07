@@ -94,14 +94,14 @@ const Topic = () => {
                           <TopicInfo
                             name={item.name}
                             status={item.status}
-                            students={item.listStudents}
+                            lecture={item.lecture}
                             dateTo={item.timeStart}
                             dateFrom={item.timeEnd}
                             fileUrl={item.resultUrl}
                           />
                         </td>
                         <td>
-                          <Action todo={[<Detail name={"Xem chi tiết"} />]} />
+                          <Action todo={[<Detail name={"Xem chi tiết"} topicID={item.id}/>]} />
                         </td>
                       </tr>
                     );
