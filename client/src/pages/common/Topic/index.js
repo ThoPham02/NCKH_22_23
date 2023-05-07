@@ -89,7 +89,7 @@ const Topic = () => {
                   {listTopic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td>{item.id}</td>
+                        <td style={{textAlign: "center"}}>{item.id}</td>
                         <td>
                           <TopicInfo
                             name={item.name}

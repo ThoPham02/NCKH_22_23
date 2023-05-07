@@ -1,6 +1,6 @@
 package types
 
-type Topic struct {
+type TopicDetail struct {
 	ID           int32    `json:"id"`
 	Name         string   `json:"name"`
 	Lecture      string   `json:"lecture"` // lecture name
@@ -12,13 +12,23 @@ type Topic struct {
 	TimeEnd      string   `json:"timeEnd"`
 }
 
+type Topic struct {
+	ID        int32  `json:"id"`
+	Name      string `json:"name"`
+	Lecture   string `json:"lecture"` // lecture name
+	Status    string `json:"status"`
+	ResultUrl string `json:"resultUrl"`
+	TimeStart string `json:"timeStart"`
+	TimeEnd   string `json:"timeEnd"`
+}
+
 type (
 	GetTopicByIdRequest struct {
 	}
 
 	GetTopicByIdResponse struct {
-		Result Result `json:"result"`
-		Topic  Topic  `json:"topic"`
+		Result Result      `json:"result"`
+		Topic  TopicDetail `json:"topic"`
 	}
 )
 

@@ -34,7 +34,7 @@ const TopicDetail = (props) => {
       </div>
       <div className="topic-info-item">
         <FaUsers />
-        <p>{props.students.length === 0 ? "" :props.students.map((item) => item + " ")}</p>
+        <p>{props.students.length === 0 ? "" :props.students.map((item) => item + ", ")}</p>
       </div>
 
       {props.resultUrl === "" ? (

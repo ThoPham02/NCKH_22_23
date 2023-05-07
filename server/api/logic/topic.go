@@ -68,7 +68,7 @@ func (l *Logic) GetTopicByIdLogic(id int32) (resp *types.GetTopicByIdResponse, e
 		}, nil
 	}
 	for _, tmp := range listStudents {
-		name, err := l.svcCtx.Store.GetUserNameByID(l.ctx, tmp)
+		studentInfo, err := l.svcCtx.Store.GetUserInfo(l.ctx, tmp)
 		if err != nil {
 			l.logHelper.Error(err)
 			return &types.GetTopicByIdResponse{
@@ -78,7 +78,7 @@ func (l *Logic) GetTopicByIdLogic(id int32) (resp *types.GetTopicByIdResponse, e
 				},
 			}, nil
 		}
-		listName = append(listName, name)
+		listName = append(listName, studentInfo.Name)
 	}
 
 	return &types.GetTopicByIdResponse{
@@ -86,7 +86,7 @@ func (l *Logic) GetTopicByIdLogic(id int32) (resp *types.GetTopicByIdResponse, e
 			Code:    constant.SUCCESS_CODE,
 			Message: constant.SUCCESS_MESSAGE,
 		},
-		Topic: types.Topic{
+		Topic: types.TopicDetail{
 			ID:           id,
 			Name:         data.Name,
 			Lecture:      lecture.Name,
@@ -115,56 +115,8 @@ func (l *Logic) ListTopicLogic(req *types.GetTopicRequest) (resp *types.GetTopic
 	}
 
 	var list []types.Topic
-
 	for _, topic := range topics {
-		// if req.FacultyID != 0 && req.FacultyID != topic.FacultyID {
-		// 	continue
-		// }
-		// if req.LectureID != 0 && req.LectureID != topic.LectureID {
-		// 	continue
-		// }
-
-		// var listStudent []string
-		// studentID, err := l.svcCtx.Store.ListStudentByTopicId(l.ctx, topic.ID)
-		// if err != nil {
-		// 	l.logHelper.Error(err)
-		// 	return &types.GetTopicResponse{
-		// 		Result: types.Result{
-		// 			Code:    constant.DB_ERR_CODE,
-		// 			Message: constant.DB_ERR_MESSAGE,
-		// 		},
-		// 	}, nil
-		// }
-		// for _, id := range studentID {
-		// 	student, err := l.svcCtx.Store.GetUser(l.ctx, id)
-		// 	if err != nil {
-		// 		l.logHelper.Error(err)
-		// 		return &types.GetTopicResponse{
-		// 			Result: types.Result{
-		// 				Code:    constant.DB_ERR_CODE,
-		// 				Message: constant.DB_ERR_MESSAGE,
-		// 			},
-		// 		}, nil
-		// 	}
-
-		// 	listStudent = append(listStudent, student.Name)
-		// }
-		// if req.StudentID != 0 {
-		// 	continue
-		// }
-
-		lecture, err := l.svcCtx.Store.GetUserNameByID(l.ctx, topic.LectureID)
-		if err != nil {
-			l.logHelper.Error(err)
-			return &types.GetTopicResponse{
-				Result: types.Result{
-					Code:    constant.DB_ERR_CODE,
-					Message: constant.DB_ERR_MESSAGE,
-				},
-			}, nil
-		}
-
-		faculty, err := l.svcCtx.Store.GetFaculty(l.ctx, topic.FacultyID)
+		lecture, err := l.svcCtx.Store.GetUserInfo(l.ctx, topic.LectureID)
 		if err != nil {
 			l.logHelper.Error(err)
 			return &types.GetTopicResponse{
@@ -176,15 +128,13 @@ func (l *Logic) ListTopicLogic(req *types.GetTopicRequest) (resp *types.GetTopic
 		}
 
 		list = append(list, types.Topic{
-			ID:           topic.ID,
-			Name:         topic.Name,
-			Lecture:      lecture,
-			Faculty:      faculty.Name,
-			Status:       constant.MapStatusTopic[topic.Status],
-			ResultUrl:    topic.ResultUrl.String,
-			ListStudents: []string{},
-			TimeStart:    topic.TimeStart.Format(constant.Layout),
-			TimeEnd:      topic.TimeEnd.Format(constant.Layout),
+			ID:        topic.ID,
+			Name:      topic.Name,
+			Lecture:   lecture.Name,
+			Status:    constant.MapStatusTopic[topic.Status],
+			ResultUrl: topic.ResultUrl.String,
+			TimeStart: topic.TimeStart.Format(constant.Layout),
+			TimeEnd:   topic.TimeEnd.Format(constant.Layout),
 		})
 	}
 
