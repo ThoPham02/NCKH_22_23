@@ -34,7 +34,7 @@ const Login = () => {
     const isAuthenticated = useSelector(userSelector).typeAccount !== 0;
     useEffect(() => {
       if (isAuthenticated) {
-        navige("/")
+        navige('/')
       }
     }, [isAuthenticated, navige])
 

@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import "./style.css";
 import Card from "../../../components/Shares/Card";
@@ -10,7 +10,6 @@ import {
   SearchWord,
   SearchDateFrom,
   SearchDateTo,
-  SearchDepartment,
   SearchFaculty,
   SearchStatus,
 } from "../../../components/Shares/Search";
@@ -21,54 +20,55 @@ import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
+import { LIMIT } from "../../../const/const";
+import TopicInfo from "../../../components/Shares/TopicInfo";
+import Detail from "../../../components/Shares/Action/Detail";
 
 const Topic = () => {
-  const [filter, setFilter] = useState({
-    departmentId: 0,
-    facultyId: 0,
-    word: "",
-    status: 0,
-    dateTo: "",
-    dateFrom: "",
-    limit: 10,
-  });
+  const searchRef = useRef("");
+  const facultyRef = useRef(0);
+  const statusRef = useRef(0);
+  const dateFromRef = useRef("");
+  const dateToRef = useRef("");
   const [pagi, setPagi] = useState(1);
+  const [url, setUrl] = useState(
+    `/api/topic?limit=${LIMIT}&offset=${pagi - 1}`
+  );
 
-  let url = `/api/topic?search=${filter.word}`;
-  const { data, isLoading, error, fetchData } = useApi(url);
+  const { data, isLoading } = useApi(url);
   let listTopic = [];
   if (data && data.total !== 0) {
     listTopic = data.listTopics;
   }
 
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    let search = searchRef.current.value;
+    let status = statusRef.current.value;
+    let dateFrom = dateFromRef.current.value;
+    let dateTo = dateToRef.current.value;
+    let pagiNum = pagi - 1;
+    setUrl(
+      `/api/topic?limit=${LIMIT}&offset=${pagiNum}&search=${search}&status=${status}&dateFrom=${dateFrom}&dateTo=${dateTo}`
+    );
+  };
+
   return (
     <div className="topic">
       <Card title="Danh sách đề tài">
         <SubCard title="Tìm kiếm">
-          <Form className="search">
-            {isLoading ? <Loading></Loading> : <></>}
-            <SearchWord value={filter.word} setFilter={setFilter}></SearchWord>
-            <SearchDepartment
-              faculty={filter.facultyId}
-              value={filter.departmentId}
-              setFilter={setFilter}
-            ></SearchDepartment>
-            <SearchFaculty
-              value={filter.facultyId}
-              setFilter={setFilter}
-            ></SearchFaculty>
-            <SearchStatus
-              value={filter.status}
-              setFilter={setFilter}
-            ></SearchStatus>
-            <SearchDateFrom
-              value={filter.dateFrom}
-              setFilter={setFilter}
-            ></SearchDateFrom>
-            <SearchDateTo
-              value={filter.dateTo}
-              setFilter={setFilter}
-            ></SearchDateTo>
+          <Form className="search" onSubmit={handleSubmitForm}>
+            <SearchWord searchRef={searchRef}></SearchWord>
+            <SearchFaculty facultyRef={facultyRef}></SearchFaculty>
+            <SearchStatus statusRef={statusRef}></SearchStatus>
+            <SearchDateFrom dateFromRef={dateFromRef}></SearchDateFrom>
+            <SearchDateTo dateToRef={dateToRef}></SearchDateTo>
+            <Form.Group>
+              <Button variant="primary" type="submit" className="search-submit">
+                {isLoading ? <Loading></Loading> : <></>}
+                Tìm kiếm
+              </Button>
+            </Form.Group>
           </Form>
         </SubCard>
 
@@ -90,14 +90,18 @@ const Topic = () => {
                     return (
                       <tr key={index}>
                         <td>{item.id}</td>
-                        <td></td>
                         <td>
-                          <Action
-                            todo={[
-                              { name: "Xem chi tiết", href: "#" },
-                              { name: "Đăng ký", href: "#" },
-                            ]}
+                          <TopicInfo
+                            name={item.name}
+                            status={item.status}
+                            students={item.listStudents}
+                            dateTo={item.timeStart}
+                            dateFrom={item.timeEnd}
+                            fileUrl={item.resultUrl}
                           />
+                        </td>
+                        <td>
+                          <Action todo={[<Detail name={"Xem chi tiết"} />]} />
                         </td>
                       </tr>
                     );
@@ -109,7 +113,7 @@ const Topic = () => {
                 setPagi={setPagi}
                 currentPage={pagi}
                 total={data.total}
-                limit={filter.limit}
+                limit={LIMIT}
               />
             </div>
           )}

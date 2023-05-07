@@ -1,0 +1,11 @@
+.button {
+    border: transparent;
+    background-color: transparent;
+    color: #000;
+    outline: none;
+}
+
+.button:hover {
+    background-color: transparent;
+    color: #000;
+}

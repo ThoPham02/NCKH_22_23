@@ -43,6 +43,11 @@
   background-color: #fff;
 }
 
+.action-item a {
+  padding: 4px 8px;
+  color: #000;
+  text-decoration: none;
+}
 
 .action-item:hover {
   background-color: rgba(0, 0, 0, 0.1);

@@ -75,8 +75,7 @@ const TopicRegis = () => {
                         <td>
                           <Action
                             todo={[
-                              { name: "Xem chi tiết", href: "#" },
-                              { name: "Đăng ký", href: "#" },
+                              { name: "Đăng ký", href: "" },
                             ]}
                           />
                         </td>
