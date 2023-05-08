@@ -26,7 +26,7 @@ const Home = () => {
             {listNotifications.map((notification, index) => {
               return (
                 <div key={index}>
-                    <MdOutlineKeyboardDoubleArrowRight />
+                    <MdOutlineKeyboardDoubleArrowRight/>
                   <a href={notification.url}>
                     {notification.name}
                   </a>

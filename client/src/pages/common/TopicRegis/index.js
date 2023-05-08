@@ -43,7 +43,9 @@ const TopicRegis = () => {
           </Form>
         </SubCard>
 
-        <SubCard title="Danh sách"></SubCard>
+        <SubCard title="Danh sách">
+          
+        </SubCard>
       </Card>
     </div>
   );
