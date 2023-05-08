@@ -4,7 +4,7 @@ import Modal from "react-bootstrap/Modal";
 
 import "./style.css"
 
-const TopicRegis = ({name}) => {
+const TopicRegistration = ({name}) => {
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -16,14 +16,19 @@ const TopicRegis = ({name}) => {
         {name}
       </Button>
 
-      <Modal show={show} onHide={handleClose}>
+      <Modal show={show} onHide={handleClose} size="xl">
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Đăng ký đề tài</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Woohoo, you are reading this text in a modal!</Modal.Body>
+        <Modal.Body>
+
+        </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
+          </Button>
+          <Button variant="primary" onClick={handleClose}>
+            Xác Nhận
           </Button>
         </Modal.Footer>
       </Modal>
@@ -31,4 +36,4 @@ const TopicRegis = ({name}) => {
   );
 };
 
-export default TopicRegis;
+export default TopicRegistration;

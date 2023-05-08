@@ -11,13 +11,17 @@ import { SearchFaculty, SearchWord } from "../../../components/Shares/Search";
 import useApi from "../../../hooks/useGetApi";
 import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
+import { LIMIT } from "../../../const/const";
 import Action from "../../../components/Shares/Action";
+import TopicRegistration from "../../../components/Shares/Action/TopicRegistration";
 
 const TopicRegis = () => {
   const searchRef = useRef("");
   const facultyRef = useRef(0);
   const [pagi, setPagi] = useState(1);
-  const [url, setUrl] = useState(`api/topic-registation?limit=${10}&offset=${pagi - 1}&status=2`);
+  const [url, setUrl] = useState(
+    `api/topic-registation?limit=${LIMIT}&offset=${pagi - 1}&status=2`
+  );
   const { data, isLoading } = useApi(url);
 
   var listTopic = [];
@@ -27,7 +31,11 @@ const TopicRegis = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    setUrl(`/api/topic-registation?search=${searchRef.current.value}&facultyId=${facultyRef.current.value}&limit=${10}&offset=${pagi - 1}&status=2`)
+    setUrl(
+      `/api/topic-registation?search=${searchRef.current.value}&facultyId=${
+        facultyRef.current.value
+      }&limit=${LIMIT}&offset=${pagi - 1}&status=2`
+    );
   };
 
   return (
@@ -35,8 +43,8 @@ const TopicRegis = () => {
       <Card title="Danh sách đề tài đề xuất">
         <SubCard title="Tìm kiếm">
           <Form className="search" onSubmit={handleSubmit}>
-            <SearchWord wordRef={searchRef}></SearchWord>
-            <SearchFaculty faculityRef={facultyRef}></SearchFaculty>
+            <SearchWord searchRef={searchRef}></SearchWord>
+            <SearchFaculty facultyRef={facultyRef}></SearchFaculty>
             <Form.Group>
               <Button variant="primary" type="submit" className="search-submit">
                 {isLoading ? <Loading></Loading> : <></>}
@@ -64,7 +72,7 @@ const TopicRegis = () => {
                   {listTopic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td>{item.id}</td>
+                        <td style={{ textAlign: "center" }}>{item.id}</td>
                         <td>{item.lecture}</td>
                         <td>
                           {item.phone}
@@ -74,10 +82,7 @@ const TopicRegis = () => {
                         <td>{item.name}</td>
                         <td>
                           <Action
-                            todo={[
-                              { name: "Xem chi tiết", href: "#" },
-                              { name: "Đăng ký", href: "#" },
-                            ]}
+                            todo={[<TopicRegistration name={"Đăng ký đề tài"} />]}
                           />
                         </td>
                       </tr>
@@ -90,7 +95,7 @@ const TopicRegis = () => {
                 setPagi={setPagi}
                 currentPage={pagi}
                 total={data.total}
-                limit={10}
+                limit={LIMIT}
               />
             </div>
           )}
