@@ -2,7 +2,7 @@ import Pagination from "react-bootstrap/Pagination";
 
 import "./pagination.css";
 
-const Pagination1 = ({ setPagi, currentPage, total, limit }) => {
+const PaginationCustom = ({ setPagi, currentPage, total, limit }) => {
   let num = Math.ceil(total / limit);
   let pagiList = [];
   for (let i = 0; i < num; i++) {
@@ -31,4 +31,4 @@ const Pagination1 = ({ setPagi, currentPage, total, limit }) => {
   );
 };
 
-export default Pagination1;
+export default PaginationCustom;
