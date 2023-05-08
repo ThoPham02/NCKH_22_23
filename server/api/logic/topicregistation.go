@@ -14,7 +14,6 @@ import (
 func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsRequest) (resp *types.GetTopicRegistrationsResponse, err error) {
 	l.logHelper.Info("GetListTopicRegistationLogic", req)
 	var data []types.TopicRegistration
-	mapFaculties := make(map[int32]string, 0)
 	mapUserInfo := make(map[int32]db.UserInfo, 0)
 	mapUser := make(map[int32]int32, 0)
 
@@ -37,19 +36,6 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsReq
 		}, nil
 	}
 
-	faculties, err := l.svcCtx.Store.ListFaculties(l.ctx)
-	if err != nil {
-		l.logHelper.Error(err)
-		return &types.GetTopicRegistrationsResponse{
-			Result: types.Result{
-				Code:    constant.DB_ERR_CODE,
-				Message: constant.DB_ERR_MESSAGE,
-			},
-		}, nil
-	}
-	for _, faculty := range faculties {
-		mapFaculties[faculty.ID] = faculty.Name
-	}
 	users, err := l.svcCtx.Store.ListUsers(l.ctx)
 	if err != nil {
 		l.logHelper.Error(err)
@@ -103,8 +89,6 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsReq
 			Lecture: mapUserInfo[tmp.LectureID].Name,
 			Email:   mapUserInfo[tmp.LectureID].Email,
 			Phone:   mapUserInfo[tmp.LectureID].Phone,
-			Faculty: mapFaculties[tmp.FacultyID],
-			Status:  constant.MapStatusTopicRegistration[tmp.Status],
 		})
 	}
 	total := len(data)
@@ -230,16 +214,6 @@ func (l *Logic) GetTopicRegistationByIdLogic(id int32, req *types.GetTopicRegist
 		}, nil
 	}
 
-	faculty, err := l.svcCtx.Store.GetFaculty(l.ctx, topicRegis.FacultyID)
-	if err != nil {
-		l.logHelper.Error(err)
-		return &types.GetTopicRegistrationByIdResponse{
-			Result: types.Result{
-				Code:    constant.DB_ERR_CODE,
-				Message: constant.DB_ERR_MESSAGE,
-			},
-		}, nil
-	}
 
 	lecture, err := l.svcCtx.Store.GetUserInfo(l.ctx, topicRegis.LectureID)
 	if err != nil {
@@ -263,8 +237,6 @@ func (l *Logic) GetTopicRegistationByIdLogic(id int32, req *types.GetTopicRegist
 			Lecture: lecture.Name,
 			Email:   lecture.Email,
 			Phone:   lecture.Phone,
-			Faculty: faculty.Name,
-			Status:  constant.MapStatusTopicRegistration[topicRegis.Status],
 		},
 	}, nil
 }

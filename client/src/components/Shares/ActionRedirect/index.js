@@ -1,6 +1,9 @@
-import "./action.css";
+import { Link } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
-const Action = ({ todo }) => {
+import "./style.css";
+
+const ActionRedirect = ({ todo }) => {
   return (
     <div className="action">
       <button className="dots-container">
@@ -12,7 +15,11 @@ const Action = ({ todo }) => {
         {todo.map((item, index) => {
           return (
             <div key={index} className="action-item">
-              {item}
+              <Button className="button">
+                <Link to={item.href} className="button">
+                  {item.name}
+                </Link>
+              </Button>
             </div>
           );
         })}
@@ -22,4 +29,4 @@ const Action = ({ todo }) => {
   );
 };
 
-export default Action;
+export default ActionRedirect;

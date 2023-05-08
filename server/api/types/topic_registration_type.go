@@ -6,8 +6,6 @@ type TopicRegistration struct {
 	Lecture string `json:"lecture"`
 	Phone   string `json:"phone"`
 	Email   string `json:"email"`
-	Faculty string `json:"faculty"`
-	Status  string `json:"status"`
 }
 
 type (
