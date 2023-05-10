@@ -1,0 +1,12 @@
+Drop TABLE "user_tbl";
+Drop TABLE "notification_tbl";
+Drop TABLE "library_tbl";
+Drop TABLE "department_tbl";
+Drop TABLE "faculty_tbl";
+Drop TABLE "topic_tbl";
+Drop TABLE "topic_result_tbl";
+Drop TABLE "event_tbl";
+Drop TABLE "stage_tbl";
+Drop TABLE "subcommittee_tbl";
+Drop TABLE "group_tbl";
+Drop TABLE "topic_mark_tbl";

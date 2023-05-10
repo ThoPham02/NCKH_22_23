@@ -10,10 +10,25 @@ API_DIR=$(ROOT_DIR)/api
 MIGRATION_DIR=$(ROOT_DIR)/migration
 DATASOURCE=postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb
 
-# table
+# table account api
+USER=user_tbl
 
-USER_TBL=user
-TOPIC_TBL=topic
+# table topic api
+DEPARTMENT=department_tbl
+FACULTY=faculty_tbl
+TOPIC=topic_tbl
+
+#table progress api
+NOTIFICATION=notification_tbl
+LIBRARY=library_tbl
+TOPIC_RESULT=topic_result_tbl
+EVENT=event_tbl
+STAGE=stage_tbl
+
+# table result api
+SUBCOMMITTEE=subcommittee_tbl
+GROUP=group_tbl
+TOPIC_MARK=topic_mark_tbl
 
 # account service
 ACCOUNT_DIR=$(SERVICE_DIR)/account
@@ -69,16 +84,24 @@ migratedown:
 
 # gen db model
 gen-account-model: 
-	goctl model pg datasource -url="${DATASOURCE}" -table="${USER_TBL}" -dir="$(ACCOUNT_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${USER}" -dir="$(ACCOUNT_MODEL_DIR)"
 
 gen-result-model: 
-	goctl model pg datasource -url="${DATASOURCE}" -table="user" -dir="$(ACCOUNT_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC_MARK}" -dir="$(RESULT_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${GROUP}" -dir="$(RESULT_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${SUBCOMMITTEE}" -dir="$(RESULT_MODEL_DIR)"
 
 gen-progress-model: 
-	goctl model pg datasource -url="${DATASOURCE}" -table="user" -dir="$(ACCOUNT_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC_RESULT}" -dir="$(PROGRESS_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${NOTIFICATION}" -dir="$(PROGRESS_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${LIBRARY}" -dir="$(PROGRESS_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${EVENT}" -dir="$(PROGRESS_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${STAGE}" -dir="$(PROGRESS_MODEL_DIR)"
 
 gen-topic-model: 
-	goctl model pg datasource -url="${DATASOURCE}" -table="user" -dir="$(ACCOUNT_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC}" -dir="$(TOPIC_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${DEPARTMENT}" -dir="$(TOPIC_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${FACULTY}" -dir="$(TOPIC_MODEL_DIR)"
 
 gen-models: gen-account-model gen-result-model gen-progress-model gen-topic-model
 
