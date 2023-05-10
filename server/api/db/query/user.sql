@@ -33,3 +33,6 @@ UPDATE "user"
   hash_password = $4,
   type_account = $5
 WHERE id = $1;
+
+-- name: GetTypeAccount :one
+SELECT type_account FROM "user" WHERE id = $1;

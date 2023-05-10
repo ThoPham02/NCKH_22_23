@@ -34,3 +34,7 @@ WHERE "user_id" = $1;
 -- name: ListUserInfosByName :many
 SELECT * FROM "user_info"
 WHERE name like $1;
+
+-- name: GetStudentByName :many
+SELECT "name", user_id from "user_info"
+WHERE "name" like $1;

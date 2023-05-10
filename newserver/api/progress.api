@@ -1,0 +1,34 @@
+type (
+	Result {
+		Code    int64  `json:"code"`
+		Message string `json:"message"`
+	}
+	User {
+		ID          int64  `json:"id"`
+		Name        string `json:"name"`
+		TypeAccount int64  `json:"typeAccount"`
+	}
+
+	LoginReq {
+		Username string `json:"username"` //	username
+		Password string `json:"password"` // 	password
+	}
+
+	Token {
+		RefreshToken string `json:"refreshToken"`
+		AccessToken  string `json:"accessToken"`
+	}
+
+	LoginRes {
+		Result   Result `json:"result"`    // 	response result
+		Token    Token  `json:"authToken"` // 	jwttoken for api
+		UserInfo User   `json:"user"`      //  info user
+	}
+)
+
+service account-api {
+	
+	@handler LoginHandler
+	post /user/login (LoginReq) returns(LoginRes)
+	
+}

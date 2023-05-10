@@ -82,7 +82,7 @@ const TopicRegis = () => {
                         <td>{item.name}</td>
                         <td>
                           <Action
-                            todo={[<TopicRegistration name={"Đăng ký đề tài"} />]}
+                            todo={[<TopicRegistration name={"Đăng ký đề tài"} topicRegis={item} />]}
                           />
                         </td>
                       </tr>
