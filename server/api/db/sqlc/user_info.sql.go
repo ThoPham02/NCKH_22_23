@@ -74,6 +74,39 @@ func (q *Queries) DeleteUserInfo(ctx context.Context, id int32) error {
 	return err
 }
 
+const getStudentByName = `-- name: GetStudentByName :many
+SELECT "name", user_id from "user_info"
+WHERE "name" like $1
+`
+
+type GetStudentByNameRow struct {
+	Name   string `json:"name"`
+	UserID int32  `json:"user_id"`
+}
+
+func (q *Queries) GetStudentByName(ctx context.Context, name string) ([]GetStudentByNameRow, error) {
+	rows, err := q.db.QueryContext(ctx, getStudentByName, name)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+	items := []GetStudentByNameRow{}
+	for rows.Next() {
+		var i GetStudentByNameRow
+		if err := rows.Scan(&i.Name, &i.UserID); err != nil {
+			return nil, err
+		}
+		items = append(items, i)
+	}
+	if err := rows.Close(); err != nil {
+		return nil, err
+	}
+	if err := rows.Err(); err != nil {
+		return nil, err
+	}
+	return items, nil
+}
+
 const getUserInfo = `-- name: GetUserInfo :one
 SELECT id, user_id, name, email, phone, faculty_id, degree, year_start, avata_url, birthday, bank_account FROM "user_info"
 WHERE "user_id" = $1 LIMIT 1

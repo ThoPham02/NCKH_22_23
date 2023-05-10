@@ -72,6 +72,7 @@ func (l *Logic) UserLogin(req *types.UserLoginRequest) (resp *types.UserLoginRes
 			},
 		}, nil
 	}
+	
 
 	currency := time.Now()
 	return &types.UserLoginResponse{

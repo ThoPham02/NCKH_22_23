@@ -50,4 +50,7 @@ func RegisterRouter(router *gin.Engine, svc *service.ServiceContext) {
 	router.GET("api/faculity", handler.GetListFaculityHandler(svc))     // done
 	router.GET("api/faculity/:id", handler.GetFaculityByIDHandler(svc)) // done
 	router.POST("api/faculty", handler.CreateFaculityHandler(svc))      // done
+
+	// student
+	router.GET("api/student", handler.SearchStudentHandler(svc))
 }

@@ -48,3 +48,17 @@ type (
 		Token  Token  `json:"token"`
 	}
 )
+
+type (
+	StudentInfo struct {
+		Name string `json:"name"`
+		ID   int32  `json:"id"`
+	}
+	SearchStudentRequest struct {
+		Name string `form:"name"`
+	}
+	SearchStudentResponse struct {
+		Result      Result        `json:"result"`
+		StudentList []StudentInfo `json:"studentList"`
+	}
+)
