@@ -55,6 +55,17 @@ func (q *Queries) DeleteUser(ctx context.Context, id int32) error {
 	return err
 }
 
+const getTypeAccount = `-- name: GetTypeAccount :one
+SELECT type_account FROM "user" WHERE id = $1
+`
+
+func (q *Queries) GetTypeAccount(ctx context.Context, id int32) (int32, error) {
+	row := q.db.QueryRowContext(ctx, getTypeAccount, id)
+	var type_account int32
+	err := row.Scan(&type_account)
+	return type_account, err
+}
+
 const getUser = `-- name: GetUser :one
 SELECT id, name, hash_password, email, type_account FROM "user"
 WHERE id = $1 LIMIT 1
