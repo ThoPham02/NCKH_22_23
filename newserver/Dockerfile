@@ -11,6 +11,7 @@ FROM alpine:3.17
 WORKDIR /app
 COPY --from=builder /app/main .
 COPY --from=builder /app/migrate ./migrate
+COPY --from=builder /app/etc ./etc
 COPY /migration ./migration
 COPY start.sh .
 RUN chmod +x /app/start.sh
