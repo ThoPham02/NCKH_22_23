@@ -13,9 +13,24 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/api/subcommittees",
+				Handler: GetSubcommitteeHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: LoginHandler(serverCtx),
+				Path:    "/api/subcommittee",
+				Handler: CreateSubcommitteeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/topic-marks",
+				Handler: GetTopicMarksHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/topic-mark",
+				Handler: CreateTopicMarkHandler(serverCtx),
 			},
 		},
 	)

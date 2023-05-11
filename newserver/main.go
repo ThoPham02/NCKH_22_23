@@ -4,9 +4,11 @@ import (
 	"flag"
 	"fmt"
 
-	accountApi "github.com/ThoPham02/research_management/service/account/api"
-
 	"github.com/ThoPham02/research_management/config"
+	accountApi "github.com/ThoPham02/research_management/service/account/api"
+	progressApi "github.com/ThoPham02/research_management/service/progress/api"
+	resultApi "github.com/ThoPham02/research_management/service/result/api"
+	topicApi "github.com/ThoPham02/research_management/service/topic/api"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
 )
@@ -26,6 +28,15 @@ func main() {
 
 	accountService := accountApi.NewAccountService(server)
 	accountService.Start()
+
+	topicService := topicApi.NewTopicService(server)
+	topicService.Start()
+
+	progressService := progressApi.NewProgressService(server)
+	progressService.Start()
+
+	resultService := resultApi.NewResultService(server)
+	resultService.Start()
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()

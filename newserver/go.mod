@@ -2,7 +2,11 @@ module github.com/ThoPham02/research_management
 
 go 1.20
 
-require github.com/zeromicro/go-zero v1.5.2
+require (
+	github.com/lib/pq v1.10.9
+	github.com/zeromicro/go-zero v1.5.2
+	golang.org/x/crypto v0.6.0
+)
 
 require (
 	github.com/beorn7/perks v1.0.1 // indirect

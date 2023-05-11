@@ -13,9 +13,49 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/api/departments",
+				Handler: GetDepartmentsHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: LoginHandler(serverCtx),
+				Path:    "/api/department",
+				Handler: CreateDepartmentHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/faculties",
+				Handler: GetFacultiesHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/faculty",
+				Handler: CreateFacultyHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/topics",
+				Handler: GetTopicsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/topic/:id",
+				Handler: GetTopicHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/topic",
+				Handler: CreateTopicHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/topic/:id",
+				Handler: UpdateTopicHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/topic-status/:id",
+				Handler: UpdateTopicStatusHandler(serverCtx),
 			},
 		},
 	)

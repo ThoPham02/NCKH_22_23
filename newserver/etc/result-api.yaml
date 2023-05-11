@@ -1,0 +1,6 @@
+Name: result-api
+Host: 0.0.0.0
+Port: 8888
+Database:
+  Name: postgres
+  Source: postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb
