@@ -16,7 +16,7 @@ COPY /migration ./migration
 COPY start.sh .
 RUN chmod +x /app/start.sh
 ENV DB_SOURCE=postgres://thopham:Lk8UZozxGk0BfPfAdfjsjUsptsYtMcKu@dpg-cgkogb8rddleudvr9ee0-a.singapore-postgres.render.com/nckhdb
-EXPOSE 8080
+EXPOSE 8888
 
 ENTRYPOINT [ "/app/start.sh" ]
 CMD [ "/app/main" ]
