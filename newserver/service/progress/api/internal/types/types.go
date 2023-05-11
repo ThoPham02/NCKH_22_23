@@ -6,24 +6,119 @@ type Result struct {
 	Message string `json:"message"`
 }
 
-type User struct {
+type Notification struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
+	Url  string `json:"url"`
+}
+
+type Library struct {
+	ID    int64  `json:"id"`
+	Name  string `json:"name"`
+	Url   string `json:"url"`
+	Owner string `json:"owner"`
+}
+
+type TopicReport struct {
+	ID          int64  `json:"id"`
+	TopicID     int64  `json:"topic_id"`
+	Description string `json:"description"`
+	ReportUrl   string `json:"result_url"`
+	StageID     int64  `json:"stage_id"`
+}
+
+type Event struct {
+	ID         int64  `json:"id"`
+	Name       string `json:"name"`
+	SchoolYear string `json:"school_year"`
+	IsCurrent  int64  `json:"is_current"`
+}
+
+type Stage struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
-	TypeAccount int64  `json:"typeAccount"`
+	Description string `json:"description"`
+	Url         string `json:"url"`
+	EventID     int64  `json:"event_id"`
+	TimeStart   int64  `json:"time_start"`
+	TimeEnd     int64  `json:"time_end"`
 }
 
-type LoginReq struct {
-	Username string `json:"username"` //	username
-	Password string `json:"password"` // 	password
+type CreateTopicReportReq struct {
+	TopicID     int64  `json:"topic_id"`
+	Description string `json:"description"`
+	ReportUrl   string `json:"report_url"`
+	StageID     int64  `json:"stage_id"`
 }
 
-type Token struct {
-	RefreshToken string `json:"refreshToken"`
-	AccessToken  string `json:"accessToken"`
+type CreateTopicReportRes struct {
+	Result Result `json:"result"`
 }
 
-type LoginRes struct {
-	Result   Result `json:"result"`    // 	response result
-	Token    Token  `json:"authToken"` // 	jwttoken for api
-	UserInfo User   `json:"user"`      //  info user
+type GetTopicReportsReq struct {
+}
+
+type GetTopicReportsRes struct {
+	Result       Result        `json:"result"`
+	Total        int64         `json:"total"`
+	TopicReports []TopicReport `json:"topic_reports"`
+}
+
+type GetTopicReportsByStageReq struct {
+	StageID string `path:"stage_id"`
+}
+
+type GetTopicReportsByStageRes struct {
+	Result       Result        `json:"result"`
+	Total        int64         `json:"total"`
+	TopicReports []TopicReport `json:"topic_reports"`
+}
+
+type CreateEventReq struct {
+	Name       string `json:"name"`
+	SchoolYear string `json:"school_year"`
+}
+
+type CreateEventRes struct {
+	Result       Result `json:"result"`
+	CurrentEvent Event  `json:"current_event"`
+}
+
+type GetEventsReq struct {
+}
+
+type GetEventsRes struct {
+	Result Result  `json:"result"`
+	Total  int64   `json:"total"`
+	Events []Event `json:"events"`
+}
+
+type UpdateCurrentEventReq struct {
+	EventID int64 `path:"event_id"`
+}
+
+type UpdateCurrentEventRes struct {
+	Result Result `json:"result"`
+}
+
+type CreateStageReq struct {
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Url         string `json:"url"`
+	EventID     int64  `json:"event_id"`
+	TimeStart   int64  `json:"time_start"`
+	TimeEnd     int64  `json:"time_end"`
+}
+
+type CreateStageRes struct {
+	Result Result `json:"result"`
+}
+
+type GetStagesReq struct {
+}
+
+type GetStagesRes struct {
+	Result Result  `json:"result"`
+	Total  int64   `json:"total"`
+	Stages []Stage `json:"stages"`
 }

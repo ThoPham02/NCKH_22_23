@@ -21,7 +21,7 @@ TOPIC=topic_tbl
 #table progress api
 NOTIFICATION=notification_tbl
 LIBRARY=library_tbl
-TOPIC_RESULT=topic_result_tbl
+TOPIC_REPORT=topic_report_tbl
 EVENT=event_tbl
 STAGE=stage_tbl
 
@@ -92,7 +92,7 @@ gen-result-model:
 	goctl model pg datasource -url="${DATASOURCE}" -table="${SUBCOMMITTEE}" -dir="$(RESULT_MODEL_DIR)"
 
 gen-progress-model: 
-	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC_RESULT}" -dir="$(PROGRESS_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC_REPORT}" -dir="$(PROGRESS_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${NOTIFICATION}" -dir="$(PROGRESS_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${LIBRARY}" -dir="$(PROGRESS_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${EVENT}" -dir="$(PROGRESS_MODEL_DIR)"

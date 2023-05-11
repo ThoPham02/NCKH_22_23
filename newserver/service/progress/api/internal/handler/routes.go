@@ -13,9 +13,44 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 	server.AddRoutes(
 		[]rest.Route{
 			{
+				Method:  http.MethodGet,
+				Path:    "/api/reports",
+				Handler: GetTopicReportsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/reports/:stage_id",
+				Handler: GetTopicReportHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
-				Path:    "/user/login",
-				Handler: LoginHandler(serverCtx),
+				Path:    "/api/report",
+				Handler: CreateTopicReportHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/event",
+				Handler: CreateEventHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/events",
+				Handler: GetEventsHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/event-current/:event_id",
+				Handler: UpdateCurrentEventHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/stage",
+				Handler: CreateStageHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/stages",
+				Handler: GetStagesHandler(serverCtx),
 			},
 		},
 	)
