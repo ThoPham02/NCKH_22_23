@@ -3,32 +3,158 @@ type (
 		Code    int64  `json:"code"`
 		Message string `json:"message"`
 	}
-	User {
+	Notification {
+		ID   int64  `json:"id"`
+		Name string `json:"name"`
+		Url  string `json:"url"`
+	}
+	Library {
+		ID    int64  `json:"id"`
+		Name  string `json:"name"`
+		Url   string `json:"url"`
+		Owner string `json:"owner"`
+	}
+	TopicReport {
+		ID          int64  `json:"id"`
+		TopicID     int64  `json:"topic_id"`
+		Description string `json:"description"`
+		ReportUrl   string `json:"result_url"`
+		StageID     int64  `json:"stage_id"`
+	}
+	Event {
+		ID         int64  `json:"id"`
+		Name       string `json:"name"`
+		SchoolYear string `json:"school_year"`
+		IsCurrent  int64  `json:"is_current"`
+	}
+	Stage {
 		ID          int64  `json:"id"`
 		Name        string `json:"name"`
-		TypeAccount int64  `json:"typeAccount"`
-	}
-
-	LoginReq {
-		Username string `json:"username"` //	username
-		Password string `json:"password"` // 	password
-	}
-
-	Token {
-		RefreshToken string `json:"refreshToken"`
-		AccessToken  string `json:"accessToken"`
-	}
-
-	LoginRes {
-		Result   Result `json:"result"`    // 	response result
-		Token    Token  `json:"authToken"` // 	jwttoken for api
-		UserInfo User   `json:"user"`      //  info user
+		Description string `json:"description"`
+		Url         string `json:"url"`
+		EventID     int64  `json:"event_id"`
+		TimeStart   int64  `json:"time_start"`
+		TimeEnd     int64  `json:"time_end"`
 	}
 )
 
-service account-api {
+type (
+	CreateTopicReportReq {
+		TopicID     int64  `json:"topic_id"`
+		Description string `json:"description"`
+		ReportUrl   string `json:"report_url"`
+		StageID     int64  `json:"stage_id"`
+	}
+
+	CreateTopicReportRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	GetTopicReportsReq {
+	}
+
+	GetTopicReportsRes {
+		Result       Result        `json:"result"`
+		Total        int64         `json:"total"`
+		TopicReports []TopicReport `json:"topic_reports"`
+	}
+)
+
+type (
+	GetTopicReportsByStageReq {
+		StageID string `path:"stage_id"`
+	}
+
+	GetTopicReportsByStageRes {
+		Result       Result        `json:"result"`
+		Total        int64         `json:"total"`
+		TopicReports []TopicReport `json:"topic_reports"`
+	}
+)
+
+type (
+	CreateEventReq {
+		Name       string `json:"name"`
+		SchoolYear string `json:"school_year"`
+	}
+
+	CreateEventRes {
+		Result       Result `json:"result"`
+		CurrentEvent Event  `json:"current_event"`
+	}
+)
+
+type (
+	GetEventsReq {
+	}
+
+	GetEventsRes {
+		Result Result  `json:"result"`
+		Total  int64   `json:"total"`
+		Events []Event `json:"events"`
+	}
+)
+
+type (
+	UpdateCurrentEventReq {
+		EventID int64 `path:"event_id"`
+	}
+	UpdateCurrentEventRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	CreateStageReq {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+		Url         string `json:"url"`
+		EventID     int64  `json:"event_id"`
+		TimeStart   int64  `json:"time_start"`
+		TimeEnd     int64  `json:"time_end"`
+	}
+
+	CreateStageRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	GetStagesReq {
+	}
+
+	GetStagesRes {
+		Result Result  `json:"result"`
+		Total  int64   `json:"total"`
+		Stages []Stage `json:"stages"`
+	}
+)
+
+service progress-api {
 	
-	@handler LoginHandler
-	post /user/login (LoginReq) returns(LoginRes)
+	@handler GetTopicReportsHandler
+	get /api/reports (GetTopicReportsReq) returns(GetTopicReportsRes)
 	
+	@handler GetTopicReportHandler
+	get /api/reports/:stage_id (GetTopicReportsByStageReq) returns(GetTopicReportsByStageRes)
+	
+	@handler CreateTopicReportHandler
+	post /api/report (CreateTopicReportReq) returns(CreateTopicReportRes)
+	
+	@handler CreateEventHandler
+	post /api/event (CreateEventReq) returns(CreateEventRes)
+	
+	@handler GetEventsHandler
+	get /api/events (GetEventsReq) returns(GetEventsRes)
+	
+	@handler UpdateCurrentEventHandler
+	put /api/event-current/:event_id (UpdateCurrentEventReq) returns(UpdateCurrentEventRes)
+	
+	@handler CreateStageHandler
+	post /api/stage (CreateStageReq) returns(CreateStageRes)
+	
+	@handler GetStagesHandler
+	get /api/stages (GetStagesReq) returns(GetStagesRes)
 }

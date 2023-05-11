@@ -52,11 +52,12 @@ CREATE TABLE "topic_tbl" (
   "cash_support" BIGINT
 );
 
-CREATE TABLE "topic_result_tbl" (
+CREATE TABLE "topic_report_tbl" (
   "id" BIGINT PRIMARY KEY,
   "topic_id" BIGINT NOT NULL,
+  "stage_id" BIGINT NOT NULL,
   "description" VARCHAR(255),
-  "result_url" VARCHAR(255) NOT NULL
+  "report_url" VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE "event_tbl" (
@@ -79,7 +80,8 @@ CREATE TABLE "stage_tbl" (
 CREATE TABLE "subcommittee_tbl" (
   "id" BIGINT PRIMARY KEY,
   "name" VARCHAR(255),
-  "facult_id" BIGINT NOT NULL
+  "facult_id" BIGINT NOT NULL,
+  "event_id" BIGINT NOT NULL
 );
 
 CREATE TABLE "group_tbl" (

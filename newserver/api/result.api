@@ -3,32 +3,87 @@ type (
 		Code    int64  `json:"code"`
 		Message string `json:"message"`
 	}
-	User {
-		ID          int64  `json:"id"`
-		Name        string `json:"name"`
-		TypeAccount int64  `json:"typeAccount"`
+
+	Subcommittee {
+		Name      string `json:"name"`
+		FacultyID string `json:"faculty_id"`
 	}
 
-	LoginReq {
-		Username string `json:"username"` //	username
-		Password string `json:"password"` // 	password
+	Group {
+		SubcommitteeId int64 `json:"subcommittee_id"`
+		LectureId      int64 `json:"lecture_id"`
+		Role           int64 `json:"role"`
 	}
 
-	Token {
-		RefreshToken string `json:"refreshToken"`
-		AccessToken  string `json:"accessToken"`
-	}
-
-	LoginRes {
-		Result   Result `json:"result"`    // 	response result
-		Token    Token  `json:"authToken"` // 	jwttoken for api
-		UserInfo User   `json:"user"`      //  info user
+	TopicMark {
+		TopicID   int64   `json:"topic_id"`
+		LectureID int64   `json:"lecture_id"`
+		Point     float64 `json:"point"`
+		Comment   string  `json:"comment"`
+		Url       string  `json:"url"`
 	}
 )
 
-service account-api {
+type (
+	GetSubcommitteesReq {
+	}
+
+	GetSubcommitteesRes {
+		Result        Result         `json:"result"`
+		Total         int64          `json:"total"`
+		Subcommittees []Subcommittee `json:"subcommittees"`
+	}
+)
+
+type (
+	LectureGroup {
+		LectureID int   `json:"lecture_id"`
+		Role      int64 `json:"role"`
+	}
+	CreateSubcommitteeReq {
+		Name         string         `json:"name"`
+		ListLectures []LectureGroup `json:"list_lectures"`
+	}
+	CreateSubcommitteeRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	GetTopicMarksReq {
+	}
+	GetTopicMarksRes {
+		Result     Result      `json:"result"`
+		Total      int64       `json:"total"`
+		TopicMarks []TopicMark `json:"topic_marks"`
+	}
+)
+
+type (
+	CreateTopicMarkReq {
+		TopicID   int64   `json:"topic_id"`
+		LectureID int64   `json:"lecture_id"`
+		Point     float64 `json:"point"`
+		Comment   string  `json:"comment"`
+		Url       string  `json:"url"`
+	}
+
+	CreateTopicMarkRes {
+		Result Result `json:"result"`
+	}
+)
+
+service result-api {
 	
-	@handler LoginHandler
-	post /user/login (LoginReq) returns(LoginRes)
+	@handler GetSubcommitteeHandler
+	get /api/subcommittees (GetSubcommitteesReq) returns(GetSubcommitteesRes)
 	
+	@handler CreateSubcommitteeHandler
+	post /api/subcommittee (CreateSubcommitteeReq) returns(CreateSubcommitteeRes)
+	
+	@handler GetTopicMarksHandler
+	get /api/topic-marks (GetTopicMarksReq) returns(GetTopicMarksRes)
+	
+	@handler CreateTopicMarkHandler
+	post /api/topic-mark (CreateTopicMarkReq) returns(CreateTopicMarkRes)
 }

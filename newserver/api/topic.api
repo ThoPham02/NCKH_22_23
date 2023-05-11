@@ -3,32 +3,154 @@ type (
 		Code    int64  `json:"code"`
 		Message string `json:"message"`
 	}
-	User {
-		ID          int64  `json:"id"`
-		Name        string `json:"name"`
-		TypeAccount int64  `json:"typeAccount"`
+	Department {
+		ID        int64  `json:"id"`
+		Name      string `json:"name"`
+		FacultyID int64  `json:"faculty_id"`
 	}
-
-	LoginReq {
-		Username string `json:"username"` //	username
-		Password string `json:"password"` // 	password
+	Faculty {
+		ID   int64  `json:"id"`
+		Name string `json:"name"`
 	}
-
-	Token {
-		RefreshToken string `json:"refreshToken"`
-		AccessToken  string `json:"accessToken"`
-	}
-
-	LoginRes {
-		Result   Result `json:"result"`    // 	response result
-		Token    Token  `json:"authToken"` // 	jwttoken for api
-		UserInfo User   `json:"user"`      //  info user
+	Topic {
+		ID             int64  `json:"id"`
+		Name           string `json:"name"`
+		LectureID      int64  `json:"lecture_id"`
+		DepartmentID   int64  `json:"department_id"`
+		Status         int64  `json:"status"`
+		SubcommitteeID int64  `json:"subcommittee_id"`
+		ListStudents   string `json:"list_students"`
+		TimeStart      int64  `json:"time_start"`
+		TimeEnd        int64  `json:"time_end"`
 	}
 )
 
-service account-api {
+type (
+	GetDepartmentsReq {
+	}
+	GetDepartmentsRes {
+		Result      Result       `json:"result"`
+		Departments []Department `json:"departments"`
+	}
+)
+
+type (
+	CreateDepartmentReq {
+		Name string `json:"name"`
+	}
+
+	CreateDepartmentRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	GetFacultiesReq {
+	}
+	GetFacultiesRes {
+		Result    Result    `json:"result"`
+		Faculties []Faculty `json:"faculties"`
+	}
+)
+
+type (
+	CreateFacultyReq {
+		Name      string `json:"name"`
+		FacultyID int64  `json:"faculty_id"`
+	}
+
+	CreateFacultyRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	CreateTopicReq {
+		Name         string `json:"name"`
+		LectureID    int64  `json:"lecture_id"`
+		DepartmentID int64  `json:"department_id"`
+		EventID      int64  `json:"event_id"`
+	}
+	CreateTopicRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	UpdateTopicReq {
+		ID             int64  `path:"id"`
+		Name           string `json:"name"`
+		LectureID      int64  `json:"lecture_id"`
+		DepartmentID   int64  `json:"department_id"`
+		Status         int64  `json:"status"`
+		EventID        int64  `json:"event_id"`
+		SubcommitteeID int64  `json:"subcommittee_id"`
+		ListStudents   string `json:"list_students"`
+		TimeStart      int64  `json:"time_start"`
+		TimeEnd        int64  `json:"time_end"`
+		CashSupport    int64  `json:"cash_support"`
+	}
+	UpdateTopicRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	UpdateTopicStatusReq {
+		ID     int64 `path:"id"`
+		Status int64 `json:"status"`
+	}
+	UpdateTopicStatusRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	GetTopicReq {
+		ID int64 `path:"id"`
+	}
+	GetTopicRes {
+		Result Result `json:"result"`
+		Topic  Topic  `json:"topic"`
+	}
+)
+
+type (
+	GetTopicsReq {
+	}
+	GetTopicsRes {
+		Result Result  `json:"result"`
+		Total  int64   `json:"total"`
+		Topics []Topic `json:"topic"`
+	}
+)
+
+service topic-api {
 	
-	@handler LoginHandler
-	post /user/login (LoginReq) returns(LoginRes)
+	@handler GetDepartmentsHandler
+	get /api/departments (GetDepartmentsReq) returns(GetDepartmentsRes)
 	
+	@handler CreateDepartmentHandler
+	post /api/department (CreateDepartmentReq) returns(CreateDepartmentRes)
+	
+	@handler GetFacultiesHandler
+	get /api/faculties (GetFacultiesReq) returns(GetFacultiesRes)
+	
+	@handler CreateFacultyHandler
+	post /api/faculty (CreateFacultyReq) returns(CreateFacultyRes)
+	
+	@handler GetTopicsHandler
+	get /api/topics (GetTopicsReq) returns(GetTopicsRes)
+	
+	@handler GetTopicHandler
+	get /api/topic/:id (GetTopicReq) returns(GetTopicRes)
+	
+	@handler CreateTopicHandler
+	post /api/topic (CreateTopicReq) returns(CreateTopicRes)
+	
+	@handler UpdateTopicHandler
+	put /api/topic/:id (UpdateTopicReq) returns(UpdateTopicRes)
+	
+	@handler UpdateTopicStatusHandler
+	put /api/topic-status/:id (UpdateTopicStatusReq) returns(UpdateTopicStatusRes)
 }
