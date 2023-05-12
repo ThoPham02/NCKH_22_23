@@ -107,6 +107,7 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsReq
 			Status:  constant.MapStatusTopicRegistration[tmp.Status],
 		})
 	}
+	total := len(data)
 	if req.Limit != 0 {
 		data = utils.SliceArray(data, req.Limit, req.Offset)
 	}
@@ -116,7 +117,7 @@ func (l *Logic) GetListTopicRegistationLogic(req *types.GetTopicRegistrationsReq
 			Code:    constant.SUCCESS_CODE,
 			Message: constant.SUCCESS_MESSAGE,
 		},
-		Total:              len(data),
+		Total:              total,
 		TopicRegistrations: data,
 	}, nil
 }
