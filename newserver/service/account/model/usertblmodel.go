@@ -10,12 +10,17 @@ import (
 
 var _ UserTblModel = (*customUserTblModel)(nil)
 
+type UserCondtion struct {
+	Name string `json:"name"`
+}
+
 type (
 	// UserTblModel is an interface to be customized, add more methods here,
 	// and implement the added methods in customUserTblModel.
 	UserTblModel interface {
 		userTblModel
 		FindOneByName(ctx context.Context, name string) (*UserTbl, error)
+		FindUserByCondition(ctx context.Context, condition UserCondtion) ([]UserTbl, error)
 	}
 
 	customUserTblModel struct {
@@ -42,4 +47,8 @@ func (m *customUserTblModel) FindOneByName(ctx context.Context, name string) (*U
 	default:
 		return nil, err
 	}
+}
+
+func (m *customUserTblModel) FindUserByCondition(ctx context.Context, condition UserCondtion) ([]UserTbl, error) {
+	return nil, nil
 }
