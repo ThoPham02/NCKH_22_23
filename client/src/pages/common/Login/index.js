@@ -20,15 +20,13 @@ const Login = () => {
         username: usernameRef.current.value,
         password: passwordRef.current.value
       }
-      console.log(value)
       dispatch(fetchLogin(value))
     };
 
     const user = useSelector(loginSelector)
-    console.log(user)
   
     const navige = useNavigate();
-    const isAuthenticated = useSelector(userSelector).typeAccount !== 0;
+    const isAuthenticated = useSelector(userSelector).role !== 0;
     useEffect(() => {
       if (isAuthenticated) {
         navige('/')

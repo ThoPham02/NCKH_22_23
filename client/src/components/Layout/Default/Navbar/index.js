@@ -14,6 +14,8 @@ const NavBar = () => {
     dispatch(LoginActions.logout());
   }
 
+  console.log(user.role)
+
   var loginAccount = (
     <div>
       <Link to="/login">
@@ -23,10 +25,10 @@ const NavBar = () => {
     </div>
   );
 
-  if (user.typeAccount !== 0) {
+  if (user.role !== 0) {
     loginAccount = (
       <div>
-        <span>Xin Chào, {user.name}</span>
+        <span className="user-name">Xin Chào, {user.name}</span>
         <ul className="account__nav">
           <li>
             <Link to="/user-info">Thông tin</Link>
@@ -43,7 +45,7 @@ const NavBar = () => {
       <li>
         <Link to="/home">Trang chủ</Link>
       </li>
-      {userNav[user.typeAccount].map((item, index) => (
+      {userNav[user.role].map((item, index) => (
         <li key={index}>
           <Link to={item.path}>{item.name}</Link>
         </li>

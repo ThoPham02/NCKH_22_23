@@ -16,34 +16,34 @@ type (
 	}
 	TopicReport {
 		ID          int64  `json:"id"`
-		TopicID     int64  `json:"topic_id"`
+		TopicID     int64  `json:"topicID"`
 		Description string `json:"description"`
-		ReportUrl   string `json:"result_url"`
-		StageID     int64  `json:"stage_id"`
+		ReportUrl   string `json:"resultUrl"`
+		StageID     int64  `json:"stageID"`
 	}
 	Event {
 		ID         int64  `json:"id"`
 		Name       string `json:"name"`
-		SchoolYear string `json:"school_year"`
-		IsCurrent  int64  `json:"is_current"`
+		SchoolYear string `json:"schoolYear"`
+		IsCurrent  int64  `json:"isCurrent"`
 	}
 	Stage {
 		ID          int64  `json:"id"`
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Url         string `json:"url"`
-		EventID     int64  `json:"event_id"`
-		TimeStart   int64  `json:"time_start"`
-		TimeEnd     int64  `json:"time_end"`
+		EventID     int64  `json:"eventID"`
+		TimeStart   int64  `json:"timeStart"`
+		TimeEnd     int64  `json:"timeEnd"`
 	}
 )
 
 type (
 	CreateTopicReportReq {
-		TopicID     int64  `json:"topic_id"`
+		TopicID     int64  `json:"topicID"`
 		Description string `json:"description"`
 		ReportUrl   string `json:"report_url"`
-		StageID     int64  `json:"stage_id"`
+		StageID     int64  `json:"stageID"`
 	}
 
 	CreateTopicReportRes {
@@ -58,31 +58,31 @@ type (
 	GetTopicReportsRes {
 		Result       Result        `json:"result"`
 		Total        int64         `json:"total"`
-		TopicReports []TopicReport `json:"topic_reports"`
+		TopicReports []TopicReport `json:"topicReports"`
 	}
 )
 
 type (
 	GetTopicReportsByStageReq {
-		StageID string `path:"stage_id"`
+		StageID string `path:"stageID"`
 	}
 
 	GetTopicReportsByStageRes {
 		Result       Result        `json:"result"`
 		Total        int64         `json:"total"`
-		TopicReports []TopicReport `json:"topic_reports"`
+		TopicReports []TopicReport `json:"topicReports"`
 	}
 )
 
 type (
 	CreateEventReq {
 		Name       string `json:"name"`
-		SchoolYear string `json:"school_year"`
+		SchoolYear string `json:"schoolYear"`
 	}
 
 	CreateEventRes {
 		Result       Result `json:"result"`
-		CurrentEvent Event  `json:"current_event"`
+		CurrentEvent Event  `json:"currentEvent"`
 	}
 )
 
@@ -99,7 +99,7 @@ type (
 
 type (
 	UpdateCurrentEventReq {
-		EventID int64 `path:"event_id"`
+		EventID int64 `path:"eventID"`
 	}
 	UpdateCurrentEventRes {
 		Result Result `json:"result"`
@@ -111,9 +111,9 @@ type (
 		Name        string `json:"name"`
 		Description string `json:"description"`
 		Url         string `json:"url"`
-		EventID     int64  `json:"event_id"`
-		TimeStart   int64  `json:"time_start"`
-		TimeEnd     int64  `json:"time_end"`
+		EventID     int64  `json:"eventID"`
+		TimeStart   int64  `json:"timeStart"`
+		TimeEnd     int64  `json:"timeEnd"`
 	}
 
 	CreateStageRes {
@@ -138,7 +138,7 @@ service progress-api {
 	get /api/reports (GetTopicReportsReq) returns(GetTopicReportsRes)
 	
 	@handler GetTopicReportHandler
-	get /api/reports/:stage_id (GetTopicReportsByStageReq) returns(GetTopicReportsByStageRes)
+	get /api/reports/:stageID (GetTopicReportsByStageReq) returns(GetTopicReportsByStageRes)
 	
 	@handler CreateTopicReportHandler
 	post /api/report (CreateTopicReportReq) returns(CreateTopicReportRes)
@@ -150,7 +150,7 @@ service progress-api {
 	get /api/events (GetEventsReq) returns(GetEventsRes)
 	
 	@handler UpdateCurrentEventHandler
-	put /api/event-current/:event_id (UpdateCurrentEventReq) returns(UpdateCurrentEventRes)
+	put /api/event-current/:eventID (UpdateCurrentEventReq) returns(UpdateCurrentEventRes)
 	
 	@handler CreateStageHandler
 	post /api/stage (CreateStageReq) returns(CreateStageRes)
