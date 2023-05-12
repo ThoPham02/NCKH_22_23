@@ -20,6 +20,7 @@ const Login = () => {
         username: usernameRef.current.value,
         password: passwordRef.current.value
       }
+      console.log(value)
       dispatch(fetchLogin(value))
     };
 

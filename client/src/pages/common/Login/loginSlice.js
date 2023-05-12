@@ -27,10 +27,12 @@ const LoginSlice = createSlice({
   },
 });
 
-export const fetchLogin = createAsyncThunk("user/fetchLogin", async ({payload}) => {
-  console.log(payload)
+export const fetchLogin = createAsyncThunk("user/fetchLogin", async (payload) => {
   const url = "/user/login"
-  const response = await client.get(url, payload)
+  const response = await client.post(url, {
+    username: payload.username,
+    password: payload.password
+  })
   console.log(response)
 
   return response
