@@ -1,34 +1,30 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 import "./style.css"
-import client from "../../../apis";
-import { LoginActions } from "./loginSlice";
+// import client from "../../../apis";
+import { fetchLogin } from "./loginSlice";
 import { userSelector } from "../../../store/selectors";
-import useForm from "../../../hooks/useForm";
 import Loading from "../../../components/Shares/Loading";
+import { loginSelector } from "../../../store/selectors";
 
 const Login = () => {
+    const usernameRef = useRef();
+    const passwordRef = useRef();
     const dispatch = useDispatch();
-    const [isLoading, setIsLoading] = useState(false);
-    const [error, setError] = useState(null);
-    const onSubmit = async (values) => {
-      setIsLoading(true)
-      try {
-        const res = await client.post("/api/user/login", values)
-  
-        dispatch(LoginActions.login(res.data))
-        setIsLoading(false)
-      } catch (err) {
-        setError(err)
-        console.log(error)
-      } finally {
-        setIsLoading(false)
+
+    const onSubmit = (e) => {
+      e.preventDefault();
+      const value = {
+        username: usernameRef.current.value,
+        password: passwordRef.current.value
       }
-  
+      dispatch(fetchLogin(value))
     };
-    const {values, handleChange, handleSubmit} = useForm(onSubmit, { name: "", password: ""})
+
+    const user = useSelector(loginSelector)
+    console.log(user)
   
     const navige = useNavigate();
     const isAuthenticated = useSelector(userSelector).typeAccount !== 0;
@@ -40,20 +36,20 @@ const Login = () => {
 
     return (
         <div className="loginContainer">
-          <form className="login__form" onSubmit={handleSubmit}>
+          <form className="login__form" onSubmit={onSubmit}>
             <div className="login__header">
               <h1>Tài khoản</h1>
             </div>
             <div className="login__input">
-              <input type="text" name="name" placeholder="Tên đăng nhập" value={values.name} onChange={handleChange} autoComplete="off"/>
+              <input type="text" name="name" placeholder="Tên đăng nhập" ref={usernameRef} autoComplete="off"/>
               <span className="err"></span>
             </div>
             <div className="login__input">
-              <input type="password" name="password" placeholder="Mật khẩu" value={values.password} onChange={handleChange} />
+              <input type="password" name="password" placeholder="Mật khẩu" ref={passwordRef} />
               <span className="err"></span>
             </div>
             <button className="login__submitBtn" type="submit">
-            {isLoading ? <Loading/> : <></>}
+            {user.status === "loading" ? <Loading/> : <></>}
               Đăng nhập
               </button>
             <Link to="/">Trở về trang chủ</Link>

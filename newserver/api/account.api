@@ -65,7 +65,9 @@ type (
 		Users  []User `json:"users"`
 	}
 )
-
+@server (
+	middleware: Corsmiddleware
+)
 service account-api {
 	
 	@handler LoginHandler
