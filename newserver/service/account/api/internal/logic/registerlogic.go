@@ -48,25 +48,25 @@ func (l *RegisterLogic) Register(req *types.RegisterReq) (resp *types.RegisterRe
 		Role:         req.Role,
 		Name:         req.Name,
 		Email: sql.NullString{
-			Valid:  req.Email == "",
+			Valid:  req.Email != "",
 			String: req.Email,
 		},
 		Phone: sql.NullString{
-			Valid:  req.Phone == "",
+			Valid:  req.Phone != "",
 			String: req.Phone,
 		},
 		FacultyId: req.FacultyID,
 		YearStart: req.YearStart,
 		Degree:    req.Degree,
 		AvataUrl: sql.NullString{
-			Valid:  req.AvatarUrl == "",
+			Valid:  req.AvatarUrl != "",
 			String: req.AvatarUrl},
 		Birthday: sql.NullString{
-			Valid:  req.Birthday == "",
+			Valid:  req.Birthday != "",
 			String: req.Birthday,
 		},
 		BankAccount: sql.NullString{
-			Valid:  req.BankAccount == "",
+			Valid:  req.BankAccount != "",
 			String: req.BankAccount,
 		},
 	})

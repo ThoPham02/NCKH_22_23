@@ -6,8 +6,8 @@ export const userNav = [
       name: "Đề tài",
     },
     {
-      path: "/topic-regis",
-      name: "Đề tài đề xuất",
+      path: "/result",
+      name: "Kết  quả",
     },
   ],
   // user student
@@ -17,16 +17,16 @@ export const userNav = [
       name: "Đề tài",
     },
     {
-      path: "/topic-regis",
-      name: "Đề tài đề xuất",
-    },
-    {
-      path: "/my-topic",
-      name: "Đề tài của tôi",
-    },
-    {
       path: "/result",
       name: "Kết quả",
+    },
+    {
+      path: "/action",
+      name: "Hoạt động",
+    },
+    {
+      path: "/report",
+      name: "Báo cáo",
     },
   ],
   // user lecture
@@ -36,16 +36,16 @@ export const userNav = [
       name: "Đề tài",
     },
     {
-      path: "/topic-regis",
-      name: "Đề tài đề xuất",
-    },
-    {
-      path: "/my-topic",
-      name: "Đề tài của tôi",
-    },
-    {
       path: "/result",
       name: "Kết quả",
+    },
+    {
+      path: "/action",
+      name: "Hoạt động",
+    },
+    {
+      path: "/report",
+      name: "Báo cáo",
     },
   ],
   // user department
@@ -57,16 +57,16 @@ export const userNav = [
       name: "Đề tài",
     },
     {
-      path: "/topic-regis",
-      name: "Đề tài đề xuất",
-    },
-    {
-      path: "/my-topic",
-      name: "Đề tài của tôi",
-    },
-    {
       path: "/result",
       name: "Kết quả",
+    },
+    {
+      path: "/action",
+      name: "Hoạt động",
+    },
+    {
+      path: "/report",
+      name: "Báo cáo",
     },
   ],
   // user admin
@@ -76,16 +76,16 @@ export const userNav = [
       name: "Đề tài",
     },
     {
-      path: "/topic-regis",
-      name: "Đề tài đề xuất",
-    },
-    {
-      path: "/my-topic",
-      name: "Đề tài của tôi",
-    },
-    {
       path: "/result",
       name: "Kết quả",
+    },
+    {
+      path: "/action",
+      name: "Hoạt động",
+    },
+    {
+      path: "/report",
+      name: "Báo cáo",
     },
   ],
 ];
