@@ -9,7 +9,6 @@ import (
 	progressApi "github.com/ThoPham02/research_management/service/progress/api"
 	resultApi "github.com/ThoPham02/research_management/service/result/api"
 	topicApi "github.com/ThoPham02/research_management/service/topic/api"
-	"github.com/rs/cors"
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/rest"
@@ -25,16 +24,7 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
-
-	corsOptions := cors.Options{
-		AllowedOrigins:   []string{"*"},
-		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
-		AllowCredentials: true,
-		AllowedHeaders:   []string{"Content-Type", " Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization", "accept", "origin", "Cache-Control", "X-Requested-With"},
-	}
-	corsHandler := cors.New(corsOptions).Handler
-	server.Use(rest.ToMiddleware(corsHandler))
+	server := rest.MustNewServer(c.RestConf, rest.WithCors("*"))
 
 	logx.DisableStat()
 	defer server.Stop()
