@@ -50,5 +50,15 @@ func (m *customUserTblModel) FindOneByName(ctx context.Context, name string) (*U
 }
 
 func (m *customUserTblModel) FindUserByCondition(ctx context.Context, condition UserCondtion) ([]UserTbl, error) {
-	return nil, nil
+	query := fmt.Sprintf("select %s from %s", userTblRows, m.table)
+	var resp []UserTbl
+	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	switch err {
+	case nil:
+		return resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }

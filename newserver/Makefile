@@ -76,7 +76,7 @@ gen-services: gen-account-service gen-result-service gen-progress-service gen-to
 
 # migrate 
 migrate:
-	migrate create -ext sql -dir ${MIGRATION_DIR} -seq init_schema
+	migrate create -ext sql -dir ${MIGRATION_DIR} -seq update_student_group
 migrateup:
 	migrate -path ${MIGRATION_DIR} -database "${DATASOURCE}" -verbose up
 migratedown:

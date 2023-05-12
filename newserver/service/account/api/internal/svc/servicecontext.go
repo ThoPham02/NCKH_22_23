@@ -2,7 +2,6 @@ package svc
 
 import (
 	"github.com/ThoPham02/research_management/service/account/api/internal/config"
-	"github.com/ThoPham02/research_management/service/account/api/internal/middleware"
 	"github.com/ThoPham02/research_management/service/account/model"
 	_ "github.com/lib/pq"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -17,8 +16,7 @@ type ServiceContext struct {
 
 func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
-		Config:         c,
-		UserModel:      model.NewUserTblModel(sqlx.NewSqlConn(c.Database.Name, c.Database.Source)),
-		Corsmiddleware: middleware.NewCorsmiddlewareMiddleware().Handle,
+		Config:    c,
+		UserModel: model.NewUserTblModel(sqlx.NewSqlConn(c.Database.Name, c.Database.Source)),
 	}
 }
