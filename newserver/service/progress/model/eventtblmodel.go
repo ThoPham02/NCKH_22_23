@@ -17,6 +17,7 @@ type (
 		eventTblModel
 		FindCurrentEvent(ctx context.Context) (*EventTbl, error)
 		UpdateCurrentEvent(ctx context.Context, eventID int64) error
+		FindEvents(ctx context.Context) ([]EventTbl, error)
 	}
 
 	customEventTblModel struct {
@@ -32,7 +33,6 @@ func NewEventTblModel(conn sqlx.SqlConn) EventTblModel {
 }
 
 func (m *customEventTblModel) FindCurrentEvent(ctx context.Context) (*EventTbl, error) {
-	// TODO:
 	query := fmt.Sprintf("select %s from %s where is_current = 1 limit 1", eventTblRows, m.table)
 	var resp EventTbl
 	err := m.conn.QueryRowCtx(ctx, &resp, query)
@@ -54,4 +54,18 @@ func (m *customEventTblModel) UpdateCurrentEvent(ctx context.Context, eventID in
 	query = fmt.Sprintf("update %s set %s where id = $1", m.table, "is_current=1")
 	_, err = m.conn.ExecCtx(ctx, query, eventID)
 	return err
+}
+
+func (m *customEventTblModel) FindEvents(ctx context.Context) ([]EventTbl, error) {
+	query := fmt.Sprintf("select %s from %s", eventTblRows, m.table)
+	var resp []EventTbl
+	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	switch err {
+	case nil:
+		return resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
 }
