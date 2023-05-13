@@ -2,6 +2,8 @@ package logic
 
 import (
 	"context"
+	"database/sql"
+	"time"
 
 	"github.com/ThoPham02/research_management/common"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/svc"
@@ -31,6 +33,8 @@ func (l *UpdateTopicStatusLogic) UpdateTopicStatus(req *types.UpdateTopicStatusR
 	l.Logger.Info("UpdateTopicStatus", req)
 
 	var topicModel *model.TopicTbl
+	var timeStart, timeEnd int64
+	var now = time.Now().Unix()
 
 	topicModel, err = l.svcCtx.TopicModel.FindOne(l.ctx, req.ID)
 	if err != nil {
@@ -50,17 +54,37 @@ func (l *UpdateTopicStatusLogic) UpdateTopicStatus(req *types.UpdateTopicStatusR
 			},
 		}, nil
 	}
+	switch req.Status {
+	case common.TOPIC_WAIT_CONFIRM:
+	case common.TOPIC_REFUSED:
+	case common.TOPIC_CONFIRMED:
+		break
+	case common.TOPIC_DOING:
+		timeStart = now
+	case common.TOPIC_DONE:
+	case common.TOPIC_DONE_OUT_DATE:
+		timeEnd = now
+		timeStart = topicModel.TimeStart.Int64
+	default:
+		timeStart = topicModel.TimeStart.Int64
+	}
 
 	err = l.svcCtx.TopicModel.Update(l.ctx, &model.TopicTbl{
-		Id:              topicModel.Id,
-		Name:            topicModel.Name,
-		LectureId:       topicModel.LectureId,
-		DepartmentId:    topicModel.DepartmentId,
-		Status:          req.Status,
-		EventId:         topicModel.EventId,
-		SubcommitteeId:  topicModel.SubcommitteeId,
-		TimeStart:       topicModel.TimeStart,
-		TimeEnd:         topicModel.TimeEnd,
+		Id:             topicModel.Id,
+		Name:           topicModel.Name,
+		LectureId:      topicModel.LectureId,
+		DepartmentId:   topicModel.DepartmentId,
+		Status:         req.Status,
+		EventId:        topicModel.EventId,
+		SubcommitteeId: topicModel.SubcommitteeId,
+		TimeStart: sql.NullInt64{
+			Valid: timeStart != 0,
+			Int64: timeStart,
+		},
+		TimeEnd: sql.NullInt64{
+			Valid: timeEnd != 0,
+			Int64: timeEnd,
+		},
 		CashSupport:     topicModel.CashSupport,
 		GroupStudentsId: topicModel.GroupStudentsId,
 	})
