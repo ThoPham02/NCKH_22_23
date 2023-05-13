@@ -23,7 +23,7 @@ const FaculitySlice = createSlice({
 });
 
 export const fetchFaculity = createAsyncThunk("getFaculities", async () => {
-  const response = await client.get("/api/faculity");
+  const response = await client.get("/api/faculities");
 
   return response.data;
 });
