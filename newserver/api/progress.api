@@ -54,21 +54,14 @@ type (
 
 type (
 	GetTopicReportsReq {
+		StageID int64 `json:"stageID"`
+		EventID int64 `json:"eventID"`
+		TopicID int64 `json:"topicID"`
+		Limit   int64 `json:"limit"`
+		Offset  int64 `json:"offset"`
 	}
 
 	GetTopicReportsRes {
-		Result       Result        `json:"result"`
-		Total        int64         `json:"total"`
-		TopicReports []TopicReport `json:"topicReports"`
-	}
-)
-
-type (
-	GetTopicReportsByStageReq {
-		StageID string `path:"stageID"`
-	}
-
-	GetTopicReportsByStageRes {
 		Result       Result        `json:"result"`
 		Total        int64         `json:"total"`
 		TopicReports []TopicReport `json:"topicReports"`
@@ -140,9 +133,6 @@ service progress-api {
 	
 	@handler GetTopicReportsHandler
 	get /api/reports (GetTopicReportsReq) returns(GetTopicReportsRes)
-	
-	@handler GetTopicReportHandler
-	get /api/reports/:stageID (GetTopicReportsByStageReq) returns(GetTopicReportsByStageRes)
 	
 	@handler CreateTopicReportHandler
 	post /api/report (CreateTopicReportReq) returns(CreateTopicReportRes)

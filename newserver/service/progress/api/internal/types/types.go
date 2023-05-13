@@ -57,19 +57,14 @@ type CreateTopicReportRes struct {
 }
 
 type GetTopicReportsReq struct {
+	StageID int64 `json:"stageID"`
+	EventID int64 `json:"eventID"`
+	TopicID int64 `json:"topicID"`
+	Limit   int64 `json:"limit"`
+	Offset  int64 `json:"offset"`
 }
 
 type GetTopicReportsRes struct {
-	Result       Result        `json:"result"`
-	Total        int64         `json:"total"`
-	TopicReports []TopicReport `json:"topicReports"`
-}
-
-type GetTopicReportsByStageReq struct {
-	StageID string `path:"stageID"`
-}
-
-type GetTopicReportsByStageRes struct {
 	Result       Result        `json:"result"`
 	Total        int64         `json:"total"`
 	TopicReports []TopicReport `json:"topicReports"`

@@ -149,7 +149,6 @@ func (m *customTopicTblModel) CountTopics(ctx context.Context, condition TopicCo
 	}
 }
 func (m *customTopicTblModel) UpdateStatus(ctx context.Context, topicID int64, status int64) error {
-	// TODO:
 	logx.Info(topicTblRowsWithPlaceHolder)
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, "status = $2")
 	_, err := m.conn.ExecCtx(ctx, query, topicID, status)
@@ -157,13 +156,11 @@ func (m *customTopicTblModel) UpdateStatus(ctx context.Context, topicID int64, s
 }
 
 func (m *customTopicTblModel) UpdateGroup(ctx context.Context, topicID int64, groupID int64) error {
-	// TODO:
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, "group_students_id = $2")
 	_, err := m.conn.ExecCtx(ctx, query, topicID, groupID)
 	return err
 }
 func (m *customTopicTblModel) UpdateSubcommittee(ctx context.Context, topicID []int64, subcommitteeID int64) error {
-	// TODO:
 	var input string = ""
 	var values = []interface{}{subcommitteeID}
 	for index, id := range topicID {

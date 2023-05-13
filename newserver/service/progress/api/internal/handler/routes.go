@@ -18,11 +18,6 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: GetTopicReportsHandler(serverCtx),
 			},
 			{
-				Method:  http.MethodGet,
-				Path:    "/api/reports/:stageID",
-				Handler: GetTopicReportHandler(serverCtx),
-			},
-			{
 				Method:  http.MethodPost,
 				Path:    "/api/report",
 				Handler: CreateTopicReportHandler(serverCtx),
