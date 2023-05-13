@@ -11,7 +11,9 @@ import (
 var _ UserTblModel = (*customUserTblModel)(nil)
 
 type UserCondtion struct {
-	Name string `json:"name"`
+	Name      string `json:"name"`
+	Role      int64  `json:"role"`
+	FacultyID int64  `json:"facultyID"`
 }
 
 type (

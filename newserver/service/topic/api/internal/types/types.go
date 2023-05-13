@@ -9,7 +9,7 @@ type Result struct {
 type Department struct {
 	ID        int64  `json:"id"`
 	Name      string `json:"name"`
-	FacultyID int64  `json:"faculty_id"`
+	FacultyID int64  `json:"facultyID"`
 }
 
 type Faculty struct {
@@ -18,18 +18,26 @@ type Faculty struct {
 }
 
 type Topic struct {
-	ID             int64  `json:"id"`
-	Name           string `json:"name"`
-	LectureID      int64  `json:"lecture_id"`
-	DepartmentID   int64  `json:"department_id"`
-	Status         int64  `json:"status"`
-	SubcommitteeID int64  `json:"subcommittee_id"`
-	ListStudents   string `json:"list_students"`
-	TimeStart      int64  `json:"time_start"`
-	TimeEnd        int64  `json:"time_end"`
+	ID              int64  `json:"id"`
+	Name            string `json:"name"`
+	LectureID       int64  `json:"lectureID"`
+	DepartmentID    int64  `json:"departmentID"`
+	Status          int64  `json:"status"`
+	SubcommitteeID  int64  `json:"subcommitteeID"`
+	GroupStudentsID int64  `json:"groupStudentsID"`
+	TimeStart       int64  `json:"timeStart"`
+	TimeEnd         int64  `json:"timeEnd"`
+}
+
+type StudentGroup struct {
+	ID        int64 `json:"id"`
+	StudentID int64 `json:"studentID"`
+	EventID   int64 `json:"eventID"`
+	GroupID   int64 `json:"groupID"`
 }
 
 type GetDepartmentsReq struct {
+	FacultyID int64 `json:"facultyID"`
 }
 
 type GetDepartmentsRes struct {
@@ -55,7 +63,7 @@ type GetFacultiesRes struct {
 
 type CreateFacultyReq struct {
 	Name      string `json:"name"`
-	FacultyID int64  `json:"faculty_id"`
+	FacultyID int64  `json:"facultyID"`
 }
 
 type CreateFacultyRes struct {
@@ -64,9 +72,9 @@ type CreateFacultyRes struct {
 
 type CreateTopicReq struct {
 	Name         string `json:"name"`
-	LectureID    int64  `json:"lecture_id"`
-	DepartmentID int64  `json:"department_id"`
-	EventID      int64  `json:"event_id"`
+	LectureID    int64  `json:"lectureID"`
+	DepartmentID int64  `json:"departmentID"`
+	EventID      int64  `json:"eventID"`
 }
 
 type CreateTopicRes struct {
@@ -76,15 +84,15 @@ type CreateTopicRes struct {
 type UpdateTopicReq struct {
 	ID             int64  `path:"id"`
 	Name           string `json:"name"`
-	LectureID      int64  `json:"lecture_id"`
-	DepartmentID   int64  `json:"department_id"`
+	LectureID      int64  `json:"lectureID"`
+	DepartmentID   int64  `json:"departmentID"`
 	Status         int64  `json:"status"`
-	EventID        int64  `json:"event_id"`
-	SubcommitteeID int64  `json:"subcommittee_id"`
-	ListStudents   string `json:"list_students"`
-	TimeStart      int64  `json:"time_start"`
-	TimeEnd        int64  `json:"time_end"`
-	CashSupport    int64  `json:"cash_support"`
+	EventID        int64  `json:"eventID"`
+	SubcommitteeID int64  `json:"subcommitteeID"`
+	GroupID        int64  `json:"groupID"`
+	TimeStart      int64  `json:"timeStart"`
+	TimeEnd        int64  `json:"timeEnd"`
+	CashSupport    int64  `json:"cashSupport"`
 }
 
 type UpdateTopicRes struct {
@@ -100,6 +108,24 @@ type UpdateTopicStatusRes struct {
 	Result Result `json:"result"`
 }
 
+type UpdateTopicSubcommitteeReq struct {
+	ListTopicID    []int64 `json:"listTopicID"`
+	SubcommitteeID int64   `json:"subcommitteeID"`
+}
+
+type UpdateTopicSubcommitteeRes struct {
+	Result Result `json:"result"`
+}
+
+type UpdateTopicStudentGroupReq struct {
+	TopicID       int64   `path:"topicID"`
+	ListStudentID []int64 `path:"listStudentID"`
+}
+
+type UpdateTopicStudentGroupRes struct {
+	Result Result `json:"result"`
+}
+
 type GetTopicReq struct {
 	ID int64 `path:"id"`
 }
@@ -110,6 +136,17 @@ type GetTopicRes struct {
 }
 
 type GetTopicsReq struct {
+	Search         string `form:"search"`
+	DepartmentID   int64  `form:"departmentID"`
+	FacultyID      int64  `form:"facultyID"`
+	Status         int64  `form:"status"`
+	LectureID      int64  `form:"lectureID"`
+	EventID        int64  `form:"eventID"`
+	SubcommitteeID int64  `form:"subcommitteeID"`
+	TimeStart      int64  `form:"timeStart"`
+	TimeEnd        int64  `form:"timeEnd"`
+	Limit          int64  `form:"limit"`
+	Offset         int64  `form:"offset"`
 }
 
 type GetTopicsRes struct {

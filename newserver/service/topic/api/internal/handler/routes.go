@@ -57,6 +57,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/api/topic-status/:id",
 				Handler: UpdateTopicStatusHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/topic-subcommittee",
+				Handler: UpdateTopicSubcommitteeHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/topic-student-group/:id",
+				Handler: UpdateTopicStudentGroupHandler(serverCtx),
+			},
 		},
 	)
 }

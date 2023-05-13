@@ -83,3 +83,7 @@
   height: 80px;
   transition: 0.5s;
 }
+
+.user-name {
+  cursor: pointer;
+}

@@ -5,12 +5,12 @@ import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 import { publicRoutes, privateRoutes } from "./Router";
-import { userSelector } from "./store/selectors";
+import { roleSelector } from "./store/selectors";
 import { DefaultLayout } from "./components/Layout";
 
 function App() {
-  const user = useSelector(userSelector);
-  const role = user.typeAccount;
+  const role = useSelector(roleSelector);
+  
   return (
     <Router>
       <Routes>

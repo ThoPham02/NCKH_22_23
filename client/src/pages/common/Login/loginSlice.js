@@ -6,12 +6,12 @@ const LoginSlice = createSlice({
   initialState: {
     status: "idle",
     token: {},
-    user: { typeAccount: 0 },
+    user: { role: 0 },
   },
   reducers: {
     logout: (state, _) => {
       state.token = {};
-      state.user = { typeAccount: 0 };
+      state.user = { role: 0 };
     },
   },
   extraReducers: (builder) => {
@@ -20,7 +20,7 @@ const LoginSlice = createSlice({
         state.status = "loading";
       })
       .addCase(fetchLogin.fulfilled, (state, acction) => {
-        state.token = acction.payload.token;
+        state.token = acction.payload.authToken;
         state.user = acction.payload.user;
         state.status = "idle";
       });
@@ -29,13 +29,9 @@ const LoginSlice = createSlice({
 
 export const fetchLogin = createAsyncThunk("user/fetchLogin", async (payload) => {
   const url = "/user/login"
-  const response = await client.post(url, {
-    username: payload.username,
-    password: payload.password
-  })
-  console.log(response)
+  const response = await client.post(url, payload);
 
-  return response
+  return response.data
 })
 
 
