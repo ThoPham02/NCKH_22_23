@@ -9,7 +9,6 @@ import (
 	"github.com/ThoPham02/research_management/service/progress/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlc"
 )
 
 type GetEventsLogic struct {
@@ -34,10 +33,11 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 	var eventModel model.EventTbl
 	var events []types.Event
 	var event types.Event
+	var total int64
 
 	eventsModel, err = l.svcCtx.EventModel.FindEvents(l.ctx)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
+		if err == model.ErrNotFound {
 			return &types.GetEventsRes{
 				Result: types.Result{
 					Code:    common.SUCCESS_CODE,
@@ -63,12 +63,14 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 		}
 		events = append(events, event)
 	}
+	total = int64(len(events))
 
 	return &types.GetEventsRes{
 		Result: types.Result{
 			Code:    common.SUCCESS_CODE,
 			Message: common.SUCCESS_MESS,
 		},
+		Total:  total,
 		Events: events,
 	}, nil
 }

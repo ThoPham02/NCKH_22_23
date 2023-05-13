@@ -33,7 +33,7 @@ type (
 
 type (
 	GetDepartmentsReq {
-		FacultyID int64 `json:"facultyID"`
+		FacultyID int64 `form:"facultyID"`
 	}
 	GetDepartmentsRes {
 		Result      Result       `json:"result"`

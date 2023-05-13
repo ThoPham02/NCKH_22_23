@@ -9,7 +9,6 @@ import (
 	"github.com/ThoPham02/research_management/service/topic/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlc"
 )
 
 type GetTopicsLogic struct {
@@ -52,7 +51,7 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 	topicsModel, err = l.svcCtx.TopicModel.FindTopics(l.ctx, conditions)
 	l.Logger.Info(err)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
+		if err == model.ErrNotFound {
 			return &types.GetTopicsRes{
 				Result: types.Result{
 					Code:    common.SUCCESS_CODE,
