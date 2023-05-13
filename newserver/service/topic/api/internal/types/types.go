@@ -118,8 +118,8 @@ type UpdateTopicSubcommitteeRes struct {
 }
 
 type UpdateTopicStudentGroupReq struct {
-	TopicID       int64   `path:"topicID"`
-	ListStudentID []int64 `path:"listStudentID"`
+	ID            int64   `path:"id"`
+	ListStudentID []int64 `json:"listStudentID"`
 }
 
 type UpdateTopicStudentGroupRes struct {

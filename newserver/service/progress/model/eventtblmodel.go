@@ -1,6 +1,12 @@
 package model
 
-import "github.com/zeromicro/go-zero/core/stores/sqlx"
+import (
+	"context"
+	"fmt"
+
+	"github.com/zeromicro/go-zero/core/stores/sqlc"
+	"github.com/zeromicro/go-zero/core/stores/sqlx"
+)
 
 var _ EventTblModel = (*customEventTblModel)(nil)
 
@@ -9,6 +15,8 @@ type (
 	// and implement the added methods in customEventTblModel.
 	EventTblModel interface {
 		eventTblModel
+		FindCurrentEvent(ctx context.Context) (*EventTbl, error)
+		UpdateCurrentEvent(ctx context.Context, eventID int64) error
 	}
 
 	customEventTblModel struct {
@@ -21,4 +29,29 @@ func NewEventTblModel(conn sqlx.SqlConn) EventTblModel {
 	return &customEventTblModel{
 		defaultEventTblModel: newEventTblModel(conn),
 	}
+}
+
+func (m *customEventTblModel) FindCurrentEvent(ctx context.Context) (*EventTbl, error) {
+	// TODO:
+	query := fmt.Sprintf("select %s from %s where is_current = 1 limit 1", eventTblRows, m.table)
+	var resp EventTbl
+	err := m.conn.QueryRowCtx(ctx, &resp, query)
+	switch err {
+	case nil:
+		return &resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+func (m *customEventTblModel) UpdateCurrentEvent(ctx context.Context, eventID int64) error {
+	query := fmt.Sprintf("update %s set %s", m.table, "is_current=0")
+	_, err := m.conn.ExecCtx(ctx, query)
+	if err != nil {
+		return err
+	}
+	query = fmt.Sprintf("update %s set %s where id = $1", m.table, "is_current=1")
+	_, err = m.conn.ExecCtx(ctx, query, eventID)
+	return err
 }

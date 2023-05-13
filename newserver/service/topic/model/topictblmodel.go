@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -31,6 +32,9 @@ type (
 		topicTblModel
 		FindTopics(ctx context.Context, condition TopicConditions) ([]TopicTbl, error)
 		CountTopics(ctx context.Context, condition TopicConditions) (int64, error)
+		UpdateGroup(ctx context.Context, topicID int64, groupID int64) error
+		UpdateStatus(ctx context.Context, topicID int64, status int64) error
+		UpdateSubcommittee(ctx context.Context, topicID []int64, subcommitteeID int64) error
 	}
 
 	customTopicTblModel struct {
@@ -143,4 +147,31 @@ func (m *customTopicTblModel) CountTopics(ctx context.Context, condition TopicCo
 	default:
 		return 0, err
 	}
+}
+func (m *customTopicTblModel) UpdateStatus(ctx context.Context, topicID int64, status int64) error {
+	// TODO:
+	logx.Info(topicTblRowsWithPlaceHolder)
+	query := fmt.Sprintf("update %s set %s where id = $1", m.table, "status = $2")
+	_, err := m.conn.ExecCtx(ctx, query, topicID, status)
+	return err
+}
+
+func (m *customTopicTblModel) UpdateGroup(ctx context.Context, topicID int64, groupID int64) error {
+	// TODO:
+	query := fmt.Sprintf("update %s set %s where id = $1", m.table, "group_students_id = $2")
+	_, err := m.conn.ExecCtx(ctx, query, topicID, groupID)
+	return err
+}
+func (m *customTopicTblModel) UpdateSubcommittee(ctx context.Context, topicID []int64, subcommitteeID int64) error {
+	// TODO:
+	var input string = ""
+	var values = []interface{}{subcommitteeID}
+	for index, id := range topicID {
+		input += fmt.Sprintf("$%d, ", index+2)
+		values = append(values, id)
+	}
+	input = input[:len(input)-2]
+	query := fmt.Sprintf("update %s set %s where id in (%s)", m.table, "subcommittee_id = $1", input)
+	_, err := m.conn.ExecCtx(ctx, query, values...)
+	return err
 }
