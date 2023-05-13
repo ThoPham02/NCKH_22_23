@@ -57,11 +57,11 @@ type CreateTopicReportRes struct {
 }
 
 type GetTopicReportsReq struct {
-	StageID int64 `json:"stageID"`
-	EventID int64 `json:"eventID"`
-	TopicID int64 `json:"topicID"`
-	Limit   int64 `json:"limit"`
-	Offset  int64 `json:"offset"`
+	StageID int64 `form:"stageID"`
+	EventID int64 `form:"eventID"`
+	TopicID int64 `form:"topicID"`
+	Limit   int64 `form:"limit"`
+	Offset  int64 `form:"offset"`
 }
 
 type GetTopicReportsRes struct {
@@ -112,8 +112,8 @@ type CreateStageRes struct {
 }
 
 type GetStagesReq struct {
-	EventID   int64 `json:"eventID"`
-	FacultyID int64 `json:"facultyID"`
+	EventID   int64 `form:"eventID"`
+	FacultyID int64 `form:"facultyID"`
 }
 
 type GetStagesRes struct {

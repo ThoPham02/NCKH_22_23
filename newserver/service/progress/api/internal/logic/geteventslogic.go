@@ -34,6 +34,7 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 	var eventModel model.EventTbl
 	var events []types.Event
 	var event types.Event
+	var total int64
 
 	eventsModel, err = l.svcCtx.EventModel.FindEvents(l.ctx)
 	if err != nil {
@@ -63,12 +64,14 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 		}
 		events = append(events, event)
 	}
+	total = int64(len(events))
 
 	return &types.GetEventsRes{
 		Result: types.Result{
 			Code:    common.SUCCESS_CODE,
 			Message: common.SUCCESS_MESS,
 		},
+		Total:  total,
 		Events: events,
 	}, nil
 }

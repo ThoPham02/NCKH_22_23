@@ -37,7 +37,7 @@ type StudentGroup struct {
 }
 
 type GetDepartmentsReq struct {
-	FacultyID int64 `json:"facultyID"`
+	FacultyID int64 `form:"facultyID"`
 }
 
 type GetDepartmentsRes struct {
