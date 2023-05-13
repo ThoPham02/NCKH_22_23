@@ -2,8 +2,6 @@ import "./style.css"
 
 const TopicRegis = () => {
 
-}
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setUrl(
