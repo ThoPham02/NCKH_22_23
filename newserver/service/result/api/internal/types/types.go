@@ -7,17 +7,21 @@ type Result struct {
 }
 
 type Subcommittee struct {
+	ID        int64  `json:"id"`
 	Name      string `json:"name"`
-	FacultyID string `json:"facultyID"`
+	FacultyID int64  `json:"facultyID"`
+	EventID   int64  `json:"eventID"`
 }
 
 type Group struct {
+	ID             int64 `json:"id"`
 	SubcommitteeId int64 `json:"subcommitteeID"`
 	LectureId      int64 `json:"lectureID"`
 	Role           int64 `json:"role"`
 }
 
 type TopicMark struct {
+	ID        int64   `json:"id"`
 	TopicID   int64   `json:"topicID"`
 	LectureID int64   `json:"lectureID"`
 	Point     float64 `json:"point"`
@@ -35,13 +39,15 @@ type GetSubcommitteesRes struct {
 }
 
 type LectureGroup struct {
-	LectureID int   `json:"lectureID"`
+	LectureID int64 `json:"lectureID"`
 	Role      int64 `json:"role"`
 }
 
 type CreateSubcommitteeReq struct {
 	Name         string         `json:"name"`
 	ListLectures []LectureGroup `json:"listLectures"`
+	FacultyID    int64          `json:"facultyID"`
+	EventID      int64          `json:"eventID"`
 }
 
 type CreateSubcommitteeRes struct {
