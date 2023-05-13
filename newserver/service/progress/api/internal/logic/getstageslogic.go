@@ -9,7 +9,6 @@ import (
 	"github.com/ThoPham02/research_management/service/progress/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlc"
 )
 
 type GetStagesLogic struct {
@@ -37,7 +36,7 @@ func (l *GetStagesLogic) GetStages(req *types.GetStagesReq) (resp *types.GetStag
 
 	stagesModel, err = l.svcCtx.StageModel.FindStages(l.ctx, req.EventID, req.FacultyID)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
+		if err == model.ErrNotFound {
 			return &types.GetStagesRes{
 				Result: types.Result{
 					Code:    common.SUCCESS_CODE,

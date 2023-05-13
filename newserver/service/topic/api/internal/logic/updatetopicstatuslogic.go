@@ -11,7 +11,6 @@ import (
 	"github.com/ThoPham02/research_management/service/topic/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlc"
 )
 
 type UpdateTopicStatusLogic struct {
@@ -38,7 +37,7 @@ func (l *UpdateTopicStatusLogic) UpdateTopicStatus(req *types.UpdateTopicStatusR
 
 	topicModel, err = l.svcCtx.TopicModel.FindOne(l.ctx, req.ID)
 	if err != nil {
-		if err == sqlc.ErrNotFound {
+		if err == model.ErrNotFound {
 			return &types.UpdateTopicStatusRes{
 				Result: types.Result{
 					Code:    common.TOPIC_NOT_EXIST_CODE,
