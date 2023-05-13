@@ -25,6 +25,7 @@ func NewCreateTopicReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *CreateTopicReportLogic) CreateTopicReport(req *types.CreateTopicReportReq) (resp *types.CreateTopicReportRes, err error) {
 	// todo: add your logic here and delete this line
+	l.Logger.Info("CreateTopicReport", req)
 
 	return
 }
