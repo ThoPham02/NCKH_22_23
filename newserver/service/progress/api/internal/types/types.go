@@ -38,6 +38,7 @@ type Stage struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	FacultyID   int64  `json:"facultyID"`
 	Url         string `json:"url"`
 	EventID     int64  `json:"eventID"`
 	TimeStart   int64  `json:"timeStart"`
@@ -47,7 +48,7 @@ type Stage struct {
 type CreateTopicReportReq struct {
 	TopicID     int64  `json:"topicID"`
 	Description string `json:"description"`
-	ReportUrl   string `json:"report_url"`
+	ReportUrl   string `json:"reportUrl"`
 	StageID     int64  `json:"stageID"`
 }
 
@@ -108,6 +109,7 @@ type CreateStageReq struct {
 	EventID     int64  `json:"eventID"`
 	TimeStart   int64  `json:"timeStart"`
 	TimeEnd     int64  `json:"timeEnd"`
+	FacultyID   int64  `json:"facultyID"`
 }
 
 type CreateStageRes struct {
@@ -115,6 +117,8 @@ type CreateStageRes struct {
 }
 
 type GetStagesReq struct {
+	EventID   int64 `json:"eventID"`
+	FacultyID int64 `json:"facultyID"`
 }
 
 type GetStagesRes struct {

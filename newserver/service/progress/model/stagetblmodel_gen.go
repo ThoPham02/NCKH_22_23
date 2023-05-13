@@ -42,6 +42,7 @@ type (
 		EventId     int64          `db:"event_id"`
 		TimeStart   int64          `db:"time_start"`
 		TimeEnd     int64          `db:"time_end"`
+		FacultyId   int64          `db:"faculty_id"`
 	}
 )
 
@@ -73,14 +74,14 @@ func (m *defaultStageTblModel) FindOne(ctx context.Context, id int64) (*StageTbl
 }
 
 func (m *defaultStageTblModel) Insert(ctx context.Context, data *StageTbl) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7)", m.table, stageTblRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.Description, data.Url, data.EventId, data.TimeStart, data.TimeEnd)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8)", m.table, stageTblRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.Description, data.Url, data.EventId, data.TimeStart, data.TimeEnd, data.FacultyId)
 	return ret, err
 }
 
 func (m *defaultStageTblModel) Update(ctx context.Context, data *StageTbl) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, stageTblRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.Description, data.Url, data.EventId, data.TimeStart, data.TimeEnd)
+	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.Description, data.Url, data.EventId, data.TimeStart, data.TimeEnd, data.FacultyId)
 	return err
 }
 

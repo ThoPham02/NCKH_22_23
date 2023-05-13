@@ -25,6 +25,6 @@ func NewGetTopicReportLogic(ctx context.Context, svcCtx *svc.ServiceContext) *Ge
 
 func (l *GetTopicReportLogic) GetTopicReport(req *types.GetTopicReportsByStageReq) (resp *types.GetTopicReportsByStageRes, err error) {
 	// todo: add your logic here and delete this line
-
+	
 	return
 }
