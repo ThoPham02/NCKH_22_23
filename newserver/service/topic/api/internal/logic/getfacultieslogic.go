@@ -7,9 +7,9 @@ import (
 	"github.com/ThoPham02/research_management/service/topic/api/internal/svc"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/types"
 	"github.com/ThoPham02/research_management/service/topic/model"
+	"github.com/zeromicro/go-zero/core/stores/sqlc"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
 type GetFacultiesLogic struct {
@@ -37,7 +37,7 @@ func (l *GetFacultiesLogic) GetFaculties(req *types.GetFacultiesReq) (resp *type
 
 	facultiesModel, err = l.svcCtx.FacultyModel.FindFaculties(l.ctx)
 	if err != nil {
-		if err == sqlx.ErrNotFound {
+		if err == sqlc.ErrNotFound {
 			return &types.GetFacultiesRes{
 				Result: types.Result{
 					Code:    common.SUCCESS_CODE,

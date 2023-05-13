@@ -89,7 +89,7 @@ type UpdateTopicReq struct {
 	Status         int64  `json:"status"`
 	EventID        int64  `json:"eventID"`
 	SubcommitteeID int64  `json:"subcommitteeID"`
-	ListStudents   string `json:"listStudents"`
+	GroupID        int64  `json:"groupID"`
 	TimeStart      int64  `json:"timeStart"`
 	TimeEnd        int64  `json:"timeEnd"`
 	CashSupport    int64  `json:"cashSupport"`
@@ -108,6 +108,24 @@ type UpdateTopicStatusRes struct {
 	Result Result `json:"result"`
 }
 
+type UpdateTopicSubcommitteeReq struct {
+	ListTopicID    []int64 `json:"listTopicID"`
+	SubcommitteeID int64   `json:"subcommitteeID"`
+}
+
+type UpdateTopicSubcommitteeRes struct {
+	Result Result `json:"result"`
+}
+
+type UpdateTopicStudentGroupReq struct {
+	TopicID       int64   `path:"topicID"`
+	ListStudentID []int64 `path:"listStudentID"`
+}
+
+type UpdateTopicStudentGroupRes struct {
+	Result Result `json:"result"`
+}
+
 type GetTopicReq struct {
 	ID int64 `path:"id"`
 }
@@ -118,6 +136,17 @@ type GetTopicRes struct {
 }
 
 type GetTopicsReq struct {
+	Search         string `form:"search"`
+	DepartmentID   int64  `form:"departmentID"`
+	FacultyID      int64  `form:"facultyID"`
+	Status         int64  `form:"status"`
+	LectureID      int64  `form:"lectureID"`
+	EventID        int64  `form:"eventID"`
+	SubcommitteeID int64  `form:"subcommitteeID"`
+	TimeStart      int64  `form:"timeStart"`
+	TimeEnd        int64  `form:"timeEnd"`
+	Limit          int64  `form:"limit"`
+	Offset         int64  `form:"offset"`
 }
 
 type GetTopicsRes struct {

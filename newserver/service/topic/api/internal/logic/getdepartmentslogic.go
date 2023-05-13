@@ -9,7 +9,7 @@ import (
 	"github.com/ThoPham02/research_management/service/topic/model"
 
 	"github.com/zeromicro/go-zero/core/logx"
-	"github.com/zeromicro/go-zero/core/stores/sqlx"
+	"github.com/zeromicro/go-zero/core/stores/sqlc"
 )
 
 type GetDepartmentsLogic struct {
@@ -37,7 +37,7 @@ func (l *GetDepartmentsLogic) GetDepartments(req *types.GetDepartmentsReq) (resp
 	var departmentModel model.DepartmentTbl
 	departmentsModel, err = l.svcCtx.DepartmentModel.FindDepartments(l.ctx, req.FacultyID)
 	if err != nil {
-		if err == sqlx.ErrNotFound {
+		if err == sqlc.ErrNotFound {
 			return &types.GetDepartmentsRes{
 				Result: types.Result{
 					Code:    common.SUCCESS_CODE,

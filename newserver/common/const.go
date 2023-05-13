@@ -17,6 +17,12 @@ const (
 	LOGIn_ERR_MESS = "Login Error"
 )
 
+// TOPIC error code 200-299
+const (
+	TOPIC_NOT_EXIST_CODE = 200
+	TOPIC_NOT_EXIST_MESS = "Topic Not Exist"
+)
+
 // JWT key
 const (
 	JWT_IAT_KEY        = "iat"

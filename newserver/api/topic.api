@@ -92,7 +92,7 @@ type (
 		Status         int64  `json:"status"`
 		EventID        int64  `json:"eventID"`
 		SubcommitteeID int64  `json:"subcommitteeID"`
-		ListStudents   string `json:"listStudents"`
+		GroupID        int64  `json:"groupID"`
 		TimeStart      int64  `json:"timeStart"`
 		TimeEnd        int64  `json:"timeEnd"`
 		CashSupport    int64  `json:"cashSupport"`
@@ -113,6 +113,26 @@ type (
 )
 
 type (
+	UpdateTopicSubcommitteeReq {
+		ListTopicID    []int64 `json:"listTopicID"`
+		SubcommitteeID int64   `json:"subcommitteeID"`
+	}
+	UpdateTopicSubcommitteeRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	UpdateTopicStudentGroupReq {
+		TopicID       int64   `path:"topicID"`
+		ListStudentID []int64 `path:"listStudentID"`
+	}
+	UpdateTopicStudentGroupRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
 	GetTopicReq {
 		ID int64 `path:"id"`
 	}
@@ -124,6 +144,17 @@ type (
 
 type (
 	GetTopicsReq {
+		Search         string `form:"search"`
+		DepartmentID   int64  `form:"departmentID"`
+		FacultyID      int64  `form:"facultyID"`
+		Status         int64  `form:"status"`
+		LectureID      int64  `form:"lectureID"`
+		EventID        int64  `form:"eventID"`
+		SubcommitteeID int64  `form:"subcommitteeID"`
+		TimeStart      int64  `form:"timeStart"`
+		TimeEnd        int64  `form:"timeEnd"`
+		Limit          int64  `form:"limit"`
+		Offset         int64  `form:"offset"`
 	}
 	GetTopicsRes {
 		Result Result  `json:"result"`
@@ -157,7 +188,10 @@ service topic-api {
 	
 	@handler UpdateTopicHandler
 	put /api/topic/:id (UpdateTopicReq) returns(UpdateTopicRes)
-	
 	@handler UpdateTopicStatusHandler
 	put /api/topic-status/:id (UpdateTopicStatusReq) returns(UpdateTopicStatusRes)
+	@handler UpdateTopicSubcommitteeHandler
+	put /api/topic-subcommittee (UpdateTopicSubcommitteeReq) returns(UpdateTopicSubcommitteeRes)
+	@handler UpdateTopicStudentGroupHandler
+	put /api/topic-student-group/:id (UpdateTopicStudentGroupReq) returns(UpdateTopicStudentGroupRes)
 }
