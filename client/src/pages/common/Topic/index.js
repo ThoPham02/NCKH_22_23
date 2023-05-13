@@ -1,69 +1,122 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useState } from "react";
+import Table from "react-bootstrap/Table";
+import { useRef, useState } from "react";
 
 import "./style.css";
 import Card from "../../../components/Shares/Card";
 import SubCard from "../../../components/Shares/Card/SubCard";
-import SearchWord from "../../../components/Shares/Search/Word";
 import {
+  SearchWord,
   SearchDateFrom,
   SearchDateTo,
-  SearchDepartment,
   SearchFaculty,
   SearchStatus,
 } from "../../../components/Shares/Search";
+import useApi from "../../../hooks/useGetApi";
+
+import "./style.css";
+import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
+import Loading from "../../../components/Shares/Loading";
+import PaginationCustom from "../../../components/Shares/Pagination";
+import Action from "../../../components/Shares/Action";
+import { LIMIT } from "../../../const/const";
+import TopicInfo from "../../../components/Shares/TopicInfo";
+import Detail from "../../../components/Shares/Action/Detail";
 
 const Topic = () => {
-  const [filter, setFilter] = useState({
-    departmentId: 0,
-    facultyId: 0,
-    word: "",
-    status: 0,
-    dateTo: "",
-    dateFrom: "",
-  });
+  const searchRef = useRef("");
+  const facultyRef = useRef(0);
+  const statusRef = useRef(0);
+  const dateFromRef = useRef("");
+  const dateToRef = useRef("");
+  const [pagi, setPagi] = useState(1);
+  const [url, setUrl] = useState(
+    `/api/topic?limit=${LIMIT}&offset=${pagi - 1}`
+  );
+
+  const { data, isLoading } = useApi(url);
+  let listTopic = [];
+  if (data && data.total !== 0) {
+    listTopic = data.listTopics;
+  }
+
+  const handleSubmitForm = (e) => {
+    e.preventDefault();
+    let search = searchRef.current.value;
+    let status = statusRef.current.value;
+    let dateFrom = dateFromRef.current.value;
+    let dateTo = dateToRef.current.value;
+    let pagiNum = pagi - 1;
+    setUrl(
+      `/api/topic?limit=${LIMIT}&offset=${pagiNum}&search=${search}&status=${status}&dateFrom=${dateFrom}&dateTo=${dateTo}`
+    );
+  };
+
   return (
     <div className="topic">
       <Card title="Danh sách đề tài">
         <SubCard title="Tìm kiếm">
-          <Form className="search">
-            <SearchWord value={filter.word} setFilter={setFilter}></SearchWord>
-            <SearchDepartment
-              faculty={filter.facultyId}
-              value={filter.departmentId}
-              setFilter={setFilter}
-            ></SearchDepartment>
-            <SearchFaculty
-              value={filter.facultyId}
-              setFilter={setFilter}
-            ></SearchFaculty>
-            <SearchStatus
-              value={filter.status}
-              setFilter={setFilter}
-            ></SearchStatus>
-            <SearchDateFrom
-              value={filter.dateFrom}
-              setFilter={setFilter}
-            ></SearchDateFrom>
-            <SearchDateTo
-              value={filter.dateTo}
-              setFilter={setFilter}
-            ></SearchDateTo>
+          <Form className="search" onSubmit={handleSubmitForm}>
+            <SearchWord searchRef={searchRef}></SearchWord>
+            <SearchFaculty facultyRef={facultyRef}></SearchFaculty>
+            <SearchStatus statusRef={statusRef}></SearchStatus>
+            <SearchDateFrom dateFromRef={dateFromRef}></SearchDateFrom>
+            <SearchDateTo dateToRef={dateToRef}></SearchDateTo>
             <Form.Group>
               <Button variant="primary" type="submit" className="search-submit">
+                {isLoading ? <Loading></Loading> : <></>}
                 Tìm kiếm
               </Button>
             </Form.Group>
           </Form>
         </SubCard>
 
-        <SubCard title="Danh sách đề tài">
-          {/* <TableTopic
-            listHead={['Faculty ID', 'Word', 'Status', 'Date To', 'Date From']}
-            listItem={listDataTopic}
-            listKey={['facultyId', 'word', 'status', 'dateTo', 'dateFrom']}
-          /> */}
+        <SubCard title={"Danh sách"}>
+          {listTopic.length === 0 ? (
+            <EmptyListNoti title={"Không có đề tài nào!"} />
+          ) : (
+            <div>
+              <Table bordered hover size="sm">
+                <thead>
+                  <tr>
+                    <th>Mã đề tài</th>
+                    <th>Thông tin đề tài</th>
+                    <th>Thao tác</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {listTopic.map((item, index) => {
+                    return (
+                      <tr key={index}>
+                        <td style={{textAlign: "center"}}>{item.id}</td>
+                        <td>
+                          <TopicInfo
+                            name={item.name}
+                            status={item.status}
+                            lecture={item.lecture}
+                            dateTo={item.timeStart}
+                            dateFrom={item.timeEnd}
+                            fileUrl={item.resultUrl}
+                          />
+                        </td>
+                        <td>
+                          <Action todo={[<Detail name={"Xem chi tiết"} topicID={item.id}/>]} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+
+              <PaginationCustom
+                setPagi={setPagi}
+                currentPage={pagi}
+                total={data.total}
+                limit={LIMIT}
+              />
+            </div>
+          )}
         </SubCard>
       </Card>
     </div>

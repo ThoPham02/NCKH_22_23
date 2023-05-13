@@ -1,0 +1,14 @@
+.search {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .search > * {
+    padding: 6px 20px;
+  }
+  
+  .search-submit {
+    position: relative;
+  }
+  
+  

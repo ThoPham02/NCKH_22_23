@@ -43,17 +43,9 @@
   background-color: #fff;
 }
 
-.action-item {
-    padding: 4px 12px;
-}
-
-.action-item a {
-    color: #000;
-    text-decoration: none;
-}
 
 .action-item:hover {
-  background-color: #ccc;
+  background-color: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
 }
 

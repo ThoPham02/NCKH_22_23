@@ -1,0 +1,39 @@
+.topic-regis-title {
+  font-weight: bold;
+  text-align: right;
+}
+
+.member-form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.members {
+    position: relative;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.member-form input {
+  outline: none;
+  border: none;
+  font-size: 18px;
+  color: #444;
+  width: 100%;
+}
+
+.find-member {
+  position: relative;
+}
+
+.find-member-list {
+  position: absolute;
+  top: 52px;
+  background-color: #fff;
+  width: 320px;
+  padding: 12px 8px;
+  border-radius: 4px;
+  box-shadow: 2px 2px 2px 2px rgba(0, 0, 0, 0.3);
+}

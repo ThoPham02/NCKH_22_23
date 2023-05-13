@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import "./action.css";
 
 const Action = ({ todo }) => {
@@ -13,7 +12,7 @@ const Action = ({ todo }) => {
         {todo.map((item, index) => {
           return (
             <div key={index} className="action-item">
-              <Link href={item.href}>{item.name}</Link>
+              {item}
             </div>
           );
         })}

@@ -1,0 +1,89 @@
+type (
+	Result {
+		Code    int64  `json:"code"`
+		Message string `json:"message"`
+	}
+
+	Subcommittee {
+		Name      string `json:"name"`
+		FacultyID string `json:"faculty_id"`
+	}
+
+	Group {
+		SubcommitteeId int64 `json:"subcommittee_id"`
+		LectureId      int64 `json:"lecture_id"`
+		Role           int64 `json:"role"`
+	}
+
+	TopicMark {
+		TopicID   int64   `json:"topic_id"`
+		LectureID int64   `json:"lecture_id"`
+		Point     float64 `json:"point"`
+		Comment   string  `json:"comment"`
+		Url       string  `json:"url"`
+	}
+)
+
+type (
+	GetSubcommitteesReq {
+	}
+
+	GetSubcommitteesRes {
+		Result        Result         `json:"result"`
+		Total         int64          `json:"total"`
+		Subcommittees []Subcommittee `json:"subcommittees"`
+	}
+)
+
+type (
+	LectureGroup {
+		LectureID int   `json:"lecture_id"`
+		Role      int64 `json:"role"`
+	}
+	CreateSubcommitteeReq {
+		Name         string         `json:"name"`
+		ListLectures []LectureGroup `json:"list_lectures"`
+	}
+	CreateSubcommitteeRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	GetTopicMarksReq {
+	}
+	GetTopicMarksRes {
+		Result     Result      `json:"result"`
+		Total      int64       `json:"total"`
+		TopicMarks []TopicMark `json:"topic_marks"`
+	}
+)
+
+type (
+	CreateTopicMarkReq {
+		TopicID   int64   `json:"topic_id"`
+		LectureID int64   `json:"lecture_id"`
+		Point     float64 `json:"point"`
+		Comment   string  `json:"comment"`
+		Url       string  `json:"url"`
+	}
+
+	CreateTopicMarkRes {
+		Result Result `json:"result"`
+	}
+)
+
+service result-api {
+	
+	@handler GetSubcommitteeHandler
+	get /api/subcommittees (GetSubcommitteesReq) returns(GetSubcommitteesRes)
+	
+	@handler CreateSubcommitteeHandler
+	post /api/subcommittee (CreateSubcommitteeReq) returns(CreateSubcommitteeRes)
+	
+	@handler GetTopicMarksHandler
+	get /api/topic-marks (GetTopicMarksReq) returns(GetTopicMarksRes)
+	
+	@handler CreateTopicMarkHandler
+	post /api/topic-mark (CreateTopicMarkReq) returns(CreateTopicMarkRes)
+}
