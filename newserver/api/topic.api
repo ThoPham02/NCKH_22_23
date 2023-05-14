@@ -12,16 +12,37 @@ type (
 		ID   int64  `json:"id"`
 		Name string `json:"name"`
 	}
+	LectureInfo {
+		ID     int64  `json:"id"`
+		Name   string `json:"name"`
+		Email  string `json:"email"`
+		Phone  string `json:"phone"`
+		Degree string `json:"degree"`
+	}
+	StudentInfo {
+		ID    int64  `json:"id"`
+		Name  string `json:"name"`
+		Email string `json:"email"`
+		Phone string `json:"phone"`
+	}
 	Topic {
-		ID              int64  `json:"id"`
-		Name            string `json:"name"`
-		LectureName     string `json:"lectureName"`
-		DepartmentID    int64  `json:"departmentID"`
-		Status          int64  `json:"status"`
-		SubcommitteeID  int64  `json:"subcommitteeID"`
-		GroupStudentsID int64  `json:"groupStudentsID"`
-		TimeStart       int64  `json:"timeStart"`
-		TimeEnd         int64  `json:"timeEnd"`
+		ID           int64       `json:"id"`
+		Name         string      `json:"name"`
+		LectureInfo  LectureInfo `json:"lectureInfo"`
+		DepartmentID int64       `json:"departmentID"`
+		Status       int64       `json:"status"`
+	}
+	TopicDetail {
+		ID           int64         `json:"id"`
+		Name         string        `json:"name"`
+		LectureInfo  LectureInfo   `json:"lectureInfo"`
+		Department   string        `json:"department"`
+		Faculty      string        `json:"faculty"`
+		Status       int64         `json:"status"`
+		Subcommittee string        `json:"subcommittee"`
+		ListStudent  []StudentInfo `json:"listStudent"`
+		TimeStart    int64         `json:"timeStart"`
+		TimeEnd      int64         `json:"timeEnd"`
 	}
 	StudentGroup {
 		ID        int64 `json:"id"`
@@ -137,8 +158,8 @@ type (
 		ID int64 `path:"id"`
 	}
 	GetTopicRes {
-		Result Result `json:"result"`
-		Topic  Topic  `json:"topic"`
+		Result      Result      `json:"result"`
+		TopicDetail TopicDetail `json:"topicDetail"`
 	}
 )
 
@@ -190,8 +211,10 @@ service topic-api {
 	put /api/topic/:id (UpdateTopicReq) returns(UpdateTopicRes)
 	@handler UpdateTopicStatusHandler
 	put /api/topic-status/:id (UpdateTopicStatusReq) returns(UpdateTopicStatusRes)
+	
 	@handler UpdateTopicSubcommitteeHandler
 	put /api/topic-subcommittee (UpdateTopicSubcommitteeReq) returns(UpdateTopicSubcommitteeRes)
+	
 	@handler UpdateTopicStudentGroupHandler
 	put /api/topic-student-group/:id (UpdateTopicStudentGroupReq) returns(UpdateTopicStudentGroupRes)
 }

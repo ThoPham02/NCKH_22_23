@@ -17,16 +17,40 @@ type Faculty struct {
 	Name string `json:"name"`
 }
 
+type LectureInfo struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Email  string `json:"email"`
+	Phone  string `json:"phone"`
+	Degree string `json:"degree"`
+}
+
+type StudentInfo struct {
+	ID    int64  `json:"id"`
+	Name  string `json:"name"`
+	Email string `json:"email"`
+	Phone string `json:"phone"`
+}
+
 type Topic struct {
-	ID              int64  `json:"id"`
-	Name            string `json:"name"`
-	LectureName     string `json:"lectureName"`
-	DepartmentID    int64  `json:"departmentID"`
-	Status          int64  `json:"status"`
-	SubcommitteeID  int64  `json:"subcommitteeID"`
-	GroupStudentsID int64  `json:"groupStudentsID"`
-	TimeStart       int64  `json:"timeStart"`
-	TimeEnd         int64  `json:"timeEnd"`
+	ID           int64       `json:"id"`
+	Name         string      `json:"name"`
+	LectureInfo  LectureInfo `json:"lectureInfo"`
+	DepartmentID int64       `json:"departmentID"`
+	Status       int64       `json:"status"`
+}
+
+type TopicDetail struct {
+	ID           int64         `json:"id"`
+	Name         string        `json:"name"`
+	LectureInfo  LectureInfo   `json:"lectureInfo"`
+	Department   string        `json:"department"`
+	Faculty      string        `json:"faculty"`
+	Status       int64         `json:"status"`
+	Subcommittee string        `json:"subcommittee"`
+	ListStudent  []StudentInfo `json:"listStudent"`
+	TimeStart    int64         `json:"timeStart"`
+	TimeEnd      int64         `json:"timeEnd"`
 }
 
 type StudentGroup struct {
@@ -131,8 +155,8 @@ type GetTopicReq struct {
 }
 
 type GetTopicRes struct {
-	Result Result `json:"result"`
-	Topic  Topic  `json:"topic"`
+	Result      Result      `json:"result"`
+	TopicDetail TopicDetail `json:"topicDetail"`
 }
 
 type GetTopicsReq struct {

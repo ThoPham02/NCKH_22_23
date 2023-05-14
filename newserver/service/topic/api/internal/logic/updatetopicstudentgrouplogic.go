@@ -54,7 +54,7 @@ func (l *UpdateTopicStudentGroupLogic) UpdateTopicStudentGroup(req *types.Update
 		})
 	}
 
-	_, err = l.svcCtx.StudentGroupModel.InsertMutil(l.ctx, studentGroup)
+	err = l.svcCtx.StudentGroupModel.InsertMutil(l.ctx, studentGroup)
 	if err != nil {
 		l.Logger.Error(err)
 		return &types.UpdateTopicStudentGroupRes{

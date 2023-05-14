@@ -35,7 +35,7 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 	var topics []types.Topic
 	var topic types.Topic
 	var total int64
-	var lectureMap = map[int64]string{}
+	var lectureMap = map[int64]types.LectureInfo{}
 	var conditions = model.TopicConditions{
 		Search:         req.Search,
 		DepartmentID:   req.DepartmentID,
@@ -84,7 +84,13 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 	}
 
 	for _, tmp := range lectures {
-		lectureMap[tmp.Id] = tmp.Name
+		lectureMap[tmp.Id] = types.LectureInfo{
+			ID:     tmp.Id,
+			Name:   tmp.Name,
+			Email:  tmp.Email.String,
+			Phone:  tmp.Phone.String,
+			Degree: common.MapDegree[tmp.Degree],
+		}
 	}
 
 	total, err = l.svcCtx.TopicModel.CountTopics(l.ctx, conditions)
@@ -100,15 +106,11 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 
 	for _, topicModel = range topicsModel {
 		topic = types.Topic{
-			ID:              topicModel.Id,
-			Name:            topicModel.Name,
-			LectureName:     lectureMap[topicModel.LectureId],
-			DepartmentID:    topicModel.DepartmentId,
-			Status:          topicModel.Status,
-			SubcommitteeID:  topicModel.SubcommitteeId.Int64,
-			GroupStudentsID: topicModel.GroupStudentsId.Int64,
-			TimeStart:       topicModel.TimeStart.Int64,
-			TimeEnd:         topicModel.TimeEnd.Int64,
+			ID:           topicModel.Id,
+			Name:         topicModel.Name,
+			LectureInfo:  lectureMap[topicModel.LectureId],
+			DepartmentID: topicModel.DepartmentId,
+			Status:       topicModel.Status,
 		}
 		topics = append(topics, topic)
 	}

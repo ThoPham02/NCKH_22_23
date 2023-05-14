@@ -1,7 +1,7 @@
 import { PublicHome, PublicLogin, PublicTopic, PublicResult, PublicContact } from "./pages/common";
-import { StudentMyTopic, StudentResult, StudentTopic, StudentTopicRegis } from "./pages/student";
-import { LectureMyTopic, LectureResult, LectureTopic, LectureTopicRegis } from "./pages/lecture";
-import { FacultyResult, FacultySubcommitte, FacultyTopic, FacultyTopicRegis } from "./pages/faculty";
+import { StudentMyTopic, StudentResult, StudentTopic } from "./pages/student";
+import { LectureMyTopic, LectureResult, LectureTopic } from "./pages/lecture";
+import { FacultyResult, FacultySubcommitte, FacultyTopic } from "./pages/faculty";
 import { AdminCongress, AdminNotification, AdminResult, AdminSubcommittee, AdminTopic } from "./pages/admin";
 import { LoginLayout } from "./components/Layout";
 
@@ -19,18 +19,18 @@ const privateRoutes = [
   // student routes
   { path: "/topic", component: StudentTopic, role: 1},
   { path: "/action", component: StudentMyTopic, role: 1},
-  { path: "/result", component: StudentTopicRegis, role: 1},
+  { path: "/result", component: StudentTopic, role: 1},
   { path: "/report", component: StudentResult, role: 1},
 
   // lecture routes
   { path: "/topic", component: LectureTopic, role: 2},
   { path: "/action", component: LectureMyTopic, role: 2},
-  { path: "/result", component: LectureTopicRegis, role: 2},
+  { path: "/result", component: StudentTopic, role: 2},
   { path: "/report", component: LectureResult, role: 2},
 
   // faculty routes
   { path: "/topic", component: FacultyTopic, role: 4},
-  { path: "/result", component: FacultyTopicRegis, role: 4},
+  { path: "/result", component: StudentTopic, role: 4},
   { path: "/report", component: FacultyResult, role: 4},
   { path: "/subcommittee", component: FacultySubcommitte, role: 4},
 

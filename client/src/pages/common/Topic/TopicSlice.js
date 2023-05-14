@@ -26,7 +26,6 @@ const TopicSlice = createSlice({
 export const fetchTopics = createAsyncThunk("getTopics", async (payload) => {
   const timeStart = convertDateToTimestamp(payload.timeStart);
   const timeEnd = convertDateToTimestamp(payload.timeEnd);
-  console.log(payload)
   const response = await client.get("/api/topics", {
     params: {
       search: payload.search === "" ? " " : payload.search,
