@@ -1,4 +1,7 @@
 export function convertTimestampToDateString(timestamp) {
+  if (timestamp === 0) {
+    return "..."
+  }
   const date = new Date(timestamp);
 
   const year = date.getFullYear();

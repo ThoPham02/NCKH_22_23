@@ -128,13 +128,13 @@ const Topic = () => {
                         </td>
                         <td>{item.name}</td>
                         <td>{topicStatus[item.status - 1]}</td>
-                        <td>{item.lectureID}</td>
+                        <td>{item.lectureName}</td>
                         <td>
                           <Action
                             todo={[
                               <Detail
                                 name={"Xem chi tiết"}
-                                topicID={item.id}
+                                topic={item}
                               />,
                             ]}
                           />
