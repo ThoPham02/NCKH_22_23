@@ -4,7 +4,7 @@ import { useEffect, useRef } from "react";
 
 import "./style.css"
 // import client from "../../../apis";
-import { fetchLogin } from "./loginSlice";
+import { fetchLogin } from "./LoginSlice";
 import { userSelector } from "../../../store/selectors";
 import Loading from "../../../components/Shares/Loading";
 import { loginSelector } from "../../../store/selectors";

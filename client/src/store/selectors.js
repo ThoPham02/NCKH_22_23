@@ -10,3 +10,7 @@ export const departmentSelector = (state) => state.department.departments
 // faculty
 export const facultySelector = (state) => state.faculty.faculties
 
+
+// topic
+export const topicsSelector = (state) => state.topic.topics
+export const topicSelector = (state) => state.topic

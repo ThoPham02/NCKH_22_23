@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../../../apis";
 
-const FaculitySlice = createSlice({
-  name: "faculity",
+const FacultySlice = createSlice({
+  name: "faculty",
   initialState: {
     status: "idle",
     faculties: [],
@@ -10,10 +10,10 @@ const FaculitySlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchFaculity.pending, (state, action) => {
+      .addCase(fetchFaculty.pending, (state, action) => {
         state.status = "pending";
       })
-      .addCase(fetchFaculity.fulfilled, (state, action) => {
+      .addCase(fetchFaculty.fulfilled, (state, action) => {
         state.status = "idle";
         if (action.payload.faculties !== null) {
           state.faculties = action.payload.faculties;
@@ -22,11 +22,11 @@ const FaculitySlice = createSlice({
   },
 });
 
-export const fetchFaculity = createAsyncThunk("getFaculities", async () => {
-  const response = await client.get("/api/faculities");
+export const fetchFaculty = createAsyncThunk("getFaculities", async () => {
+  const response = await client.get("/api/faculties");
 
   return response.data;
 });
 
-export const FaculityReducer = FaculitySlice.reducer;
-export default FaculitySlice;
+export const FacultyReducer = FacultySlice.reducer;
+export default FacultySlice;

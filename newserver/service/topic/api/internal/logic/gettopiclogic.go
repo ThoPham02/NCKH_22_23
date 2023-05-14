@@ -49,10 +49,22 @@ func (l *GetTopicLogic) GetTopic(req *types.GetTopicReq) (resp *types.GetTopicRe
 			},
 		}, nil
 	}
+
+	user, err := l.svcCtx.UserModel.FindOne(l.ctx, topicModel.LectureId)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+
 	topic = types.Topic{
 		ID:              topicModel.Id,
 		Name:            topicModel.Name,
-		LectureID:       topicModel.LectureId,
+		LectureName:     user.Name,
 		DepartmentID:    topicModel.DepartmentId,
 		Status:          topicModel.Status,
 		SubcommitteeID:  topicModel.SubcommitteeId.Int64,

@@ -1,6 +1,7 @@
 package svc
 
 import (
+	userModel "github.com/ThoPham02/research_management/service/account/model"
 	progressModel "github.com/ThoPham02/research_management/service/progress/model"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/config"
 	"github.com/ThoPham02/research_management/service/topic/model"
@@ -15,6 +16,7 @@ type ServiceContext struct {
 	StudentGroupModel model.StudentGroupTblModel
 	TopicModel        model.TopicTblModel
 	EventModel        progressModel.EventTblModel
+	UserModel         userModel.UserTblModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -27,5 +29,6 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		TopicModel:        model.NewTopicTblModel(conn),
 		StudentGroupModel: model.NewStudentGroupTblModel(conn),
 		EventModel:        progressModel.NewEventTblModel(conn),
+		UserModel:         userModel.NewUserTblModel(conn),
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/ThoPham02/research_management/common"
+	userModel "github.com/ThoPham02/research_management/service/account/model"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/svc"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/types"
 	"github.com/ThoPham02/research_management/service/topic/model"
@@ -34,6 +35,7 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 	var topics []types.Topic
 	var topic types.Topic
 	var total int64
+	var lectureMap = map[int64]string{}
 	var conditions = model.TopicConditions{
 		Search:         req.Search,
 		DepartmentID:   req.DepartmentID,
@@ -68,6 +70,23 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 		}, nil
 	}
 
+	lectures, err := l.svcCtx.UserModel.FindUserByCondition(l.ctx, userModel.UserCondition{
+		Role: 2,
+	})
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicsRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+
+	for _, tmp := range lectures {
+		lectureMap[tmp.Id] = tmp.Name
+	}
+
 	total, err = l.svcCtx.TopicModel.CountTopics(l.ctx, conditions)
 	if err != nil {
 		l.Logger.Error(err)
@@ -83,7 +102,7 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 		topic = types.Topic{
 			ID:              topicModel.Id,
 			Name:            topicModel.Name,
-			LectureID:       topicModel.LectureId,
+			LectureName:     lectureMap[topicModel.LectureId],
 			DepartmentID:    topicModel.DepartmentId,
 			Status:          topicModel.Status,
 			SubcommitteeID:  topicModel.SubcommitteeId.Int64,

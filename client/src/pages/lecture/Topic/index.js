@@ -21,7 +21,6 @@ import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
 import { LIMIT } from "../../../const/const";
-import TopicInfo from "../../../components/Shares/TopicInfo";
 import Detail from "../../../components/Shares/Action/Detail";
 
 const Topic = () => {
@@ -91,14 +90,7 @@ const Topic = () => {
                       <tr key={index}>
                         <td style={{textAlign: "center"}}>{item.id}</td>
                         <td>
-                          <TopicInfo
-                            name={item.name}
-                            status={item.status}
-                            lecture={item.lecture }
-                            dateTo={item.timeStart}
-                            dateFrom={item.timeEnd}
-                            fileUrl={item.resultUrl}
-                          />
+                          
                         </td>
                         <td>
                           <Action todo={[<Detail name={"Xem chi tiết"} topicID={item.id}/>]} />
