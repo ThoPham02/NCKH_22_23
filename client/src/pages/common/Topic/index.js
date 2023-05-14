@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import "./style.css";
 import Card from "../../../components/Shares/Card";
@@ -20,7 +20,7 @@ import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
-import { LIMIT } from "../../../const/const";
+import { LIMIT, topicStatus } from "../../../const/const";
 import Detail from "../../../components/Shares/Action/Detail";
 import { useDispatch, useSelector } from "react-redux";
 import { topicSelector } from "../../../store/selectors";
@@ -35,6 +35,18 @@ const Topic = () => {
   const dateFromRef = useRef("");
   const dateToRef = useRef("");
   const departmentRef = useRef(0);
+  useEffect(() => {
+    dispatch(fetchTopics({
+      search: searchRef.current.value,
+      departmentID: departmentRef.current.value,
+      facultyID: faculty,
+      status: statusRef.current.value,
+      timeStart: dateToRef.current.value,
+      timeEnd: dateToRef.current.value,
+      limit: LIMIT,
+      offset: (pagi - 1) * LIMIT,
+    }));
+  }, [dispatch, pagi]);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -58,11 +70,12 @@ const Topic = () => {
     );
   };
 
+
+
   const topic = useSelector(topicSelector);
 
   let isLoading = topic.status === "loading";
   const listTopic = topic.topics;
-  console.log(listTopic);
   let total = topic.total;
 
   return (
@@ -101,7 +114,8 @@ const Topic = () => {
                   <tr>
                     <th>STT</th>
                     <th>Tên đề tài</th>
-                    <th>Giảng viên hướng dẫn</th>
+                    <th>Trạng thái</th>
+                    <th>Giảng viên</th>
                     <th>Thao tác</th>
                   </tr>
                 </thead>
@@ -113,6 +127,7 @@ const Topic = () => {
                           {(pagi - 1) * LIMIT + index + 1}
                         </td>
                         <td>{item.name}</td>
+                        <td>{topicStatus[item.status - 1]}</td>
                         <td>{item.lectureID}</td>
                         <td>
                           <Action

@@ -31,7 +31,7 @@ func (l *GetUsersLogic) GetUsers(req *types.GetUsersReq) (resp *types.GetUsersRe
 	var userModel model.UserTbl
 	var users []types.User
 	var user types.User
-	usersModel, err = l.svcCtx.UserModel.FindUserByCondition(l.ctx, model.UserCondtion{})
+	usersModel, err = l.svcCtx.UserModel.FindUserByCondition(l.ctx, model.UserCondition{})
 	if err != nil {
 		l.Logger.Error(err)
 		return &types.GetUsersRes{

@@ -20,7 +20,7 @@ type Faculty struct {
 type Topic struct {
 	ID              int64  `json:"id"`
 	Name            string `json:"name"`
-	LectureID       int64  `json:"lectureID"`
+	LectureName     string `json:"lectureName"`
 	DepartmentID    int64  `json:"departmentID"`
 	Status          int64  `json:"status"`
 	SubcommitteeID  int64  `json:"subcommitteeID"`
