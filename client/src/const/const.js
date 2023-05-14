@@ -2,7 +2,7 @@ export const LIMIT = 10;
 
 export const topicStatus = [
   "Chờ xác nhận",
-  "Đã xác nhận",
+  "Đang đăng ký",
   "Đã hủy",
   "Đang thực hiện",
   "Đã hoàn thành",
