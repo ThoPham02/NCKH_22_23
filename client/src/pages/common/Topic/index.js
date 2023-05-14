@@ -20,7 +20,7 @@ import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
-import { LIMIT, topicStatus } from "../../../const/const";
+import { LIMIT } from "../../../const/const";
 import Detail from "../../../components/Shares/Action/Detail";
 import { useDispatch, useSelector } from "react-redux";
 import { topicSelector } from "../../../store/selectors";
@@ -46,6 +46,7 @@ const Topic = () => {
       limit: LIMIT,
       offset: (pagi - 1) * LIMIT,
     }));
+    // eslint-disable-next-line
   }, [dispatch, pagi]);
 
   const handleSubmitForm = (e) => {
@@ -104,7 +105,7 @@ const Topic = () => {
           </Form>
         </SubCard>
 
-        <SubCard title={"Danh sách"}>
+        <SubCard title={"Danh sách đề tài"}>
           {total === 0 ? (
             <EmptyListNoti title={"Không có đề tài nào!"} />
           ) : (
@@ -113,9 +114,9 @@ const Topic = () => {
                 <thead>
                   <tr>
                     <th>STT</th>
-                    <th>Tên đề tài</th>
-                    <th>Trạng thái</th>
-                    <th>Giảng viên</th>
+                    <th style={{width: "200px"}}>Giảng viên</th>
+                    <th>Liên hệ</th>
+                    <th>Đề tài</th>
                     <th>Thao tác</th>
                   </tr>
                 </thead>
@@ -123,19 +124,20 @@ const Topic = () => {
                   {listTopic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{ textAlign: "center", Width: "32px" }}>
+                        <td >
                           {(pagi - 1) * LIMIT + index + 1}
                         </td>
+                        <td>{item.lectureInfo.name}<br/>{item.lectureInfo.degree}</td>
+                        <td >{item.lectureInfo.email}<br/>{item.lectureInfo.phone}</td>
                         <td>{item.name}</td>
-                        <td>{topicStatus[item.status - 1]}</td>
-                        <td>{item.lectureName}</td>
                         <td>
                           <Action
                             todo={[
                               <Detail
                                 name={"Xem chi tiết"}
-                                topic={item}
+                                topicID={item.id}
                               />,
+
                             ]}
                           />
                         </td>

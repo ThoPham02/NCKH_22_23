@@ -126,16 +126,21 @@ func (l *GetTopicLogic) GetTopic(req *types.GetTopicReq) (resp *types.GetTopicRe
 		}
 	}
 
+	event, err := l.svcCtx.EventModel.FindOne(l.ctx, topicModel.EventId)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+
 	topic = types.TopicDetail{
-		ID:   topicModel.Id,
-		Name: topicModel.Name,
-		LectureInfo: types.LectureInfo{
-			ID:     user.Id,
-			Name:   user.Name,
-			Email:  user.Email.String,
-			Phone:  user.Phone.String,
-			Degree: common.MapDegree[user.Degree],
-		},
+		ID:           topicModel.Id,
+		Name:         topicModel.Name,
+		LectureInfo:  types.LectureInfo{ID: user.Id, Name: user.Name, Email: user.Email.String, Phone: user.Phone.String, Degree: common.MapDegree[user.Degree]},
 		Department:   department.Name,
 		Faculty:      faculty.Name,
 		Status:       topicModel.Status,
@@ -143,6 +148,8 @@ func (l *GetTopicLogic) GetTopic(req *types.GetTopicReq) (resp *types.GetTopicRe
 		ListStudent:  listStudent,
 		TimeStart:    topicModel.TimeStart.Int64,
 		TimeEnd:      topicModel.TimeEnd.Int64,
+		Event:        event.Name,
+		CashSupport:  topicModel.CashSupport.Int64,
 	}
 
 	return &types.GetTopicRes{

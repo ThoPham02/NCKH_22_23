@@ -51,6 +51,8 @@ type TopicDetail struct {
 	ListStudent  []StudentInfo `json:"listStudent"`
 	TimeStart    int64         `json:"timeStart"`
 	TimeEnd      int64         `json:"timeEnd"`
+	Event        string        `json:"event"`
+	CashSupport  int64         `json:"cashSupport"`
 }
 
 type StudentGroup struct {
