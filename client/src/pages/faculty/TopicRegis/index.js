@@ -42,7 +42,7 @@ const TopicRegis = () => {
         <SubCard title="Tìm kiếm">
           <Form className="search" onSubmit={handleSubmit}>
             <SearchWord wordRef={searchRef}></SearchWord>
-            <SearchFaculty faculityRef={facultyRef}></SearchFaculty>
+            <SearchFaculty facultyRef={facultyRef}></SearchFaculty>
             <Form.Group>
               <Button variant="primary" type="submit" className="search-submit">
                 {isLoading ? <Loading></Loading> : <></>}

@@ -12,8 +12,8 @@ import {
   SearchDateTo,
   SearchFaculty,
   SearchStatus,
+  SearchDepartment,
 } from "../../../components/Shares/Search";
-import useApi from "../../../hooks/useGetApi";
 
 import "./style.css";
 import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
@@ -21,25 +21,20 @@ import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
 import { LIMIT } from "../../../const/const";
-import TopicInfo from "../../../components/Shares/TopicInfo";
 import Detail from "../../../components/Shares/Action/Detail";
+import { useDispatch, useSelector } from "react-redux";
+import { topicSelector } from "../../../store/selectors";
+import { fetchTopics } from "./TopicSlice";
 
 const Topic = () => {
+  const [faculty, setFaculty] = useState(0);
+  const [pagi, setPagi] = useState(1);
+  const dispatch = useDispatch();
   const searchRef = useRef("");
-  const facultyRef = useRef(0);
   const statusRef = useRef(0);
   const dateFromRef = useRef("");
   const dateToRef = useRef("");
-  const [pagi, setPagi] = useState(1);
-  const [url, setUrl] = useState(
-    `/api/topic?limit=${LIMIT}&offset=${pagi - 1}`
-  );
-
-  const { data, isLoading } = useApi(url);
-  let listTopic = [];
-  if (data && data.total !== 0) {
-    listTopic = data.listTopics;
-  }
+  const departmentRef = useRef(0);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -47,11 +42,28 @@ const Topic = () => {
     let status = statusRef.current.value;
     let dateFrom = dateFromRef.current.value;
     let dateTo = dateToRef.current.value;
-    let pagiNum = pagi - 1;
-    setUrl(
-      `/api/topic?limit=${LIMIT}&offset=${pagiNum}&search=${search}&status=${status}&dateFrom=${dateFrom}&dateTo=${dateTo}`
+    let department = departmentRef.current.value;
+
+    dispatch(
+      fetchTopics({
+        search: search,
+        departmentID: department,
+        facultyID: faculty,
+        status: status,
+        timeStart: dateTo,
+        timeEnd: dateFrom,
+        limit: LIMIT,
+        offset: (pagi - 1) * LIMIT,
+      })
     );
   };
+
+  const topic = useSelector(topicSelector);
+
+  let isLoading = topic.status === "loading";
+  const listTopic = topic.topics;
+  console.log(listTopic);
+  let total = topic.total;
 
   return (
     <div className="topic">
@@ -59,7 +71,14 @@ const Topic = () => {
         <SubCard title="Tìm kiếm">
           <Form className="search" onSubmit={handleSubmitForm}>
             <SearchWord searchRef={searchRef}></SearchWord>
-            <SearchFaculty facultyRef={facultyRef}></SearchFaculty>
+            <SearchFaculty
+              faculty={faculty}
+              setFaculty={setFaculty}
+            ></SearchFaculty>
+            <SearchDepartment
+              departmentRef={departmentRef}
+              faculty={faculty}
+            ></SearchDepartment>
             <SearchStatus statusRef={statusRef}></SearchStatus>
             <SearchDateFrom dateFromRef={dateFromRef}></SearchDateFrom>
             <SearchDateTo dateToRef={dateToRef}></SearchDateTo>
@@ -73,15 +92,16 @@ const Topic = () => {
         </SubCard>
 
         <SubCard title={"Danh sách"}>
-          {listTopic.length === 0 ? (
+          {total === 0 ? (
             <EmptyListNoti title={"Không có đề tài nào!"} />
           ) : (
             <div>
-              <Table bordered hover size="sm">
+              <Table bordered hover size="sm" className="topic-table">
                 <thead>
                   <tr>
-                    <th>Mã đề tài</th>
-                    <th>Thông tin đề tài</th>
+                    <th>STT</th>
+                    <th>Tên đề tài</th>
+                    <th>Giảng viên hướng dẫn</th>
                     <th>Thao tác</th>
                   </tr>
                 </thead>
@@ -89,19 +109,20 @@ const Topic = () => {
                   {listTopic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td style={{textAlign: "center"}}>{item.id}</td>
-                        <td>
-                          <TopicInfo
-                            name={item.name}
-                            status={item.status}
-                            lecture={item.lecture}
-                            dateTo={item.timeStart}
-                            dateFrom={item.timeEnd}
-                            fileUrl={item.resultUrl}
-                          />
+                        <td style={{ textAlign: "center", Width: "32px" }}>
+                          {(pagi - 1) * LIMIT + index + 1}
                         </td>
+                        <td>{item.name}</td>
+                        <td>{item.lectureID}</td>
                         <td>
-                          <Action todo={[<Detail name={"Xem chi tiết"} topicID={item.id}/>]} />
+                          <Action
+                            todo={[
+                              <Detail
+                                name={"Xem chi tiết"}
+                                topicID={item.id}
+                              />,
+                            ]}
+                          />
                         </td>
                       </tr>
                     );
@@ -112,7 +133,7 @@ const Topic = () => {
               <PaginationCustom
                 setPagi={setPagi}
                 currentPage={pagi}
-                total={data.total}
+                total={total}
                 limit={LIMIT}
               />
             </div>
