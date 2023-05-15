@@ -10,7 +10,7 @@ import { topicDetailSelector } from "../../../../store/selectors";
 import { topicStatus } from "../../../../const/const";
 import { convertTimestampToDateString } from "../../../../utils/time";
 
-const Detail = ({ name, topicID }) => {
+const Detail = ({ name, topicID, onClick }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const dispatch = useDispatch();
@@ -22,6 +22,7 @@ const Detail = ({ name, topicID }) => {
 
   const data = useSelector(topicDetailSelector);
   const topicDetail = data.topicDetail;
+  console.log(topicID, topicDetail)
   return (
     <>
       <Button className="button" onClick={handleShow}>
@@ -112,11 +113,11 @@ const Detail = ({ name, topicID }) => {
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Giảng viên hướng dẫn</div>
-                <div className="col-10">{topicDetail.lectureInfo.name}</div>
+                <div className="col-10">{topicDetail.lectureInfo?"...":"topicDetail.lectureInfo.name"}</div>
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Liên hệ</div>
-                <div className="col-10">{topicDetail.lectureInfo.phone}</div>
+                <div className="col-10">{topicDetail.lectureInfo?"...":"topicDetail.lectureInfo.phone"}</div>
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Khoa</div>
