@@ -147,8 +147,8 @@ type (
 
 type (
 	UpdateTopicStudentGroupReq {
-		ID            int64   `path:"id"`
-		ListStudentID []int64 `json:"listStudentID"`
+		ID        int64 `path:"id"`
+		StudentID int64 `json:"studentID"`
 	}
 	UpdateTopicStudentGroupRes {
 		Result Result `json:"result"`

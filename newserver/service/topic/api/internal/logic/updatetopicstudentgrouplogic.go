@@ -32,7 +32,7 @@ func (l *UpdateTopicStudentGroupLogic) UpdateTopicStudentGroup(req *types.Update
 	l.Logger.Info("UpdateTopicStudentGroup", req)
 	var currentEvent *progressModel.EventTbl
 	var groupID int64 = sync.RandomID()
-	var studentGroup []model.StudentGroupTbl
+	var topic *model.TopicTbl
 
 	currentEvent, err = l.svcCtx.EventModel.FindCurrentEvent(l.ctx)
 	if err != nil {
@@ -44,17 +44,7 @@ func (l *UpdateTopicStudentGroupLogic) UpdateTopicStudentGroup(req *types.Update
 			},
 		}, nil
 	}
-
-	for _, student := range req.ListStudentID {
-		studentGroup = append(studentGroup, model.StudentGroupTbl{
-			Id:        sync.RandomID(),
-			EventId:   currentEvent.Id,
-			StudentId: student,
-			GroupId:   groupID,
-		})
-	}
-
-	err = l.svcCtx.StudentGroupModel.InsertMutil(l.ctx, studentGroup)
+	topic, err = l.svcCtx.TopicModel.FindOne(l.ctx, req.ID)
 	if err != nil {
 		l.Logger.Error(err)
 		return &types.UpdateTopicStudentGroupRes{
@@ -64,7 +54,34 @@ func (l *UpdateTopicStudentGroupLogic) UpdateTopicStudentGroup(req *types.Update
 			},
 		}, nil
 	}
-
+	valid, err := l.svcCtx.StudentGroupModel.CheckStudentValid(l.ctx, req.StudentID, currentEvent.Id)
+	if !valid || err != nil {
+		l.Logger.Error(err)
+		return &types.UpdateTopicStudentGroupRes{
+			Result: types.Result{
+				Code:    common.STUDENT_INVALID_CODE,
+				Message: common.STUDENT_INVALID_MESS,
+			},
+		}, nil
+	}
+	if topic.GroupStudentsId.Valid {
+		groupID = topic.GroupStudentsId.Int64
+	}
+	_, err = l.svcCtx.StudentGroupModel.Insert(l.ctx, &model.StudentGroupTbl{
+		Id:        sync.RandomID(),
+		GroupId:   groupID,
+		StudentId: req.StudentID,
+		EventId:   currentEvent.Id,
+	})
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.UpdateTopicStudentGroupRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
 	err = l.svcCtx.TopicModel.UpdateGroup(l.ctx, req.ID, groupID)
 	if err != nil {
 		l.Logger.Error(err)

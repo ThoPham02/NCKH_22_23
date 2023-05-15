@@ -12,14 +12,23 @@ const TopicSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-    .addCase(fetchTopics.pending, (state, action) => {
+      .addCase(fetchTopics.pending, (state, action) => {
         state.status = "loading";
-    })
-    .addCase(fetchTopics.fulfilled, (state, action) => {
-        state.status = "idle"
-        state.topics = action.payload.topic
-        state.total = action.payload.total
-    });
+      })
+      .addCase(fetchTopics.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.topics = action.payload.topic;
+        state.total = action.payload.total;
+      })
+      .addCase(registationTopic.pending, (state, action) => {
+        state.status = "loading";
+      })
+      .addCase(registationTopic.fulfilled, (state, action) => {
+        state.status = "idle";
+      })
+      .addCase(registationTopic.rejected, (state, action) => {
+        state.error = action.payload.result.message;
+      });
   },
 });
 
@@ -44,6 +53,17 @@ export const fetchTopics = createAsyncThunk("getTopics", async (payload) => {
 
   return response.data;
 });
+
+export const registationTopic = createAsyncThunk(
+  "registrationTopic",
+  async (topicID, studentID) => {
+    const resp = await client.put(`/api/topic-student-group/${topicID}`, {
+      studentID: studentID,
+    });
+
+    return resp.data;
+  }
+);
 
 export default TopicSlice;
 export const TopicReducer = TopicSlice.reducer;

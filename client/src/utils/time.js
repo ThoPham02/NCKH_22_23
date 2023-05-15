@@ -15,13 +15,10 @@ export function convertTimestampToDateString(timestamp) {
 
 export function convertDateToTimestamp(dateString) {
   if (!dateString) return 0;
-  const dateParts = dateString.split("/");
-  const day = parseInt(dateParts[0], 10);
-  const month = parseInt(dateParts[1], 10) - 1;
-  const year = parseInt(dateParts[2], 10);
+  var dateObj = new Date(dateString);
 
-  const date = new Date(year, month, day);
-  const timestamp = date.getTime() / 1000;
+  // Lấy timestamp từ đối tượng Date
+  var timestamp = dateObj.getTime();
 
   return timestamp;
 }

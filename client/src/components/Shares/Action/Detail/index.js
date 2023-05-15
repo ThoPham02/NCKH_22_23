@@ -9,20 +9,31 @@ import { fetchTopicDetail } from "./TopicDetailSlice";
 import { topicDetailSelector } from "../../../../store/selectors";
 import { topicStatus } from "../../../../const/const";
 import { convertTimestampToDateString } from "../../../../utils/time";
+import { userSelector } from "../../../../store/selectors";
+import { useNavigate } from "react-router-dom";
+import { registationTopic } from "../../../../pages/common/Topic/TopicSlice";
 
-const Detail = ({ name, topicID }) => {
+const Detail = ({ name, topic }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const dispatch = useDispatch();
 
   const handleShow = () => {
     setShow(true);
-    dispatch(fetchTopicDetail(topicID));
+    dispatch(fetchTopicDetail(topic.id));
+  };
+  const user = useSelector(userSelector);
+  const navige = useNavigate();
+  const handleRegisButton = () => {
+    if (user.role === 0) {
+      navige("/login")
+    }
+
+    dispatch(registationTopic(topic.id, user.id))
   };
 
   const data = useSelector(topicDetailSelector);
   const topicDetail = data.topicDetail;
-  console.log(topicID, topicDetail)
   return (
     <>
       <Button className="button" onClick={handleShow}>
@@ -40,6 +51,18 @@ const Detail = ({ name, topicID }) => {
                 <div className="col-2">Tên đề tài</div>
                 <div className="col-10">
                   <Placeholder xs={8} />
+                </div>
+              </div>
+              <div className="topic-info-item row">
+                <div className="col-2">Đại hội</div>
+                <div className="col-10">
+                  <Placeholder xs={6} />
+                </div>
+              </div>
+              <div className="topic-info-item row">
+                <div className="col-2">Tiểu ban</div>
+                <div className="col-10">
+                  <Placeholder xs={5} />
                 </div>
               </div>
               <div className="topic-info-item row">
@@ -73,27 +96,15 @@ const Detail = ({ name, topicID }) => {
                 </div>
               </div>
               <div className="topic-info-item row">
-                <div className="col-2">Nhóm sinh viên</div>
-                <div className="col-10">
-                  <Placeholder xs={8} />
-                </div>
-              </div>
-              <div className="topic-info-item row">
                 <div className="col-2">Thời gian thực hiện</div>
                 <div className="col-10">
                   <Placeholder xs={6} />
                 </div>
               </div>
               <div className="topic-info-item row">
-                <div className="col-2">Tiểu ban</div>
+                <div className="col-2">Nhóm sinh viên</div>
                 <div className="col-10">
-                  <Placeholder xs={5} />
-                </div>
-              </div>
-              <div className="topic-info-item row">
-                <div className="col-2">Đại hội</div>
-                <div className="col-10">
-                  <Placeholder xs={6} />
+                  <Placeholder xs={8} />
                 </div>
               </div>
             </div>
@@ -109,15 +120,17 @@ const Detail = ({ name, topicID }) => {
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Tiểu ban</div>
-                <div className="col-10">{topicDetail.subcommittee ? topicDetail.subcommittee : " ... "}</div>
+                <div className="col-10">
+                  {topicDetail.subcommittee ? topicDetail.subcommittee : "..."}
+                </div>
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Giảng viên hướng dẫn</div>
-                <div className="col-10">{topicDetail.lectureInfo?"...":"topicDetail.lectureInfo.name"}</div>
+                <div className="col-10">{topic.lectureInfo.name}</div>
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Liên hệ</div>
-                <div className="col-10">{topicDetail.lectureInfo?"...":"topicDetail.lectureInfo.phone"}</div>
+                <div className="col-10">{topic.lectureInfo.phone}</div>
               </div>
               <div className="topic-info-item row">
                 <div className="col-2">Khoa</div>
@@ -134,16 +147,27 @@ const Detail = ({ name, topicID }) => {
                 </div>
               </div>
               <div className="topic-info-item row">
-                <div className="col-2">Nhóm sinh viên:</div>
-                <div className="col-10">
-                  {topicDetail.listStudent? <></> : " ... "}
-                </div>
-              </div>
-              <div className="topic-info-item row">
                 <div className="col-2">Thời gian thực hiện</div>
                 <div className="col-10">
                   Từ {convertTimestampToDateString(topicDetail.timeStart)} đến{" "}
                   {convertTimestampToDateString(topicDetail.timeEnd)}
+                </div>
+              </div>
+              <div className="topic-info-item row">
+                <div className="col-2">Nhóm sinh viên:</div>
+                <div className="col-10">
+                  {topicDetail.status === 2 &&
+                  !topicDetail.listStudent ? (
+                    <Button
+                      size="sm"
+                      style={{ width: "120px", padding: "2px 0" }}
+                      onClick={handleRegisButton}
+                    >
+                      Đăng ký
+                    </Button>
+                  ) : (
+                    " ... "
+                  )}
                 </div>
               </div>
             </div>
@@ -153,6 +177,13 @@ const Detail = ({ name, topicID }) => {
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
+          {topicDetail.status === 2 &&
+          !topicDetail.listStudent &&
+          user.role === 1 ? (
+            <Button>Xác nhận</Button>
+          ) : (
+            <></>
+          )}
         </Modal.Footer>
       </Modal>
     </>

@@ -21,6 +21,9 @@ const (
 const (
 	TOPIC_NOT_EXIST_CODE = 200
 	TOPIC_NOT_EXIST_MESS = "Topic Not Exist"
+
+	STUDENT_INVALID_CODE = 201
+	STUDENT_INVALID_MESS = "Student Invalid"
 )
 
 // JWT key

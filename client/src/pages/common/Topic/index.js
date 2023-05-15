@@ -2,6 +2,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Table from "react-bootstrap/Table";
 import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import "./style.css";
 import Card from "../../../components/Shares/Card";
@@ -14,18 +15,15 @@ import {
   SearchStatus,
   SearchDepartment,
 } from "../../../components/Shares/Search";
-
-import "./style.css";
 import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
 import { LIMIT } from "../../../const/const";
 import Detail from "../../../components/Shares/Action/Detail";
-import { useDispatch, useSelector } from "react-redux";
 import { topicSelector } from "../../../store/selectors";
 import { fetchTopics } from "./TopicSlice";
-import TopicRegistration from "../../../components/Shares/Action/TopicRegistration";
+import { convertDateToTimestamp } from "../../../utils/time";
 
 const Topic = () => {
   const [faculty, setFaculty] = useState(0);
@@ -37,16 +35,18 @@ const Topic = () => {
   const dateToRef = useRef("");
   const departmentRef = useRef(0);
   useEffect(() => {
-    dispatch(fetchTopics({
-      search: searchRef.current.value,
-      departmentID: departmentRef.current.value,
-      facultyID: faculty,
-      status: statusRef.current.value,
-      timeStart: dateToRef.current.value,
-      timeEnd: dateToRef.current.value,
-      limit: LIMIT,
-      offset: (pagi - 1) * LIMIT,
-    }));
+    dispatch(
+      fetchTopics({
+        search: searchRef.current.value,
+        departmentID: departmentRef.current.value,
+        facultyID: faculty,
+        status: statusRef.current.value,
+        timeStart: dateToRef.current.value,
+        timeEnd: dateToRef.current.value,
+        limit: LIMIT,
+        offset: (pagi - 1) * LIMIT,
+      })
+    );
     // eslint-disable-next-line
   }, [dispatch, pagi]);
 
@@ -58,14 +58,17 @@ const Topic = () => {
     let dateTo = dateToRef.current.value;
     let department = departmentRef.current.value;
 
+    console.log(dateTo, convertDateToTimestamp(dateTo));
+
+    setPagi(1);
     dispatch(
       fetchTopics({
         search: search,
         departmentID: department,
         facultyID: faculty,
         status: status,
-        timeStart: dateTo,
-        timeEnd: dateFrom,
+        timeStart: convertDateToTimestamp(dateTo),
+        timeEnd: convertDateToTimestamp(dateFrom),
         limit: LIMIT,
         offset: (pagi - 1) * LIMIT,
       })
@@ -113,7 +116,7 @@ const Topic = () => {
                 <thead>
                   <tr>
                     <th>STT</th>
-                    <th style={{width: "200px"}}>Giảng viên</th>
+                    <th style={{ width: "200px" }}>Giảng viên</th>
                     <th>Liên hệ</th>
                     <th>Đề tài</th>
                     <th>Thao tác</th>
@@ -123,23 +126,22 @@ const Topic = () => {
                   {listTopic.map((item, index) => {
                     return (
                       <tr key={index}>
-                        <td >
-                          {(pagi - 1) * LIMIT + index + 1}
+                        <td>{(pagi - 1) * LIMIT + index + 1}</td>
+                        <td>
+                          {item.lectureInfo.degree +
+                            " " +
+                            item.lectureInfo.name}
                         </td>
-                        <td>{item.lectureInfo.name}<br/>{item.lectureInfo.degree}</td>
-                        <td >{item.lectureInfo.email}<br/>{item.lectureInfo.phone}</td>
+                        <td style={{ textAlign: "center" }}>
+                          {item.lectureInfo.email}
+                          <br />
+                          {item.lectureInfo.phone}
+                        </td>
                         <td>{item.name}</td>
                         <td>
                           <Action
                             todo={[
-                              <Detail
-                                name={"Xem chi tiết"}
-                                topicID={item.id}
-                              />,
-                              <TopicRegistration
-                              name={"Đăng ký đề tài"}
-                              />
-
+                              <Detail name={"Xem chi tiết"} topic={item} />,
                             ]}
                           />
                         </td>

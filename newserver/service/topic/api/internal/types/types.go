@@ -144,8 +144,8 @@ type UpdateTopicSubcommitteeRes struct {
 }
 
 type UpdateTopicStudentGroupReq struct {
-	ID            int64   `path:"id"`
-	ListStudentID []int64 `json:"listStudentID"`
+	ID        int64 `path:"id"`
+	StudentID int64 `json:"studentID"`
 }
 
 type UpdateTopicStudentGroupRes struct {
