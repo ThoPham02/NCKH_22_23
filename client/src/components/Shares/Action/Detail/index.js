@@ -10,7 +10,7 @@ import { topicDetailSelector } from "../../../../store/selectors";
 import { topicStatus } from "../../../../const/const";
 import { convertTimestampToDateString } from "../../../../utils/time";
 
-const Detail = ({ name, topicID, onClick }) => {
+const Detail = ({ name, topicID }) => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const dispatch = useDispatch();

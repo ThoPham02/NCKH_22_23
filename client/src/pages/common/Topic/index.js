@@ -26,7 +26,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { topicSelector } from "../../../store/selectors";
 import { fetchTopics } from "./TopicSlice";
 import TopicRegistration from "../../../components/Shares/Action/TopicRegistration";
-import { fetchTopicDetail } from "../../../components/Shares/Action/Detail/TopicDetailSlice";
 
 const Topic = () => {
   const [faculty, setFaculty] = useState(0);
