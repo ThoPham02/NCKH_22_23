@@ -166,6 +166,15 @@ type (
 )
 
 type (
+	DeleteStudentGroupbyStudentIdReq {
+		StudentID int64 `path:"studentID"`
+	}
+	DeleteStudentGroupbyStudentIdRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
 	GetTopicsReq {
 		Search         string `form:"search"`
 		DepartmentID   int64  `form:"departmentID"`
@@ -219,4 +228,7 @@ service topic-api {
 	
 	@handler UpdateTopicStudentGroupHandler
 	put /api/topic-student-group/:id (UpdateTopicStudentGroupReq) returns(UpdateTopicStudentGroupRes)
+	
+	@handler DeleteStudentGroupHandler
+	delete /api/topic-student-group/:studentID (DeleteStudentGroupbyStudentIdReq) returns(DeleteStudentGroupbyStudentIdRes)
 }

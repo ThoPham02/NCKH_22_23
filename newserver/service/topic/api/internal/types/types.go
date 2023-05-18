@@ -161,6 +161,14 @@ type GetTopicRes struct {
 	TopicDetail TopicDetail `json:"topicDetail"`
 }
 
+type DeleteStudentGroupbyStudentIdReq struct {
+	StudentID int64 `path:"studentID"`
+}
+
+type DeleteStudentGroupbyStudentIdRes struct {
+	Result Result `json:"result"`
+}
+
 type GetTopicsReq struct {
 	Search         string `form:"search"`
 	DepartmentID   int64  `form:"departmentID"`

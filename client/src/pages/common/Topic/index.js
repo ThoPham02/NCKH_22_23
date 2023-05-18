@@ -58,8 +58,6 @@ const Topic = () => {
     let dateTo = dateToRef.current.value;
     let department = departmentRef.current.value;
 
-    console.log(dateTo, convertDateToTimestamp(dateTo));
-
     setPagi(1);
     dispatch(
       fetchTopics({

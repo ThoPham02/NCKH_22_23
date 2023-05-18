@@ -2,10 +2,10 @@ package common
 
 var MapDegree = map[int64]string{
 	1: "Sinh viên",
-	2: "Thạc sĩ",
-	3: "Tiến sĩ",
-	4: "Phó giáo sư",
-	5: "Giáo sư",
+	2: "ThS",
+	3: "TS",
+	4: "PGS",
+	5: "GS",
 }
 
 var MapStatus = map[int64]string{

@@ -14,6 +14,8 @@ export const facultySelector = (state) => state.faculty.faculties
 // topic
 export const topicsSelector = (state) => state.topic.topics
 export const topicSelector = (state) => state.topic
+export const resultSelector = (state) => state.topic.result
+export const statusSelector = (state) => state.topic.status
 
 //topic detail
 export const topicDetailSelector = (state) => state.topicDetail

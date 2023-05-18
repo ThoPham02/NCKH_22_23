@@ -26,6 +26,7 @@ type (
 		InsertMutil(ctx context.Context, data []StudentGroupTbl) error
 		FindStudentByGroupID(ctx context.Context, groupId int64) ([]userModel.UserTbl, error)
 		CheckStudentValid(ctx context.Context, studentId int64, eventId int64) (bool, error)
+		DeleteByStudentID(ctx context.Context, studentId int64, eventId int64) error
 	}
 
 	customStudentGroupTblModel struct {
@@ -79,4 +80,10 @@ func (m *customStudentGroupTblModel) CheckStudentValid(ctx context.Context, stud
 	default:
 		return false, err
 	}
+}
+
+func (m *customStudentGroupTblModel) DeleteByStudentID(ctx context.Context, studentId int64, eventId int64) error {
+	query := fmt.Sprintf("delete from %s where student_id = $1 and event_id = $2", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, studentId, eventId)
+	return err
 }

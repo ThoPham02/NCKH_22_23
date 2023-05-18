@@ -8,8 +8,13 @@ const TopicSlice = createSlice({
     status: "idle",
     topics: [],
     total: 0,
+    result: {}
   },
-  reducers: {},
+  reducers: {
+    setResult: (state, action) => {
+      state.result = {}
+    }
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchTopics.pending, (state, action) => {
@@ -19,15 +24,33 @@ const TopicSlice = createSlice({
         state.status = "idle";
         state.topics = action.payload.topic;
         state.total = action.payload.total;
+        state.result = {}
       })
       .addCase(registationTopic.pending, (state, action) => {
         state.status = "loading";
+        state.result = {}
       })
       .addCase(registationTopic.fulfilled, (state, action) => {
         state.status = "idle";
+        state.result = action.payload.result
       })
       .addCase(registationTopic.rejected, (state, action) => {
-        state.error = action.payload.result.message;
+        state.error = action.payload.error;
+        state.result = {}
+        state.status = "error"
+      })
+      .addCase(cancelTopic.pending, (state, action) => {
+        state.status = "loading"
+        state.result = {}
+      })
+      .addCase(cancelTopic.fulfilled, (state, action) => {
+        state.status = "idle"
+        state.result = action.payload.result
+      })
+      .addCase(cancelTopic.rejected, (state, action) => {
+        state.status = "error"
+        state.error = action.payload.error
+        state.result = {}
       });
   },
 });
@@ -56,14 +79,23 @@ export const fetchTopics = createAsyncThunk("getTopics", async (payload) => {
 
 export const registationTopic = createAsyncThunk(
   "registrationTopic",
-  async (topicID, studentID) => {
-    const resp = await client.put(`/api/topic-student-group/${topicID}`, {
-      studentID: studentID,
+  async (payload) => {
+    const resp = await client.put(`/api/topic-student-group/${payload.topicID}`, {
+      studentID: payload.studentID,
     });
 
     return resp.data;
   }
 );
+
+export const cancelTopic = createAsyncThunk(
+  "cancelTopic", 
+  async (payload) => {
+    const resp = await client.delete(`/api/topic-student-group/${payload.studentID}`)
+
+    return resp.data
+  }
+)
 
 export default TopicSlice;
 export const TopicReducer = TopicSlice.reducer;
