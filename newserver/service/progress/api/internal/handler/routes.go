@@ -38,6 +38,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: UpdateCurrentEventHandler(serverCtx),
 			},
 			{
+				Method:  http.MethodGet,
+				Path:    "/api/event-current",
+				Handler: GetCurrentEventHandler(serverCtx),
+			},
+			{
 				Method:  http.MethodPost,
 				Path:    "/api/stage",
 				Handler: CreateStageHandler(serverCtx),
