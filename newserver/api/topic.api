@@ -147,8 +147,8 @@ type (
 
 type (
 	UpdateTopicStudentGroupReq {
-		ID            int64   `path:"id"`
-		ListStudentID []int64 `json:"listStudentID"`
+		ID        int64 `path:"id"`
+		StudentID int64 `json:"studentID"`
 	}
 	UpdateTopicStudentGroupRes {
 		Result Result `json:"result"`
@@ -162,6 +162,15 @@ type (
 	GetTopicRes {
 		Result      Result      `json:"result"`
 		TopicDetail TopicDetail `json:"topicDetail"`
+	}
+)
+
+type (
+	DeleteStudentGroupbyStudentIdReq {
+		StudentID int64 `path:"studentID"`
+	}
+	DeleteStudentGroupbyStudentIdRes {
+		Result Result `json:"result"`
 	}
 )
 
@@ -219,4 +228,7 @@ service topic-api {
 	
 	@handler UpdateTopicStudentGroupHandler
 	put /api/topic-student-group/:id (UpdateTopicStudentGroupReq) returns(UpdateTopicStudentGroupRes)
+	
+	@handler DeleteStudentGroupHandler
+	delete /api/topic-student-group/:studentID (DeleteStudentGroupbyStudentIdReq) returns(DeleteStudentGroupbyStudentIdRes)
 }

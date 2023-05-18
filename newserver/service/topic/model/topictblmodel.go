@@ -85,6 +85,7 @@ func (m *customTopicTblModel) FindTopics(ctx context.Context, condition TopicCon
 		values = append(values, condition.TimeEnd)
 		query += fmt.Sprintf(" and time_end <= $%d", len(values))
 	}
+	query += " order by id ASC"
 	if condition.Limit > 0 {
 		values = append(values, condition.Limit, condition.Offset)
 		query += fmt.Sprintf(" limit $%d offset $%d", len(values)-1, len(values))

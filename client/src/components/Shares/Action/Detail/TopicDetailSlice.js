@@ -12,8 +12,8 @@ const TopicDetailSlice = createSlice({
         builder.addCase(fetchTopicDetail.pending, (state, action) => {
             state.status = "loading";
         }).addCase(fetchTopicDetail.fulfilled, (state, action) => {
-            state.status = "idle";
             state.topicDetail = action.payload.topicDetail
+            state.status = "idle";
         })
     }
 })
