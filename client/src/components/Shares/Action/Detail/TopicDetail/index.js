@@ -1,5 +1,3 @@
-import Button from "react-bootstrap/Button";
-
 import { convertTimestampToDateString } from "../../../../../utils/time";
 import Loading from "../../../Loading";
 import { topicStatus } from "../../../../../const/const";
@@ -64,35 +62,7 @@ const TopicDetail = (props) => {
               );
             })
           ) : (
-            <></>
-          )}
-
-          {props.topicDetail.status !== 2 &&
-          props.topicDetail.listStudent != null &&
-          props.topicDetail.listStudent.length >= 5 ? (
-            <></>
-          ) : props.topicDetail.listStudent == null ||
-            props.user.role === 0 ||
-            props.topicDetail.listStudent.every(
-              (item) => item.id !== props.user.id
-            ) ? (
-            <Button
-              size="sm"
-              className="registerButton"
-              value="regis"
-              onClick={props.handleRegisButton}
-            >
-              Đăng ký
-            </Button>
-          ) : (
-            <Button
-              size="sm"
-              className="registerButton"
-              value="cancel"
-              onClick={props.handleCancelButton}
-            >
-              Hủy đăng ký
-            </Button>
+            <span style={{fontWeight: "bold"}}>Chưa có ai đăng ký đề tài này</span>
           )}
           {props.status === "loading" ? <Loading /> : <></>}
         </div>

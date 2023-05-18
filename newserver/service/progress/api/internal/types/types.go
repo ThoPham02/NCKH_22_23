@@ -89,6 +89,14 @@ type GetEventsRes struct {
 	Events []Event `json:"events"`
 }
 
+type GetCurrentEventReq struct {
+}
+
+type GetCurrentEventRes struct {
+	Result Result `json:"result"`
+	Events Event  `json:"event"`
+}
+
 type UpdateCurrentEventReq struct {
 	EventID int64 `path:"eventID"`
 }

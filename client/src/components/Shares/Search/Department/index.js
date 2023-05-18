@@ -5,7 +5,7 @@ import { useEffect } from "react";
 import { departmentSelector } from "../../../../store/selectors";
 import { fetchDepartment } from "./DepartmentSlice";
 
-const Department = ({faculty, departmentRef }) => {
+const Department = ({faculty, departmentRef, style }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchDepartment(faculty));
@@ -14,7 +14,7 @@ const Department = ({faculty, departmentRef }) => {
   const list = useSelector(departmentSelector).filter(item => faculty === 0 || item.facultyID === faculty*1)
 
   return (
-    <Form.Group className="col-12 col-sm-12 col-md-6 col-lg-3">
+    <Form.Group className="col-12 col-sm-12 col-md-6 col-lg-3" style={style}>
       <Form.Select ref={departmentRef}>
         <option value="0">Tất cả các bộ môn</option>
         {list.map((department, index) => {
