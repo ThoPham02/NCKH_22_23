@@ -18,6 +18,13 @@ const LectureTopicSlice = createSlice({
       .addCase(fetchCurrentEvent.fulfilled, (state, action) => {
         state.status = "idle";
         state.currentEvent = action.payload.event;
+      })
+      .addCase(fetchMyTopic.pending, (state, action) => {
+        state.status = "loading"
+      })
+      .addCase(fetchMyTopic.fulfilled, (state, action) => {
+        state.topic = action.payload.topic;
+        state.status = "idle"
       });
   },
 });
@@ -41,6 +48,26 @@ export const createTopic = createAsyncThunk("createTopic", async (payload) => {
 
   return resp.data
 });
+
+export const fetchMyTopic = createAsyncThunk("fetchMyTopic", async (payload) => {
+  const resp = await client.get("/api/topics", {
+    params: {
+      search: " ",
+      departmentID: 0,
+      facultyID: 0,
+      status: 0,
+      lectureID: payload.lectureID,
+      eventID: 0,
+      subcommitteeID: 0,
+      timeStart: 0,
+      timeEnd: 0,
+      limit: 0,
+      offset: 0,
+    },
+  })
+
+  return resp.data
+})
 
 export default LectureTopicSlice;
 export const LectureTopicReducer = LectureTopicSlice.reducer;

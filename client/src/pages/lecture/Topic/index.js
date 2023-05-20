@@ -21,13 +21,13 @@ import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import Loading from "../../../components/Shares/Loading";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
-import { LIMIT } from "../../../const/const";
+import { LIMIT, topicStatus } from "../../../const/const";
 import Detail from "../../../components/Shares/Action/Detail";
-import { currentEventSelector, topicSelector } from "../../../store/selectors";
+import { currentEventSelector, myTopicSelector, topicSelector } from "../../../store/selectors";
 import { convertDateToTimestamp } from "../../../utils/time";
 import { fetchTopics } from "../../common/Topic/TopicSlice";
 import { userSelector } from "../../../store/selectors";
-import { createTopic, fetchCurrentEvent } from "./LectureSlice";
+import { createTopic, fetchCurrentEvent, fetchMyTopic } from "./LectureSlice";
 import Confirm from "../../../components/Shares/Confirm";
 
 const Topic = () => {
@@ -42,6 +42,9 @@ const Topic = () => {
   const dateFromRef = useRef("");
   const dateToRef = useRef("");
   const departmentRef = useRef(0);
+
+  const user = useSelector(userSelector);
+
   useEffect(() => {
     dispatch(
       fetchTopics({
@@ -60,7 +63,8 @@ const Topic = () => {
 
   useEffect(() => {
     dispatch(fetchCurrentEvent());
-  }, [dispatch]);
+    dispatch(fetchMyTopic({lectureID: user.id}));
+  }, [dispatch, user.id]);
 
   const handleSubmitForm = (e) => {
     e.preventDefault();
@@ -106,11 +110,11 @@ const Topic = () => {
 
   const topic = useSelector(topicSelector);
   const current = useSelector(currentEventSelector);
-
   let isLoading = topic.status === "loading";
   const listTopic = topic.topics;
   let total = topic.total;
-  const user = useSelector(userSelector);
+  const myTopic = useSelector(myTopicSelector)
+
   return (
     <div className="topic">
       <Card title="Danh sách đề tài">
@@ -170,6 +174,50 @@ const Topic = () => {
                 setConfirmShow={setConfirmShow}
                 handleConfirmButton={handleConfirmButton}
               />
+            </Accordion.Body>
+          </Accordion.Item>
+          <Accordion.Item eventKey="0" style={{ margin: "0 20px" }}>
+            <Accordion.Header className="add-topic-header">
+              Đề tài của tôi
+            </Accordion.Header>
+            <Accordion.Body className="add-topic-body">
+              {myTopic.length === 0 ? (
+                <EmptyListNoti title={"Không có đề tài nào!"} />
+              ) : (
+                <div>
+                  <Table bordered hover size="sm" className="topic-table">
+                    <thead>
+                      <tr>
+                        <th  style={{ width: "50px", textAlign: "center" }}>STT</th>
+                        <th>Đề tài</th>
+                        <th style={{ width: "150px" }}>Trạng thái</th>
+                        <th style={{ width: "100px" }}>Thao tác</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {myTopic.map((item, index) => {
+                        return (
+                          <tr key={index}>
+                            <td style={{textAlign: "center" }}>{(pagi - 1) * LIMIT + index + 1}</td>
+                            <td>{item.name}</td>
+                            <td style={{ textAlign: "center" }}>
+                              {topicStatus[item.status - 1]}
+                            </td>
+
+                            <td>
+                              <Action
+                                todo={[
+                                  <Detail name={"Xem chi tiết"} topic={item} />,
+                                ]}
+                              />
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </Table>
+                </div>
+              )}
             </Accordion.Body>
           </Accordion.Item>
 
