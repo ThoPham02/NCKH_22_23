@@ -2,15 +2,14 @@ import Pagination from "react-bootstrap/Pagination";
 
 import "./pagination.css";
 
-const PaginationCustom = ({ setPagi, currentPage, total, limit }) => {
+const PaginationCustom = ({ setPagi, currentPage, total, limit, style }) => {
   let num = Math.ceil(total / limit);
   let pagiList = [];
   for (let i = 0; i < num; i++) {
     pagiList.push(i + 1);
   }
   return (
-    <div className="pagination">
-      
+    <div className="pagination" style={style}>
       <Pagination size="sm">
       <Pagination.Prev onClick={()=>setPagi(currentPage-1)} disabled={currentPage===1}/>
         {pagiList.map((number) => {

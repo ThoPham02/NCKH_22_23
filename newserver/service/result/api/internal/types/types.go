@@ -74,3 +74,31 @@ type CreateTopicMarkReq struct {
 type CreateTopicMarkRes struct {
 	Result Result `json:"result"`
 }
+
+type MarkDetail struct {
+	MarkID    int64   `json:"mark_id"`
+	Comment   string  `json:"comment"`
+	LectureID int64   `json:"lecture_id"`
+	Point     float64 `json:"point"`
+}
+
+type Topic struct {
+	TopicID   int64        `json:"topic_id"`
+	TopicName string       `json:"topic_name"`
+	TopicMark []MarkDetail `json:"topic_mark"`
+}
+
+type GetResultReq struct {
+	EventID        int64  `form:"event_id"`
+	Search         string `form:"search"`
+	SubcommitteeID int64  `form:"subcommittee_id"`
+	FacultyID      int64  `form:"faculty_id"`
+	Limit          int64  `form:"limit"`
+	Offset         int64  `form:"offset"`
+}
+
+type GetResultRes struct {
+	Result Result  `json:"result"`
+	Topics []Topic `json:"topics"`
+	Total  int     `json:"total"`
+}

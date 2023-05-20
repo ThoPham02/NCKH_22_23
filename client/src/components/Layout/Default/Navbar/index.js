@@ -1,5 +1,5 @@
 import { BiUserCircle } from "react-icons/bi";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./navbar.css";
@@ -8,10 +8,14 @@ import { userSelector } from "../../../../store/selectors";
 import { userNav } from "./data";
 
 const NavBar = () => {
+
+  const navige = useNavigate()
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
   function handleLogout() {
     dispatch(LoginActions.logout());
+
+    navige('/')
   }
 
   var loginAccount = (

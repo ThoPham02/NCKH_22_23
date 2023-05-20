@@ -19,3 +19,6 @@ export const statusSelector = (state) => state.topic.status
 
 //topic detail
 export const topicDetailSelector = (state) => state.topicDetail
+
+//lecture topic
+export const currentEventSelector = (state) => state.lectureTopic.currentEvent

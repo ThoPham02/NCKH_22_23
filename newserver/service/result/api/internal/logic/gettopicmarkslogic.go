@@ -34,7 +34,7 @@ func (l *GetTopicMarksLogic) GetTopicMarks(req *types.GetTopicMarksReq) (resp *t
 	var topicMarks []types.TopicMark
 	var topicMark types.TopicMark
 
-	topicMarksModel, err = l.svcCtx.TopicMark.FindTopicMarks(l.ctx, model.TopicMarkConditions{})
+	topicMarksModel, err = l.svcCtx.TopicMarkModel.FindTopicMarks(l.ctx, model.TopicMarkConditions{})
 	if err != nil {
 		if err == model.ErrNotFound {
 			return &types.GetTopicMarksRes{
