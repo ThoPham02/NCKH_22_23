@@ -22,7 +22,7 @@ const toast = {
   },
 };
 
-const Toast = () => {
+const Toast = ({action}) => {
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
   const [showWarning, setShowWarning] = useState(false);
@@ -34,8 +34,6 @@ const Toast = () => {
     setShowError(false);
     setShowWarning(false);
   };
-
-  console.log(result)
 
   useEffect(() => {
     if (result.code || result.code === 0) {
@@ -62,6 +60,7 @@ const Toast = () => {
         title={toast[0].title}
         message={toast[0].message}
         className="toasts"
+        action={action}
       />
       <Error
         show={showError}

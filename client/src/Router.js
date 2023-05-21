@@ -1,9 +1,9 @@
+import { AdminLayout, LoginLayout } from "./components/Layout";
 import { PublicHome, PublicLogin, PublicTopic, PublicResult, PublicContact } from "./pages/common";
 import { StudentMyTopic, StudentResult, StudentTopic } from "./pages/student";
 import { LectureMyTopic, LectureResult, LectureTopic } from "./pages/lecture";
-import { FacultyResult, FacultySubcommitte, FacultyTopic } from "./pages/faculty";
-import { AdminCongress, AdminNotification, AdminResult, AdminSubcommittee, AdminTopic } from "./pages/admin";
-import { AdminLayout, LoginLayout } from "./components/Layout";
+import { FacultyDashBoard, FacultyEvent, FacultyReport, FacultyResult, FacultyTopic } from "./pages/faculty";
+import { AdminDashBoard, AdminEvent, AdminReport, AdminResult, AdminTopic } from "./pages/admin";
 
 const publicRoutes = [
   { path: "/", component: PublicHome },
@@ -29,18 +29,18 @@ const privateRoutes = [
   { path: "/report", component: LectureResult, role: 2},
 
   // faculty routes
-  { path: "/admin-home", component: FacultyTopic, role: 4, Layout: AdminLayout},
+  { path: "/admin-home", component: FacultyDashBoard, role: 4, Layout: AdminLayout},
   { path: "/admin-topic", component: FacultyTopic, role: 4, Layout: AdminLayout},
-  { path: "/admin-event", component: StudentTopic, role: 4, Layout: AdminLayout},
-  { path: "/admin-stage", component: FacultyResult, role: 4, Layout: AdminLayout},
-  { path: "/admin-report", component: FacultySubcommitte, role: 4, Layout: AdminLayout},
+  { path: "/admin-result", component: FacultyResult, role: 4, Layout: AdminLayout},
+  { path: "/admin-event", component: FacultyEvent, role: 4, Layout: AdminLayout},
+  { path: "/admin-report", component: FacultyReport, role: 4, Layout: AdminLayout},
 
   // admin routes
-  { path: "/admin-home", component: FacultyTopic, role: 5, Layout: AdminLayout},
-  { path: "/admin-topic", component: FacultyTopic, role: 5, Layout: AdminLayout},
-  { path: "/admin-event", component: StudentTopic, role: 5, Layout: AdminLayout},
-  { path: "/admin-stage", component: FacultyResult, role: 5, Layout: AdminLayout},
-  { path: "/admin-report", component: FacultySubcommitte, role: 5, Layout: AdminLayout},
+  { path: "/admin-home", component: AdminDashBoard, role: 5, Layout: AdminLayout},
+  { path: "/admin-topic", component: AdminTopic, role: 5, Layout: AdminLayout},
+  { path: "/admin-result", component: AdminResult, role: 5, Layout: AdminLayout},
+  { path: "/admin-event", component: AdminEvent, role: 5, Layout: AdminLayout},
+  { path: "/admin-report", component: AdminReport, role: 5, Layout: AdminLayout},
 ];
 
 export {

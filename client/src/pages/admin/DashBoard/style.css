@@ -1,0 +1,32 @@
+.dash_board_items {
+    display: flex;
+    margin: 36px 0;
+}
+
+.dash_board_item {
+    width: 200px;
+    height: auto;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.dash_board_item svg {
+    font-size: 70px;
+    color: #00ace9;
+    margin-bottom: 12px;
+}
+
+.dash_board_item_content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.counter {
+    color: #fa1212;
+}

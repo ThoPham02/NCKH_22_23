@@ -1,7 +1,6 @@
 import { MdOutlineSpaceDashboard, MdTopic } from "react-icons/md";
 import { BiUserCircle, BiCalendarEvent } from "react-icons/bi";
 import { TbReport } from "react-icons/tb";
-import { VscLayersActive } from "react-icons/vsc";
 import {AiOutlineFileDone} from "react-icons/ai"
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -51,22 +50,6 @@ const Admin = ({ children }) => {
               </Link>
             </li>
             <li className="admin_nav_item">
-              <Link to={"/admin-topic"}>
-                <span className="nav_icon">
-                  <MdTopic />
-                </span>
-                <span className="nav_text">Đề tài</span>
-              </Link>
-            </li>
-            <li className="admin_nav_item">
-              <Link to={"/admin-result"}>
-                <span className="nav_icon">
-                  <AiOutlineFileDone />
-                </span>
-                <span className="nav_text">Kết quả</span>
-              </Link>
-            </li>
-            <li className="admin_nav_item">
               <Link to={"/admin-event"}>
                 <span className="nav_icon">
                   <BiCalendarEvent />
@@ -75,11 +58,11 @@ const Admin = ({ children }) => {
               </Link>
             </li>
             <li className="admin_nav_item">
-              <Link to={"/admin-stage"}>
+              <Link to={"/admin-topic"}>
                 <span className="nav_icon">
-                  <VscLayersActive />
+                  <MdTopic />
                 </span>
-                <span className="nav_text">Hoạt động</span>
+                <span className="nav_text">Đề tài</span>
               </Link>
             </li>
             <li className="admin_nav_item">
@@ -88,6 +71,14 @@ const Admin = ({ children }) => {
                   <TbReport />
                 </span>
                 <span className="nav_text">Nghiệm thu</span>
+              </Link>
+            </li>
+            <li className="admin_nav_item">
+              <Link to={"/admin-result"}>
+                <span className="nav_icon">
+                  <AiOutlineFileDone />
+                </span>
+                <span className="nav_text">Kết quả</span>
               </Link>
             </li>
           </ul>
