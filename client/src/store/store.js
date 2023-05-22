@@ -5,6 +5,7 @@ import { FacultyReducer } from "../components/Shares/Search/Faculty/FacultySlice
 import { TopicReducer } from "../pages/common/Topic/TopicSlice";
 import { TopicDetailReducer } from "../components/Shares/Action/Detail/TopicDetailSlice";
 import { LectureTopicReducer } from "../pages/lecture/Topic/LectureSlice";
+import { StageReducer } from "../pages/admin/Event/StageSlice";
 
 const store = configureStore({
   reducer: {
@@ -15,7 +16,9 @@ const store = configureStore({
 
     topic: TopicReducer,
     topicDetail: TopicDetailReducer,
-    lectureTopic: LectureTopicReducer
+    lectureTopic: LectureTopicReducer,
+
+    stage: StageReducer
   },
 });
 

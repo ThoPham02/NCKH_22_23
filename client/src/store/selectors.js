@@ -23,3 +23,6 @@ export const topicDetailSelector = (state) => state.topicDetail
 //lecture topic
 export const currentEventSelector = (state) => state.lectureTopic.currentEvent
 export const myTopicSelector = state => state.lectureTopic.topic
+
+//stage 
+export const stageSelector = (state) => state.stage

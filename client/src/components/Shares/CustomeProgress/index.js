@@ -1,10 +1,13 @@
 import ProgressBar from "react-bootstrap/ProgressBar";
+import { useSelector } from "react-redux";
+import { stageSelector } from "../../../store/selectors";
 
 import "./style.css";
-import data from "./data";
 
 const CustomeProgress = ({ currentStage, setCurrentStage }) => {
   let now = 0;
+
+  const data = useSelector(stageSelector)
 
   return (
     <div className="custom_progress">
