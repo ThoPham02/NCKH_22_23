@@ -26,7 +26,7 @@ export const userNav = [
     },
     {
       path: "/report",
-      name: "Báo cáo",
+      name: "Nghiệm thu",
     },
   ],
   // user lecture
@@ -45,7 +45,7 @@ export const userNav = [
     },
     {
       path: "/report",
-      name: "Báo cáo",
+      name: "Nghiệm thu",
     },
   ],
   // user department
@@ -66,7 +66,7 @@ export const userNav = [
     },
     {
       path: "/report",
-      name: "Báo cáo",
+      name: "Nghiệm thu",
     },
   ],
   // user admin
@@ -85,7 +85,7 @@ export const userNav = [
     },
     {
       path: "/report",
-      name: "Báo cáo",
+      name: "Nghiệm thu",
     },
   ],
 ];

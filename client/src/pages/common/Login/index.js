@@ -26,12 +26,14 @@ const Login = () => {
     const user = useSelector(loginSelector)
   
     const navige = useNavigate();
-    const isAuthenticated = useSelector(userSelector).role !== 0;
+    const role = useSelector(userSelector).role;
     useEffect(() => {
-      if (isAuthenticated) {
-        navige('/')
+      if (role === 4 || role === 5) {
+        navige('/admin-home')
+      } else if (role !== 0){
+        navige("/")
       }
-    }, [isAuthenticated, navige])
+    }, [role, navige])
 
     return (
         <div className="loginContainer">

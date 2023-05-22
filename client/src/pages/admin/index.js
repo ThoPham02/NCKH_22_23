@@ -1,11 +1,11 @@
-import Congress from "./Congress";
-import Notification from "./Notification";
-import Result from "./Result";
-import Subcommittee from "./Subcommittee";
 import Topic from "./Topic";
+import Result from "./Result";
+import Report from "./Report";
+import Event from "./Event";
+import DashBoard from "./DashBoard";
 
-export const AdminCongress = Congress;
-export const AdminNotification = Notification;
-export const AdminResult = Result;
-export const AdminSubcommittee = Subcommittee;
-export const AdminTopic = Topic;
+export const AdminTopic = Topic
+export const AdminResult = Result
+export const AdminReport=Report
+export const AdminEvent=Event
+export const AdminDashBoard = DashBoard

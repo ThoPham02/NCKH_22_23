@@ -1,9 +1,12 @@
-import Topic from "./Topic"
-import TopicRegis from "./TopicRegis"
-import Result from "./Result"
-import Subcommittee from "./Subcommittee"
 
-export const FacultyTopic = Topic;
-export const FacultyTopicRegis = TopicRegis;
-export const FacultyResult = Result;
-export const FacultySubcommitte = Subcommittee;
+import Topic from "./Topic";
+import Result from "./Result";
+import Report from "./Report";
+import Event from "./Event";
+import DashBoard from "./DashBoard";
+
+export const FacultyTopic = Topic
+export const FacultyResult = Result
+export const FacultyReport=Report
+export const FacultyEvent=Event
+export const FacultyDashBoard = DashBoard

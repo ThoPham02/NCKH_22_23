@@ -4,6 +4,8 @@ import { DepartmentReducer } from "../components/Shares/Search/Department/Depart
 import { FacultyReducer } from "../components/Shares/Search/Faculty/FacultySlice";
 import { TopicReducer } from "../pages/common/Topic/TopicSlice";
 import { TopicDetailReducer } from "../components/Shares/Action/Detail/TopicDetailSlice";
+import { LectureTopicReducer } from "../pages/lecture/Topic/LectureSlice";
+import { StageReducer } from "../pages/admin/Event/StageSlice";
 
 const store = configureStore({
   reducer: {
@@ -11,8 +13,12 @@ const store = configureStore({
 
     department: DepartmentReducer,
     faculty: FacultyReducer,
+
     topic: TopicReducer,
-    topicDetail: TopicDetailReducer
+    topicDetail: TopicDetailReducer,
+    lectureTopic: LectureTopicReducer,
+
+    stage: StageReducer
   },
 });
 

@@ -31,7 +31,7 @@ func (l *CreateTopicMarkLogic) CreateTopicMark(req *types.CreateTopicMarkReq) (r
 	// todo: add your logic here and delete this line
 	l.Logger.Info("CreateTopicMark", req)
 
-	_, err = l.svcCtx.TopicMark.Insert(l.ctx, &model.TopicMarkTbl{
+	_, err = l.svcCtx.TopicMarkModel.Insert(l.ctx, &model.TopicMarkTbl{
 		Id:        sync.RandomID(),
 		TopicId:   req.TopicID,
 		LectureId: req.LectureID,

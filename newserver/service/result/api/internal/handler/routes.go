@@ -32,6 +32,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/api/topic-mark",
 				Handler: CreateTopicMarkHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/result",
+				Handler: GetResultHandler(serverCtx),
+			},
 		},
 	)
 }

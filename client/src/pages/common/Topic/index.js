@@ -92,6 +92,7 @@ const Topic = () => {
             <SearchDepartment
               departmentRef={departmentRef}
               faculty={faculty}
+              defaultValue={"Tất cả bộ môn"}
             ></SearchDepartment>
             <SearchStatus statusRef={statusRef}></SearchStatus>
             <SearchDateFrom dateFromRef={dateFromRef}></SearchDateFrom>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {  useState } from "react";
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { useDispatch, useSelector } from "react-redux";
@@ -19,6 +19,7 @@ import {
 } from "../../../../pages/common/Topic/TopicSlice";
 import Confirm from "../../Confirm";
 import Toast from "../../Toast";
+import { TopicAction } from "../../../../pages/common/Topic/TopicSlice";
 
 const Detail = ({ name, topic }) => {
   const dispatch = useDispatch();
@@ -26,16 +27,18 @@ const Detail = ({ name, topic }) => {
 
   const [show, setShow] = useState(false);
   const [confirmShow, setConfirmShow] = useState(false);
+  const [action, setAction] = useState("");
 
   const user = useSelector(userSelector);
   const data = useSelector(topicDetailSelector);
   const status = useSelector(statusSelector);
   const topicDetail = data.topicDetail;
-  let content = <p style={{fontWeight: "bold"}}>Xác nhận hủy đăng ký đề tài {topic.name}</p>
+  let content = <p style={{fontWeight: "bold"}}>{topic.name}</p>
 
   const handleClose = () => setShow(false);
   const handleShow = () => {
     setShow(true);
+    dispatch(TopicAction.setResult())
     dispatch(fetchTopicDetail(topic.id));
   };
   const handleRegisButton = () => {
@@ -43,7 +46,8 @@ const Detail = ({ name, topic }) => {
       navige("/login");
     }
 
-    content = <p style={{fontWeight: "bold"}}>Xác nhận hủy đăng ký đề tài {topic.name}</p>
+    content = <p style={{fontWeight: "bold"}}>Xác nhận đăng ký đề tài {topic.name}</p>
+    setAction("regis")
     setConfirmShow(true);
   };
   const handleCancelButton = () => {
@@ -51,16 +55,18 @@ const Detail = ({ name, topic }) => {
       navige("/login");
     }
 
-    content = <p style={{fontWeight: "bold"}}>Xác nhận đăng ký đề tài {topic.name}</p>
+    content = <p style={{fontWeight: "bold"}}>Xác nhận hủy đăng ký đề tài {topic.name}</p>
+    setAction("cancel")
     setConfirmShow(true);
   };
-  const handleConfirmButton = (e) => {
-    if (e.target.value === "cancel") {
-      dispatch(cancelTopic({ studentID: user.id }));
-    } else {
+  const handleConfirmButton = () => {
+    if (action === "regis") {
       dispatch(registationTopic({ studentID: user.id, topicID: topic.id }));
+    } else {
+      dispatch(cancelTopic({ studentID: user.id }));
     }
 
+    dispatch(fetchTopicDetail(topic.id));
     setConfirmShow(false);
   };
 
@@ -94,7 +100,7 @@ const Detail = ({ name, topic }) => {
             content={content}
             variant="primary"
           />
-          <Toast/>
+          <Toast action={action}/>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

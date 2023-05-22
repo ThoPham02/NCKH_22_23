@@ -11,6 +11,7 @@ import (
 var _ TopicMarkTblModel = (*customTopicMarkTblModel)(nil)
 
 type TopicMarkConditions struct {
+	TopicIDs []int64 `json:"topic_ids"`
 }
 
 type (
@@ -36,9 +37,17 @@ func NewTopicMarkTblModel(conn sqlx.SqlConn) TopicMarkTblModel {
 func (m *customTopicMarkTblModel) FindTopicMarks(ctx context.Context, conditions TopicMarkConditions) ([]TopicMarkTbl, error) {
 	query := fmt.Sprintf("select %s from %s where", topicMarkTblRows, m.table)
 	var resp []TopicMarkTbl
-
+	var values = []interface{}{}
+	if len(conditions.TopicIDs) > 0 {
+		query += " topic_id in ("
+		for _, id := range conditions.TopicIDs {
+			query += "?, "
+			values = append(values, id)
+		}
+		query = query[0:len(query)-1] + ") and "
+	}
 	query = query[0 : len(query)-5]
-	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, values...)
 	switch err {
 	case nil:
 		return resp, nil

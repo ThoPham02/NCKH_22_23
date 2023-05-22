@@ -1,8 +1,20 @@
+import { useSelector } from "react-redux";
 import { convertTimestampToDateString } from "../../../../../utils/time";
 import Loading from "../../../Loading";
 import { topicStatus } from "../../../../../const/const";
+import { userSelector } from "../../../../../store/selectors";
+import { Button } from "react-bootstrap";
 
 const TopicDetail = (props) => {
+  const user = useSelector(userSelector);
+  const isAction =
+    user.role === 1 &&
+    props.topicDetail.listStudent &&
+    props.topicDetail.listStudent.length <= 5;
+  const isCancel = props.topicDetail.listStudent &&  props.topicDetail.listStudent.find(
+    (item) => item.id === user.id
+  );
+
   return (
     <div className="topic-info">
       <div className="topic-info-item row">
@@ -62,7 +74,20 @@ const TopicDetail = (props) => {
               );
             })
           ) : (
-            <span style={{fontWeight: "bold"}}>Chưa có ai đăng ký đề tài này</span>
+            <span></span>
+          )}
+          {isAction ? (
+            isCancel ? (
+              <Button className="student" onClick={props.handleCancelButton}>
+                Hủy đăng ký
+              </Button>
+            ) : (
+              <Button className="student" onClick={props.handleRegisButton}>
+                Đăng ký
+              </Button>
+            )
+          ) : (
+            <></>
           )}
           {props.status === "loading" ? <Loading /> : <></>}
         </div>

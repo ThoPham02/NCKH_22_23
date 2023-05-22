@@ -1,0 +1,29 @@
+.custom_progress {
+  position: relative;
+  margin: 24px 2%;
+}
+
+.progress_item {
+  position: absolute;
+  top: 0;
+  z-index: 100;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.drop-shape {
+  width: 16px;
+  height: 16px;
+  background-color: red;
+  position: relative;
+  overflow: hidden;
+  border-radius: 50%;
+}
+
+.progress_name {
+    width: 90px;
+    text-align: center;
+}
