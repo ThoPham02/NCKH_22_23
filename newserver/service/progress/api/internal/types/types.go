@@ -21,34 +21,35 @@ type Library struct {
 
 type TopicReport struct {
 	ID          int64  `json:"id"`
-	TopicID     int64  `json:"topic_id"`
+	TopicID     int64  `json:"topicID"`
 	Description string `json:"description"`
-	ReportUrl   string `json:"result_url"`
-	StageID     int64  `json:"stage_id"`
+	ReportUrl   string `json:"resultUrl"`
+	StageID     int64  `json:"stageID"`
 }
 
 type Event struct {
 	ID         int64  `json:"id"`
 	Name       string `json:"name"`
-	SchoolYear string `json:"school_year"`
-	IsCurrent  int64  `json:"is_current"`
+	SchoolYear string `json:"schoolYear"`
+	IsCurrent  int64  `json:"isCurrent"`
 }
 
 type Stage struct {
 	ID          int64  `json:"id"`
 	Name        string `json:"name"`
 	Description string `json:"description"`
+	FacultyID   int64  `json:"facultyID"`
 	Url         string `json:"url"`
-	EventID     int64  `json:"event_id"`
-	TimeStart   int64  `json:"time_start"`
-	TimeEnd     int64  `json:"time_end"`
+	EventID     int64  `json:"eventID"`
+	TimeStart   int64  `json:"timeStart"`
+	TimeEnd     int64  `json:"timeEnd"`
 }
 
 type CreateTopicReportReq struct {
-	TopicID     int64  `json:"topic_id"`
+	TopicID     int64  `json:"topicID"`
 	Description string `json:"description"`
-	ReportUrl   string `json:"report_url"`
-	StageID     int64  `json:"stage_id"`
+	ReportUrl   string `json:"reportUrl"`
+	StageID     int64  `json:"stageID"`
 }
 
 type CreateTopicReportRes struct {
@@ -56,32 +57,27 @@ type CreateTopicReportRes struct {
 }
 
 type GetTopicReportsReq struct {
+	StageID int64 `form:"stageID"`
+	EventID int64 `form:"eventID"`
+	TopicID int64 `form:"topicID"`
+	Limit   int64 `form:"limit"`
+	Offset  int64 `form:"offset"`
 }
 
 type GetTopicReportsRes struct {
 	Result       Result        `json:"result"`
 	Total        int64         `json:"total"`
-	TopicReports []TopicReport `json:"topic_reports"`
-}
-
-type GetTopicReportsByStageReq struct {
-	StageID string `path:"stage_id"`
-}
-
-type GetTopicReportsByStageRes struct {
-	Result       Result        `json:"result"`
-	Total        int64         `json:"total"`
-	TopicReports []TopicReport `json:"topic_reports"`
+	TopicReports []TopicReport `json:"topicReports"`
 }
 
 type CreateEventReq struct {
 	Name       string `json:"name"`
-	SchoolYear string `json:"school_year"`
+	SchoolYear string `json:"schoolYear"`
 }
 
 type CreateEventRes struct {
 	Result       Result `json:"result"`
-	CurrentEvent Event  `json:"current_event"`
+	CurrentEvent Event  `json:"currentEvent"`
 }
 
 type GetEventsReq struct {
@@ -94,7 +90,7 @@ type GetEventsRes struct {
 }
 
 type UpdateCurrentEventReq struct {
-	EventID int64 `path:"event_id"`
+	EventID int64 `path:"eventID"`
 }
 
 type UpdateCurrentEventRes struct {
@@ -105,9 +101,10 @@ type CreateStageReq struct {
 	Name        string `json:"name"`
 	Description string `json:"description"`
 	Url         string `json:"url"`
-	EventID     int64  `json:"event_id"`
-	TimeStart   int64  `json:"time_start"`
-	TimeEnd     int64  `json:"time_end"`
+	EventID     int64  `json:"eventID"`
+	TimeStart   int64  `json:"timeStart"`
+	TimeEnd     int64  `json:"timeEnd"`
+	FacultyID   int64  `json:"facultyID"`
 }
 
 type CreateStageRes struct {
@@ -115,6 +112,8 @@ type CreateStageRes struct {
 }
 
 type GetStagesReq struct {
+	EventID   int64 `form:"eventID"`
+	FacultyID int64 `form:"facultyID"`
 }
 
 type GetStagesRes struct {

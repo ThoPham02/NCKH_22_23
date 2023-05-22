@@ -22,8 +22,9 @@ const DepartmentSlice = createSlice({
   },
 });
 
-export const fetchDepartment = createAsyncThunk("getDepartment", async () => {
-  const response = await client.get("/api/department");
+export const fetchDepartment = createAsyncThunk("getDepartment", async (faculty) => {
+  console.log(faculty)
+  const response = await client.get(`/api/departments?facultyID=${0}`);
 
   return response.data;
 });

@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./navbar.css";
-import { LoginActions } from "../../../../pages/common/Login/loginSlice";
+import { LoginActions } from "../../../../pages/common/Login/LoginSlice";
 import { userSelector } from "../../../../store/selectors";
 import { userNav } from "./data";
 
@@ -23,10 +23,10 @@ const NavBar = () => {
     </div>
   );
 
-  if (user.typeAccount !== 0) {
+  if (user.role !== 0) {
     loginAccount = (
       <div>
-        <span>Xin Chào, {user.name}</span>
+        <span className="user-name">Xin Chào, {user.name}</span>
         <ul className="account__nav">
           <li>
             <Link to="/user-info">Thông tin</Link>
@@ -39,22 +39,22 @@ const NavBar = () => {
     );
   }
   return (
-    <ul className="nav">
-      <li>
-        <Link to="/home">Trang chủ</Link>
-      </li>
-      {userNav[user.typeAccount].map((item, index) => (
-        <li key={index}>
-          <Link to={item.path}>{item.name}</Link>
+    <div className="navbar">
+      <ul className="navbar-content container">
+        <li>
+          <Link to="/home">Trang chủ</Link>
         </li>
-      ))}
-      <li>
-        <Link to="/contact">Liên hệ</Link>
-      </li>
-      <li className="nav__login">
-        {loginAccount}
-      </li>
-    </ul>
+        {userNav[user.role].map((item, index) => (
+          <li key={index}>
+            <Link to={item.path}>{item.name}</Link>
+          </li>
+        ))}
+        <li>
+          <Link to="/contact">Liên hệ</Link>
+        </li>
+        <li className="nav__login">{loginAccount}</li>
+      </ul>
+    </div>
   );
 };
 

@@ -7,19 +7,23 @@ type Result struct {
 }
 
 type Subcommittee struct {
+	ID        int64  `json:"id"`
 	Name      string `json:"name"`
-	FacultyID string `json:"faculty_id"`
+	FacultyID int64  `json:"facultyID"`
+	EventID   int64  `json:"eventID"`
 }
 
 type Group struct {
-	SubcommitteeId int64 `json:"subcommittee_id"`
-	LectureId      int64 `json:"lecture_id"`
+	ID             int64 `json:"id"`
+	SubcommitteeId int64 `json:"subcommitteeID"`
+	LectureId      int64 `json:"lectureID"`
 	Role           int64 `json:"role"`
 }
 
 type TopicMark struct {
-	TopicID   int64   `json:"topic_id"`
-	LectureID int64   `json:"lecture_id"`
+	ID        int64   `json:"id"`
+	TopicID   int64   `json:"topicID"`
+	LectureID int64   `json:"lectureID"`
 	Point     float64 `json:"point"`
 	Comment   string  `json:"comment"`
 	Url       string  `json:"url"`
@@ -35,13 +39,15 @@ type GetSubcommitteesRes struct {
 }
 
 type LectureGroup struct {
-	LectureID int   `json:"lecture_id"`
+	LectureID int64 `json:"lectureID"`
 	Role      int64 `json:"role"`
 }
 
 type CreateSubcommitteeReq struct {
 	Name         string         `json:"name"`
-	ListLectures []LectureGroup `json:"list_lectures"`
+	ListLectures []LectureGroup `json:"listLectures"`
+	FacultyID    int64          `json:"facultyID"`
+	EventID      int64          `json:"eventID"`
 }
 
 type CreateSubcommitteeRes struct {
@@ -54,12 +60,12 @@ type GetTopicMarksReq struct {
 type GetTopicMarksRes struct {
 	Result     Result      `json:"result"`
 	Total      int64       `json:"total"`
-	TopicMarks []TopicMark `json:"topic_marks"`
+	TopicMarks []TopicMark `json:"topicMarks"`
 }
 
 type CreateTopicMarkReq struct {
-	TopicID   int64   `json:"topic_id"`
-	LectureID int64   `json:"lecture_id"`
+	TopicID   int64   `json:"topicID"`
+	LectureID int64   `json:"lectureID"`
 	Point     float64 `json:"point"`
 	Comment   string  `json:"comment"`
 	Url       string  `json:"url"`

@@ -1,0 +1,2 @@
+ALTER TABLE "stage_tbl"
+ADD COLUMN IF NOT EXISTS "faculty_id" BIGINT NOT NULL;

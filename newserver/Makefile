@@ -17,6 +17,7 @@ USER=user_tbl
 DEPARTMENT=department_tbl
 FACULTY=faculty_tbl
 TOPIC=topic_tbl
+STUDENT_GROUP=student_group_tbl
 
 #table progress api
 NOTIFICATION=notification_tbl
@@ -76,7 +77,7 @@ gen-services: gen-account-service gen-result-service gen-progress-service gen-to
 
 # migrate 
 migrate:
-	migrate create -ext sql -dir ${MIGRATION_DIR} -seq init_schema
+	migrate create -ext sql -dir ${MIGRATION_DIR} -seq update_stage_column
 migrateup:
 	migrate -path ${MIGRATION_DIR} -database "${DATASOURCE}" -verbose up
 migratedown:
@@ -102,6 +103,7 @@ gen-topic-model:
 	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC}" -dir="$(TOPIC_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${DEPARTMENT}" -dir="$(TOPIC_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${FACULTY}" -dir="$(TOPIC_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${STUDENT_GROUP}" -dir="$(TOPIC_MODEL_DIR)"
 
 gen-models: gen-account-model gen-result-model gen-progress-model gen-topic-model
 

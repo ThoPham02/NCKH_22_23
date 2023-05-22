@@ -1,6 +1,7 @@
 Name: server
-Host: 127.0.0.1
-Port: 8888
+Host: 0.0.0.0
+Port: 8080
+Timeout: 6000
 Auth:
   AccessSecret: xxxxxxxxxxxxxxxxxxxxxxxxxxxxx
   AccessExpire: 604800

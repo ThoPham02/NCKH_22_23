@@ -24,7 +24,9 @@ func main() {
 	var c config.Config
 	conf.MustLoad(*configFile, &c)
 
-	server := rest.MustNewServer(c.RestConf)
+	server := rest.MustNewServer(c.RestConf, rest.WithCors("*"))
+
+	logx.DisableStat()
 	defer server.Stop()
 
 	accountService := accountApi.NewAccountService(server)
@@ -41,5 +43,4 @@ func main() {
 
 	fmt.Printf("Starting server at %s:%d...\n", c.Host, c.Port)
 	server.Start()
-	logx.DisableStat()
 }
