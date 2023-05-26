@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/ThoPham02/research_management/common"
 	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
@@ -163,13 +164,13 @@ func (m *customTopicTblModel) UpdateGroup(ctx context.Context, topicID int64, gr
 }
 func (m *customTopicTblModel) UpdateSubcommittee(ctx context.Context, topicID []int64, subcommitteeID int64) error {
 	var input string = ""
-	var values = []interface{}{subcommitteeID}
+	var values = []interface{}{subcommitteeID, common.TOPIC_REPORT_SUBCOMMITTEE}
 	for index, id := range topicID {
-		input += fmt.Sprintf("$%d, ", index+2)
+		input += fmt.Sprintf("$%d, ", index+3)
 		values = append(values, id)
 	}
 	input = input[:len(input)-2]
-	query := fmt.Sprintf("update %s set %s where id in (%s)", m.table, "subcommittee_id = $1", input)
+	query := fmt.Sprintf("update %s set %s where id in (%s)", m.table, "subcommittee_id = $1, status = $2", input)
 	_, err := m.conn.ExecCtx(ctx, query, values...)
 	return err
 }

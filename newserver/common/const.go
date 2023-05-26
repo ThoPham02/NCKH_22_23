@@ -9,6 +9,12 @@ const (
 
 	INVALID_INPUT_ERR_CODE = 2
 	INVALID_INPUT_ERR_MESS = "Invalid Input Error"
+
+	STATUS_ERR_CODE = 3
+	STATUS_ERR_MESS = "Invalid Status Error"
+
+	STAGE_NOT_ALLOWED_ERR_CODE = 4
+	STAGE_NOT_ALLOWED_ERR_MESS = "Invalid Stage"
 )
 
 // User error code 100-199

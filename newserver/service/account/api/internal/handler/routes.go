@@ -27,6 +27,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/find",
 				Handler: GetUsersHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/user/reset",
+				Handler: ResetPasswordHandler(serverCtx),
+			},
 		},
 	)
 }

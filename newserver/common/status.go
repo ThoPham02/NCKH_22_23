@@ -2,13 +2,17 @@ package common
 
 // topic status
 const (
-	TOPIC_WAIT_CONFIRM  = 1
-	TOPIC_CONFIRMED     = 2
-	TOPIC_REFUSED       = 3
-	TOPIC_DOING         = 4
-	TOPIC_DONE          = 5
-	TOPIC_OUT_DATE      = 6
-	TOPIC_DONE_OUT_DATE = 7
+	TOPIC_CANCEL              = 1
+	TOPIC_SUGGESTION          = 2
+	TOPIC_REGISTATION         = 4
+	TOPIC_WAIT_CONFIRM        = 8
+	TOPIC_DOING               = 16
+	TOPIC_REPORT_STAGE        = 32
+	TOPIC_REPORT_SUBCOMMITTEE = 64
+	TOPIC_REPORT_SCHOOL       = 128
+	TOPIC_DONE                = 256
+	TOPIC_DONE_OUT_DATE       = 512
+	TOPIC_NOT_DONE            = 1024
 )
 
 // user role
@@ -27,4 +31,10 @@ const (
 	DEGREE_DOCTOR              = 3
 	DEGREE_ASSOCIATE_PROFESSOR = 4
 	DEGREE_PROFESSOR           = 5
+)
+
+// LEVEL
+const (
+	LEVEL_SUBCOMMITTEE = 1
+	LEVEL_SCHOOL       = 2
 )

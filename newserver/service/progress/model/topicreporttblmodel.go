@@ -25,6 +25,7 @@ type (
 		topicReportTblModel
 		FindTopicReports(ctx context.Context, condition TopicReportConditions) ([]TopicReportTbl, error)
 		CountTopicReports(ctx context.Context, condition TopicReportConditions) (int64, error)
+		FindByTopicID(ctx context.Context, topicID int64) ([]TopicReportTbl, error)
 	}
 
 	customTopicReportTblModel struct {
@@ -98,5 +99,19 @@ func (m *customTopicReportTblModel) CountTopicReports(ctx context.Context, condi
 		return 0, ErrNotFound
 	default:
 		return 0, err
+	}
+}
+
+func (m *customTopicReportTblModel) FindByTopicID(ctx context.Context, topicID int64) ([]TopicReportTbl, error) {
+	var resp []TopicReportTbl
+	query := fmt.Sprintf("select %s from %s where topic_id = $1", topicReportTblRows, m.table)
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, topicID)
+	switch err {
+	case nil:
+		return resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
 	}
 }

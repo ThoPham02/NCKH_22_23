@@ -41,6 +41,8 @@ type (
 		Point     float64        `db:"point"`
 		Comment   sql.NullString `db:"comment"`
 		Url       sql.NullString `db:"url"`
+		Level     int64          `db:"level"`
+		CreatedAt int64          `db:"created_at"`
 	}
 )
 
@@ -72,14 +74,14 @@ func (m *defaultTopicMarkTblModel) FindOne(ctx context.Context, id int64) (*Topi
 }
 
 func (m *defaultTopicMarkTblModel) Insert(ctx context.Context, data *TopicMarkTbl) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6)", m.table, topicMarkTblRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.LectureId, data.Point, data.Comment, data.Url)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8)", m.table, topicMarkTblRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.LectureId, data.Point, data.Comment, data.Url, data.Level, data.CreatedAt)
 	return ret, err
 }
 
 func (m *defaultTopicMarkTblModel) Update(ctx context.Context, data *TopicMarkTbl) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, topicMarkTblRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.LectureId, data.Point, data.Comment, data.Url)
+	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.LectureId, data.Point, data.Comment, data.Url, data.Level, data.CreatedAt)
 	return err
 }
 

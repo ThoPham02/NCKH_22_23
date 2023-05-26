@@ -56,8 +56,8 @@ func (l *GetSubcommitteeLogic) GetSubcommittee(req *types.GetSubcommitteesReq) (
 	for _, subcommitteeModel = range subcommitteesModel {
 		subcommittee = types.Subcommittee{
 			ID:        subcommitteeModel.Id,
-			Name:      subcommitteeModel.Name.String,
-			FacultyID: subcommitteeModel.FacultId,
+			Name:      subcommitteeModel.Name,
+			FacultyID: subcommitteeModel.FacultId.Int64,
 			EventID:   subcommitteeModel.EventId,
 		}
 		subcommittees = append(subcommittees, subcommittee)
