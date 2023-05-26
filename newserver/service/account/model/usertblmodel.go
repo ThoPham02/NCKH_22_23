@@ -23,6 +23,7 @@ type (
 		userTblModel
 		FindOneByName(ctx context.Context, name string) (*UserTbl, error)
 		FindUserByCondition(ctx context.Context, condition UserCondition) ([]UserTbl, error)
+		ResetPassword(ctx context.Context, hashPassword string) error
 	}
 
 	customUserTblModel struct {
@@ -63,4 +64,10 @@ func (m *customUserTblModel) FindUserByCondition(ctx context.Context, condition 
 	default:
 		return nil, err
 	}
+}
+
+func (m *defaultUserTblModel) ResetPassword(ctx context.Context, hashPassword string) error {
+	query := fmt.Sprintf("update %s set hash_password = $1 ", m.table)
+	_, err := m.conn.ExecCtx(ctx, query, hashPassword)
+	return err
 }

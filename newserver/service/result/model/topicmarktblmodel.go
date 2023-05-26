@@ -20,6 +20,7 @@ type (
 	TopicMarkTblModel interface {
 		topicMarkTblModel
 		FindTopicMarks(ctx context.Context, conditions TopicMarkConditions) ([]TopicMarkTbl, error)
+		FindByTopicID(ctx context.Context, topicID int64) ([]TopicMarkTbl, error)
 	}
 
 	customTopicMarkTblModel struct {
@@ -48,6 +49,20 @@ func (m *customTopicMarkTblModel) FindTopicMarks(ctx context.Context, conditions
 	}
 	query = query[0 : len(query)-5]
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, values...)
+	switch err {
+	case nil:
+		return resp, nil
+	case sqlc.ErrNotFound:
+		return nil, ErrNotFound
+	default:
+		return nil, err
+	}
+}
+
+func (m *customTopicMarkTblModel) FindByTopicID(ctx context.Context, topicID int64) ([]TopicMarkTbl, error) {
+	var resp []TopicMarkTbl
+	query := fmt.Sprintf("select %s from %s where topic_id = $1", topicMarkTblRows, m.table)
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, topicID)
 	switch err {
 	case nil:
 		return resp, nil

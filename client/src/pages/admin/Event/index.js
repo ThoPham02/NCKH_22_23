@@ -6,7 +6,8 @@ import SubCard from "../../../components/Shares/Card/SubCard";
 import { Accordion, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { StageAction } from "./StageSlice";
-import { stageSelector } from "../../../store/selectors";
+import { stageSelector, userSelector } from "../../../store/selectors";
+import { useNavigate } from "react-router-dom";
 
 const Event = () => {
   // eslint-disable-next-line
@@ -14,12 +15,18 @@ const Event = () => {
   const [stageDetail, setStageDetail] = useState(currentStage);
   const [update, setUpdate] = useState(false);
   const dispatch = useDispatch();
+  const navige = useNavigate()
 
   const dateFromRef = useRef();
   const dateToRef = useRef();
   const textRef = useRef();
 
   let data2 = useSelector(stageSelector);
+  const user = useSelector(userSelector);
+  if (user.role !== 5) {
+    navige("/")
+  }
+
   const stage = data2.find((item) => item.id === stageDetail);
 
   const handleConfirmUpdate = () => {

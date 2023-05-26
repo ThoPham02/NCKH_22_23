@@ -66,6 +66,15 @@ type (
 	}
 )
 
+type (
+	ResetReq {
+	}
+
+	ResetRes {
+		Result Result `json:"result"`
+	}
+)
+
 service account-api {
 	
 	@handler LoginHandler
@@ -76,4 +85,7 @@ service account-api {
 	
 	@handler GetUsersHandler
 	get /user/find (GetUsersReq) returns(GetUsersRes)
+	
+	@handler ResetPasswordHandler
+	put /user/reset (ResetReq) returns(ResetRes)
 }

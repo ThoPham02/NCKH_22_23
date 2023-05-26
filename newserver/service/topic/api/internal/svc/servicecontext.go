@@ -3,7 +3,7 @@ package svc
 import (
 	userModel "github.com/ThoPham02/research_management/service/account/model"
 	progressModel "github.com/ThoPham02/research_management/service/progress/model"
-	subcommitteeModel "github.com/ThoPham02/research_management/service/result/model"
+	resultModel "github.com/ThoPham02/research_management/service/result/model"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/config"
 	"github.com/ThoPham02/research_management/service/topic/model"
 	_ "github.com/lib/pq"
@@ -18,7 +18,9 @@ type ServiceContext struct {
 	TopicModel        model.TopicTblModel
 	EventModel        progressModel.EventTblModel
 	UserModel         userModel.UserTblModel
-	SubcommitteeModel subcommitteeModel.SubcommitteeTblModel
+	SubcommitteeModel resultModel.SubcommitteeTblModel
+	TopicMarkModel    resultModel.TopicMarkTblModel
+	TopicReportModel  progressModel.TopicReportTblModel
 }
 
 func NewServiceContext(c config.Config) *ServiceContext {
@@ -32,6 +34,8 @@ func NewServiceContext(c config.Config) *ServiceContext {
 		StudentGroupModel: model.NewStudentGroupTblModel(conn),
 		EventModel:        progressModel.NewEventTblModel(conn),
 		UserModel:         userModel.NewUserTblModel(conn),
-		SubcommitteeModel: subcommitteeModel.NewSubcommitteeTblModel(conn),
+		SubcommitteeModel: resultModel.NewSubcommitteeTblModel(conn),
+		TopicMarkModel:    resultModel.NewTopicMarkTblModel(conn),
+		TopicReportModel:  progressModel.NewTopicReportTblModel(conn),
 	}
 }

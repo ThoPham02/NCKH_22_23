@@ -34,15 +34,18 @@ func (l *CreateSubcommitteeLogic) CreateSubcommittee(req *types.CreateSubcommitt
 
 	var groupModel model.GroupTbl
 	var groupsModel []model.GroupTbl
+	var level int64 = common.LEVEL_SUBCOMMITTEE
+
+	if req.FacultyID == 0 {
+		level = common.LEVEL_SCHOOL
+	}
 
 	_, err = l.svcCtx.SubcommitteeModel.Insert(l.ctx, &model.SubcommitteeTbl{
-		Id: subcommitteeID,
-		Name: sql.NullString{
-			Valid:  true,
-			String: req.Name,
-		},
-		FacultId: req.FacultyID,
+		Id:       subcommitteeID,
+		Name:     req.Name,
+		FacultId: sql.NullInt64{Valid: true, Int64: req.FacultyID},
 		EventId:  req.EventID,
+		Level:    level,
 	})
 	if err != nil {
 		l.Logger.Error(err)

@@ -54,6 +54,14 @@ func (l *UpdateTopicStudentGroupLogic) UpdateTopicStudentGroup(req *types.Update
 			},
 		}, nil
 	}
+	if topic.Status != common.TOPIC_REGISTATION {
+		return &types.UpdateTopicStudentGroupRes{
+			Result: types.Result{
+				Code:    common.STAGE_NOT_ALLOWED_ERR_CODE,
+				Message: common.STAGE_NOT_ALLOWED_ERR_MESS,
+			},
+		}, nil
+	}
 	valid, err := l.svcCtx.StudentGroupModel.CheckStudentValid(l.ctx, req.StudentID, currentEvent.Id)
 	if !valid || err != nil {
 		l.Logger.Error(err)

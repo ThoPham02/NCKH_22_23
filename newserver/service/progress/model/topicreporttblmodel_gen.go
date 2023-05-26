@@ -40,6 +40,8 @@ type (
 		StageId     int64          `db:"stage_id"`
 		Description sql.NullString `db:"description"`
 		ReportUrl   string         `db:"report_url"`
+		CreatedAt   int64          `db:"created_at"`
+		CreatedBy   int64          `db:"created_by"`
 	}
 )
 
@@ -71,14 +73,14 @@ func (m *defaultTopicReportTblModel) FindOne(ctx context.Context, id int64) (*To
 }
 
 func (m *defaultTopicReportTblModel) Insert(ctx context.Context, data *TopicReportTbl) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5)", m.table, topicReportTblRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.StageId, data.Description, data.ReportUrl)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7)", m.table, topicReportTblRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.StageId, data.Description, data.ReportUrl, data.CreatedAt, data.CreatedBy)
 	return ret, err
 }
 
 func (m *defaultTopicReportTblModel) Update(ctx context.Context, data *TopicReportTbl) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, topicReportTblRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.StageId, data.Description, data.ReportUrl)
+	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.TopicId, data.StageId, data.Description, data.ReportUrl, data.CreatedAt, data.CreatedBy)
 	return err
 }
 

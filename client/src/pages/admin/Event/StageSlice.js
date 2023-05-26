@@ -29,21 +29,29 @@ const StageSlice = createSlice({
     },
     {
       id: 4,
-      name: "Nghiệm thu cấp khoa",
-      dateFrom: "21/05/2022",
-      dateTo: "28/05/2022",
+      name: "Nghiệm thu tại bộ môn",
+      dateFrom: "21/05/2023",
+      dateTo: "28/05/2023",
       description:
         "Các bộ môn chủ quản tiến hành đánh giá, nghiệm thu đề tài nghiên cứu khoa học sinh viên(NCKH SV). Văn phòng khoa tập hợp các đề tài sau khi nghiệm thu và nộp về phòng Khoa học Công nghệ(KHCN) trước 17h00 ngày 28/05/2023.",
     },
     {
       id: 5,
+      name: "Nghiệm thu tại tiểu ban",
+      dateFrom: "",
+      dateTo: "",
+      description:
+      "Coming soon...",
+    },
+    {
+      id: 6,
       name: "Báo cáo cấp trường",
       dateFrom: "",
       dateTo: "",
       description: "Coming soon...",
     },
     {
-      id: 6,
+      id: 7,
       name: "Kết thúc",
       dateFrom: "",
       dateTo: "",

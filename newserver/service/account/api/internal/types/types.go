@@ -64,3 +64,10 @@ type GetUsersRes struct {
 	Total  int64  `json:"total"`
 	Users  []User `json:"users"`
 }
+
+type ResetReq struct {
+}
+
+type ResetRes struct {
+	Result Result `json:"result"`
+}

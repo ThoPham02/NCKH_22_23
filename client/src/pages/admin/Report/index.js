@@ -1,6 +1,6 @@
 import Table from "react-bootstrap/Table";
 import { useEffect, useState } from "react";
-import { Accordion } from "react-bootstrap";
+import { Accordion, Badge } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 
 import "./style.css";
@@ -9,7 +9,7 @@ import SubCard from "../../../components/Shares/Card/SubCard";
 import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import Action from "../../../components/Shares/Action";
-import { LIMIT, topicStatus } from "../../../const/const";
+import { LIMIT } from "../../../const/const";
 import Detail from "../../../components/Shares/Action/Detail";
 import { topicSelector } from "../../../store/selectors";
 import { fetchTopics } from "../../common/Topic/TopicSlice";
@@ -47,7 +47,15 @@ const Report = () => {
             Đại hội nghiên cứu khoa học lần thứ 36 HUMG
           </Accordion.Header>
           <Accordion.Body>
-            <SubCard title={"Danh sách các đề tài tham gia báo cáo cấp trường"}>
+          <SubCard title={"Danh sách các đề tài báo cáo cấp trường"}>
+              {total !== 0 ? (
+                <EmptyListNoti title={"Không có đề tài nào!"} />
+              ) : (
+                <div>
+                </div>
+              )}
+            </SubCard>
+            <SubCard title={"Danh sách các đề tài đã báo cáo tại các tiểu ban"}>
               {total === 0 ? (
                 <EmptyListNoti title={"Không có đề tài nào!"} />
               ) : (
@@ -56,16 +64,17 @@ const Report = () => {
                     <thead>
                       <tr>
                         <th>STT</th>
-                        <th style={{ width: "200px" }}>Giảng viên</th>
+                        <th style={{ width: "150px" }}>Giảng viên</th>
                         <th>Liên hệ</th>
                         <th>Đề tài</th>
-                        <th style={{ width: "150px" }}>Trạng thái</th>
+                        <th style={{ width: "100px" }}>Khoa</th>
+                        <th style={{ width: "100px" }}>Tiểu ban</th>
+                        <th style={{ width: "100px" }}>Kết quả 1</th>
                         <th>Thao tác</th>
                       </tr>
                     </thead>
                     <tbody>
                       {listTopic.map((item, index) => {
-                        let confirmStatus = "Duyệt";
                         return (
                           <tr key={index}>
                             <td>{(pagi - 1) * LIMIT + index + 1}</td>
@@ -81,13 +90,22 @@ const Report = () => {
                             </td>
                             <td>{item.name}</td>
                             <td style={{ textAlign: "center" }}>
-                              {topicStatus[item.status - 1]}
+                              {"Công nghệ thông tin"}
                             </td>
+                            <td style={{ textAlign: "center" }}>
+                              {"Tin học kinh tế"}
+                            </td>
+                            <td style={{ textAlign: "center" }}>
+                              <Badge bg="danger" style={{ width: "50px" }}>
+                                {Math.floor(Math.random() * 10) + 20 + "đ"}
+                              </Badge>
+                            </td>
+                           
                             <td>
                               <Action
                                 todo={[
                                   <Detail name={"Xem chi tiết"} topic={item} />,
-                                  <ConfirmStatus name={confirmStatus} />,
+                                  <ConfirmStatus name={"Duyệt"} />,
                                   <Cancel name={"Hủy"} />,
                                 ]}
                               />

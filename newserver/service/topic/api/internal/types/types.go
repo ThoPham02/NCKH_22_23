@@ -33,33 +33,59 @@ type StudentInfo struct {
 }
 
 type Topic struct {
-	ID           int64       `json:"id"`
-	Name         string      `json:"name"`
-	LectureInfo  LectureInfo `json:"lectureInfo"`
-	DepartmentID int64       `json:"departmentID"`
-	Status       int64       `json:"status"`
+	ID              int64       `json:"id"`
+	Name            string      `json:"name"`
+	LectureInfo     LectureInfo `json:"lectureInfo"`
+	DepartmentID    int64       `json:"departmentID"`
+	Status          int64       `json:"status"`
+	EventId         int64       `json:"eventId"`
+	SubcommitteeID  int64       `json:"subcommitteeID"`
+	TimeStart       int64       `json:"timeStart"`
+	TimeEnd         int64       `json:"timeEnd"`
+	GroupStudentId  int64       `json:"groupStudentId"`
+	EstimateStudent int64       `json:"estimateStudent"`
 }
 
-type TopicDetail struct {
-	ID           int64         `json:"id"`
-	Name         string        `json:"name"`
-	LectureInfo  LectureInfo   `json:"lectureInfo"`
-	Department   string        `json:"department"`
-	Faculty      string        `json:"faculty"`
-	Status       int64         `json:"status"`
-	Subcommittee string        `json:"subcommittee"`
-	ListStudent  []StudentInfo `json:"listStudent"`
-	TimeStart    int64         `json:"timeStart"`
-	TimeEnd      int64         `json:"timeEnd"`
-	Event        string        `json:"event"`
-	CashSupport  int64         `json:"cashSupport"`
+type Student struct {
+	StudentID int64  `json:"studentID"`
+	Name      string `json:"name"`
+	EventID   int64  `json:"eventID"`
+	GroupID   int64  `json:"groupID"`
 }
 
-type StudentGroup struct {
-	ID        int64 `json:"id"`
-	StudentID int64 `json:"studentID"`
-	EventID   int64 `json:"eventID"`
-	GroupID   int64 `json:"groupID"`
+type Event struct {
+	ID         int64  `json:"id"`
+	Name       string `json:"name"`
+	SchoolYear int64  `json:"schoolYear"`
+	IsCurrent  int64  `json:"isCurrent"`
+}
+
+type Subcommittee struct {
+	ID        int64  `json:"id"`
+	Name      string `json:"name"`
+	FacultyID int64  `json:"facultyID"`
+	EventID   int64  `json:"eventID"`
+	Level     int64  `json:"level"`
+}
+
+type Report struct {
+	ID          int64  `json:"id"`
+	TopicID     int64  `json:"topicID"`
+	StageID     int64  `json:"stageID"`
+	Description string `json:"description"`
+	CreatedAt   int64  `json:"createdAt"`
+	CreatedBy   int64  `json:"createdBy"`
+}
+
+type Mark struct {
+	ID          int64       `json:"id"`
+	TopicID     int64       `json:"topicID"`
+	LectureInfo LectureInfo `json:"lectureInfo"`
+	Point       float64     `json:"point"`
+	Comment     string      `json:"comment"`
+	Url         string      `json:"url"`
+	Level       int64       `json:"level"`
+	CreatedAt   int64       `json:"createdAt"`
 }
 
 type GetDepartmentsReq struct {
@@ -157,8 +183,13 @@ type GetTopicReq struct {
 }
 
 type GetTopicRes struct {
-	Result      Result      `json:"result"`
-	TopicDetail TopicDetail `json:"topicDetail"`
+	Result       Result       `json:"result"`
+	Topic        Topic        `json:"topic"`
+	Event        Event        `json:"event"`
+	Subcommittee Subcommittee `json:"subcommittee"`
+	Reports      []Report     `json:"reports"`
+	Marks        []Mark       `json:"marks"`
+	ListStudent  []Student    `json:"listStudent"`
 }
 
 type DeleteStudentGroupbyStudentIdReq struct {

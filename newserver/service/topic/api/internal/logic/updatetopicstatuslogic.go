@@ -54,9 +54,14 @@ func (l *UpdateTopicStatusLogic) UpdateTopicStatus(req *types.UpdateTopicStatusR
 		}, nil
 	}
 	switch req.Status {
+	case common.TOPIC_CANCEL:
+	case common.TOPIC_SUGGESTION:
+	case common.TOPIC_REGISTATION:
 	case common.TOPIC_WAIT_CONFIRM:
-	case common.TOPIC_REFUSED:
-	case common.TOPIC_CONFIRMED:
+	case common.TOPIC_NOT_DONE:
+	case common.TOPIC_REPORT_STAGE:
+	case common.TOPIC_REPORT_SUBCOMMITTEE:
+	case common.TOPIC_REPORT_SCHOOL:
 		break
 	case common.TOPIC_DOING:
 		timeStart = now
@@ -65,7 +70,12 @@ func (l *UpdateTopicStatusLogic) UpdateTopicStatus(req *types.UpdateTopicStatusR
 		timeEnd = now
 		timeStart = topicModel.TimeStart.Int64
 	default:
-		timeStart = topicModel.TimeStart.Int64
+		return &types.UpdateTopicStatusRes{
+			Result: types.Result{
+				Code:    common.STATUS_ERR_CODE,
+				Message: common.STATUS_ERR_MESS,
+			},
+		}, nil
 	}
 
 	err = l.svcCtx.TopicModel.Update(l.ctx, &model.TopicTbl{

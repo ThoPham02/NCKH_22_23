@@ -35,7 +35,7 @@ func (l *CreateTopicLogic) CreateTopic(req *types.CreateTopicReq) (resp *types.C
 		Name:         req.Name,
 		LectureId:    req.LectureID,
 		DepartmentId: req.DepartmentID,
-		Status:       1,
+		Status:       common.TOPIC_SUGGESTION,
 		EventId:      req.EventID,
 	})
 	if err != nil {

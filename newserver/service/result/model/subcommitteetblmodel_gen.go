@@ -35,10 +35,11 @@ type (
 	}
 
 	SubcommitteeTbl struct {
-		Id       int64          `db:"id"`
-		Name     sql.NullString `db:"name"`
-		FacultId int64          `db:"facult_id"`
-		EventId  int64          `db:"event_id"`
+		Id       int64         `db:"id"`
+		Name     string        `db:"name"`
+		FacultId sql.NullInt64 `db:"facult_id"`
+		EventId  int64         `db:"event_id"`
+		Level    int64         `db:"level"`
 	}
 )
 
@@ -70,14 +71,14 @@ func (m *defaultSubcommitteeTblModel) FindOne(ctx context.Context, id int64) (*S
 }
 
 func (m *defaultSubcommitteeTblModel) Insert(ctx context.Context, data *SubcommitteeTbl) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4)", m.table, subcommitteeTblRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.FacultId, data.EventId)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5)", m.table, subcommitteeTblRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.FacultId, data.EventId, data.Level)
 	return ret, err
 }
 
 func (m *defaultSubcommitteeTblModel) Update(ctx context.Context, data *SubcommitteeTbl) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, subcommitteeTblRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.FacultId, data.EventId)
+	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.FacultId, data.EventId, data.Level)
 	return err
 }
 
