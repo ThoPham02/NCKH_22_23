@@ -89,7 +89,7 @@ type Mark struct {
 }
 
 type GetDepartmentsReq struct {
-	FacultyID int64 `form:"facultyID"`
+	FacultyID int64 `form:"facultyID, optional"`
 }
 
 type GetDepartmentsRes struct {
@@ -201,17 +201,17 @@ type DeleteStudentGroupbyStudentIdRes struct {
 }
 
 type GetTopicsReq struct {
-	Search         string `form:"search"`
-	DepartmentID   int64  `form:"departmentID"`
-	FacultyID      int64  `form:"facultyID"`
-	Status         int64  `form:"status"`
-	LectureID      int64  `form:"lectureID"`
-	EventID        int64  `form:"eventID"`
-	SubcommitteeID int64  `form:"subcommitteeID"`
-	TimeStart      int64  `form:"timeStart"`
-	TimeEnd        int64  `form:"timeEnd"`
-	Limit          int64  `form:"limit"`
-	Offset         int64  `form:"offset"`
+	Search         string `form:"search, optional, optional"`
+	DepartmentID   int64  `form:"departmentID, optional, optional"`
+	FacultyID      int64  `form:"facultyID, optional, optional"`
+	Status         int64  `form:"status, optional, optional"`
+	LectureID      int64  `form:"lectureID, optional, optional"`
+	EventID        int64  `form:"eventID, optional, optional"`
+	SubcommitteeID int64  `form:"subcommitteeID, optional, optional"`
+	TimeStart      int64  `form:"timeStart, optional, optional"`
+	TimeEnd        int64  `form:"timeEnd, optional, optional"`
+	Limit          int64  `form:"limit, optional, optional"`
+	Offset         int64  `form:"offset, optional, optional"`
 }
 
 type GetTopicsRes struct {

@@ -93,12 +93,12 @@ type (
 	}
 
 	GetResultReq {
-		EventID        int64  `form:"event_id"`
-		Search         string `form:"search"`
-		SubcommitteeID int64  `form:"subcommittee_id"`
-		FacultyID      int64  `form:"faculty_id"`
-		Limit          int64  `form:"limit"`
-		Offset         int64  `form:"offset"`
+		EventID        int64  `form:"event_id, optional"`
+		Search         string `form:"search, optional"`
+		SubcommitteeID int64  `form:"subcommittee_id, optional"`
+		FacultyID      int64  `form:"faculty_id, optional"`
+		Limit          int64  `form:"limit, optional"`
+		Offset         int64  `form:"offset, optional"`
 	}
 	GetResultRes {
 		Result Result  `json:"result"`
