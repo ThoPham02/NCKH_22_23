@@ -106,11 +106,17 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 
 	for _, topicModel = range topicsModel {
 		topic = types.Topic{
-			ID:           topicModel.Id,
-			Name:         topicModel.Name,
-			LectureInfo:  lectureMap[topicModel.LectureId],
-			DepartmentID: topicModel.DepartmentId,
-			Status:       topicModel.Status,
+			ID:              topicModel.Id,
+			Name:            topicModel.Name,
+			LectureInfo:     lectureMap[topicModel.LectureId],
+			DepartmentID:    topicModel.DepartmentId,
+			Status:          topicModel.Status,
+			EventId:         topicModel.EventId,
+			SubcommitteeID:  topicModel.SubcommitteeId.Int64,
+			TimeStart:       topicModel.TimeStart.Int64,
+			TimeEnd:         topicModel.TimeEnd.Int64,
+			GroupStudentId:  topicModel.GroupStudentsId.Int64,
+			EstimateStudent: topicModel.EstimateStudent,
 		}
 		topics = append(topics, topic)
 	}
