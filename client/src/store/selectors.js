@@ -6,10 +6,13 @@ export const tokenSelector = (state) => state.login.token;
 export const departmentSelector = (state) => state.department.departments
 export const facultySelector = (state) => state.faculty.faculties
 
+export const CommonEventSelector = (state) => state.CommonEventStore
+
 // admin selector
 export const AdminEventSelector = (state) => state.AdminEventStore
 
-
+// lecture selector
+export const LectureTopicSelector = (state) => state.LectureTopicStore
 
 
 

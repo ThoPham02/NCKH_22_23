@@ -17,6 +17,7 @@ import "./style.css";
 import { convertDateToTimestamp } from "../../../utils/time";
 import Confirm from "../../../components/Shares/Confirm";
 import TimeLine from "../../../components/Shares/TimeLine";
+import getCurrentStage from "../../../utils/getCurrentStage";
 
 const DashBoard = () => {
 	const dispatch = useDispatch()
@@ -35,14 +36,7 @@ const DashBoard = () => {
 
 	useEffect(() => {
 		if (adminEvent.current.stages) {
-			let now = 0
-			let current = new Date().getTime();
-			for (let i = 0; i < adminEvent.current.stages.length; i++) {
-				if (adminEvent.current.stages[i].timeStart !== 0 && adminEvent.current.stages[i].timeStart <= current) {
-					now = i
-				}
-			}
-			setStage(adminEvent.current.stages[now]);
+			setStage(getCurrentStage(adminEvent.current.stages));
 		}
 		if (adminEvent.doneEvent) {
 			setDoneEvent(adminEvent.doneEvent)
@@ -126,11 +120,11 @@ const DashBoard = () => {
 			</Card>
 
 			<Card title={"NCKH đã thực hiện"}>
-				<Accordion >
+				<Accordion defaultActiveKey={0}>
 					{doneEvents.map((item, index) => {
 						return (
 							<Accordion.Item key={item.id} eventKey={index}>
-								<Accordion.Header>
+								<Accordion.Header style={{}}>
 									{item.name}
 								</Accordion.Header>
 								<Accordion.Body>

@@ -12,7 +12,6 @@ const Department = ({faculty, departmentRef, style, defaultValue }) => {
   }, [dispatch, faculty]);
 
   const list = useSelector(departmentSelector).filter(item => faculty === 0 || item.facultyID === faculty*1)
-
   return (
     <Form.Group className="col-12 col-sm-12 col-md-6 col-lg-3" style={style}>
       <Form.Select ref={departmentRef}>

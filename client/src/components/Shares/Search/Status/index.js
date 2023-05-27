@@ -7,7 +7,7 @@ const Status = ({ statusRef }) => {
       <Form.Select ref={statusRef}>
         <option value="0">Tất cả trạng thái</option>
         {topicStatus.map((item, index) => {
-          return <option value={index+1} key={index}>{item}</option>
+          return <option value={item.id} key={index}>{item.name}</option>
         })}
       </Form.Select>
     </Form.Group>

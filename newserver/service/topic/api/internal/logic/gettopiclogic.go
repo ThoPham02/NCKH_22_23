@@ -56,7 +56,7 @@ func (l *GetTopicLogic) GetTopic(req *types.GetTopicReq) (resp *types.GetTopicRe
 			},
 		}, nil
 	}
-	if topicModel != nil {
+	if topicModel == nil {
 		return &types.GetTopicRes{
 			Result: types.Result{
 				Code:    common.TOPIC_NOT_EXIST_CODE,
@@ -187,6 +187,23 @@ func (l *GetTopicLogic) GetTopic(req *types.GetTopicReq) (resp *types.GetTopicRe
 			CreatedAt:   tmp.CreatedAt,
 			CreatedBy:   tmp.CreatedBy,
 		})
+	}
+
+	eventModel, err := l.svcCtx.EventModel.FindOne(l.ctx, topicModel.EventId)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+	event = types.Event{
+		ID:         eventModel.Id,
+		Name:       eventModel.Name,
+		SchoolYear: eventModel.SchoolYear.String,
+		IsCurrent:  eventModel.IsCurrent.Int64,
 	}
 
 	return &types.GetTopicRes{

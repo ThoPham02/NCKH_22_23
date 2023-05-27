@@ -28,9 +28,9 @@ const (
 const (
 	DEGREE_STUDENT             = 1
 	DEGREE_MASTER              = 2
-	DEGREE_DOCTOR              = 3
-	DEGREE_ASSOCIATE_PROFESSOR = 4
-	DEGREE_PROFESSOR           = 5
+	DEGREE_DOCTOR              = 4
+	DEGREE_ASSOCIATE_PROFESSOR = 8
+	DEGREE_PROFESSOR           = 16
 )
 
 // LEVEL

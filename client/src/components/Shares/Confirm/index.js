@@ -5,7 +5,6 @@ import "./style.css";
 import Loading from "../Loading";
 
 const Confirm = (props) => {
-  console.log(props.loading)
   return (
     <Modal
       size="sm"

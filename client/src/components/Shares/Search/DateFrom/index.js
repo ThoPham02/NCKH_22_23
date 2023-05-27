@@ -7,7 +7,7 @@ const DateFrom = ({ dateFromRef }) => {
     <Form.Group as={Col} className="col-12 col-sm-12 col-md-6 col-lg-3">
       <Form.Control
         type="date"
-        placeholder="Ngày bắt đầu"
+        placeholder="Từ"
         ref={dateFromRef}
       />
     </Form.Group>

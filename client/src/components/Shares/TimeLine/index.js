@@ -1,7 +1,8 @@
 import { Button } from "react-bootstrap";
+import { useState } from "react";
+
 import "./style.css"
 import CustomeProgress from "./CustomeProgress";
-import { useState } from "react";
 import { convertTimestampToDateString } from "../../../utils/time";
 
 const TimeLine = (props) => {
@@ -45,7 +46,7 @@ const TimeLine = (props) => {
                 <div className="row detail-item">
                     <div className="col-2 detail-head">Thời gian:</div>
                     <div className="col-8">
-                        Từ 
+                        Từ
                         {edit ? <input type="date" ref={timeStartRef} /> : <>{stage.timeStart === 0 ? " ... " : convertTimestampToDateString(stage.timeStart)}</>}
                         đến
                         {edit ? <input type="date" ref={timeEndRef} /> : <>{stage.timeEnd === 0 ? " ... " : convertTimestampToDateString(stage.timeEnd)}</>}
@@ -53,11 +54,12 @@ const TimeLine = (props) => {
                 </div>
                 <div className="row detail-item">
                     <div className="col-2 detail-head"></div>
-                    <div className="col-8" style={{ fontWeight: "bold" }}>{edit ? <input type="file" /> : <>
+                    <div className="col-8" style={{ fontWeight: "bold" }}>
                         {
                             // eslint-disable-next-line
-                            stage.url ? <a href="#">Tài liệu đính kèm</a> : <></>
-                        }</>}</div>
+                            edit ? <input type="file" /> : <a href="">Tài liệu đính kèm</a>
+                        }
+                    </div>
                 </div>
                 {isCurrent
                     ?

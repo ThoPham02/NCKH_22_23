@@ -1,19 +1,23 @@
 package common
 
 var MapDegree = map[int64]string{
-	1: "Sinh viên",
-	2: "ThS",
-	3: "TS",
-	4: "PGS",
-	5: "GS",
+	1:  "SV",
+	2:  "ThS",
+	4:  "TS",
+	8:  "PGS",
+	16: "GS",
 }
 
 var MapStatus = map[int64]string{
-	1: "Chờ xác nhận",
-	2: "Đã xác nhận",
-	3: "Đã hủy",
-	4: "Đang thực hiện",
-	5: "Đã hoàn thành",
-	6: "Đã quá hạn",
-	7: "Hoàn thành quá hạn",
+	1:    "Hủy",
+	2:    "Đề Xuất",
+	4:    "Đăng Ký",
+	8:    "Chờ Phê Duyệt",
+	16:   "Đang Thực Hiện",
+	32:   "Báo Cáo Tiến Độ",
+	64:   "Báo Cáo Tiểu Ban",
+	128:  "Báo Cáo Cấp Trường",
+	256:  "Hoàn Thành",
+	512:  "Hoàn thành Quá Hạn",
+	1024: "Không Hoàn Thành",
 }

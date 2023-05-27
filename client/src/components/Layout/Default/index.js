@@ -18,7 +18,7 @@ const Default = ({ children }) => {
         className="container"
         style={{
           minHeight: "calc(100vh - 215px)",
-          marginTop: "4px",
+          paddingTop: "4px",
         }}
       >
         {children}
