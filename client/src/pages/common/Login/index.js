@@ -28,7 +28,7 @@ const Login = () => {
     const navige = useNavigate();
     const role = useSelector(userSelector).role;
     useEffect(() => {
-      if (role === 4 || role === 5) {
+      if (role === 4 || role === 5 || role === 3) {
         navige('/admin-home')
       } else if (role !== 0){
         navige("/")

@@ -34,17 +34,10 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 	var events []types.Event
 	var event types.Event
 	var total int64
+	var mapStages = map[int64][]types.Stage{}
 
 	eventsModel, err = l.svcCtx.EventModel.FindEvents(l.ctx)
 	if err != nil {
-		if err == model.ErrNotFound {
-			return &types.GetEventsRes{
-				Result: types.Result{
-					Code:    common.SUCCESS_CODE,
-					Message: common.SUCCESS_MESS,
-				},
-			}, nil
-		}
 		l.Logger.Error(err)
 		return &types.GetEventsRes{
 			Result: types.Result{
@@ -54,12 +47,51 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 		}, nil
 	}
 
+	if len(eventsModel) == 0 {
+		return &types.GetEventsRes{
+			Result: types.Result{
+				Code:    common.SUCCESS_CODE,
+				Message: common.SUCCESS_MESS,
+			},
+		}, nil
+	}
+	stagesModel, err := l.svcCtx.StageModel.FindStages(l.ctx, 0)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetEventsRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+	if len(stagesModel) == 0 {
+		return &types.GetEventsRes{
+			Result: types.Result{
+				Code:    common.SUCCESS_CODE,
+				Message: common.SUCCESS_MESS,
+			},
+		}, nil
+	}
+	for _, stage := range stagesModel {
+		mapStages[stage.EventId] = append(mapStages[stage.EventId], types.Stage{
+			ID:          stage.Id,
+			Name:        stage.Name,
+			Description: stage.Description.String,
+			Url:         stage.Url.String,
+			EventID:     stage.EventId,
+			TimeStart:   stage.TimeStart.Int64,
+			TimeEnd:     stage.TimeEnd.Int64,
+		})
+	}
+
 	for _, eventModel = range eventsModel {
 		event = types.Event{
 			ID:         eventModel.Id,
 			Name:       eventModel.Name,
 			SchoolYear: eventModel.SchoolYear.String,
 			IsCurrent:  eventModel.IsCurrent.Int64,
+			Stages:     mapStages[eventModel.Id],
 		}
 		events = append(events, event)
 	}

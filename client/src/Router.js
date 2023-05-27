@@ -2,8 +2,8 @@ import { AdminLayout, LoginLayout } from "./components/Layout";
 import { PublicHome, PublicLogin, PublicTopic, PublicResult, PublicContact } from "./pages/common";
 import { StudentMyTopic, StudentResult, StudentTopic } from "./pages/student";
 import { LectureMyTopic, LectureResult, LectureTopic } from "./pages/lecture";
-import { FacultyDashBoard, FacultyEvent, FacultyReport, FacultyResult, FacultyTopic } from "./pages/faculty";
-import { AdminDashBoard, AdminEvent, AdminReport, AdminResult, AdminTopic } from "./pages/admin";
+import { FacultyDashBoard, FacultyReport, FacultyResult, FacultyTopic } from "./pages/faculty";
+import { AdminDashBoard, AdminReport, AdminResult, AdminTopic } from "./pages/admin";
 
 const publicRoutes = [
   { path: "/", component: PublicHome },
