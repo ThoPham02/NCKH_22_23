@@ -32,7 +32,6 @@ type (
 		ID           int64         `json:"id"`
 		Name         string        `json:"name"`
 		Description  string        `json:"description"`
-		FacultyID    int64         `json:"facultyID"`
 		Url          string        `json:"url"`
 		EventID      int64         `json:"eventID"`
 		TimeStart    int64         `json:"timeStart"`
@@ -177,6 +176,15 @@ type (
 	}
 )
 
+type (
+	CancelEventReq {
+		ID int64 `path:"id"`
+	}
+	CancelEventRes {
+		Result Result `json:"result"`
+	}
+)
+
 service progress-api {
 	@handler GetTopicReportsHandler
 	get /api/reports (GetTopicReportsReq) returns(GetTopicReportsRes)
@@ -207,4 +215,7 @@ service progress-api {
 	
 	@handler CreateStageDetailHandler
 	post /api/stage-detail (CreateStageDetailReq) returns(CreateStageDetailRes)
+	
+	@handler CancelEventHandler
+	put /api/cancel-event/:id (CancelEventReq) returns(CancelEventRes)
 }

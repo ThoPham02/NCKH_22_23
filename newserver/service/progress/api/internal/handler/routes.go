@@ -62,6 +62,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/api/stage-detail",
 				Handler: CreateStageDetailHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/cancel-event/:id",
+				Handler: CancelEventHandler(serverCtx),
+			},
 		},
 	)
 }

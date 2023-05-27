@@ -39,7 +39,6 @@ type Stage struct {
 	ID           int64         `json:"id"`
 	Name         string        `json:"name"`
 	Description  string        `json:"description"`
-	FacultyID    int64         `json:"facultyID"`
 	Url          string        `json:"url"`
 	EventID      int64         `json:"eventID"`
 	TimeStart    int64         `json:"timeStart"`
@@ -164,5 +163,13 @@ type CreateStageDetailReq struct {
 }
 
 type CreateStageDetailRes struct {
+	Result Result `json:"result"`
+}
+
+type CancelEventReq struct {
+	ID int64 `path:"id"`
+}
+
+type CancelEventRes struct {
 	Result Result `json:"result"`
 }
