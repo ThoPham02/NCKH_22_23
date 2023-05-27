@@ -25,6 +25,7 @@ LIBRARY=library_tbl
 TOPIC_REPORT=topic_report_tbl
 EVENT=event_tbl
 STAGE=stage_tbl
+STAGE_DETAIL=stage_detail_tbl
 
 # table result api
 SUBCOMMITTEE=subcommittee_tbl
@@ -77,7 +78,7 @@ gen-services: gen-account-service gen-result-service gen-progress-service gen-to
 
 # migrate 
 migrate:
-	migrate create -ext sql -dir ${MIGRATION_DIR} -seq update_topic
+	migrate create -ext sql -dir ${MIGRATION_DIR} -seq add_stage_detail
 migrateup:
 	migrate -path ${MIGRATION_DIR} -database "${DATASOURCE}" -verbose up
 migratedown:
@@ -98,6 +99,7 @@ gen-progress-model:
 	goctl model pg datasource -url="${DATASOURCE}" -table="${LIBRARY}" -dir="$(PROGRESS_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${EVENT}" -dir="$(PROGRESS_MODEL_DIR)"
 	goctl model pg datasource -url="${DATASOURCE}" -table="${STAGE}" -dir="$(PROGRESS_MODEL_DIR)"
+	goctl model pg datasource -url="${DATASOURCE}" -table="${STAGE_DETAIL}" -dir="$(PROGRESS_MODEL_DIR)"
 
 gen-topic-model: 
 	goctl model pg datasource -url="${DATASOURCE}" -table="${TOPIC}" -dir="$(TOPIC_MODEL_DIR)"

@@ -1,14 +1,21 @@
-// select login info
+// common selector
 export const loginSelector = (state) => state.login;
 export const userSelector = (state) => state.login.user;
 export const roleSelector = (state) => state.login.user.role;
 export const tokenSelector = (state) => state.login.token;
-
-// department
 export const departmentSelector = (state) => state.department.departments
-
-// faculty
 export const facultySelector = (state) => state.faculty.faculties
+
+// admin selector
+export const AdminEventSelector = (state) => state.AdminEventStore
+
+
+
+
+
+
+
+
 
 
 // topic

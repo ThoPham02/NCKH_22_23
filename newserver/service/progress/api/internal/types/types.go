@@ -28,21 +28,33 @@ type TopicReport struct {
 }
 
 type Event struct {
-	ID         int64  `json:"id"`
-	Name       string `json:"name"`
-	SchoolYear string `json:"schoolYear"`
-	IsCurrent  int64  `json:"isCurrent"`
+	ID         int64   `json:"id"`
+	Name       string  `json:"name"`
+	SchoolYear string  `json:"schoolYear"`
+	IsCurrent  int64   `json:"isCurrent"`
+	Stages     []Stage `json:"stages"`
 }
 
 type Stage struct {
-	ID          int64  `json:"id"`
-	Name        string `json:"name"`
-	Description string `json:"description"`
-	FacultyID   int64  `json:"facultyID"`
-	Url         string `json:"url"`
-	EventID     int64  `json:"eventID"`
-	TimeStart   int64  `json:"timeStart"`
-	TimeEnd     int64  `json:"timeEnd"`
+	ID           int64         `json:"id"`
+	Name         string        `json:"name"`
+	Description  string        `json:"description"`
+	FacultyID    int64         `json:"facultyID"`
+	Url          string        `json:"url"`
+	EventID      int64         `json:"eventID"`
+	TimeStart    int64         `json:"timeStart"`
+	TimeEnd      int64         `json:"timeEnd"`
+	StageDetails []StageDetail `json:"stageDetails"`
+}
+
+type StageDetail struct {
+	ID           int64  `json:"id"`
+	Description  string `json:"description"`
+	Url          string `json:"url"`
+	StageID      int64  `json:"stageID"`
+	DepartmentID int64  `json:"departmentID"`
+	FacultyID    int64  `json:"facultyID"`
+	Time         int64  `json:"time"`
 }
 
 type CreateTopicReportReq struct {
@@ -128,4 +140,29 @@ type GetStagesRes struct {
 	Result Result  `json:"result"`
 	Total  int64   `json:"total"`
 	Stages []Stage `json:"stages"`
+}
+
+type UpdateStageReq struct {
+	ID          int64  `path:"stage_id"`
+	Description string `json:"description"`
+	Url         string `json:"url"`
+	TimeStart   int64  `json:"timeStart"`
+	TimeEnd     int64  `json:"timeEnd"`
+}
+
+type UpdateStageRes struct {
+	Result Result `json:"result"`
+}
+
+type CreateStageDetailReq struct {
+	Description  string `json:"description"`
+	Url          string `json:"url"`
+	StageID      int64  `json:"stageID"`
+	DepartmentID int64  `json:"departmentID"`
+	FacultyID    int64  `json:"facultyID"`
+	Time         int64  `json:"time"`
+}
+
+type CreateStageDetailRes struct {
+	Result Result `json:"result"`
 }

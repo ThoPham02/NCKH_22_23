@@ -1,6 +1,7 @@
 .custom_progress {
   position: relative;
   margin: 24px 2%;
+  height: 60px;
 }
 
 .progress_item {
@@ -12,6 +13,8 @@
   align-items: center;
   justify-content: center;
   flex-direction: column;
+
+  cursor: pointer;
 }
 
 .drop-shape {
@@ -26,4 +29,15 @@
 .progress_name {
     width: 90px;
     text-align: center;
+    font-weight: bold;
+}
+
+.curentStage {
+  position: absolute;
+  width: 0;
+  height: 0;
+  top: -10px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid red;
 }

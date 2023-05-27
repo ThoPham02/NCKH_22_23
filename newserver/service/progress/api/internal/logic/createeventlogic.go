@@ -32,6 +32,7 @@ func (l *CreateEventLogic) CreateEvent(req *types.CreateEventReq) (resp *types.C
 	l.Logger.Info("CreateEvent", req)
 
 	var eventID int64 = sync.RandomID()
+	var stages []types.Stage
 	_, err = l.svcCtx.EventModel.Insert(l.ctx, &model.EventTbl{
 		Id:   eventID,
 		Name: req.Name,
@@ -64,6 +65,66 @@ func (l *CreateEventLogic) CreateEvent(req *types.CreateEventReq) (resp *types.C
 			},
 		}, nil
 	}
+	stageID := sync.RandomID()
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID,
+		Name:    "Đề Xuất",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 1,
+		Name:    "Đăng ký",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 2,
+		Name:    "Thực hiện",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 3,
+		Name:    "Báo cáo tiến độ",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 4,
+		Name:    "Bộ môn nghiệm thu",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 5,
+		Name:    "Báo cáo tiểu ban",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 6,
+		Name:    "Báo cáo cấp trường",
+		EventId: eventID,
+	})
+	l.svcCtx.StageModel.Insert(l.ctx, &model.StageTbl{
+		Id:      stageID + 7,
+		Name:    "Kết thúc",
+		EventId: eventID,
+	})
+
+	stagesModel, err := l.svcCtx.StageModel.FindStages(l.ctx, eventID)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.CreateEventRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+
+	for _, stageModel := range stagesModel {
+		stages = append(stages, types.Stage{
+			ID:      stageModel.Id,
+			Name:    stageModel.Name,
+			EventID: eventID,
+		})
+	}
 
 	return &types.CreateEventRes{
 		Result: types.Result{
@@ -75,6 +136,7 @@ func (l *CreateEventLogic) CreateEvent(req *types.CreateEventReq) (resp *types.C
 			Name:       req.Name,
 			SchoolYear: req.SchoolYear,
 			IsCurrent:  1,
+			Stages:     stages,
 		},
 	}, nil
 }

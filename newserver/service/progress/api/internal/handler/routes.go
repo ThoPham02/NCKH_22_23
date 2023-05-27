@@ -52,6 +52,16 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/api/stages",
 				Handler: GetStagesHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodPut,
+				Path:    "/api/stage/:stage_id",
+				Handler: UpdateStageHandler(serverCtx),
+			},
+			{
+				Method:  http.MethodPost,
+				Path:    "/api/stage-detail",
+				Handler: CreateStageDetailHandler(serverCtx),
+			},
 		},
 	)
 }

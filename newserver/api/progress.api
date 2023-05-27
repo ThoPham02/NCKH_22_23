@@ -22,20 +22,31 @@ type (
 		StageID     int64  `json:"stageID"`
 	}
 	Event {
-		ID         int64  `json:"id"`
-		Name       string `json:"name"`
-		SchoolYear string `json:"schoolYear"`
-		IsCurrent  int64  `json:"isCurrent"`
+		ID         int64   `json:"id"`
+		Name       string  `json:"name"`
+		SchoolYear string  `json:"schoolYear"`
+		IsCurrent  int64   `json:"isCurrent"`
+		Stages     []Stage `json:"stages"`
 	}
 	Stage {
-		ID          int64  `json:"id"`
-		Name        string `json:"name"`
-		Description string `json:"description"`
-		FacultyID   int64  `json:"facultyID"`
-		Url         string `json:"url"`
-		EventID     int64  `json:"eventID"`
-		TimeStart   int64  `json:"timeStart"`
-		TimeEnd     int64  `json:"timeEnd"`
+		ID           int64         `json:"id"`
+		Name         string        `json:"name"`
+		Description  string        `json:"description"`
+		FacultyID    int64         `json:"facultyID"`
+		Url          string        `json:"url"`
+		EventID      int64         `json:"eventID"`
+		TimeStart    int64         `json:"timeStart"`
+		TimeEnd      int64         `json:"timeEnd"`
+		StageDetails []StageDetail `json:"stageDetails"`
+	}
+	StageDetail {
+		ID           int64  `json:"id"`
+		Description  string `json:"description"`
+		Url          string `json:"url"`
+		StageID      int64  `json:"stageID"`
+		DepartmentID int64  `json:"departmentID"`
+		FacultyID    int64  `json:"facultyID"`
+		Time         int64  `json:"time"`
 	}
 )
 
@@ -139,6 +150,33 @@ type (
 	}
 )
 
+type (
+	UpdateStageReq {
+		ID          int64  `path:"stage_id"`
+		Description string `json:"description"`
+		Url         string `json:"url"`
+		TimeStart   int64  `json:"timeStart"`
+		TimeEnd     int64  `json:"timeEnd"`
+	}
+	UpdateStageRes {
+		Result Result `json:"result"`
+	}
+)
+
+type (
+	CreateStageDetailReq {
+		Description  string `json:"description"`
+		Url          string `json:"url"`
+		StageID      int64  `json:"stageID"`
+		DepartmentID int64  `json:"departmentID"`
+		FacultyID    int64  `json:"facultyID"`
+		Time         int64  `json:"time"`
+	}
+	CreateStageDetailRes {
+		Result Result `json:"result"`
+	}
+)
+
 service progress-api {
 	@handler GetTopicReportsHandler
 	get /api/reports (GetTopicReportsReq) returns(GetTopicReportsRes)
@@ -163,4 +201,10 @@ service progress-api {
 	
 	@handler GetStagesHandler
 	get /api/stages (GetStagesReq) returns(GetStagesRes)
+	
+	@handler UpdateStageHandler
+	put /api/stage/:stage_id (UpdateStageReq) returns(UpdateStageRes)
+	
+	@handler CreateStageDetailHandler
+	post /api/stage-detail (CreateStageDetailReq) returns(CreateStageDetailRes)
 }

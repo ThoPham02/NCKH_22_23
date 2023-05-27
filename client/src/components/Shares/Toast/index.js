@@ -1,83 +1,32 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
+import { Toast } from 'react-bootstrap';
 
-import "./style.css";
-import Error from "./ErrorToast";
-import Success from "./SuccessToast";
-import { useDispatch, useSelector } from "react-redux";
-import { resultSelector } from "../../../store/selectors";
-import Warning from "./WarningToast";
-
-const toast = {
-  0: {
-    title: "Thành công!",
-    message: "Đăng ký đề tài thành công!",
-  },
-  201: {
-    title: "Không thành công!",
-    message: "Bạn đã đăng ký đề tài khác!. Vui lòng kiểm tra lại!",
-  },
-  111: {
-    title: "Không thành công!",
-    message: "Đã xảy ra lỗi! Vui lòng kiểm tra lại!",
-  },
-};
-
-const Toast = ({action}) => {
-  const [showSuccess, setShowSuccess] = useState(false);
-  const [showError, setShowError] = useState(false);
-  const [showWarning, setShowWarning] = useState(false);
-  const dispatch = useDispatch()
-  let result = useSelector(resultSelector);
-
-  const handleClose = () => {
-    setShowSuccess(false);
-    setShowError(false);
-    setShowWarning(false);
-  };
+function ToastConfirm() {
+  const [showA, setShowA] = useState(false);
 
   useEffect(() => {
-    if (result.code || result.code === 0) {
-      switch (result.code) {
-        case 0:
-          setShowSuccess(true);
-          break;
-        case 201:
-          setShowWarning(true);
-          break;
-        default:
-          setShowWarning(true);
-          break;
-      }
+    if (showA) {
+      setTimeout(() => {
+        setShowA(false);
+      }, 3000);
     }
-    // eslint-disable-next-line
-  }, [dispatch, result]);
+  }, [showA]);
+
+  const toggleShowA = () => setShowA(!showA);
 
   return (
-    <>
-      <Success
-        show={showSuccess}
-        handleClose={handleClose}
-        title={toast[0].title}
-        message={toast[0].message}
-        className="toasts"
-        action={action}
-      />
-      <Error
-        show={showError}
-        handleClose={handleClose}
-        title={toast[111].title}
-        message={toast[111].message}
-        className="toasts"
-      />
-      <Warning
-        show={showWarning}
-        handleClose={handleClose}
-        title={toast[201].title}
-        message={toast[201].message}
-        className="toasts"
-      />
-    </>
+    <div className="toast-container">
+      <Toast
+        show={showA}
+        onClose={toggleShowA}
+        className={showA ? 'toast-slide-in' : 'toast-slide-out'}
+      >
+        <Toast.Header>
+            <strong className="me-auto">Thao tác thành công</strong>
+          </Toast.Header>
+      </Toast>
+    </div>
   );
-};
+}
 
-export default Toast;
+export default ToastConfirm;

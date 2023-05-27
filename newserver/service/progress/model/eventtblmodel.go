@@ -40,7 +40,7 @@ func (m *customEventTblModel) FindCurrentEvent(ctx context.Context) (*EventTbl, 
 	case nil:
 		return &resp, nil
 	case sqlc.ErrNotFound:
-		return nil, ErrNotFound
+		return nil, nil
 	default:
 		return nil, err
 	}
@@ -57,7 +57,7 @@ func (m *customEventTblModel) UpdateCurrentEvent(ctx context.Context, eventID in
 }
 
 func (m *customEventTblModel) FindEvents(ctx context.Context) ([]EventTbl, error) {
-	query := fmt.Sprintf("select %s from %s", eventTblRows, m.table)
+	query := fmt.Sprintf("select %s from %s where is_current = 0", eventTblRows, m.table)
 	var resp []EventTbl
 	err := m.conn.QueryRowsCtx(ctx, &resp, query)
 	switch err {

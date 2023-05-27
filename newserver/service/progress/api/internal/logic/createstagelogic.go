@@ -42,10 +42,7 @@ func (l *CreateStageLogic) CreateStage(req *types.CreateStageReq) (resp *types.C
 			Valid:  true,
 			String: req.Url,
 		},
-		EventId:   req.EventID,
-		TimeStart: req.TimeStart,
-		TimeEnd:   req.TimeEnd,
-		FacultyId: req.FacultyID,
+		EventId: req.EventID,
 	})
 	if err != nil {
 		l.Logger.Error(err)

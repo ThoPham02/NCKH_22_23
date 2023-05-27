@@ -15,7 +15,7 @@ type (
 	// and implement the added methods in customStageTblModel.
 	StageTblModel interface {
 		stageTblModel
-		FindStages(ctx context.Context, eventID int64, facultyID int64) ([]StageTbl, error)
+		FindStages(ctx context.Context, eventID int64) ([]StageTbl, error)
 	}
 
 	customStageTblModel struct {
@@ -30,7 +30,7 @@ func NewStageTblModel(conn sqlx.SqlConn) StageTblModel {
 	}
 }
 
-func (m *customStageTblModel) FindStages(ctx context.Context, eventID int64, facultyID int64) ([]StageTbl, error) {
+func (m *customStageTblModel) FindStages(ctx context.Context, eventID int64) ([]StageTbl, error) {
 	var values = []interface{}{}
 
 	query := fmt.Sprintf("select %s from %s where", stageTblRows, m.table)
@@ -38,11 +38,9 @@ func (m *customStageTblModel) FindStages(ctx context.Context, eventID int64, fac
 		values = append(values, eventID)
 		query += fmt.Sprintf(" event_id = $%d and ", len(values))
 	}
-	if facultyID != 0 {
-		values = append(values, facultyID)
-		query += fmt.Sprintf(" faculty_id = $%d and ", len(values))
-	}
+
 	query = query[0 : len(query)-5]
+	query += " order by id asc"
 	var resp []StageTbl
 	err := m.conn.QueryRowsCtx(ctx, &resp, query, values...)
 	switch err {
