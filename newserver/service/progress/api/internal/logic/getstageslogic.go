@@ -34,7 +34,7 @@ func (l *GetStagesLogic) GetStages(req *types.GetStagesReq) (resp *types.GetStag
 	var stages []types.Stage
 	var stage types.Stage
 
-	stagesModel, err = l.svcCtx.StageModel.FindStages(l.ctx, req.EventID, req.FacultyID)
+	stagesModel, err = l.svcCtx.StageModel.FindStages(l.ctx, req.EventID)
 	if err != nil {
 		if err == model.ErrNotFound {
 			return &types.GetStagesRes{
@@ -58,11 +58,8 @@ func (l *GetStagesLogic) GetStages(req *types.GetStagesReq) (resp *types.GetStag
 			ID:          stageModel.Id,
 			Name:        stageModel.Name,
 			Description: stageModel.Description.String,
-			FacultyID:   stageModel.FacultyId,
 			Url:         stageModel.Url.String,
 			EventID:     stageModel.EventId,
-			TimeStart:   stageModel.TimeStart,
-			TimeEnd:     stageModel.TimeEnd,
 		}
 		stages = append(stages, stage)
 	}

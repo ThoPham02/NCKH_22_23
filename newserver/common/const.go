@@ -32,6 +32,18 @@ const (
 	STUDENT_INVALID_MESS = "Student Invalid"
 )
 
+// Stage error code
+const (
+	STAGE_NOT_EXISTS_ERR_CODE = 300
+	STAGE_NOT_EXISTS_ERR_MESS = "Stage Not Exists"
+)
+
+// event error code
+const (
+	CURRENT_EVENT_NOT_FOUND_CODE = 400
+	CURRENT_EVENT_NOT_FOUND_MESS = "Current Event Not Found"
+)
+
 // JWT key
 const (
 	JWT_IAT_KEY        = "iat"

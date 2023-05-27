@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import Card from "../../../components/Shares/Card";
 import { image1, image2, image3 } from "./imgHome";
-import { listNotifications, instructions } from "./data";
+import { instructions } from "./data";
 import "./style.css";
 
 const Home = () => {
@@ -23,16 +23,7 @@ const Home = () => {
             <img src={images[curent]} alt="..."/>
           </div>
           <div className="notification-content">
-            {listNotifications.map((notification, index) => {
-              return (
-                <div key={index}>
-                    <MdOutlineKeyboardDoubleArrowRight />
-                  <a href={notification.url}>
-                    {notification.name}
-                  </a>
-                </div>
-              );
-            })}
+            
           </div>
         </div>
       </Card>

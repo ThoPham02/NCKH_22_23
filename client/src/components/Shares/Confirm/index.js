@@ -18,7 +18,9 @@ const Confirm = (props) => {
         <Button onClick={() => props.setConfirmShow(false)} variant="danger">
           Close
         </Button>
-        <Button onClick={props.handleConfirmButton}>Xác nhận</Button>
+        <Button onClick={props.handleConfirmButton}>
+          Xác nhận
+        </Button>
       </Modal.Footer>
     </Modal>
   );

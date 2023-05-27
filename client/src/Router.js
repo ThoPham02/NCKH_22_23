@@ -32,14 +32,12 @@ const privateRoutes = [
   { path: "/admin-home", component: FacultyDashBoard, role: 4, Layout: AdminLayout},
   { path: "/admin-topic", component: FacultyTopic, role: 4, Layout: AdminLayout},
   { path: "/admin-result", component: FacultyResult, role: 4, Layout: AdminLayout},
-  { path: "/admin-event", component: FacultyEvent, role: 4, Layout: AdminLayout},
   { path: "/admin-report", component: FacultyReport, role: 4, Layout: AdminLayout},
 
   // admin routes
   { path: "/admin-home", component: AdminDashBoard, role: 5, Layout: AdminLayout},
   { path: "/admin-topic", component: AdminTopic, role: 5, Layout: AdminLayout},
   { path: "/admin-result", component: AdminResult, role: 5, Layout: AdminLayout},
-  { path: "/admin-event", component: AdminEvent, role: 5, Layout: AdminLayout},
   { path: "/admin-report", component: AdminReport, role: 5, Layout: AdminLayout},
 ];
 

@@ -48,6 +48,7 @@ type (
 		AvataUrl     sql.NullString `db:"avata_url"`
 		Birthday     sql.NullString `db:"birthday"`
 		BankAccount  sql.NullString `db:"bank_account"`
+		Department   sql.NullInt64  `db:"department"`
 	}
 )
 
@@ -79,14 +80,14 @@ func (m *defaultUserTblModel) FindOne(ctx context.Context, id int64) (*UserTbl, 
 }
 
 func (m *defaultUserTblModel) Insert(ctx context.Context, data *UserTbl) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", m.table, userTblRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Username, data.HashPassword, data.Role, data.Name, data.Email, data.Phone, data.FacultyId, data.YearStart, data.Degree, data.AvataUrl, data.Birthday, data.BankAccount)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)", m.table, userTblRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Username, data.HashPassword, data.Role, data.Name, data.Email, data.Phone, data.FacultyId, data.YearStart, data.Degree, data.AvataUrl, data.Birthday, data.BankAccount, data.Department)
 	return ret, err
 }
 
 func (m *defaultUserTblModel) Update(ctx context.Context, data *UserTbl) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, userTblRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Username, data.HashPassword, data.Role, data.Name, data.Email, data.Phone, data.FacultyId, data.YearStart, data.Degree, data.AvataUrl, data.Birthday, data.BankAccount)
+	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Username, data.HashPassword, data.Role, data.Name, data.Email, data.Phone, data.FacultyId, data.YearStart, data.Degree, data.AvataUrl, data.Birthday, data.BankAccount, data.Department)
 	return err
 }
 

@@ -20,7 +20,7 @@ const Admin = ({ children }) => {
     navige("/");
   }
 
-  if (user.role !== 5 && user.role !== 4) {
+  if (user.role !== 5 && user.role !== 4 && user.role !== 3) {
     navige("/");
   }
   return (
@@ -47,14 +47,6 @@ const Admin = ({ children }) => {
                   <MdOutlineSpaceDashboard />
                 </span>
                 <span className="nav_text">DashBoard</span>
-              </Link>
-            </li>
-            <li className="admin_nav_item">
-              <Link to={"/admin-event"}>
-                <span className="nav_icon">
-                  <BiCalendarEvent />
-                </span>
-                <span className="nav_text">Đại hội</span>
               </Link>
             </li>
             <li className="admin_nav_item">
