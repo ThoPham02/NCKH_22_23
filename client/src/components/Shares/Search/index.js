@@ -18,14 +18,14 @@ export const SearchFaculty = Faculty;
 export const SearchDepartment = Department;
 
 export const TopicSearch = (props) => {
-    const { handleSubmitForm, searchRef, departmentRef, statusRef, dateFromRef, dateToRef, isLoading } = props
+    const { handleSubmitForm, searchRef, departmentRef, statusRef, dateFromRef, dateToRef, eventRef, isLoading } = props
 
     const [faculty, setFaculty] = useState(0)
 
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
             <Word searchRef={searchRef} />
-            <Event />
+            <Event eventRef={eventRef} />
             <Faculty
                 faculty={faculty}
                 setFaculty={setFaculty}

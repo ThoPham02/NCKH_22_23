@@ -2,13 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../../apis";
 import { convertDateToTimestamp } from "../../../utils/time";
 
-const TopicSlice = createSlice({
+const CommonTopicSlice = createSlice({
   name: "topic",
   initialState: {
     status: "idle",
-    topics: [],
-    total: 0,
-    result: {}
   },
   reducers: {
     setResult: (state, action) => {
@@ -64,9 +61,7 @@ export const fetchTopics = createAsyncThunk("getTopics", async (payload) => {
       departmentID: payload.departmentID,
       facultyID: payload.facultyID,
       status: payload.status,
-      lectureID: 0,
       eventID: 0,
-      subcommitteeID: 0,
       timeStart: timeEnd,
       timeEnd: timeStart,
       limit: payload.limit,
@@ -97,6 +92,6 @@ export const cancelTopic = createAsyncThunk(
   }
 )
 
-export default TopicSlice;
-export const TopicReducer = TopicSlice.reducer;
-export const TopicAction = TopicSlice.actions;
+export default CommonTopicSlice;
+export const CommonTopicReducer = CommonTopicSlice.reducer;
+export const CommonTopicAction = CommonTopicSlice.actions;
