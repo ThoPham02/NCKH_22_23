@@ -13,5 +13,6 @@
             "username": "admin",
             "password": "secret"
         }
-    ]
+    ],
+    "compile-hero.disable-compile-files-on-did-save-code": false
 }

@@ -1,127 +1,94 @@
-// import {
-//   FaUserAlt,
-//   FaUserGraduate,
-//   FaUsers,
-//   FaHouseUser,
-// } from "react-icons/fa";
-// import { MdTopic } from "react-icons/md";
-
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useRef, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
 
 import Card from "../../../components/Shares/Card";
-import { AdminEventSelector, userSelector } from "../../../store/selectors";
-import { cancelEvent, createEvent, fetchDoneEvents, fetchEvents, updateStage } from "./EventSlice";
+import { AdminEventSelector } from "../../../store/selectors";
+import { createEvent, fetchEvents } from "./EventSlice";
 import "./style.css";
-import { convertDateToTimestamp } from "../../../utils/time";
-import Confirm from "../../../components/Shares/Confirm";
 import TimeLine from "../../../components/Shares/TimeLine";
-import getCurrentStage from "../../../utils/getCurrentStage";
+import Confirm from "../../../components/Shares/Confirm";
 
 const DashBoard = () => {
-	const dispatch = useDispatch()
-	const [stage, setStage] = useState() 
-	const [doneEvents, setDoneEvent] = useState([])
-	const adminEvent = useSelector(AdminEventSelector)
-	
-	useEffect(() => {
-		if (!adminEvent.current.stages) {
-			dispatch(fetchEvents())
-		}
-		if (!adminEvent.doneEvents) {
-			dispatch(fetchDoneEvents())
-		}
-	}, [dispatch, adminEvent.current.stages, adminEvent.doneEvents])
-	
-	useEffect(() => {
-		if (adminEvent.current?.stages) {
-			setStage(getCurrentStage(adminEvent.current.stages));
-		}
-		if (adminEvent?.doneEvent) {
-			setDoneEvent(adminEvent.doneEvent)
-		}
-		// eslint-disable-next-line
-	}, [adminEvent.current.stages, adminEvent.doneEvent]);
+  const dispatch = useDispatch()
+  const adminEvent = useSelector(AdminEventSelector)
 
-	const [create, setCreate] = useState(false)
-	const descriptionRef = useRef()
-	const timeStartRef = useRef()
-	const timeEndRef = useRef()
-	const nameRef = useRef()
-	const yearRef = useRef()
-	const [edit, setEdit] = useState(false)
-	const [show, setShow] = useState(false)
-	const loading = adminEvent.status === "loading"
-	const handleConfirmButton = () => {
-		if (edit) {
-			const description = descriptionRef.current.value
-			const timeStart = convertDateToTimestamp(timeStartRef.current.value)
-			const timeEnd = convertDateToTimestamp(timeEndRef.current.value)
-			dispatch(updateStage({ stageID: stage.id, description: description, timeStart: timeStart, timeEnd: timeEnd }))
-			setEdit(false)
-			if (!loading) {
-				setShow(false)
-			}
-		}
-		else if (create) {
-			const name = nameRef.current.value
-			const schoolYear = yearRef.current.value
-			if (name === "" || schoolYear === "") {
+  useEffect(() => {
+    dispatch(fetchEvents())
+  }, [dispatch])
 
-			} else {
-				dispatch(createEvent({ name: name, schoolYear: schoolYear }))
-			}
-			setEdit(false)
-		} else {
-			dispatch(cancelEvent({ id: adminEvent.current.id }))
-		}
-		setShow(false)
-		setEdit(false)
-		setCreate(false)
-	}
 
-	const user = useSelector(userSelector)
-	let isAdmin = user.role === 5
+  let currentExists = adminEvent.current && adminEvent.current.stages
+  let isLoading = adminEvent.status === 'loading'
 
-	return (
-		<div className="admin_dash_board">
-			<Card title={"NCKH đang diễn ra"}>
-				{adminEvent.current && adminEvent.current.stages && stage ?
-					<TimeLine descriptionRef={descriptionRef} timeEndRef={timeEndRef} timeStartRef={timeStartRef} setShow={setShow} setEdit={setEdit} edit={edit} data={adminEvent.current} isAdmin={isAdmin} />
-					:
-					<>
-						{create
-							?
-							<div className="create-event">
-								<div className="row margin_ver">
-									<div className="col-2 detail-head">NCKH:</div>
-									<div className="col-6"><input type="text" placeholder="Tên NCKH" style={{ width: "400px" }} className="input" ref={nameRef} /></div>
-								</div>
-								<div className="row margin_ver">
-									<div className="col-2 detail-head">Năm học: </div>
-									<div className="col-6"><input type="text" placeholder="Năm học" className="input" ref={yearRef} /></div>
-								</div>
-								<div className="row margin_ver">
-									<div className="col-2 detail-head"></div>
-									<div className="col-6">
-										<Button style={{ marginRight: "12px" }} onClick={() => setCreate(false)}>Hủy</Button> <Button onClick={() => setShow(true)}>Xác nhận</Button>
-									</div>
-								</div>
-								<div>
-								</div>
-							</div>
-							:
-							<div className="no-current">
-								<div className="bold margin_ver">Không có NCKH đang được thực hiện</div>
-								<Button onClick={() => setCreate(true)}>Bắt đầu NCKH mới</Button>
-							</div>}
-					</>
-				}
-				<Confirm confirmShow={show} setConfirmShow={setShow} handleConfirmButton={handleConfirmButton} content={"Xác nhận thao tác"} loading={loading}></Confirm>
-			</Card>
+  const nameRef = useRef()
+  const yearRef = useRef()
+  const [name, setName] = useState("")
+  const [year, setYear] = useState("")
+  const [create, setCreate] = useState(false)
 
-			<Card title={"NCKH đã thực hiện"}>
+  return (
+    <div className="admin_dash_board">
+      <Card title={"NCKH đang diễn ra"}>
+
+        {currentExists ?
+          <TimeLine data={adminEvent.current} />
+          :
+          <>
+            {create
+              ?
+              <div className="create-event">
+                <div className="row margin_ver">
+                  <div className="col-2 detail-head">NCKH:</div>
+                  <div className="col-6">
+                    <input
+                      type="text"
+                      placeholder="Tên NCKH"
+                      style={{ width: "400px" }}
+                      className="input"
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="row margin_ver">
+                  <div className="col-2 detail-head">Năm học: </div>
+                  <div className="col-6">
+                    <input
+                      type="text"
+                      placeholder="Năm học"
+                      className="input"
+                      value={year}
+                      onChange={(e) => setYear(e.target.value)}
+                    />
+                  </div>
+                </div>
+                <div className="row margin_ver">
+                  <div className="col-2 detail-head"></div>
+                  <div className="col-6">
+                    <Button style={{ marginRight: "12px" }} onClick={() => setCreate(false)}>Hủy</Button>
+                    <Confirm
+                      title={"Xác nhận"}
+                      content={"Xác nhận tạo mới nghiên cứu khoa học"}
+                      isLoading={isLoading}
+                      action={createEvent({ name: name, schoolYear: year })}
+                    />
+                  </div>
+                </div>
+                <div>
+                </div>
+              </div>
+              :
+              <div className="no-current">
+                <div className="bold margin_ver">Không có NCKH đang được thực hiện</div>
+                <Button onClick={() => setCreate(true)}>Bắt đầu NCKH mới</Button>
+              </div>
+            }
+          </>
+        }
+      </Card>
+
+      {/* <Card title={"NCKH đã thực hiện"}>
 				<Accordion defaultActiveKey={0}>
 					{doneEvents.map((item, index) => {
 						return (
@@ -136,9 +103,9 @@ const DashBoard = () => {
 						)
 					})}
 				</Accordion>
-			</Card>
-		</div >
-	);
+			</Card> */}
+    </div >
+  );
 };
 
 export default DashBoard;

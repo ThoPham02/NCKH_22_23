@@ -5,8 +5,6 @@ const EventSlice = createSlice({
     name: "admin-event",
     initialState: {
         status: "idle",
-        result: {},
-        current: {},
     },
     reducers: {},
     extraReducers: builder => {
@@ -17,7 +15,6 @@ const EventSlice = createSlice({
             .addCase(fetchEvents.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.event
-                state.stages = action.payload.event.stages
             })
             .addCase(updateStage.pending, (state, action) => {
                 state.status = "loading"
@@ -25,7 +22,6 @@ const EventSlice = createSlice({
             .addCase(updateStage.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.event
-                state.stages = action.payload.event.stages
             })
             .addCase(createEvent.pending, (state, action) => {
                 state.status = "loading"
@@ -33,7 +29,6 @@ const EventSlice = createSlice({
             .addCase(createEvent.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.event
-                state.stages = action.payload.event.stages
             })
             .addCase(fetchDoneEvents.pending, (state, action) => {
                 state.status = "loading"
@@ -42,14 +37,12 @@ const EventSlice = createSlice({
                 state.status = "idle"
                 state.doneEvent = action.payload.events
                 state.total = action.payload.total
-                state.result = action.payload.result
             })
             .addCase(cancelEvent.pending, (state, action) => {
                 state.status = "loading"
             })
             .addCase(cancelEvent.fulfilled, (state, action) => {
                 state.status = "idle"
-                state.current = {}
                 state.doneEvent = action.payload.doneEvent
             })
     }
@@ -72,6 +65,7 @@ export const fetchDoneEvents = createAsyncThunk("fetchDoneEvents", async () => {
 })
 
 export const updateStage = createAsyncThunk("updateStage", async (payload) => {
+    console.log(payload)
     await client.put(`/api/stage/${payload.stageID}`, {
         description: payload.description,
         url: "",
