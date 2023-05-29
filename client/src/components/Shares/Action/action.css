@@ -65,3 +65,15 @@
   border-right: 5px solid transparent;
   border-bottom: 5px solid #000;
 }
+
+.button {
+  border: transparent;
+  background-color: transparent;
+  color: #000;
+  outline: none;
+}
+
+.button:hover {
+  background-color: transparent;
+  color: #000;
+}

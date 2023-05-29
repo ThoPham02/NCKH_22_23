@@ -56,7 +56,7 @@ type Student struct {
 type Event struct {
 	ID         int64  `json:"id"`
 	Name       string `json:"name"`
-	SchoolYear int64  `json:"schoolYear"`
+	SchoolYear string `json:"schoolYear"`
 	IsCurrent  int64  `json:"isCurrent"`
 }
 

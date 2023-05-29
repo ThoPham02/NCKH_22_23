@@ -92,6 +92,7 @@ type (
 
 type (
 	GetEventsReq {
+		IsCurrent int64 `form:"isCurrent, optional"`
 	}
 
 	GetEventsRes {

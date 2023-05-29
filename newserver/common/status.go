@@ -28,13 +28,19 @@ const (
 const (
 	DEGREE_STUDENT             = 1
 	DEGREE_MASTER              = 2
-	DEGREE_DOCTOR              = 3
-	DEGREE_ASSOCIATE_PROFESSOR = 4
-	DEGREE_PROFESSOR           = 5
+	DEGREE_DOCTOR              = 4
+	DEGREE_ASSOCIATE_PROFESSOR = 8
+	DEGREE_PROFESSOR           = 16
 )
 
 // LEVEL
 const (
 	LEVEL_SUBCOMMITTEE = 1
 	LEVEL_SCHOOL       = 2
+)
+
+// Current status
+const (
+	IS_CURRENT     = 1
+	IS_NOT_CURRENT = 2
 )

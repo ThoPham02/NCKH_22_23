@@ -1,6 +1,7 @@
 
 import { Button } from "react-bootstrap";
 import "./style.css";
+import Confirm from "../../Confirm";
 
 
 const ConfirmStatus = ({ name }) => {
@@ -10,7 +11,7 @@ const ConfirmStatus = ({ name }) => {
         {name}
       </Button>
 
-
+    <Confirm />
     </>
   );
 };

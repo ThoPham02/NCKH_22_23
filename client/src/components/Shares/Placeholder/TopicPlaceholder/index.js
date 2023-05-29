@@ -1,6 +1,6 @@
 import Placeholder from "react-bootstrap/Placeholder";
 
-const TopicDetailPlaceholder = (props) => {
+const TopicDetailPlaceholder = () => {
   return (
     <div className="topic-info">
       <div className="topic-info-item row">

@@ -42,7 +42,7 @@ func (l *CreateEventLogic) CreateEvent(req *types.CreateEventReq) (resp *types.C
 		},
 		IsCurrent: sql.NullInt64{
 			Valid: true,
-			Int64: 0,
+			Int64: 1,
 		},
 	})
 	if err != nil {
@@ -135,7 +135,7 @@ func (l *CreateEventLogic) CreateEvent(req *types.CreateEventReq) (resp *types.C
 			ID:         eventID,
 			Name:       req.Name,
 			SchoolYear: req.SchoolYear,
-			IsCurrent:  1,
+			IsCurrent:  common.IS_CURRENT,
 			Stages:     stages,
 		},
 	}, nil

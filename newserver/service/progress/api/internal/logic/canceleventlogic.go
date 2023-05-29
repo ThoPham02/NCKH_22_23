@@ -46,7 +46,7 @@ func (l *CancelEventLogic) CancelEvent(req *types.CancelEventReq) (resp *types.C
 		Id:         event.Id,
 		Name:       event.Name,
 		SchoolYear: event.SchoolYear,
-		IsCurrent:  sql.NullInt64{Valid: true, Int64: 0},
+		IsCurrent:  sql.NullInt64{Valid: true, Int64: 2},
 	})
 	if err != nil {
 		l.Logger.Error(err)
