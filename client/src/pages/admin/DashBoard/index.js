@@ -21,9 +21,10 @@ import getCurrentStage from "../../../utils/getCurrentStage";
 
 const DashBoard = () => {
 	const dispatch = useDispatch()
-	const [stage, setStage] = useState()
+	const [stage, setStage] = useState() 
 	const [doneEvents, setDoneEvent] = useState([])
 	const adminEvent = useSelector(AdminEventSelector)
+	
 	useEffect(() => {
 		if (!adminEvent.current.stages) {
 			dispatch(fetchEvents())
@@ -31,25 +32,25 @@ const DashBoard = () => {
 		if (!adminEvent.doneEvents) {
 			dispatch(fetchDoneEvents())
 		}
-		// eslint-disable-next-line
 	}, [dispatch, adminEvent.current.stages, adminEvent.doneEvents])
-
+	
 	useEffect(() => {
-		if (adminEvent.current.stages) {
+		if (adminEvent.current?.stages) {
 			setStage(getCurrentStage(adminEvent.current.stages));
 		}
-		if (adminEvent.doneEvent) {
+		if (adminEvent?.doneEvent) {
 			setDoneEvent(adminEvent.doneEvent)
 		}
 		// eslint-disable-next-line
 	}, [adminEvent.current.stages, adminEvent.doneEvent]);
 
-	const [edit, setEdit] = useState(false)
+	const [create, setCreate] = useState(false)
 	const descriptionRef = useRef()
 	const timeStartRef = useRef()
 	const timeEndRef = useRef()
 	const nameRef = useRef()
 	const yearRef = useRef()
+	const [edit, setEdit] = useState(false)
 	const [show, setShow] = useState(false)
 	const loading = adminEvent.status === "loading"
 	const handleConfirmButton = () => {
@@ -76,8 +77,9 @@ const DashBoard = () => {
 			dispatch(cancelEvent({ id: adminEvent.current.id }))
 		}
 		setShow(false)
+		setEdit(false)
+		setCreate(false)
 	}
-	const [create, setCreate] = useState(false)
 
 	const user = useSelector(userSelector)
 	let isAdmin = user.role === 5
@@ -85,7 +87,7 @@ const DashBoard = () => {
 	return (
 		<div className="admin_dash_board">
 			<Card title={"NCKH đang diễn ra"}>
-				{adminEvent.result && adminEvent.result.code === 0 && stage ?
+				{adminEvent.current && adminEvent.current.stages && stage ?
 					<TimeLine descriptionRef={descriptionRef} timeEndRef={timeEndRef} timeStartRef={timeStartRef} setShow={setShow} setEdit={setEdit} edit={edit} data={adminEvent.current} isAdmin={isAdmin} />
 					:
 					<>

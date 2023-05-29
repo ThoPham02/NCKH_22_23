@@ -15,24 +15,21 @@ const DashBoard = () => {
   const [doneEvents, setDoneEvent] = useState([])
   const adminEvent = useSelector(AdminEventSelector)
   useEffect(() => {
-    if (!adminEvent.current.stages) {
+    if (!adminEvent.current) {
       dispatch(fetchEvents())
     }
     if (!adminEvent.doneEvents) {
       dispatch(fetchDoneEvents())
     }
-    // eslint-disable-next-line
-  }, [dispatch, adminEvent.current.stages, adminEvent.doneEvents])
-
-  useEffect(() => {
-    if (adminEvent.current.stages) {
-      setStage(getCurrentStage(adminEvent.current.stages));
+    
+    if (adminEvent.current) {
+      setStage(getCurrentStage(adminEvent.stages));
     }
     if (adminEvent.doneEvent) {
       setDoneEvent(adminEvent.doneEvent)
     }
     // eslint-disable-next-line
-  }, [adminEvent.current.stages, adminEvent.doneEvent]);
+  }, [dispatch, adminEvent.current, adminEvent.doneEvent]);
 
   const descriptionRef = useRef()
   const timeStartRef = useRef()
@@ -47,7 +44,7 @@ const DashBoard = () => {
   return (
     <div className="admin_dash_board">
       <Card title={"NCKH đang diễn ra"}>
-        {adminEvent.current && adminEvent.current.stages && stage ?
+        {adminEvent.current && adminEvent.stages && stage ?
           <TimeLine descriptionRef={descriptionRef} timeEndRef={timeEndRef} timeStartRef={timeStartRef} setShow={setShow} setEdit={setEdit} edit={edit} data={adminEvent.current} isAdmin={isAdmin} />
           :
           <div className="no-current">

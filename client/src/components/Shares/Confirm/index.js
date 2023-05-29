@@ -5,22 +5,23 @@ import "./style.css";
 import Loading from "../Loading";
 
 const Confirm = (props) => {
+  const {confirmShow, setConfirmShow, handleConfirmButton, isLoading, content} = props
   return (
     <Modal
       size="sm"
       aria-labelledby="contained-modal-title-vcenter"
-      show={props.confirmShow}
+      show={confirmShow}
       backdrop="static"
       keyboard={false}
       centered
     >
-      <Modal.Body>{props.content}</Modal.Body>
+      <Modal.Body>{content}</Modal.Body>
       <Modal.Footer>
-        <Button onClick={() => props.setConfirmShow(false)} variant="danger">
+        <Button onClick={() => setConfirmShow(false)} variant="danger">
           Close
         </Button>
-        <Button onClick={props.handleConfirmButton}>
-          {props.loading ? <Loading></Loading> : <></>}
+        <Button onClick={handleConfirmButton}>
+          {isLoading ? <Loading></Loading> : <></>}
           Xác nhận
         </Button>
       </Modal.Footer>

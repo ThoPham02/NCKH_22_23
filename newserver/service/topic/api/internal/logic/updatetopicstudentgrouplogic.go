@@ -44,6 +44,14 @@ func (l *UpdateTopicStudentGroupLogic) UpdateTopicStudentGroup(req *types.Update
 			},
 		}, nil
 	}
+	if currentEvent == nil {
+		return &types.UpdateTopicStudentGroupRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
 	topic, err = l.svcCtx.TopicModel.FindOne(l.ctx, req.ID)
 	if err != nil {
 		l.Logger.Error(err)

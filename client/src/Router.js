@@ -27,6 +27,11 @@ const privateRoutes = [
   { path: "/action", component: PublicTopic, role: 2},
   { path: "/result", component: PublicTopic, role: 2},
   { path: "/report", component: PublicTopic, role: 2},
+  // department routes
+  { path: "/admin-home", component: AdminDashBoard, role: 3, Layout: AdminLayout},
+  { path: "/admin-topic", component: PublicTopic, role: 3, Layout: AdminLayout},
+  { path: "/admin-result", component: PublicTopic, role: 3, Layout: AdminLayout},
+  { path: "/admin-report", component: PublicTopic, role: 3, Layout: AdminLayout},
 
   // faculty routes
   { path: "/admin-home", component: FacultyDashBoard, role: 4, Layout: AdminLayout},

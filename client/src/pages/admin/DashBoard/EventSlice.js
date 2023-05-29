@@ -17,7 +17,7 @@ const EventSlice = createSlice({
             .addCase(fetchEvents.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.event
-                state.result = action.payload.result
+                state.stages = action.payload.event.stages
             })
             .addCase(updateStage.pending, (state, action) => {
                 state.status = "loading"
@@ -25,7 +25,7 @@ const EventSlice = createSlice({
             .addCase(updateStage.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.event
-                state.result = action.payload.result
+                state.stages = action.payload.event.stages
             })
             .addCase(createEvent.pending, (state, action) => {
                 state.status = "loading"
@@ -33,7 +33,7 @@ const EventSlice = createSlice({
             .addCase(createEvent.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.event
-                state.result = action.payload.result
+                state.stages = action.payload.event.stages
             })
             .addCase(fetchDoneEvents.pending, (state, action) => {
                 state.status = "loading"
@@ -48,9 +48,8 @@ const EventSlice = createSlice({
                 state.status = "loading"
             })
             .addCase(cancelEvent.fulfilled, (state, action) => {
-                console.log(action.payload)
                 state.status = "idle"
-                state.current = action.payload.current
+                state.current = {}
                 state.doneEvent = action.payload.doneEvent
             })
     }
@@ -58,12 +57,16 @@ const EventSlice = createSlice({
 
 export const fetchEvents = createAsyncThunk("fetchEvents", async () => {
     const resp = await client.get(`/api/event-current`)
-
+    
     return resp.data
 })
 
 export const fetchDoneEvents = createAsyncThunk("fetchDoneEvents", async () => {
-    const resp = await client.get(`/api/events`)
+    const resp = await client.get(`/api/events`, {
+        params: {
+            isCurrent: 2
+        }
+    })
 
     return resp.data
 })
@@ -89,17 +92,19 @@ export const createEvent = createAsyncThunk("createEvent", async (payload) => {
 
     const fetch = await client.get(`/api/event-current`)
 
-    const resp = await client.get(`/api/events`)
-
-    return {current: fetch.data.current, doneEvent: resp.data.events}
+    return fetch.data
 })
 
 export const cancelEvent = createAsyncThunk("cancelEvent", async (payload) => {
     await client.put(`/api/cancel-event/${payload.id}`)
 
-    const fetch = await client.get(`/api/event-current`)
+    const resp = await client.get(`/api/events`, {
+        params: {
+            isCurrent: 2
+        }
+    })
 
-    return fetch.data
+    return resp.data
 })
 
 export default EventSlice

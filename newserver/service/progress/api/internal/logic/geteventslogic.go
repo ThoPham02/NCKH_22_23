@@ -36,7 +36,7 @@ func (l *GetEventsLogic) GetEvents(req *types.GetEventsReq) (resp *types.GetEven
 	var total int64
 	var mapStages = map[int64][]types.Stage{}
 
-	eventsModel, err = l.svcCtx.EventModel.FindEvents(l.ctx)
+	eventsModel, err = l.svcCtx.EventModel.FindEvents(l.ctx, req.IsCurrent)
 	if err != nil {
 		l.Logger.Error(err)
 		return &types.GetEventsRes{

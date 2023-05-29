@@ -17,7 +17,7 @@ type (
 		eventTblModel
 		FindCurrentEvent(ctx context.Context) (*EventTbl, error)
 		UpdateCurrentEvent(ctx context.Context, eventID int64) error
-		FindEvents(ctx context.Context) ([]EventTbl, error)
+		FindEvents(ctx context.Context, isCurrent int64) ([]EventTbl, error)
 	}
 
 	customEventTblModel struct {
@@ -46,7 +46,7 @@ func (m *customEventTblModel) FindCurrentEvent(ctx context.Context) (*EventTbl, 
 	}
 }
 func (m *customEventTblModel) UpdateCurrentEvent(ctx context.Context, eventID int64) error {
-	query := fmt.Sprintf("update %s set %s", m.table, "is_current=0")
+	query := fmt.Sprintf("update %s set %s", m.table, "is_current=2")
 	_, err := m.conn.ExecCtx(ctx, query)
 	if err != nil {
 		return err
@@ -56,10 +56,15 @@ func (m *customEventTblModel) UpdateCurrentEvent(ctx context.Context, eventID in
 	return err
 }
 
-func (m *customEventTblModel) FindEvents(ctx context.Context) ([]EventTbl, error) {
-	query := fmt.Sprintf("select %s from %s where is_current = 0", eventTblRows, m.table)
+func (m *customEventTblModel) FindEvents(ctx context.Context, isCurrent int64) ([]EventTbl, error) {
+	query := fmt.Sprintf("select %s from %s", eventTblRows, m.table)
 	var resp []EventTbl
-	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	var values = []interface{}{}
+	if isCurrent > 0 {
+		query += "where is_current = $1"
+		values = append(values, isCurrent)
+	}
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, values...)
 	switch err {
 	case nil:
 		return resp, nil

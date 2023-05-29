@@ -92,6 +92,7 @@ type CreateEventRes struct {
 }
 
 type GetEventsReq struct {
+	IsCurrent int64 `form:"isCurrent, optional"`
 }
 
 type GetEventsRes struct {

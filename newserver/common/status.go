@@ -38,3 +38,9 @@ const (
 	LEVEL_SUBCOMMITTEE = 1
 	LEVEL_SCHOOL       = 2
 )
+
+// Current status
+const (
+	IS_CURRENT     = 1
+	IS_NOT_CURRENT = 2
+)

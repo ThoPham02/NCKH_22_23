@@ -7,18 +7,19 @@ type Result struct {
 }
 
 type User struct {
-	ID          int64  `json:"id"`
-	Username    string `json:"username"`
-	Role        int64  `json:"role"`
-	Name        string `json:"name"`
-	Email       string `json:"email"`
-	Phone       string `json:"phone"`
-	FacultyID   int64  `json:"faculty_id"`
-	YearStart   int64  `json:"year_start"`
-	Degree      int64  `json:"degree"`
-	AvatarUrl   string `json:"avatar"`
-	Birthday    string `json:"birthday"`
-	BankAccount string `json:"bank_account"`
+	ID           int64  `json:"id"`
+	Username     string `json:"username"`
+	Role         int64  `json:"role"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	FacultyID    int64  `json:"faculty_id"`
+	DepartmentID int64  `json:"department_id"`
+	YearStart    int64  `json:"year_start"`
+	Degree       int64  `json:"degree"`
+	AvatarUrl    string `json:"avatar"`
+	Birthday     string `json:"birthday"`
+	BankAccount  string `json:"bank_account"`
 }
 
 type LoginReq struct {
@@ -38,18 +39,19 @@ type LoginRes struct {
 }
 
 type RegisterReq struct {
-	Username    string `json:"username"`
-	Password    string `json:"password"`
-	Name        string `json:"name"`
-	Role        int64  `json:"role"`
-	Email       string `json:"email"`
-	Phone       string `json:"phone"`
-	FacultyID   int64  `json:"faculty_id"`
-	YearStart   int64  `json:"year_start"`
-	Degree      int64  `json:"degree"`
-	AvatarUrl   string `json:"avatar_url"`
-	Birthday    string `json:"birthday"`
-	BankAccount string `json:"bank_account"`
+	Username     string `json:"username"`
+	Password     string `json:"password"`
+	Name         string `json:"name"`
+	Role         int64  `json:"role"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	FacultyID    int64  `json:"faculty_id"`
+	DepartmentID int64  `json:"department_id"`
+	YearStart    int64  `json:"year_start"`
+	Degree       int64  `json:"degree"`
+	AvatarUrl    string `json:"avatar_url"`
+	Birthday     string `json:"birthday"`
+	BankAccount  string `json:"bank_account"`
 }
 
 type RegisterRes struct {

@@ -8,11 +8,11 @@ import { TopicSearch } from "../../../components/Shares/Search";
 import { fetchTopics } from "./CommonTopicSlice";
 import { CommonTopicSelector } from "../../../store/selectors";
 import Action from "../../../components/Shares/Action";
-import ListTopicDetail from "../../../components/Shares/Detail/ListTopicDetail";
 import { getStatus } from "../../../utils/getStatus";
 import PaginationCustom from "../../../components/Shares/Pagination";
 import { LIMIT } from "../../../const/const";
 import Detail from "../../../components/Shares/Action/Detail";
+import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 
 const Topic = () => {
     const dispatch = useDispatch();
@@ -41,20 +41,22 @@ const Topic = () => {
         }
         // eslint-disable-next-line
     }, [topics.topics])
-
+    const [faculty, setFaculty] = useState(0)
     const handleSubmitForm = (e) => {
         e.preventDefault();
         setPagi(1)
         dispatch(fetchTopics({
-            statusRef: statusRef.current.value,
-            searchRef: searchRef.current.value,
-            dateFromRef: dateFromRef.current.value,
-            dateToRef: dateToRef.current.value,
-            eventRef: eventRef.current.value,
-            departmentRef: departmentRef.current.value,
+            status: statusRef.current.value,
+            search: searchRef.current.value,
+            timeStart: dateFromRef.current.value,
+            timeEnd: dateToRef.current.value,
+            event: eventRef.current.value,
+            departmentID: departmentRef.current.value,
+            facultyID: faculty,
             limit: LIMIT,
             offset: (pagi - 1) * LIMIT
         }))
+        setList(topics.topics)
     }
 
     return (
@@ -65,42 +67,46 @@ const Topic = () => {
                     searchRef={searchRef}
                     statusRef={statusRef}
                     dateFromRef={dateFromRef}
+                    faculty={faculty}
+                    setFaculty={setFaculty}
                     dateToRef={dateToRef}
                     departmentRef={departmentRef}
                     eventRef={eventRef}
                 />
-                <Table bordered hover size="sm" className="topic-table">
-                    <thead>
-                        <tr>
-                            <th style={{ width: "60px" }}>STT</th>
-                            <th>Đề tài</th>
-                            <th style={{ width: "60px" }}>Thao tác</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {list.map((item, index) => {
-                            return (
-                                <tr key={item.id}>
-                                    <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                    <td>
-                                        <ListTopicDetail
-                                            name={item.name}
-                                            lectureName={item.lectureInfo.degree + "." + item.lectureInfo.name}
-                                            phone={item.lectureInfo.phone}
-                                            email={item.lectureInfo.email}
-                                            status={getStatus(item.status)}
-                                            estimateStudent={item.estimateStudent}
-                                        />
-                                    </td>
-                                    <td><Action todo={[
-                                        < Detail name="Xem chi tiết" topicIn={item}/>,
-                                    ]} /></td>
+                {list.length === 0 ?
+                    <EmptyListNoti title={"Không có đề tài nào "} /> :
+                    <>
+                        <Table bordered hover size="sm" className="topic-table">
+                            <thead>
+                                <tr>
+                                    <th style={{ width: "60px" }}>STT</th>
+                                    <th style={{ width: "150px" }}>Giảng viên</th>
+                                    <th style={{ width: "260px" }}>Liên hệ</th>
+                                    <th>Đề tài</th>
+                                    <th style={{ width: "120px" }}>Trạng thái</th>
+                                    <th style={{ width: "60px" }}>Thao tác</th>
                                 </tr>
-                            )
-                        })}
-                    </tbody>
-                </Table>
-                <PaginationCustom setPagi={setPagi} pagi={pagi} total={topics.total} limit={LIMIT} />
+                            </thead>
+                            <tbody>
+                                {list.map((item, index) => {
+                                    return (
+                                        <tr key={item.id}>
+                                            <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                            <td>{item.lectureInfo.degree + "." + item.lectureInfo.name}</td>
+                                            <td style={{ textAlign: "center" }}>{item.lectureInfo.email}<br />{item.lectureInfo.phone}</td>
+                                            <td>{item.name}</td>
+                                            <td style={{ textAlign: "center" }}>{getStatus(item.status)}</td>
+                                            <td><Action todo={[
+                                                < Detail name="Xem chi tiết" topicIn={item} />,
+                                            ]} /></td>
+                                        </tr>
+                                    )
+                                })}
+                            </tbody>
+                        </Table>
+                        <PaginationCustom setPagi={setPagi} pagi={pagi} total={topics.total} limit={LIMIT} />
+                    </>
+                }
             </Card>
         </>
     )

@@ -21,7 +21,6 @@ const CommonTopicSlice = createSlice({
         state.status = "idle";
         state.topics = action.payload.topic;
         state.total = action.payload.total;
-        state.result = {}
       })
       .addCase(registationTopic.pending, (state, action) => {
         state.status = "loading";
@@ -57,13 +56,13 @@ export const fetchTopics = createAsyncThunk("getTopics", async (payload) => {
   const timeEnd = convertDateToTimestamp(payload.timeEnd);
   const response = await client.get("/api/topics", {
     params: {
-      search: payload.search === "" ? " " : payload.search,
+      search: payload.search,
       departmentID: payload.departmentID,
       facultyID: payload.facultyID,
       status: payload.status,
       eventID: 0,
-      timeStart: timeEnd,
-      timeEnd: timeStart,
+      timeStart: timeStart,
+      timeEnd: timeEnd,
       limit: payload.limit,
       offset: payload.offset,
     },

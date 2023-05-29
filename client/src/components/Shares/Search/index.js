@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Button, Form } from "react-bootstrap";
 
 import DateFrom from "./DateFrom";
@@ -18,9 +17,7 @@ export const SearchFaculty = Faculty;
 export const SearchDepartment = Department;
 
 export const TopicSearch = (props) => {
-    const { handleSubmitForm, searchRef, departmentRef, statusRef, dateFromRef, dateToRef, eventRef, isLoading } = props
-
-    const [faculty, setFaculty] = useState(0)
+    const { handleSubmitForm, searchRef, departmentRef, statusRef, dateFromRef, dateToRef, eventRef, isLoading, faculty, setFaculty } = props
 
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
