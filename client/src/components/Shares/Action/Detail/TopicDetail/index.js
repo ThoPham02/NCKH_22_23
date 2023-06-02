@@ -13,7 +13,7 @@ const TopicDetail = (props) => {
   console.log(props.data)
 
   const { department, faculty } = useDepartmentFaculty(topic.departmentID)
-  const isLoading = status === 'loading'
+  // const isLoading = status === 'loading'
   const isRegis = true
   const isCancel = true
   return (
