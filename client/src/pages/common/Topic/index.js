@@ -9,14 +9,18 @@ import { getStatus } from "../../../utils/getStatus";
 import Action from "../../../components/Shares/Action";
 import Detail from "../../../components/Shares/Action/Detail";
 import PaginationCustom from "../../../components/Shares/Pagination";
+import { LIMIT } from "../../../const/const";
+import { useState } from "react";
 
 const Topic = () => {
     const commonTopics = useSelector(CommonTopicSelector)
 
+    const [pagi, setPagi] = useState(1)
+
     return (
         <div className="topic">
             <Card title={"Danh sách đề tài của Nghiên Cứu Khoa Học sinh viên đang diễn ra"}>
-                <CurrentTopicsSearch />
+                <CurrentTopicsSearch offset={LIMIT * (pagi - 1)} limit={LIMIT}/>
 
                 {commonTopics.topics ?
                     <>
@@ -50,7 +54,7 @@ const Topic = () => {
                                 }
                             </tbody>
                         </Table>
-                        <PaginationCustom />
+                        <PaginationCustom setPagi={setPagi} pagi={pagi} total={commonTopics.total} limit={LIMIT}/>
                     </>
                     : <EmptyListNoti title={"Không có đề tài nào"} />}
             </Card>
