@@ -8,6 +8,11 @@ import Status from "./Status";
 import Word from "./Word";
 import Loading from "../Loading";
 import Event from "./Event";
+import { useDispatch, useSelector } from "react-redux";
+import { CommonTopicSelector } from "../../../store/selectors";
+import { useEffect, useState } from "react";
+import { fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
+import { StudentLectureStatus } from "../../../const/const";
 
 export const SearchWord = Word;
 export const SearchStatus = Status;
@@ -48,4 +53,49 @@ export const TopicSearch = (props) => {
         </Form>
     )
 
+}
+
+export const CurrentTopicsSearch = () => {
+    const [faculty, setFaculty] = useState(0)
+    const [search, setSearch] = useState("")
+    const [department, setDepartment] = useState(0)
+    const [status, setStatus] = useState(0)
+    const dispatch = useDispatch()
+    const isLoading = useSelector(CommonTopicSelector).status === 'loading'
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchTopics({search: search, facultyID: faculty, departmentID: department, status: status}))
+    }
+
+    useEffect(() => {
+        dispatch(fetchTopics({}))
+    }, [dispatch])
+
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch}/>
+            <Faculty
+                faculty={faculty}
+                setFaculty={setFaculty}
+            />
+            <Department
+                department={department}
+                setDepartment={setDepartment}
+                faculty={faculty}
+                defaultValue={"Tất cả bộ môn"}
+            />
+            <Status status={status} setStatus={setStatus} sumStatus={StudentLectureStatus}/>
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
 }

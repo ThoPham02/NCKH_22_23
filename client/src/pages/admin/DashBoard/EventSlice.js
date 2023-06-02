@@ -43,7 +43,8 @@ const EventSlice = createSlice({
             })
             .addCase(cancelEvent.fulfilled, (state, action) => {
                 state.status = "idle"
-                state.doneEvent = action.payload.doneEvent
+                state.doneEvent = action.payload.events
+                state.current = undefined
             })
     }
 })
@@ -65,7 +66,6 @@ export const fetchDoneEvents = createAsyncThunk("fetchDoneEvents", async () => {
 })
 
 export const updateStage = createAsyncThunk("updateStage", async (payload) => {
-    console.log(payload)
     await client.put(`/api/stage/${payload.stageID}`, {
         description: payload.description,
         url: "",

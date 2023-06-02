@@ -5,21 +5,22 @@ import { useEffect } from "react";
 import { departmentSelector } from "../../../../store/selectors";
 import { fetchDepartment } from "./DepartmentSlice";
 
-const Department = ({faculty, departmentRef, style, defaultValue }) => {
+const Department = ({faculty, department, setDepartment, style, defaultValue }) => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(fetchDepartment(faculty));
-  }, [dispatch, faculty]);
+    setDepartment(0)
+  }, [dispatch, faculty, setDepartment]);
 
-  const list = useSelector(departmentSelector).filter(item => faculty === 0 || item.facultyID === faculty*1)
+  const list = useSelector(departmentSelector).filter(item => faculty*1 === 0 || item.facultyID === faculty*1)
   return (
     <Form.Group className="col-12 col-sm-12 col-md-6 col-lg-3" style={style}>
-      <Form.Select ref={departmentRef}>
+      <Form.Select value={department} onChange={e => setDepartment(e.target.value)}>
         <option value="0">{defaultValue}</option>
-        {list.map((department, index) => {
+        {list.map((item, index) => {
           return (
-            <option value={department.id} key={index}>
-              {department.name}
+            <option value={item.id} key={index}>
+              {item.name}
             </option>
           );
         })}

@@ -46,3 +46,6 @@ export const topicStatus = [
     name: "Không Hoàn Thành"
   }
 ]
+
+
+export const StudentLectureStatus = 2044

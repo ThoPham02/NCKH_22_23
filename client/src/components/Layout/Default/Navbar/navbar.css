@@ -13,6 +13,7 @@
 
 .navbar-content>li {
   list-style-type: none;
+  position: relative;
 }
 
 .navbar-content {
@@ -39,6 +40,42 @@
   color: aliceblue;
   background-color: rgb(0 0 0 / 80%);
   border-radius: 10px 10px 0 0;
+}
+
+.navbar-content>li:hover .subnav {
+  height: auto;
+  transition: 0.5s;
+}
+
+.subnav {
+  list-style-type: none;
+  position: absolute;
+  z-index: 1000;
+  top: 32px;
+  width: 200px;
+  height: 0;
+  overflow: hidden;
+  padding: 0;
+
+  background-color: #fff;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.4);
+}
+
+.subnav>li {
+  padding: 8px 12px;
+}
+
+.subnav>li:hover {
+  background-color: rgb(0 0 0 / 80%);
+}
+.subnav>li:hover>a {
+  color: #fff;
+}
+
+.subnav>li>a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #000;
 }
 
 .nav__login svg {

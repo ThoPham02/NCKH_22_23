@@ -5,8 +5,7 @@ export const tokenSelector = (state) => state.login.token;
 export const departmentSelector = (state) => state.department.departments
 export const facultySelector = (state) => state.faculty.faculties
 // share selector
-    
-export const ShareTopicDetailSelector = state => state.ShareTopicDetailStore
+export const TopicDetailSelector = state => state.TopicDetailStore
 
 // common selector
 export const CommonEventSelector = (state) => state.CommonEventStore

@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import client from "../../../../apis";
 
-const ShareTopicDetailSlice = createSlice({
+const TopicDetailSlice = createSlice({
     name: "share-topic-detail",
     initialState: {
         status: "idle"
@@ -73,6 +73,6 @@ export const deleteStudentGroup = createAsyncThunk("deleteStudentGroup", async (
     return resp.data
 })
 
-export default ShareTopicDetailSlice;
-export const ShareTopicDetailReducer = ShareTopicDetailSlice.reducer;
-export  const ShareTopicDetailAction = ShareTopicDetailSlice.actions;
+export default TopicDetailSlice;
+export const TopicDetailReducer = TopicDetailSlice.reducer;
+export  const TopicDetailAction = TopicDetailSlice.actions;
