@@ -52,19 +52,19 @@ const CommonTopicSlice = createSlice({
 });
 
 export const fetchTopics = createAsyncThunk("getTopics", async (payload) => {
-  const timeStart = convertDateToTimestamp(payload.timeStart);
-  const timeEnd = convertDateToTimestamp(payload.timeEnd);
+  const timeStart = convertDateToTimestamp(payload.timeStart ? payload.timeStart : "")
+  const timeEnd = convertDateToTimestamp(payload.timeEnd ? payload.timeEnd : "");
   const response = await client.get("/api/topics", {
     params: {
-      search: payload.search,
-      departmentID: payload.departmentID,
-      facultyID: payload.facultyID,
-      status: payload.status,
-      eventID: 0,
+      search: payload.search ? payload.search : "",
+      departmentID: payload.departmentID ? payload.departmentID : 0,
+      facultyID: payload.facultyID ? payload.facultyID : 0,
+      status: payload.status ? payload.status : 0,
+      eventID: payload.eventID ? payload.eventID : 0,
       timeStart: timeStart,
       timeEnd: timeEnd,
-      limit: payload.limit,
-      offset: payload.offset,
+      limit: payload.limit ? payload.limit : 0,
+      offset: payload.offset ? payload.offset : 0,
     },
   });
 

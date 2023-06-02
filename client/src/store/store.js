@@ -6,14 +6,14 @@ import { AdminEventReducer } from "../pages/admin/DashBoard/EventSlice";
 import { LectureTopicReducer } from "../pages/lecture/Topic/LectureTopicSlice";
 import { CommonEventReducer } from "../components/Shares/Search/Event/CommonEventSlice";
 import { CommonTopicReducer } from "../pages/common/Topic/CommonTopicSlice";
-import { ShareTopicDetailReducer } from "../components/Shares/Action/Detail/ShareTopicDetailSlice";
+import { TopicDetailReducer } from "../components/Shares/Action/Detail/TopicDetailSlice";
 
 const store = configureStore({
   reducer: {
     //share reducer
     department: DepartmentReducer,
     faculty: FacultyReducer,
-    ShareTopicDetailStore: ShareTopicDetailReducer,
+    TopicDetailStore: TopicDetailReducer,
 
 
     // common reducer

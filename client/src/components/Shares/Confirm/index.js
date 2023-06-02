@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 
 const Confirm = (props) => {
-  const { title, action, isLoading, content, onClick } = props
+  const { title, action, isLoading, content, onClick, variant } = props
   const [show, setShow] = useState(false)
 
   const dispatch = useDispatch()
@@ -18,7 +18,7 @@ const Confirm = (props) => {
   }
   return (
     <>
-      <Button onClick={() => setShow(true)} variant="danger">{title}</Button>
+      <Button onClick={() => setShow(true)} variant={variant}>{title}</Button>
 
       <Modal
         size="sm"

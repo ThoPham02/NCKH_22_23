@@ -2,7 +2,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 
 import "./style.css";
 
-const CustomeProgress = ({ setStage, data }) => {
+const CustomeProgress = ({stage, setStage, data }) => {
   let now = 0
   let current = new Date().getTime();
   for (let i = 0; i < data.length; i++) {
@@ -13,7 +13,7 @@ const CustomeProgress = ({ setStage, data }) => {
   let persent = (now / (data.length - 1)) * 100;
   return (
     <div className="custom_progress">
-      <div className="curentStage" style={{ left: `calc(${(now / (data.length - 1)) * 95}% - 5px)` }}></div>
+      <div className="curentStage" style={{ left: `calc(${(data.indexOf(stage) / (data.length - 1)) * 95}% - 5px)` }}></div>
       {data.map((item, index) => {
         return (
           <div

@@ -1,13 +1,15 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Accordion, Button } from "react-bootstrap";
 
 import Card from "../../../components/Shares/Card";
 import { AdminEventSelector } from "../../../store/selectors";
-import { createEvent, fetchEvents } from "./EventSlice";
+import { createEvent, fetchDoneEvents, fetchEvents } from "./EventSlice";
 import "./style.css";
 import TimeLine from "../../../components/Shares/TimeLine";
 import Confirm from "../../../components/Shares/Confirm";
+import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
+import Loading from "../../../components/Shares/Loading";
 
 const DashBoard = () => {
   const dispatch = useDispatch()
@@ -15,14 +17,13 @@ const DashBoard = () => {
 
   useEffect(() => {
     dispatch(fetchEvents())
+    dispatch(fetchDoneEvents())
   }, [dispatch])
 
 
   let currentExists = adminEvent.current && adminEvent.current.stages
   let isLoading = adminEvent.status === 'loading'
 
-  const nameRef = useRef()
-  const yearRef = useRef()
   const [name, setName] = useState("")
   const [year, setYear] = useState("")
   const [create, setCreate] = useState(false)
@@ -77,6 +78,7 @@ const DashBoard = () => {
                 </div>
                 <div>
                 </div>
+                {isLoading ? <Loading /> : <></>}
               </div>
               :
               <div className="no-current">
@@ -88,22 +90,27 @@ const DashBoard = () => {
         }
       </Card>
 
-      {/* <Card title={"NCKH đã thực hiện"}>
-				<Accordion defaultActiveKey={0}>
-					{doneEvents.map((item, index) => {
-						return (
-							<Accordion.Item key={item.id} eventKey={index}>
-								<Accordion.Header style={{}}>
-									{item.name}
-								</Accordion.Header>
-								<Accordion.Body>
-									<TimeLine data={item} />
-								</Accordion.Body>
-							</Accordion.Item>
-						)
-					})}
-				</Accordion>
-			</Card> */}
+      <Card title={"NCKH đã thực hiện"}>
+        {
+          !adminEvent.doneEvent ?
+            <EmptyListNoti /> :
+            <Accordion>
+              {adminEvent.doneEvent.map((item, index) => {
+                return (
+                  <Accordion.Item key={item.id} eventKey={index}>
+                    <Accordion.Header style={{}}>
+                      {item.name}
+                    </Accordion.Header>
+                    <Accordion.Body>
+                      <TimeLine data={item} />
+                    </Accordion.Body>
+                  </Accordion.Item>
+                )
+              })}
+            </Accordion>
+        }
+        {isLoading ? <Loading /> : <></>}
+      </Card>
     </div >
   );
 };

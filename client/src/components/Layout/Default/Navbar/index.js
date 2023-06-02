@@ -5,10 +5,8 @@ import { useDispatch, useSelector } from "react-redux";
 import "./navbar.css";
 import { LoginActions } from "../../../../pages/common/Login/LoginSlice";
 import { userSelector } from "../../../../store/selectors";
-import { userNav } from "./data";
 
 const NavBar = () => {
-
   const navige = useNavigate()
   const dispatch = useDispatch();
   const user = useSelector(userSelector);
@@ -48,11 +46,41 @@ const NavBar = () => {
         <li>
           <Link to="/home">Trang chủ</Link>
         </li>
-        {userNav[user.role].map((item, index) => (
-          <li key={index}>
-            <Link to={item.path}>{item.name}</Link>
+        <li>
+          <Link to="#">
+            Đề tài
+          </Link>
+          <ul className="subnav">
+            <li>
+              <Link to={"/topics"}>Tổng Quan</Link>
+            </li>
+            <li>
+              <Link to={user.role === 0 ? "/login" : "/my-topic"}>Đề tài của tôi</Link>
+            </li>
+          </ul>
+        </li>
+        {user.role !== 0 ?
+          <li>
+            <Link to="#">Nghiệm Thu</Link>
+            <ul className="subnav">
+              <li>
+                <Link to={"/subcommittee-report"}>Cấp Tiểu Ban</Link>
+              </li>
+              <li>
+                <Link to={"/school-report"}>Cấp Trường</Link>
+              </li>
+              {
+                user.role === 2 ?
+                  <li>
+                    <Link to={"/mark"}>Chấm điểm</Link>
+                  </li> : <></>
+              }
+            </ul>
           </li>
-        ))}
+          : <></>}
+        <li>
+          <Link to="/result">Kết quả</Link>
+        </li>
         <li>
           <Link to="/contact">Liên hệ</Link>
         </li>

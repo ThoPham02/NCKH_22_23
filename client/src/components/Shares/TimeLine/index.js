@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux";
-import { Button } from "react-bootstrap";
-import { useRef, useState } from "react";
+import { Button, FloatingLabel, Form } from "react-bootstrap";
+import { useEffect, useState } from "react";
 
 import "./style.css"
 import CustomeProgress from "./CustomeProgress";
@@ -10,6 +10,7 @@ import { cancelEvent, updateStage } from "../../../pages/admin/DashBoard/EventSl
 import { userSelector } from "../../../store/selectors";
 import { AdminEventSelector } from "../../../store/selectors";
 import { convertDateToTimestamp } from "../../../utils/time";
+import Loading from "../Loading";
 
 const TimeLine = (props) => {
     const { data } = props
@@ -26,10 +27,21 @@ const TimeLine = (props) => {
         }
     }
     const [stage, setStage] = useState(data.stages[now])
+    useEffect(() => {
+        setStage(data.stages[now])
+    }, [data, now])
     const [edit, setEdit] = useState(false)
-    let isCurrent = useSelector(userSelector).role === 5 && data.isCurrent
+
+    let isEdit = useSelector(userSelector).role === 5 && data.isCurrent === 1
 
     let isLoading = useSelector(AdminEventSelector).status === 'loading'
+
+    const handleResetState = () => {
+        setEdit(false)
+        setDescription("")
+        setTimeEnd("")
+        setTimeStart("")
+    }
 
     return (
         <div>
@@ -37,13 +49,14 @@ const TimeLine = (props) => {
                 <div className="col-2 detail-head">NCKH:</div>
                 <div className="col-6">{data.name}</div>
                 {
-                    isCurrent ?
+                    isEdit ?
                         <div className="col-4">
                             <Confirm
                                 title={"Kết thúc NCKH"}
-                                content={"Xác nhận hủy  NCKH hiện tại!"}
+                                content={"Xác nhận kết thúc NCKH hiện tại!"}
                                 isLoading={isLoading}
                                 action={cancelEvent({ id: data.id })}
+                                variant={"danger"}
                             />
                         </div> : <></>
                 }
@@ -52,7 +65,7 @@ const TimeLine = (props) => {
                 <div className="col-2 detail-head">Năm học: </div>
                 <div className="col-6">{data.schoolYear}</div>
             </div>
-            <CustomeProgress setStage={setStage} data={data.stages} />
+            <CustomeProgress setStage={setStage} data={data.stages} stage={stage} />
             <div className="stage-detail">
                 <div style={{ fontWeight: "bold" }}>Thông tin giai đoạn:</div>
                 <div className="row detail-item">
@@ -63,14 +76,17 @@ const TimeLine = (props) => {
                     <div className="col-2 detail-head">Mô tả:</div>
                     <div className="col-8">
                         {edit ?
-                            <input
-                                type="text"
-                                placeholder="Mô tả chung về giai đoạn"
-                                style={{ width: "600px" }}
-                                className="input"
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                            /> : <>{stage.description}</>}
+                            <FloatingLabel controlId="floatingTextarea2" label="Mô tả chung về giai đoạn">
+                                <Form.Control
+                                    as="textarea"
+                                    placeholder="Mô tả chung"
+                                    style={{ height: '100px' }}
+                                    value={description}
+                                    onChange={(e) => setDescription(e.target.value)}
+                                />
+                            </FloatingLabel>
+                            :
+                            stage.description ? stage.description : "Chưa có mô tả"}
                     </div>
                 </div>
                 <div className="row detail-item">
@@ -101,7 +117,7 @@ const TimeLine = (props) => {
                         }
                     </div>
                 </div>
-                {isCurrent
+                {isEdit
                     ?
                     <div className="row detail-item">
                         <div className="col-2 detail-head"></div>
@@ -111,7 +127,7 @@ const TimeLine = (props) => {
                                     <Button style={{ marginRight: "12px" }} onClick={() => setEdit(false)}>Hủy</Button>
                                     <Confirm
                                         title={"Xác nhận"}
-                                        content={"Xác nhận thao tác"}
+                                        content={"Xác nhận chỉnh sửa giai đoạn"}
                                         isLoading={isLoading}
                                         action={updateStage({
                                             stageID: stage.id,
@@ -119,11 +135,12 @@ const TimeLine = (props) => {
                                             timeStart: convertDateToTimestamp(timeStart),
                                             timeEnd: convertDateToTimestamp(timeEnd)
                                         })}
-                                        onClick={() => setEdit(false)}
+                                        onClick={handleResetState}
                                     />
                                 </div>
                                 : <Button onClick={() => setEdit(true)}>Chỉnh sửa</Button>}
                         </div>
+                        {isLoading ? <Loading /> : <></>}
                     </div>
                     : <></>}
             </div>

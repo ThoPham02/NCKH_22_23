@@ -2,7 +2,7 @@ import Pagination from "react-bootstrap/Pagination";
 
 import "./pagination.css";
 
-const PaginationCustom = ({ setPagi, currentPage, total, limit, style }) => {
+const PaginationCustom = ({ setPagi, pagi, total, limit, style }) => {
   let num = Math.ceil(total / limit);
   let pagiList = [];
   for (let i = 0; i < num; i++) {
@@ -11,19 +11,19 @@ const PaginationCustom = ({ setPagi, currentPage, total, limit, style }) => {
   return (
     <div className="pagination" style={style}>
       <Pagination size="sm">
-      <Pagination.Prev onClick={()=>setPagi(currentPage-1)} disabled={currentPage===1}/>
+      <Pagination.Prev onClick={()=>setPagi(pagi-1)} disabled={pagi===1}/>
         {pagiList.map((number) => {
           return (
             <Pagination.Item
               key={number}
-              active={number === currentPage}       
+              active={number === pagi}       
               onClick={(e) => setPagi(e.target.innerHTML*1)} 
             >
               {number}
             </Pagination.Item>
           );
         })}
-      <Pagination.Next onClick={()=>setPagi(currentPage+1)} disabled={currentPage===num}/>
+      <Pagination.Next onClick={()=>setPagi(pagi+1)} disabled={pagi===num}/>
       </Pagination>
 
     </div>
