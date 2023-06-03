@@ -92,7 +92,15 @@ export const cancelTopic = createAsyncThunk(
 )
 
 export const addTopic = createAsyncThunk("addTopic", async (payload) => {
-  const resp = await client.post(`/api/topic`, {name: payload.name})
+  const resp = await client.post(`/api/topic`, {
+    name: payload.name,
+    departmentID: payload.departmentID,
+    lectureID: payload.lectureID,
+    estimateStudent: payload.estimateStudent,
+    description: payload.description,
+  })
+
+  fetchTopics({lectureID: payload.lectureID})
 
   return resp.data
 })

@@ -5,14 +5,20 @@ import Modal from "react-bootstrap/Modal";
 import { TbFilePlus } from "react-icons/tb"
 import Confirm from "../../Confirm";
 import { addTopic } from "../../../../pages/common/Topic/CommonTopicSlice";
+import { useSelector } from "react-redux";
+import { userSelector } from "../../../../store/selectors";
 
 const Suggest = () => {
+    const user = useSelector(userSelector)
+
     const [show, setShow] = useState(false);
     const [num, setNum] = useState(5);
+    const [name, setName] = useState("")
+    const [description, setDescription] = useState("")
 
     const handleClose = () => setShow(false);
     const handleClick = () => {
-        
+
     }
     return (
         <>
@@ -33,6 +39,8 @@ const Suggest = () => {
                                 type="text"
                                 placeholder="Nhập tên đề tài"
                                 autoFocus
+                                value={name}
+                                onChange={e => setName(e.target.value)}
                             />
                         </Form.Group>
                         <Form.Group className="mb-3">
@@ -46,7 +54,7 @@ const Suggest = () => {
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Mô tả:</Form.Label>
-                            <Form.Control as="textarea" rows={4} placeholder="Mô tả thêm về đề tài" />
+                            <Form.Control as="textarea" rows={4} placeholder="Mô tả thêm về đề tài" value={description} onChange={(e) => setDescription(e.target.value)} />
                         </Form.Group>
                     </Form>
                 </Modal.Body>
@@ -54,11 +62,11 @@ const Suggest = () => {
                     <Button variant="secondary" onClick={handleClose}>
                         Hủy
                     </Button>
-                    <Confirm 
-                    title="Đăng ký"
-                    content="Xác nhận đề xuất đề tài"
-                    action={addTopic({})}
-                    onClick={handleClick}
+                    <Confirm
+                        title="Đăng ký"
+                        content="Xác nhận đề xuất đề tài"
+                        action={addTopic({ name: name, lectureID: user.id, departmentID: user.department_id, estimateStudent: num, description: description })}
+                        onClick={handleClick}
                     />
                 </Modal.Footer>
             </Modal>

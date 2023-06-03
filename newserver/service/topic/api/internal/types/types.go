@@ -127,7 +127,6 @@ type CreateTopicReq struct {
 	Name            string `json:"name"`
 	LectureID       int64  `json:"lectureID"`
 	DepartmentID    int64  `json:"departmentID"`
-	EventID         int64  `json:"eventID"`
 	EstimateStudent int64  `json:"estimateStudent"`
 	Description     string `json:"description"`
 }
