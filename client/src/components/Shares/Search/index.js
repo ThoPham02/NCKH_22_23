@@ -12,7 +12,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { CommonTopicSelector } from "../../../store/selectors";
 import { useEffect, useState } from "react";
 import { fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
-import { StudentLectureStatus } from "../../../const/const";
 
 export const SearchWord = Word;
 export const SearchStatus = Status;
@@ -55,17 +54,18 @@ export const TopicSearch = (props) => {
 
 }
 
-export const CurrentTopicsSearch = () => {
+export const CurrentTopicsSearch = (props) => {
+    const { offset, limit } = props
+
     const [faculty, setFaculty] = useState(0)
     const [search, setSearch] = useState("")
     const [department, setDepartment] = useState(0)
-    const [status, setStatus] = useState(0)
     const dispatch = useDispatch()
     const isLoading = useSelector(CommonTopicSelector).status === 'loading'
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        dispatch(fetchTopics({search: search, facultyID: faculty, departmentID: department, status: status}))
+        dispatch(fetchTopics({search: search, facultyID: faculty, departmentID: department, offset: offset, limit: limit}))
     }
 
     useEffect(() => {
@@ -85,7 +85,6 @@ export const CurrentTopicsSearch = () => {
                 faculty={faculty}
                 defaultValue={"Tất cả bộ môn"}
             />
-            <Status status={status} setStatus={setStatus} sumStatus={StudentLectureStatus}/>
             <Form.Group>
                 <Button
                     variant="primary"

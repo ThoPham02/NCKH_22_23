@@ -44,6 +44,7 @@ type Topic struct {
 	TimeEnd         int64       `json:"timeEnd"`
 	GroupStudentId  int64       `json:"groupStudentId"`
 	EstimateStudent int64       `json:"estimateStudent"`
+	Description     string      `json:"description"`
 }
 
 type Student struct {
@@ -123,10 +124,12 @@ type CreateFacultyRes struct {
 }
 
 type CreateTopicReq struct {
-	Name         string `json:"name"`
-	LectureID    int64  `json:"lectureID"`
-	DepartmentID int64  `json:"departmentID"`
-	EventID      int64  `json:"eventID"`
+	Name            string `json:"name"`
+	LectureID       int64  `json:"lectureID"`
+	DepartmentID    int64  `json:"departmentID"`
+	EventID         int64  `json:"eventID"`
+	EstimateStudent int64  `json:"estimateStudent"`
+	Description     string `json:"description"`
 }
 
 type CreateTopicRes struct {
@@ -145,6 +148,7 @@ type UpdateTopicReq struct {
 	TimeStart      int64  `json:"timeStart"`
 	TimeEnd        int64  `json:"timeEnd"`
 	CashSupport    int64  `json:"cashSupport"`
+	Description    string `json:"description"`
 }
 
 type UpdateTopicRes struct {
@@ -201,17 +205,19 @@ type DeleteStudentGroupbyStudentIdRes struct {
 }
 
 type GetTopicsReq struct {
-	Search         string `form:"search, optional, optional"`
-	DepartmentID   int64  `form:"departmentID, optional, optional"`
-	FacultyID      int64  `form:"facultyID, optional, optional"`
-	Status         int64  `form:"status, optional, optional"`
-	LectureID      int64  `form:"lectureID, optional, optional"`
-	EventID        int64  `form:"eventID, optional, optional"`
-	SubcommitteeID int64  `form:"subcommitteeID, optional, optional"`
-	TimeStart      int64  `form:"timeStart, optional, optional"`
-	TimeEnd        int64  `form:"timeEnd, optional, optional"`
-	Limit          int64  `form:"limit, optional, optional"`
-	Offset         int64  `form:"offset, optional, optional"`
+	Search         string `form:"search, optional"`
+	DepartmentID   int64  `form:"departmentID, optional"`
+	FacultyID      int64  `form:"facultyID, optional"`
+	Status         int64  `form:"status, optional"`
+	LectureID      int64  `form:"lectureID, optional"`
+	StudentID      int64  `form:"studentID, optional"`
+	IsCurrent      int64  `form:"isCurrent, optional"`
+	EventID        int64  `form:"eventID, optional"`
+	SubcommitteeID int64  `form:"subcommitteeID, optional"`
+	TimeStart      int64  `form:"timeStart, optional"`
+	TimeEnd        int64  `form:"timeEnd, optional"`
+	Limit          int64  `form:"limit, optional"`
+	Offset         int64  `form:"offset, optional"`
 }
 
 type GetTopicsRes struct {

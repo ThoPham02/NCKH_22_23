@@ -42,6 +42,8 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 		FacultyID:      req.FacultyID,
 		Status:         req.Status,
 		LectureID:      req.LectureID,
+		StudentID:      req.StudentID,
+		IsCurrent:      req.IsCurrent,
 		EventID:        req.EventID,
 		SubcommitteeID: req.SubcommitteeID,
 		TimeStart:      req.TimeStart,
@@ -117,6 +119,7 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 			TimeEnd:         topicModel.TimeEnd.Int64,
 			GroupStudentId:  topicModel.GroupStudentsId.Int64,
 			EstimateStudent: topicModel.EstimateStudent,
+			Description:     topicModel.Description.String,
 		}
 		topics = append(topics, topic)
 	}

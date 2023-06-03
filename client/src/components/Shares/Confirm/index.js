@@ -1,10 +1,10 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
 
 import "./style.css";
 import Loading from "../Loading";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
 
 const Confirm = (props) => {
   const { title, action, isLoading, content, onClick, variant } = props

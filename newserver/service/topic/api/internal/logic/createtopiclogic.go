@@ -2,6 +2,7 @@ package logic
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/ThoPham02/research_management/common"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/svc"
@@ -31,12 +32,14 @@ func (l *CreateTopicLogic) CreateTopic(req *types.CreateTopicReq) (resp *types.C
 	l.Logger.Info("CreateTopic", req)
 
 	_, err = l.svcCtx.TopicModel.Insert(l.ctx, &model.TopicTbl{
-		Id:           sync.RandomID(),
-		Name:         req.Name,
-		LectureId:    req.LectureID,
-		DepartmentId: req.DepartmentID,
-		Status:       common.TOPIC_SUGGESTION,
-		EventId:      req.EventID,
+		Id:              sync.RandomID(),
+		Name:            req.Name,
+		LectureId:       req.LectureID,
+		DepartmentId:    req.DepartmentID,
+		Status:          common.TOPIC_SUGGESTION,
+		EventId:         req.EventID,
+		EstimateStudent: req.EstimateStudent,
+		Description:     sql.NullString{Valid: true, String: req.Description},
 	})
 	if err != nil {
 		l.Logger.Error(err)

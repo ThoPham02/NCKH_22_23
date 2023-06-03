@@ -59,7 +59,7 @@ const TopicDetail = (props) => {
           </div>
         </div>
         <div className=" row info-title">
-          <div className="col-2">Số thành viên dự kiến:</div>
+          <div className="col-2">Số thành viên dự kiến</div>
           <div className="col-10">
             <Badge bg="success" style={{marginBottom: "4px"}}>
               {topic.estimateStudent}
@@ -67,7 +67,7 @@ const TopicDetail = (props) => {
           </div>
         </div>
         <div className=" row info-title">
-          <div className="col-2">Nhóm sinh viên:</div>
+          <div className="col-2">Nhóm sinh viên</div>
           <div className="col-10 list-student">
             {listStudent ? (
               listStudent.map((item) => {

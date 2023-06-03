@@ -91,6 +91,12 @@ export const cancelTopic = createAsyncThunk(
   }
 )
 
+export const addTopic = createAsyncThunk("addTopic", async (payload) => {
+  const resp = await client.post(`/api/topic`, {name: payload.name})
+
+  return resp.data
+})
+
 export default CommonTopicSlice;
 export const CommonTopicReducer = CommonTopicSlice.reducer;
 export const CommonTopicAction = CommonTopicSlice.actions;
