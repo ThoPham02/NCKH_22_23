@@ -31,13 +31,32 @@ func (l *CreateTopicLogic) CreateTopic(req *types.CreateTopicReq) (resp *types.C
 	// todo: add your logic here and delete this line
 	l.Logger.Info("CreateTopic", req)
 
+	event, err := l.svcCtx.EventModel.FindCurrentEvent(l.ctx)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.CreateTopicRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+	if event == nil {
+		return &types.CreateTopicRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+
 	_, err = l.svcCtx.TopicModel.Insert(l.ctx, &model.TopicTbl{
 		Id:              sync.RandomID(),
 		Name:            req.Name,
 		LectureId:       req.LectureID,
 		DepartmentId:    req.DepartmentID,
 		Status:          common.TOPIC_SUGGESTION,
-		EventId:         req.EventID,
+		EventId:         event.Id,
 		EstimateStudent: req.EstimateStudent,
 		Description:     sql.NullString{Valid: true, String: req.Description},
 	})
