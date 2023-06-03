@@ -1,9 +1,10 @@
 import { AdminLayout, LoginLayout } from "./components/Layout";
 import { PublicHome, PublicLogin, PublicTopic, PublicResult, PublicContact } from "./pages/common";
-import { FacultyDashBoard } from "./pages/faculty";
-import { AdminDashBoard } from "./pages/admin";
+import { FacultyDashBoard, FacultyReport, FacultyResult, FacultyTopic } from "./pages/faculty";
+import { AdminDashBoard, AdminReport, AdminResult, AdminTopic } from "./pages/admin";
 import { StudentMyTopic, StudentResult, StudentSchoolReport, StudentSubcommitteeReport, StudentTopics } from "./pages/student";
 import { LectureMark, LectureMyTopic, LectureResult, LectureSchoolReport, LectureSubcommitteeReport, LectureTopic } from "./pages/lecture";
+import { DepartmentReport, DepartmentResult, DepartmentTopic } from "./pages/department";
 
 const publicRoutes = [
   { path: "/", component: PublicHome },
@@ -16,6 +17,16 @@ const privateRoutes = [
   // user dont login
   { path: "/topics", component: PublicTopic, role: 0 },
   { path: "/result", component: PublicResult, role: 0 },
+  { path: "/admin-home", component: PublicHome, role: 0 },
+  { path: "/admin-topic", component: PublicHome, role: 0 },
+  { path: "/admin-result", component: PublicHome, role: 0 },
+  { path: "/admin-report", component: PublicHome, role: 0 },
+  { path: "/topics", component: PublicHome, role: 0 },
+  { path: "/my-topic", component: PublicHome, role: 0 },
+  { path: "/subcommittee-report", component: PublicHome, role: 0 },
+  { path: "/school-report", component: PublicHome, role: 0 },
+  { path: "/mark", component: PublicHome, role: 0 },
+  { path: "/result", component: PublicHome, role: 0 },
   // student routes
   { path: "/topics", component: StudentTopics, role: 1 },
   { path: "/my-topic", component: StudentMyTopic, role: 1 },
@@ -30,25 +41,24 @@ const privateRoutes = [
   { path: "/school-report", component: LectureSchoolReport, role: 2 },
   { path: "/mark", component: LectureMark, role: 2 },
   { path: "/result", component: LectureResult, role: 2 },
-  
+
   // department routes
   { path: "/admin-home", component: AdminDashBoard, role: 3, Layout: AdminLayout },
-  { path: "/admin-topics", component: PublicTopic, role: 3, Layout: AdminLayout },
-  { path: "/admin-my-topics", component: PublicTopic, role: 3, Layout: AdminLayout },
-  { path: "/admin-result", component: PublicTopic, role: 3, Layout: AdminLayout },
-  { path: "/admin-report", component: PublicTopic, role: 3, Layout: AdminLayout },
+  { path: "/admin-topic", component: DepartmentTopic, role: 3, Layout: AdminLayout },
+  { path: "/admin-result", component: DepartmentResult, role: 3, Layout: AdminLayout },
+  { path: "/admin-report", component: DepartmentReport, role: 3, Layout: AdminLayout },
 
   // faculty routes
   { path: "/admin-home", component: FacultyDashBoard, role: 4, Layout: AdminLayout },
-  { path: "/admin-topic", component: PublicTopic, role: 4, Layout: AdminLayout },
-  { path: "/admin-result", component: PublicTopic, role: 4, Layout: AdminLayout },
-  { path: "/admin-report", component: PublicTopic, role: 4, Layout: AdminLayout },
+  { path: "/admin-topic", component: FacultyTopic, role: 4, Layout: AdminLayout },
+  { path: "/admin-result", component: FacultyResult, role: 4, Layout: AdminLayout },
+  { path: "/admin-report", component: FacultyReport, role: 4, Layout: AdminLayout },
 
   // admin routes
   { path: "/admin-home", component: AdminDashBoard, role: 5, Layout: AdminLayout },
-  { path: "/admin-topic", component: PublicTopic, role: 5, Layout: AdminLayout },
-  { path: "/admin-result", component: PublicTopic, role: 5, Layout: AdminLayout },
-  { path: "/admin-report", component: PublicTopic, role: 5, Layout: AdminLayout },
+  { path: "/admin-topic", component: AdminTopic, role: 5, Layout: AdminLayout },
+  { path: "/admin-result", component: AdminResult, role: 5, Layout: AdminLayout },
+  { path: "/admin-report", component: AdminReport, role: 5, Layout: AdminLayout },
 ];
 
 export {

@@ -13,7 +13,9 @@ const Confirm = (props) => {
   const dispatch = useDispatch()
   const handle = () => {
     dispatch(action)
-    setShow(false)
+    if (!isLoading) {
+      setShow(false)
+    }
     onClick?.();
   }
   return (
@@ -31,7 +33,7 @@ const Confirm = (props) => {
         <Modal.Body>{content}</Modal.Body>
         <Modal.Footer>
           <Button onClick={() => setShow(false)} variant="danger">
-            Close
+            Hủy
           </Button>
           <Button onClick={handle} >
             {isLoading ? <Loading></Loading> : <></>}

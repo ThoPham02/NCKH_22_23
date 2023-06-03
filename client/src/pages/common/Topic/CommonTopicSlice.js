@@ -47,7 +47,7 @@ const CommonTopicSlice = createSlice({
         state.status = "error"
         state.error = action.payload.error
         state.result = {}
-      });
+      })
   },
 });
 
@@ -90,20 +90,6 @@ export const cancelTopic = createAsyncThunk(
     return resp.data
   }
 )
-
-export const addTopic = createAsyncThunk("addTopic", async (payload) => {
-  const resp = await client.post(`/api/topic`, {
-    name: payload.name,
-    departmentID: payload.departmentID,
-    lectureID: payload.lectureID,
-    estimateStudent: payload.estimateStudent,
-    description: payload.description,
-  })
-
-  fetchTopics({lectureID: payload.lectureID})
-
-  return resp.data
-})
 
 export default CommonTopicSlice;
 export const CommonTopicReducer = CommonTopicSlice.reducer;

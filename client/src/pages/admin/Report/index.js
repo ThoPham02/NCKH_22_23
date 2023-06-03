@@ -100,7 +100,7 @@
 //                                 {Math.floor(Math.random() * 10) + 20 + "đ"}
 //                               </Badge>
 //                             </td>
-                           
+
 //                             <td>
 //                               <Action
 //                                 todo={[
@@ -133,3 +133,14 @@
 // };
 
 // export default Report;
+
+
+const Report = () => {
+    return (
+        <div>
+
+        </div>
+    )
+}
+
+export default Report;

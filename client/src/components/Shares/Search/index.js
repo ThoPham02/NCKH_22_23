@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CommonTopicSelector } from "../../../store/selectors";
 import { useEffect, useState } from "react";
 import { fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
+import { AdminStatus, StudentLectureStatus } from "../../../const/const";
 
 export const SearchWord = Word;
 export const SearchStatus = Status;
@@ -21,24 +22,37 @@ export const SearchFaculty = Faculty;
 export const SearchDepartment = Department;
 
 export const TopicSearch = (props) => {
-    const { handleSubmitForm, searchRef, departmentRef, statusRef, dateFromRef, dateToRef, eventRef, isLoading, faculty, setFaculty } = props
+    const dispatch = useDispatch()
 
+    const [search, setSearch] = useState("")
+    const [event, setEvent] = useState(0)
+    const [department, setDepartment] = useState(0)
+    const [faculty, setFaculty] = useState(0)
+    const [status, setStatus] = 0
+    const [dateFrom, setDateFrom] = useState("")
+    const [dateTo, setDateTo] = useState("")
+
+    const handleSubmitForm = () => {
+        dispatch(fetchTopics())
+    }
+    const isLoading = false
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
-            <Word searchRef={searchRef} />
-            <Event eventRef={eventRef} />
+            <Word search={search} setSearch={setSearch} />
+            <Event event={event} setEvent={setEvent} />
             <Faculty
                 faculty={faculty}
                 setFaculty={setFaculty}
             />
             <Department
-                departmentRef={departmentRef}
+                department={department}
+                setDepartment={setDepartment}
                 faculty={faculty}
                 defaultValue={"Tất cả bộ môn"}
             />
-            <Status statusRef={statusRef} />
-            <DateFrom dateFromRef={dateFromRef} />
-            <DateTo dateToRef={dateToRef} />
+            <Status status={status} setStatus={setStatus} sumStatus={AdminStatus} />
+            <DateFrom dateFrom={dateFrom} setDateFrom={setDateFrom} />
+            <DateTo dateTo={dateTo} setDateTo={setDateTo} />
             <Form.Group>
                 <Button
                     variant="primary"
@@ -60,12 +74,19 @@ export const CurrentTopicsSearch = (props) => {
     const [faculty, setFaculty] = useState(0)
     const [search, setSearch] = useState("")
     const [department, setDepartment] = useState(0)
+    const [status, setStatus] = useState(0)
     const dispatch = useDispatch()
     const isLoading = useSelector(CommonTopicSelector).status === 'loading'
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        dispatch(fetchTopics({search: search, facultyID: faculty, departmentID: department, offset: offset, limit: limit}))
+        dispatch(fetchTopics({
+            search: search,
+            facultyID: faculty,
+            departmentID: department,
+            offset: offset,
+            limit: limit
+        }))
     }
 
     useEffect(() => {
@@ -74,7 +95,7 @@ export const CurrentTopicsSearch = (props) => {
 
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
-            <Word search={search} setSearch={setSearch}/>
+            <Word search={search} setSearch={setSearch} />
             <Faculty
                 faculty={faculty}
                 setFaculty={setFaculty}
@@ -85,6 +106,7 @@ export const CurrentTopicsSearch = (props) => {
                 faculty={faculty}
                 defaultValue={"Tất cả bộ môn"}
             />
+            <Status status={status} setStatus={setStatus} sumStatus={StudentLectureStatus} />
             <Form.Group>
                 <Button
                     variant="primary"

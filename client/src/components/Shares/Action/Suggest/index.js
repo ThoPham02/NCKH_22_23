@@ -4,9 +4,9 @@ import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
 import { TbFilePlus } from "react-icons/tb"
 import Confirm from "../../Confirm";
-import { addTopic } from "../../../../pages/common/Topic/CommonTopicSlice";
 import { useSelector } from "react-redux";
-import { userSelector } from "../../../../store/selectors";
+import { CommonTopicSelector, userSelector } from "../../../../store/selectors";
+import { addTopic } from "../../../../pages/lecture/MyTopic/LectureMyTopicSlice";
 
 const Suggest = () => {
     const user = useSelector(userSelector)
@@ -17,8 +17,14 @@ const Suggest = () => {
     const [description, setDescription] = useState("")
 
     const handleClose = () => setShow(false);
+    const isLoading = useSelector(CommonTopicSelector).status === "loading"
     const handleClick = () => {
-
+        if (!isLoading) {
+            setShow(false)
+            setNum(5)
+            setDescription("")
+            setName("")
+        }
     }
     return (
         <>
@@ -65,8 +71,15 @@ const Suggest = () => {
                     <Confirm
                         title="Đăng ký"
                         content="Xác nhận đề xuất đề tài"
-                        action={addTopic({ name: name, lectureID: user.id, departmentID: user.department_id, estimateStudent: num, description: description })}
+                        action={addTopic({
+                            name: name,
+                            lectureID: user.id,
+                            departmentID: user.department_id,
+                            estimateStudent: num,
+                            description: description
+                        })}
                         onClick={handleClick}
+                        isLoading={isLoading}
                     />
                 </Modal.Footer>
             </Modal>

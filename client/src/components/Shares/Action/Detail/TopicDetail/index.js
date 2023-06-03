@@ -10,8 +10,6 @@ const TopicDetail = (props) => {
   // eslint-disable-next-line
   const { status, topic, event, subcommittee, reports, marks, listStudent } = props.data
 
-  console.log(props.data)
-
   const { department, faculty } = useDepartmentFaculty(topic.departmentID)
   // const isLoading = status === 'loading'
   const isRegis = true

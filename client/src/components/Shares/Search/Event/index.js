@@ -5,7 +5,7 @@ import { fetchEvents } from "./CommonEventSlice";
 import { CommonEventSelector } from "../../../../store/selectors";
 
 
-const Event = ({ eventRef }) => {
+const Event = ({ event, setEvent }) => {
   const dispatch = useDispatch();
   const list = useSelector(CommonEventSelector).events;
   useEffect(() => {
@@ -14,7 +14,7 @@ const Event = ({ eventRef }) => {
 
   return (
     <Form.Group className="col-12 col-sm-12 col-md-6 col-lg-3">
-      <Form.Select ref={eventRef}>
+      <Form.Select value={event} onChange={(e) => setEvent(e.target.value)}>
         <option value={0}>Tất cả NCKH</option>
         {list ? list.map((item, index) => {
           return (

@@ -7,6 +7,7 @@ import { LectureTopicReducer } from "../pages/lecture/Topic/LectureTopicSlice";
 import { CommonEventReducer } from "../components/Shares/Search/Event/CommonEventSlice";
 import { CommonTopicReducer } from "../pages/common/Topic/CommonTopicSlice";
 import { TopicDetailReducer } from "../components/Shares/Action/Detail/TopicDetailSlice";
+import { LectureMyTopicReducer } from "../pages/lecture/MyTopic/LectureMyTopicSlice";
 
 const store = configureStore({
   reducer: {
@@ -25,7 +26,8 @@ const store = configureStore({
     AdminEventStore: AdminEventReducer,
 
     //lecture reducer
-    LectureTopicStore: LectureTopicReducer
+    LectureTopicStore: LectureTopicReducer,
+    LectureMyTopicStore: LectureMyTopicReducer
   },
 });
 
