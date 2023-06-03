@@ -35,18 +35,19 @@ type (
 	}
 
 	TopicTbl struct {
-		Id              int64         `db:"id"`
-		Name            string        `db:"name"`
-		LectureId       int64         `db:"lecture_id"`
-		DepartmentId    int64         `db:"department_id"`
-		Status          int64         `db:"status"`
-		EventId         int64         `db:"event_id"`
-		SubcommitteeId  sql.NullInt64 `db:"subcommittee_id"`
-		TimeStart       sql.NullInt64 `db:"time_start"`
-		TimeEnd         sql.NullInt64 `db:"time_end"`
-		CashSupport     sql.NullInt64 `db:"cash_support"`
-		GroupStudentsId sql.NullInt64 `db:"group_students_id"`
-		EstimateStudent int64         `db:"estimate_student"`
+		Id              int64          `db:"id"`
+		Name            string         `db:"name"`
+		LectureId       int64          `db:"lecture_id"`
+		DepartmentId    int64          `db:"department_id"`
+		Status          int64          `db:"status"`
+		EventId         int64          `db:"event_id"`
+		SubcommitteeId  sql.NullInt64  `db:"subcommittee_id"`
+		TimeStart       sql.NullInt64  `db:"time_start"`
+		TimeEnd         sql.NullInt64  `db:"time_end"`
+		CashSupport     sql.NullInt64  `db:"cash_support"`
+		GroupStudentsId sql.NullInt64  `db:"group_students_id"`
+		EstimateStudent int64          `db:"estimate_student"`
+		Description     sql.NullString `db:"description"`
 	}
 )
 
@@ -78,14 +79,14 @@ func (m *defaultTopicTblModel) FindOne(ctx context.Context, id int64) (*TopicTbl
 }
 
 func (m *defaultTopicTblModel) Insert(ctx context.Context, data *TopicTbl) (sql.Result, error) {
-	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)", m.table, topicTblRowsExpectAutoSet)
-	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.LectureId, data.DepartmentId, data.Status, data.EventId, data.SubcommitteeId, data.TimeStart, data.TimeEnd, data.CashSupport, data.GroupStudentsId, data.EstimateStudent)
+	query := fmt.Sprintf("insert into %s (%s) values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13)", m.table, topicTblRowsExpectAutoSet)
+	ret, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.LectureId, data.DepartmentId, data.Status, data.EventId, data.SubcommitteeId, data.TimeStart, data.TimeEnd, data.CashSupport, data.GroupStudentsId, data.EstimateStudent, data.Description)
 	return ret, err
 }
 
 func (m *defaultTopicTblModel) Update(ctx context.Context, data *TopicTbl) error {
 	query := fmt.Sprintf("update %s set %s where id = $1", m.table, topicTblRowsWithPlaceHolder)
-	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.LectureId, data.DepartmentId, data.Status, data.EventId, data.SubcommitteeId, data.TimeStart, data.TimeEnd, data.CashSupport, data.GroupStudentsId, data.EstimateStudent)
+	_, err := m.conn.ExecCtx(ctx, query, data.Id, data.Name, data.LectureId, data.DepartmentId, data.Status, data.EventId, data.SubcommitteeId, data.TimeStart, data.TimeEnd, data.CashSupport, data.GroupStudentsId, data.EstimateStudent, data.Description)
 	return err
 }
 

@@ -18,6 +18,8 @@ type TopicConditions struct {
 	FacultyID      int64  `json:"facultyID"`
 	Status         int64  `json:"status"`
 	LectureID      int64  `json:"lectureID"`
+	StudentID      int64  `json:"studentID"`
+	IsCurrent      int64  `json:"isCurrent"`
 	EventID        int64  `json:"eventID"`
 	SubcommitteeID int64  `json:"subcommitteeID"`
 	TimeStart      int64  `json:"timeStart"`
@@ -65,6 +67,14 @@ func (m *customTopicTblModel) FindTopics(ctx context.Context, condition TopicCon
 	if condition.LectureID != 0 {
 		values = append(values, condition.LectureID)
 		query += fmt.Sprintf(" and lecture_id = $%d", len(values))
+	}
+	if condition.StudentID != 0 {
+		values = append(values, condition.StudentID)
+		query += fmt.Sprintf(" and group_students_id in (select group_id from student_group_tbl where student_id = $%d group by group_id)", len(values))
+	}
+	if condition.IsCurrent > 0 {
+		values = append(values, condition.IsCurrent)
+		query += fmt.Sprintf(" and event_id in (select id from event_tbl where is_current = $%d group by id)", len(values))
 	}
 	if condition.Status != 0 {
 		values = append(values, condition.Status)
@@ -118,6 +128,14 @@ func (m *customTopicTblModel) CountTopics(ctx context.Context, condition TopicCo
 	if condition.LectureID != 0 {
 		values = append(values, condition.LectureID)
 		query += fmt.Sprintf(" and lecture_id = $%d", len(values))
+	}
+	if condition.StudentID != 0 {
+		values = append(values, condition.StudentID)
+		query += fmt.Sprintf(" and group_students_id in (select group_id from student_group_tbl where student_id = $%d group by group_id)", len(values))
+	}
+	if condition.IsCurrent > 0 {
+		values = append(values, condition.IsCurrent)
+		query += fmt.Sprintf(" and event_id in (select id from event_tbl where is_current = $%d group by id)", len(values))
 	}
 	if condition.Status != 0 {
 		values = append(values, condition.Status)
