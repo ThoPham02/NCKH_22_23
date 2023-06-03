@@ -49,3 +49,4 @@ export const topicStatus = [
 
 
 export const StudentLectureStatus = 2044
+export const AdminStatus = 2047

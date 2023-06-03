@@ -13,4 +13,11 @@
     padding: 8px 12px;
     font-weight: bold;
     font-size: 18px;
+
+    display: flex;
+    align-items: center;
+}
+
+.card-switch {
+    color: rgba(0, 0, 0, 0.2);
 }

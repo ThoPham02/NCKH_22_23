@@ -5,5 +5,5 @@ import DashBoard from "./DashBoard";
 
 export const AdminTopic = Topic
 export const AdminResult = Result
-export const AdminReport=Report
+export const AdminReport = Report
 export const AdminDashBoard = DashBoard
