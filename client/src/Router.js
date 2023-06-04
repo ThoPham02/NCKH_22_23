@@ -2,8 +2,8 @@ import { AdminLayout, LoginLayout } from "./components/Layout";
 import { PublicHome, PublicLogin, PublicTopic, PublicResult, PublicContact } from "./pages/common";
 import { FacultyDashBoard, FacultyReport, FacultyResult, FacultyTopic } from "./pages/faculty";
 import { AdminDashBoard, AdminReport, AdminResult, AdminTopic } from "./pages/admin";
-import { StudentMyTopic, StudentResult, StudentSchoolReport, StudentSubcommitteeReport, StudentTopics } from "./pages/student";
-import { LectureMark, LectureMyTopic, LectureResult, LectureSchoolReport, LectureSubcommitteeReport, LectureTopic } from "./pages/lecture";
+import { StudentMyTopic, StudentResult, StudentSchoolReport, StudentSubcommitteeReport } from "./pages/student";
+import { LectureMark, LectureMyTopic, LectureResult, LectureSchoolReport, LectureSubcommitteeReport } from "./pages/lecture";
 import { DepartmentReport, DepartmentResult, DepartmentTopic } from "./pages/department";
 
 const publicRoutes = [
@@ -28,14 +28,14 @@ const privateRoutes = [
   { path: "/mark", component: PublicHome, role: 0 },
   { path: "/result", component: PublicHome, role: 0 },
   // student routes
-  { path: "/topics", component: StudentTopics, role: 1 },
+  { path: "/topics", component: PublicTopic, role: 1 },
   { path: "/my-topic", component: StudentMyTopic, role: 1 },
   { path: "/subcommittee-report", component: StudentSubcommitteeReport, role: 1 },
   { path: "/school-report", component: StudentSchoolReport, role: 1 },
   { path: "/result", component: StudentResult, role: 1 },
 
   // lecture routes
-  { path: "/topics", component: LectureTopic, role: 2 },
+  { path: "/topics", component: PublicTopic, role: 2 },
   { path: "/my-topic", component: LectureMyTopic, role: 2 },
   { path: "/subcommittee-report", component: LectureSubcommitteeReport, role: 2 },
   { path: "/school-report", component: LectureSchoolReport, role: 2 },

@@ -18,3 +18,7 @@ export const AdminEventSelector = (state) => state.AdminEventStore
 export const LectureTopicSelector = (state) => state.LectureTopicStore
 export const LectureMyTopicSelector = (state) => state.LectureMyTopicStore
 
+// department selector 
+export const DepartmentCurrentTopic = (state) => state.DepartmentTopicStore.current
+export const DepartmentDoneTopic = (state) => state.DepartmentTopicStore.done
+

@@ -1,7 +1,7 @@
 import Form from "react-bootstrap/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
-import { fetchEvents } from "./CommonEventSlice";
+import { fetchCommonEvents } from "./CommonEventSlice";
 import { CommonEventSelector } from "../../../../store/selectors";
 
 
@@ -9,7 +9,7 @@ const Event = ({ event, setEvent }) => {
   const dispatch = useDispatch();
   const list = useSelector(CommonEventSelector).events;
   useEffect(() => {
-    dispatch(fetchEvents());
+    dispatch(fetchCommonEvents());
   }, [dispatch]);
 
   return (

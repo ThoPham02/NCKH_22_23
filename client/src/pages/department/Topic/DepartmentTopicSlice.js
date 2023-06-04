@@ -4,36 +4,40 @@ import client from "../../../apis";
 const DepartmentTopicSlice = createSlice({
     name: "departmenttopic",
     initialState: {
-        gender: {},
-        regis: {},
-        suggest: {},
+        current: {},
+        done: {}
     },
     reducers: {},
     extraReducers: builder => {
         builder
-            .addCase(fetchTopics.pending, (state, action) => {
-                state.gender.status = "loading"
+            .addCase(fetchDepartmentCurentTopics.pending, (state, action) => {
+                state.current.status = "loading"
             })
-            .addCase(fetchTopics.fulfilled, (state, action) => {
-                state.gender.status = "idle"
-                state.gender.topics = action.payload.topic
-                state.gender.total = action.payload.total
+            .addCase(fetchDepartmentCurentTopics.fulfilled, (state, action) => {
+                state.current.status = "idle"
+                state.current.topics = action.payload.topic
+                state.current.total = action.payload.total
             })
             .addCase(updateStatus.pending, (state, action) => {
-                state.status = "loading"
+                state.current.status = "loading"
             })
             .addCase(updateStatus.fulfilled, (state, action) => {
-                state.status = "idle"
-                state.topics = action.payload.topic
-                state.total = action.payload.total
+                state.current.status = "idle"
+                state.current.topics = action.payload.topic
+                state.current.total = action.payload.total
             })
     }
 })
 
-export const fetchTopics = createAsyncThunk("fetchTopics", async (payload) => {
+export const fetchDepartmentCurentTopics = createAsyncThunk("fetchDepartmentCurentTopics", async (payload) => {
     const resp = await client.get("/api/topics", {
         params: {
-
+            departmentID: payload.departmentID,
+            search: payload.search ? payload.search : "",
+            status: payload.status ? payload.status : 0,
+            limit: payload.limit ? payload.limit : 0,
+            offset: payload.offset ? payload.offset : 0,
+            isCurrent: 1
         }
     })
 
@@ -45,7 +49,7 @@ export const updateStatus = createAsyncThunk("updateStatus", async (payload) => 
 
     const resp = await client.get("/api/topics", {
         params: {
-            
+
         }
     })
 
