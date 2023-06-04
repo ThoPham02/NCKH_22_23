@@ -7,7 +7,7 @@ import "./style.css";
 import Loading from "../Loading";
 
 const Confirm = (props) => {
-  const { title, action, isLoading, content, onClick, variant } = props
+  const { title, action, isLoading, content, onClick, variant, isAction } = props
   const [show, setShow] = useState(false)
 
   const dispatch = useDispatch()
@@ -20,7 +20,7 @@ const Confirm = (props) => {
   }
   return (
     <>
-      <Button onClick={() => setShow(true)} variant={variant}>{title}</Button>
+      <Button onClick={() => setShow(true)} variant={variant} className={isAction ? "button" : ""}>{title}</Button>
 
       <Modal
         size="sm"

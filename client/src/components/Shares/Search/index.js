@@ -9,7 +9,7 @@ import Word from "./Word";
 import Loading from "../Loading";
 import Event from "./Event";
 import { useDispatch, useSelector } from "react-redux";
-import { CommonTopicSelector } from "../../../store/selectors";
+import { CommonTopicSelector, userSelector } from "../../../store/selectors";
 import { useEffect, useState } from "react";
 import { fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
 import { AdminStatus, StudentLectureStatus } from "../../../const/const";
@@ -122,16 +122,15 @@ export const CurrentTopicsSearch = (props) => {
     )
 }
 
-export const DepartmentCurrentTopicSearch = (props) => {
-    const { departmentID } = props
-
+export const DepartmentCurrentTopicSearch = () => {
     const dispatch = useDispatch()
-
     const [search, setSearch] = useState("")
     const [status, setStatus] = useState(0)
 
-    const handleSubmitForm = () => {
-        dispatch(fetchTopics(fetchDepartmentCurentTopics({departmentID: departmentID, status: status, search: search})))
+    const departmentID = useSelector(userSelector).department_id
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchDepartmentCurentTopics({departmentID: departmentID, status: status, search: search}))
     }
     const isLoading = false
     return (

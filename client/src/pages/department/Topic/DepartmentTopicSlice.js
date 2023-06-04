@@ -45,11 +45,12 @@ export const fetchDepartmentCurentTopics = createAsyncThunk("fetchDepartmentCure
 })
 
 export const updateStatus = createAsyncThunk("updateStatus", async (payload) => {
-    await client.put(`/api/topic-status/${payload.id}`, { status: 4 })
+    await client.put(`/api/topic-status/${payload.id}`, { status: payload.status })
 
     const resp = await client.get("/api/topics", {
         params: {
-
+            departmentID: payload.departmentID,
+            isCurrent: 1
         }
     })
 

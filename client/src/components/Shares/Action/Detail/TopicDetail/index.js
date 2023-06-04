@@ -2,16 +2,16 @@
 import "./style.css"
 import { getStatus } from "../../../../../utils/getStatus";
 import { convertTimestampToDateString } from "../../../../../utils/time";
-import { useDepartmentFaculty } from "../../../../../hooks/useDepartmentFaculty";
 import SubCard from "../../../Card/SubCard";
 import { Badge } from "react-bootstrap";
+import { useDepartmentFaculty } from "../../../../../hooks/useDepartmentFaculty";
 
 const TopicDetail = (props) => {
   // eslint-disable-next-line
   const { status, topic, event, subcommittee, reports, marks, listStudent } = props.data
 
   const { department, faculty } = useDepartmentFaculty(topic.departmentID)
-  // const isLoading = status === 'loading'
+
   const isRegis = true
   const isCancel = true
   return (
@@ -59,7 +59,7 @@ const TopicDetail = (props) => {
         <div className=" row info-title">
           <div className="col-2">Số thành viên dự kiến</div>
           <div className="col-10">
-            <Badge bg="success" style={{marginBottom: "4px"}}>
+            <Badge bg="success" style={{ marginBottom: "4px" }}>
               {topic.estimateStudent}
             </Badge>
           </div>
