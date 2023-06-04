@@ -9,10 +9,11 @@ import Word from "./Word";
 import Loading from "../Loading";
 import Event from "./Event";
 import { useDispatch, useSelector } from "react-redux";
-import { CommonTopicSelector } from "../../../store/selectors";
+import { CommonTopicSelector, userSelector } from "../../../store/selectors";
 import { useEffect, useState } from "react";
 import { fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
 import { AdminStatus, StudentLectureStatus } from "../../../const/const";
+import { fetchDepartmentCurentTopics } from "../../../pages/department/Topic/DepartmentTopicSlice";
 
 export const SearchWord = Word;
 export const SearchStatus = Status;
@@ -28,7 +29,7 @@ export const TopicSearch = (props) => {
     const [event, setEvent] = useState(0)
     const [department, setDepartment] = useState(0)
     const [faculty, setFaculty] = useState(0)
-    const [status, setStatus] = 0
+    const [status, setStatus] = useState(0)
     const [dateFrom, setDateFrom] = useState("")
     const [dateTo, setDateTo] = useState("")
 
@@ -107,6 +108,69 @@ export const CurrentTopicsSearch = (props) => {
                 defaultValue={"Tất cả bộ môn"}
             />
             <Status status={status} setStatus={setStatus} sumStatus={StudentLectureStatus} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const DepartmentCurrentTopicSearch = () => {
+    const dispatch = useDispatch()
+    const [search, setSearch] = useState("")
+    const [status, setStatus] = useState(0)
+
+    const departmentID = useSelector(userSelector).department_id
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchDepartmentCurentTopics({departmentID: departmentID, status: status, search: search}))
+    }
+    const isLoading = false
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Status status={status} setStatus={setStatus} sumStatus={AdminStatus} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const DepartmentDoneTopicSearch = (props) => {
+    const dispatch = useDispatch()
+
+    const [search, setSearch] = useState("")
+    const [event, setEvent] = useState(0)
+    const [status, setStatus] = useState(0)
+    const [dateFrom, setDateFrom] = useState("")
+    const [dateTo, setDateTo] = useState("")
+
+    const handleSubmitForm = () => {
+        dispatch()
+    }
+    const isLoading = false
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Event event={event} setEvent={setEvent} />
+            <Status status={status} setStatus={setStatus} sumStatus={AdminStatus} />
+            <DateFrom dateFrom={dateFrom} setDateFrom={setDateFrom} />
+            <DateTo dateTo={dateTo} setDateTo={setDateTo} />
             <Form.Group>
                 <Button
                     variant="primary"

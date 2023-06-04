@@ -52,7 +52,7 @@ const NavBar = () => {
           </Link>
           <ul className="subnav">
             <li>
-              <Link to={"/topics"}>Tổng Quan</Link>
+              <Link to={"/topics"}>Tất cả đề tài</Link>
             </li>
             <li>
               <Link to={user.role === 0 ? "/login" : "/my-topic"}>Đề tài của tôi</Link>

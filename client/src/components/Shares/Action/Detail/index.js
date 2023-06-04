@@ -8,7 +8,6 @@ import { TopicPlaceholder } from "../../Placeholder";
 import TopicDetail from "./TopicDetail";
 import { fetchTopicDetail } from "./TopicDetailSlice";
 
-
 const Detail = ({ name, topicIn }) => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);

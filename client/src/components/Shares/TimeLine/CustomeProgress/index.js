@@ -2,7 +2,7 @@ import ProgressBar from "react-bootstrap/ProgressBar";
 
 import "./style.css";
 
-const CustomeProgress = ({stage, setStage, data }) => {
+const CustomeProgress = ({ stage, setStage, data }) => {
   let now = 0
   let current = new Date().getTime();
   for (let i = 0; i < data.length; i++) {

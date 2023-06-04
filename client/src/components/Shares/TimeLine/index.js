@@ -1,13 +1,14 @@
 import { useSelector } from "react-redux";
 import { Button, FloatingLabel, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
+import { AiTwotoneNotification } from "react-icons/ai"
 
 import "./style.css"
 import CustomeProgress from "./CustomeProgress";
 import { convertTimestampToDateString } from "../../../utils/time";
 import Confirm from "../Confirm";
 import { cancelEvent, updateStage } from "../../../pages/admin/DashBoard/EventSlice";
-import { userSelector } from "../../../store/selectors";
+import { roleSelector, userSelector } from "../../../store/selectors";
 import { AdminEventSelector } from "../../../store/selectors";
 import { convertDateToTimestamp } from "../../../utils/time";
 import Loading from "../Loading";
@@ -145,6 +146,49 @@ const TimeLine = (props) => {
                     : <></>}
             </div>
         </div>
+    )
+}
+
+export const SubTimeLine = (props) => {
+    const { data } = props
+
+    let current = new Date().getTime();
+    let now = 0
+    for (let i = 0; i < data.stages.length; i++) {
+        if (data.stages[i].timeStart !== 0 && data.stages[i].timeStart <= current) {
+            now = i
+        }
+    }
+    const [stage, setStage] = useState(data.stages[now])
+    useEffect(() => {
+        setStage(data.stages[now])
+    }, [data, now])
+
+    const role = useSelector(roleSelector)
+
+    const notiSuggest = role === 3 && stage.name === "Đề Xuất"
+    const notiRegis =  role === 3 && stage.name === "Đăng ký"
+
+    const handleSuggestClick = () => {}
+    return (
+        <>
+            <CustomeProgress setStage={setStage} data={data.stages} stage={stage} />
+            {notiSuggest ?
+                <div>
+                    <span style={{ fontWeight: "bold", color: "#00ace9" }}>
+                        <AiTwotoneNotification />Note: 
+                    </span>
+                    Công việc cần thực hiện trong Giai đoạn đề xuất - <Button onClick={handleSuggestClick}>Duyệt đề xuất</Button>
+                </div> : <></>}
+            {notiRegis ?
+                <div>
+                    <span style={{ fontWeight: "bold", color: "#00ace9" }}>
+                        <AiTwotoneNotification />Note: 
+                    </span>
+                    Công việc cần thực hiện trong Giai đoạn đăng ký - <Button onClick={handleSuggestClick}>Duyệt đăng ký</Button>
+                </div>
+                : <></>}
+        </>
     )
 }
 
