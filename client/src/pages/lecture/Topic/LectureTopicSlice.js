@@ -44,6 +44,7 @@ export const createTopic = createAsyncThunk("createTopic", async (payload) => {
     departmentID: payload.departmentID,
     eventID: payload.eventID,
     lectureID: payload.lectureID,
+    
   });
 
   return resp.data

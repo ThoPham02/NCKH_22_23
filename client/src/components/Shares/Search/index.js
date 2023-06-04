@@ -33,7 +33,8 @@ export const TopicSearch = (props) => {
     const [dateFrom, setDateFrom] = useState("")
     const [dateTo, setDateTo] = useState("")
 
-    const handleSubmitForm = () => {
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
         dispatch(fetchTopics())
     }
     const isLoading = false
@@ -130,7 +131,7 @@ export const DepartmentCurrentTopicSearch = () => {
     const departmentID = useSelector(userSelector).department_id
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        dispatch(fetchDepartmentCurentTopics({departmentID: departmentID, status: status, search: search}))
+        dispatch(fetchDepartmentCurentTopics({ departmentID: departmentID, status: status, search: search }))
     }
     const isLoading = false
     return (
@@ -160,7 +161,8 @@ export const DepartmentDoneTopicSearch = (props) => {
     const [dateFrom, setDateFrom] = useState("")
     const [dateTo, setDateTo] = useState("")
 
-    const handleSubmitForm = () => {
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
         dispatch()
     }
     const isLoading = false
@@ -169,6 +171,84 @@ export const DepartmentDoneTopicSearch = (props) => {
             <Word search={search} setSearch={setSearch} />
             <Event event={event} setEvent={setEvent} />
             <Status status={status} setStatus={setStatus} sumStatus={AdminStatus} />
+            <DateFrom dateFrom={dateFrom} setDateFrom={setDateFrom} />
+            <DateTo dateTo={dateTo} setDateTo={setDateTo} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const FacultyCurrentTopicSearch = ({faculty}) => {
+    const dispatch = useDispatch()
+    const [search, setSearch] = useState("")
+    const [status, setStatus] = useState(0)
+    const [department, setDepartment] = useState(0)
+
+    const departmentID = useSelector(userSelector).department_id
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchDepartmentCurentTopics({ departmentID: departmentID, status: status, search: search }))
+    }
+    const isLoading = false
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Status status={status} setStatus={setStatus} sumStatus={AdminStatus} />
+            <Department
+                department={department}
+                setDepartment={setDepartment}
+                faculty={faculty}
+                defaultValue={"Tất cả bộ môn"}
+            />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const FacultyDoneTopicSearch = ({faculty}) => {
+    const dispatch = useDispatch()
+
+    const [search, setSearch] = useState("")
+    const [event, setEvent] = useState(0)
+    const [status, setStatus] = useState(0)
+    const [dateFrom, setDateFrom] = useState("")
+    const [dateTo, setDateTo] = useState("")
+    const [department, setDepartment] = useState(0)
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch()
+    }
+    const isLoading = false
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Event event={event} setEvent={setEvent} />
+            <Status status={status} setStatus={setStatus} sumStatus={AdminStatus} />
+            <Department
+                department={department}
+                setDepartment={setDepartment}
+                faculty={faculty}
+                defaultValue={"Tất cả bộ môn"}
+            />
             <DateFrom dateFrom={dateFrom} setDateFrom={setDateFrom} />
             <DateTo dateTo={dateTo} setDateTo={setDateTo} />
             <Form.Group>
