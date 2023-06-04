@@ -9,10 +9,10 @@ import Word from "./Word";
 import Loading from "../Loading";
 import Event from "./Event";
 import { useDispatch, useSelector } from "react-redux";
-import { CommonTopicSelector, userSelector } from "../../../store/selectors";
+import { CommonCurrentTopicSelector, userSelector } from "../../../store/selectors";
 import { useEffect, useState } from "react";
-import { fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
-import { AdminStatus, StudentLectureStatus } from "../../../const/const";
+import { fetchCommonDoneTopics, fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
+import { AdminStatus, LIMIT, StudentLectureStatus } from "../../../const/const";
 import { fetchDepartmentCurentTopics } from "../../../pages/department/Topic/DepartmentTopicSlice";
 
 export const SearchWord = Word;
@@ -23,8 +23,8 @@ export const SearchFaculty = Faculty;
 export const SearchDepartment = Department;
 
 export const TopicSearch = (props) => {
+    const { pagi, setPagi, isLoading } = props
     const dispatch = useDispatch()
-
     const [search, setSearch] = useState("")
     const [event, setEvent] = useState(0)
     const [department, setDepartment] = useState(0)
@@ -35,9 +35,35 @@ export const TopicSearch = (props) => {
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
-        dispatch(fetchTopics())
+        setPagi(1)
+        dispatch(fetchCommonDoneTopics({
+            search: search,
+            departmentID: department,
+            facultyID: faculty,
+            status: status,
+            eventID: event,
+            timeStart: dateFrom,
+            timeEnd: dateTo,
+            limit: LIMIT,
+            offset: 0,
+            isCurrent: 1
+        }))
     }
-    const isLoading = false
+    useEffect(() => {
+        dispatch(fetchCommonDoneTopics({
+            search: search,
+            departmentID: department,
+            facultyID: faculty,
+            status: status,
+            eventID: event,
+            timeStart: dateFrom,
+            timeEnd: dateTo,
+            limit: LIMIT,
+            offset: LIMIT * (pagi - 1),
+            isCurrent: 1
+        }))
+        // eslint-disable-next-line
+    }, [dispatch, pagi])
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
             <Word search={search} setSearch={setSearch} />
@@ -78,7 +104,7 @@ export const CurrentTopicsSearch = (props) => {
     const [department, setDepartment] = useState(0)
     const [status, setStatus] = useState(0)
     const dispatch = useDispatch()
-    const isLoading = useSelector(CommonTopicSelector).status === 'loading'
+    const isLoading = useSelector(CommonCurrentTopicSelector).status === 'loading'
 
     const handleSubmitForm = (e) => {
         e.preventDefault()
@@ -187,7 +213,7 @@ export const DepartmentDoneTopicSearch = (props) => {
     )
 }
 
-export const FacultyCurrentTopicSearch = ({faculty}) => {
+export const FacultyCurrentTopicSearch = ({ faculty }) => {
     const dispatch = useDispatch()
     const [search, setSearch] = useState("")
     const [status, setStatus] = useState(0)
@@ -223,7 +249,7 @@ export const FacultyCurrentTopicSearch = ({faculty}) => {
     )
 }
 
-export const FacultyDoneTopicSearch = ({faculty}) => {
+export const FacultyDoneTopicSearch = ({ faculty }) => {
     const dispatch = useDispatch()
 
     const [search, setSearch] = useState("")

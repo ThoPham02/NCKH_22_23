@@ -9,7 +9,8 @@ export const TopicDetailSelector = state => state.TopicDetailStore
 
 // common selector
 export const CommonEventSelector = (state) => state.CommonEventStore
-export const CommonTopicSelector = (state) => state.CommonTopicStore
+export const CommonCurrentTopicSelector = (state) => state.CommonTopicStore.current
+export const CommonDoneTopicSelector = (state) => state.CommonTopicStore.done
 
 // admin selector
 export const AdminEventSelector = (state) => state.AdminEventStore

@@ -4,7 +4,7 @@ import { useState } from "react";
 
 import { CurrentTopicsSearch, TopicSearch } from "../../../components/Shares/Search";
 import "./style.css"
-import { CommonTopicSelector } from "../../../store/selectors";
+import { CommonCurrentTopicSelector, CommonDoneTopicSelector } from "../../../store/selectors";
 import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import { getStatus } from "../../../utils/getStatus";
 import Action from "../../../components/Shares/Action";
@@ -13,7 +13,8 @@ import PaginationCustom from "../../../components/Shares/Pagination";
 import { LIMIT } from "../../../const/const";
 import SwitchCard from "../../../components/Shares/Card/SwitchCard";
 const Topic = () => {
-    const commonTopics = useSelector(CommonTopicSelector)
+    const commonTopics = useSelector(CommonCurrentTopicSelector)
+    const doneTopic = useSelector(CommonDoneTopicSelector)
 
     const [pagi, setPagi] = useState(1)
     const [pagi2, setPagi2] = useState(1)
@@ -21,7 +22,7 @@ const Topic = () => {
 
     return (
         <div className="topic">
-            <SwitchCard title1={"NCKH đang diễn ra"} title2={"NCKH đã hoàn thành"} buttonSwitch={switchPage} setButtonSwitch={setSwitchPage}>
+            <SwitchCard switchPage={switchPage} setSwitchPage={setSwitchPage}>
                 {!switchPage ?
                     (
                         <><CurrentTopicsSearch offset={LIMIT * (pagi - 1)} limit={LIMIT} />
@@ -43,7 +44,7 @@ const Topic = () => {
                                                 commonTopics.topics.map((item, index) => {
                                                     return (
                                                         <tr key={index}>
-                                                            <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                                            <td style={{ textAlign: "center" }}>{index + 1 + LIMIT * (pagi - 1)}</td>
                                                             <td>{item.lectureInfo.degree + "." + item.lectureInfo.name}</td>
                                                             <td style={{ textAlign: "center" }}>{item.lectureInfo.email}<br />{item.lectureInfo.phone}</td>
                                                             <td>{item.name}</td>
@@ -64,8 +65,8 @@ const Topic = () => {
                     :
                     (
                         <>
-                            <TopicSearch offset={LIMIT * (pagi2 - 1)} limit={LIMIT} />
-                            {commonTopics.topics ?
+                            <TopicSearch pagi={pagi2} setPagi={setPagi2} isLoading={commonTopics.status === "loading"} />
+                            {doneTopic.topics ?
                                 <>
                                     <Table striped hover size="sm" >
                                         <thead>
@@ -82,7 +83,7 @@ const Topic = () => {
                                                 commonTopics.topics.map((item, index) => {
                                                     return (
                                                         <tr key={index}>
-                                                            <td style={{ textAlign: "center" }}>{index + 1}</td>
+                                                            <td style={{ textAlign: "center" }}>{index + 1 + LIMIT * (pagi2 - 1)}</td>
                                                             <td>{item.lectureInfo.degree + "." + item.lectureInfo.name}</td>
                                                             <td>{item.name}</td>
                                                             <td style={{ textAlign: "center" }}>{getStatus(item.status)}</td>

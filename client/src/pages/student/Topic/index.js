@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import "./style.css"
 import Card from "../../../components/Shares/Card";
 import { TopicSearch } from "../../../components/Shares/Search";
-import { CommonTopicSelector } from "../../../store/selectors";
+import { CommonDoneTopicSelector } from "../../../store/selectors";
 import Action from "../../../components/Shares/Action";
 import { getStatus } from "../../../utils/getStatus";
 import PaginationCustom from "../../../components/Shares/Pagination";
@@ -22,7 +22,7 @@ const Topic = () => {
     const departmentRef = useRef(0);
     const eventRef = useRef(0);
 
-    const topics = useSelector(CommonTopicSelector)
+    const topics = useSelector(CommonDoneTopicSelector)
     const [list, setList] = useState([])
     const [pagi, setPagi] = useState(1)
     useEffect(() => {
