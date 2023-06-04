@@ -3,7 +3,7 @@ import Card from "../../../components/Shares/Card";
 import "./style.css"
 import { useEffect } from "react";
 import { fetchStudentMyTopic } from "./StudentMyTopicSlice";
-import { StudentMyTopicCurrent, StudentMyTopicDone, userSelector } from "../../../store/selectors";
+import { StudentMyTopicCurrent, StudentMyTopicDone, TopicDetailSelector, userSelector } from "../../../store/selectors";
 import { Table } from "react-bootstrap";
 import { getStatus } from "../../../utils/getStatus";
 import Action from "../../../components/Shares/Action";
@@ -11,6 +11,7 @@ import Detail from "../../../components/Shares/Action/Detail";
 import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import SubCard from "../../../components/Shares/Card/SubCard";
 import TopicDetail from "../../../components/Shares/Action/Detail/TopicDetail";
+import { fetchTopicDetail } from "../../../components/Shares/Action/Detail/TopicDetailSlice";
 
 const MyTopic = () => {
     const dispatch = useDispatch()
@@ -19,14 +20,20 @@ const MyTopic = () => {
         dispatch(fetchStudentMyTopic({ studentID: user.id }))
     }, [dispatch, user])
     const current = useSelector(StudentMyTopicCurrent)
+    useEffect(() => {
+        if (current.topics && current.topics[0]) {
+            dispatch(fetchTopicDetail({id: current.topics[0].id}))
+        }
+    }, [dispatch, current])
+    const detail = useSelector(TopicDetailSelector)
     const done = useSelector(StudentMyTopicDone)
     return (
         <Card title={"Đề tài của tôi"}>
             {current.topics || done.topics ?
                 <>
                     <SubCard title={"NCKH đang diễn ra"}>
-                        {current.topics ?
-                            <TopicDetail data={current.topics[0]} />
+                        {detail.topic ?
+                            <TopicDetail data={detail} />
                             : 
                             <EmptyListNoti title={
                                 "Bạn chưa đăng ký tham gia đề tài nào"
