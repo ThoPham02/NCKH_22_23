@@ -22,3 +22,7 @@ export const LectureMyTopicSelector = (state) => state.LectureMyTopicStore
 export const DepartmentCurrentTopic = (state) => state.DepartmentTopicStore.current
 export const DepartmentDoneTopic = (state) => state.DepartmentTopicStore.done
 
+// faculty selector 
+export const FacultyCurrentTopic = (state) => state.FacultyTopicStore.current
+export const FacultyDoneTopic = (state) => state.FacultyTopicStore.done
+

@@ -9,6 +9,7 @@ import { CommonTopicReducer } from "../pages/common/Topic/CommonTopicSlice";
 import { TopicDetailReducer } from "../components/Shares/Action/Detail/TopicDetailSlice";
 import { LectureMyTopicReducer } from "../pages/lecture/MyTopic/LectureMyTopicSlice";
 import { DepartmentTopicReducer } from "../pages/department/Topic/DepartmentTopicSlice";
+import { FacultyTopicReducer } from "../pages/faculty/Topic/FacultyTopicSlice";
 
 const store = configureStore({
   reducer: {
@@ -32,6 +33,9 @@ const store = configureStore({
 
     // Department reducer
     DepartmentTopicStore: DepartmentTopicReducer,
+
+    // Faculty reducer 
+    FacultyTopicStore: FacultyTopicReducer,
   },
 });
 
