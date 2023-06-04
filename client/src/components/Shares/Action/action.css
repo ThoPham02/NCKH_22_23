@@ -47,6 +47,7 @@
 .action-item:hover {
   background-color: rgba(0, 0, 0, 0.1);
   border-radius: 4px;
+
 }
 
 .action:hover .action-items {
@@ -71,6 +72,8 @@
   background-color: transparent;
   color: #000;
   outline: none;
+  width: 120px;
+  text-align: center;
 }
 
 .button:hover {

@@ -5,7 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import { TbFilePlus } from "react-icons/tb"
 import Confirm from "../../Confirm";
 import { useSelector } from "react-redux";
-import { CommonTopicSelector, userSelector } from "../../../../store/selectors";
+import { CommonCurrentTopicSelector, userSelector } from "../../../../store/selectors";
 import { addTopic } from "../../../../pages/lecture/MyTopic/LectureMyTopicSlice";
 
 const Suggest = () => {
@@ -17,7 +17,7 @@ const Suggest = () => {
     const [description, setDescription] = useState("")
 
     const handleClose = () => setShow(false);
-    const isLoading = useSelector(CommonTopicSelector).status === "loading"
+    const isLoading = useSelector(CommonCurrentTopicSelector).status === "loading"
     const handleClick = () => {
         if (!isLoading) {
             setShow(false)
