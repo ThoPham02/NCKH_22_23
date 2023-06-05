@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
 
@@ -15,6 +16,7 @@ type (
 	GroupTblModel interface {
 		groupTblModel
 		InsertMutil(ctx context.Context, groupsModel []GroupTbl) error
+		FindMulti(ctx context.Context) ([]GroupTbl, error)
 	}
 
 	customGroupTblModel struct {
@@ -41,4 +43,18 @@ func (m *customGroupTblModel) InsertMutil(ctx context.Context, data []GroupTbl) 
 	query = query[0 : len(query)-2]
 	_, err := m.conn.ExecCtx(ctx, query, values...)
 	return err
+}
+
+func (m *customGroupTblModel) FindMulti(ctx context.Context) ([]GroupTbl, error) {
+	query := fmt.Sprintf("select %s from %s ", groupTblRows, m.table)
+	var resp []GroupTbl
+	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	switch err {
+	case nil:
+		return resp, nil
+	case sqlc.ErrNotFound:
+		return nil, nil
+	default:
+		return nil, err
+	}
 }

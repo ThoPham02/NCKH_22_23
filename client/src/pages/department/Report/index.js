@@ -1,6 +1,10 @@
+import Card from "../../../components/Shares/Card";
+
 const Report = () => {
     return (
-        <div></div>
+        <Card title={"Danh sách tiểu ban"}>
+
+        </Card>
     )
 }
 
