@@ -27,6 +27,8 @@ export const DepartmentDoneTopic = (state) => state.DepartmentTopicStore.done
 export const FacultyCurrentTopic = (state) => state.FacultyTopicStore.current
 export const FacultyDoneTopic = (state) => state.FacultyTopicStore.done
 
+export const FacultySubcommittee = (state) => state.FacultySubcommitteeStore
+
 // student selector
 export const StudentMyTopicCurrent = (state) => state.StudentMyTopicStore.current
 export const StudentMyTopicDone = (state) => state.StudentMyTopicStore.done

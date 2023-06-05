@@ -35,7 +35,7 @@ func (l *GetSubcommitteeLogic) GetSubcommittee(req *types.GetSubcommitteesReq) (
 	var subcommittee types.Subcommittee
 	var subcommittees []types.Subcommittee
 	var mapSubcommitteeGroup = map[int64][]types.Group{}
-	var mapLecture = map[int64]string{}
+	var mapLecture = map[int64]types.User{}
 
 	subcommitteesModel, err = l.svcCtx.SubcommitteeModel.FindSubcommittee(l.ctx, model.SubcommitteeConditions{})
 	if err != nil {
@@ -70,7 +70,15 @@ func (l *GetSubcommitteeLogic) GetSubcommittee(req *types.GetSubcommitteesReq) (
 		}, nil
 	}
 	for _, tmp := range lectures {
-		mapLecture[tmp.Id] = tmp.Name
+		mapLecture[tmp.Id] = types.User{
+			ID:           tmp.Id,
+			Name:         tmp.Name,
+			Email:        tmp.Email.String,
+			Phone:        tmp.Phone.String,
+			FacultyID:    tmp.FacultyId,
+			DepartmentID: tmp.Department.Int64,
+			Degree:       tmp.Degree,
+		}
 	}
 
 	groups, err := l.svcCtx.GroupModel.FindMulti(l.ctx)
