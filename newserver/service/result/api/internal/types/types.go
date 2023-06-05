@@ -7,17 +7,18 @@ type Result struct {
 }
 
 type Subcommittee struct {
-	ID        int64  `json:"id"`
-	Name      string `json:"name"`
-	FacultyID int64  `json:"facultyID"`
-	EventID   int64  `json:"eventID"`
+	ID        int64   `json:"id"`
+	Name      string  `json:"name"`
+	FacultyID int64   `json:"facultyID"`
+	EventID   int64   `json:"eventID"`
+	Groups    []Group `json:"groups"`
 }
 
 type Group struct {
-	ID             int64 `json:"id"`
-	SubcommitteeId int64 `json:"subcommitteeID"`
-	LectureId      int64 `json:"lectureID"`
-	Role           int64 `json:"role"`
+	ID             int64  `json:"id"`
+	SubcommitteeId int64  `json:"subcommitteeID"`
+	Lecture        string `json:"lecture"`
+	Role           int64  `json:"role"`
 }
 
 type TopicMark struct {
