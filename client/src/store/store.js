@@ -11,6 +11,7 @@ import { LectureMyTopicReducer } from "../pages/lecture/MyTopic/LectureMyTopicSl
 import { DepartmentTopicReducer } from "../pages/department/Topic/DepartmentTopicSlice";
 import { FacultyTopicReducer } from "../pages/faculty/Topic/FacultyTopicSlice";
 import { StudentMyTopicReducer } from "../pages/student/MyTopic/StudentMyTopicSlice";
+import { FacultySubcommitteeReducer } from "../pages/faculty/Report/facultySubcommitteeSlice";
 
 const store = configureStore({
   reducer: {
@@ -37,6 +38,7 @@ const store = configureStore({
 
     // Faculty reducer 
     FacultyTopicStore: FacultyTopicReducer,
+    FacultySubcommitteeStore: FacultySubcommitteeReducer,
 
     //student reducer
     StudentMyTopicStore: StudentMyTopicReducer,

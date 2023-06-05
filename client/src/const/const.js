@@ -50,3 +50,5 @@ export const topicStatus = [
 
 export const StudentLectureStatus = 2044
 export const AdminStatus = 2047
+
+export const GroupRole = ["Chủ tịch hội đồng", "Ủy Viên", "Thư ký"]

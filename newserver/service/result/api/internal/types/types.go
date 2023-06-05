@@ -14,11 +14,21 @@ type Subcommittee struct {
 	Groups    []Group `json:"groups"`
 }
 
+type User struct {
+	ID           int64  `json:"id"`
+	Name         string `json:"name"`
+	Email        string `json:"email"`
+	Phone        string `json:"phone"`
+	FacultyID    int64  `json:"faculty_id"`
+	DepartmentID int64  `json:"department_id"`
+	Degree       int64  `json:"degree"`
+}
+
 type Group struct {
-	ID             int64  `json:"id"`
-	SubcommitteeId int64  `json:"subcommitteeID"`
-	Lecture        string `json:"lecture"`
-	Role           int64  `json:"role"`
+	ID             int64 `json:"id"`
+	SubcommitteeId int64 `json:"subcommitteeID"`
+	Lecture        User  `json:"lecture"`
+	Role           int64 `json:"role"`
 }
 
 type TopicMark struct {
