@@ -32,6 +32,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/user/reset",
 				Handler: ResetPasswordHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/user/subcommittee",
+				Handler: GetMemberSubcommitteeHandler(serverCtx),
+			},
 		},
 	)
 }

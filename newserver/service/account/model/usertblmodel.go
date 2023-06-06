@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 
+	"github.com/zeromicro/go-zero/core/logx"
 	"github.com/zeromicro/go-zero/core/stores/sqlc"
 	"github.com/zeromicro/go-zero/core/stores/sqlx"
 )
@@ -11,9 +12,10 @@ import (
 var _ UserTblModel = (*customUserTblModel)(nil)
 
 type UserCondition struct {
-	Name      string `json:"name"`
-	Role      int64  `json:"role"`
-	FacultyID int64  `json:"facultyID"`
+	Name      string  `json:"name"`
+	Role      int64   `json:"role"`
+	FacultyID int64   `json:"facultyID"`
+	NotUser   []int64 `json:"notUser"`
 }
 
 type (
@@ -53,9 +55,27 @@ func (m *customUserTblModel) FindOneByName(ctx context.Context, name string) (*U
 }
 
 func (m *customUserTblModel) FindUserByCondition(ctx context.Context, condition UserCondition) ([]UserTbl, error) {
-	query := fmt.Sprintf("select %s from %s", userTblRows, m.table)
+	logx.Info(condition)
+	query := fmt.Sprintf("select %s from %s where name ilike $1 ", userTblRows, m.table)
+	var vals = []interface{}{fmt.Sprintf("%%%s%%", condition.Name)}
+	if condition.FacultyID > 0 {
+		vals = append(vals, condition.FacultyID)
+		query += fmt.Sprintf(" and faculty_id = $%d", len(vals))
+	}
+	if len(condition.NotUser) > 0 {
+		query += " and id not in ("
+		for _, tmp := range condition.NotUser {
+			vals = append(vals, tmp)
+			query += fmt.Sprintf("$%d", len(vals))
+		}
+		query = query[0:len(query)-1] + ")"
+	}
+	if condition.Role > 0 {
+		vals = append(vals, condition.Role)
+		query += fmt.Sprintf(" and role = $%d", len(vals))
+	}
 	var resp []UserTbl
-	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	err := m.conn.QueryRowsCtx(ctx, &resp, query, vals...)
 	switch err {
 	case nil:
 		return resp, nil

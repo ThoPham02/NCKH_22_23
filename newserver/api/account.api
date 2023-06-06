@@ -34,6 +34,21 @@ type (
 		Token    Token  `json:"authToken"` // 	jwttoken for api
 		UserInfo User   `json:"user"`      //  info user
 	}
+
+	MemberSubcommitteesReq {
+		Name      string `form:"name, optional"` // name
+		Role      int64  `form:"role, optional"` // role
+		FacultyID int64  `form:"faculty_id, optional"`
+	}
+	MemberSubcommittee {
+		ID     int64  `json:"id"`
+		Name   string `json:"name"`
+		Degree int64  `json:"degree"`
+	}
+	MemberSubcommitteesRes {
+		Result  Result               `json:"result"`
+		Members []MemberSubcommittee `json:"members"`
+	}
 )
 
 type (
@@ -90,4 +105,7 @@ service account-api {
 	
 	@handler ResetPasswordHandler
 	put /user/reset (ResetReq) returns(ResetRes)
+	
+	@handler GetMemberSubcommittee
+	get /user/subcommittee (MemberSubcommitteesReq) returns(MemberSubcommitteesRes)
 }
