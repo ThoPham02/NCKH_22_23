@@ -17,6 +17,7 @@ type (
 		groupTblModel
 		InsertMutil(ctx context.Context, groupsModel []GroupTbl) error
 		FindMulti(ctx context.Context) ([]GroupTbl, error)
+		FindMultiBySubcommittee(ctx context.Context, listSub []int64) ([]GroupTbl, error)
 	}
 
 	customGroupTblModel struct {
@@ -47,6 +48,28 @@ func (m *customGroupTblModel) InsertMutil(ctx context.Context, data []GroupTbl) 
 
 func (m *customGroupTblModel) FindMulti(ctx context.Context) ([]GroupTbl, error) {
 	query := fmt.Sprintf("select %s from %s ", groupTblRows, m.table)
+	var resp []GroupTbl
+	err := m.conn.QueryRowsCtx(ctx, &resp, query)
+	switch err {
+	case nil:
+		return resp, nil
+	case sqlc.ErrNotFound:
+		return nil, nil
+	default:
+		return nil, err
+	}
+}
+
+func (m *customGroupTblModel) FindMultiBySubcommittee(ctx context.Context, listSub []int64) ([]GroupTbl, error) {
+	if len(listSub) == 0 {
+		return nil, nil
+	}
+	var listString = ""
+	for _, tmp := range listSub {
+		listString += fmt.Sprintf("%d,", tmp)
+	}
+	listString = listString[0 : len(listString)-1]
+	query := fmt.Sprintf("select %s from %s where subcommittee_id in (%s)", groupTblRows, m.table, listString)
 	var resp []GroupTbl
 	err := m.conn.QueryRowsCtx(ctx, &resp, query)
 	switch err {

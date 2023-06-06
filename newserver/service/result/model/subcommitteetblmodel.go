@@ -11,6 +11,7 @@ import (
 var _ SubcommitteeTblModel = (*customSubcommitteeTblModel)(nil)
 
 type SubcommitteeConditions struct {
+	EventID int64
 }
 
 type (
@@ -35,8 +36,13 @@ func NewSubcommitteeTblModel(conn sqlx.SqlConn) SubcommitteeTblModel {
 
 func (m *customSubcommitteeTblModel) FindSubcommittee(ctx context.Context, condition SubcommitteeConditions) ([]SubcommitteeTbl, error) {
 	query := fmt.Sprintf("select %s from %s where", subcommitteeTblRows, m.table)
-	var resp []SubcommitteeTbl
+	var values = []interface{}{}
+	if condition.EventID > 0 {
+		values = append(values, condition.EventID)
+		query += fmt.Sprintf(" event_id = %d and ", len(values))
+	}
 	query = query[0 : len(query)-5]
+	var resp []SubcommitteeTbl
 	err := m.conn.QueryRowsCtx(ctx, &resp, query)
 	switch err {
 	case nil:

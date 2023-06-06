@@ -38,6 +38,23 @@ type LoginRes struct {
 	UserInfo User   `json:"user"`      //  info user
 }
 
+type MemberSubcommitteesReq struct {
+	Name      string `form:"name, optional"` // name
+	Role      int64  `form:"role, optional"` // role
+	FacultyID int64  `form:"faculty_id, optional"`
+}
+
+type MemberSubcommittee struct {
+	ID     int64  `json:"id"`
+	Name   string `json:"name"`
+	Degree int64  `json:"degree"`
+}
+
+type MemberSubcommitteesRes struct {
+	Result  Result               `json:"result"`
+	Members []MemberSubcommittee `json:"members"`
+}
+
 type RegisterReq struct {
 	Username     string `json:"username"`
 	Password     string `json:"password"`
