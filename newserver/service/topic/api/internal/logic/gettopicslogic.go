@@ -5,6 +5,7 @@ import (
 
 	"github.com/ThoPham02/research_management/common"
 	userModel "github.com/ThoPham02/research_management/service/account/model"
+	resultModel "github.com/ThoPham02/research_management/service/result/model"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/svc"
 	"github.com/ThoPham02/research_management/service/topic/api/internal/types"
 	"github.com/ThoPham02/research_management/service/topic/model"
@@ -105,6 +106,48 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 			},
 		}, nil
 	}
+	events, err := l.svcCtx.EventModel.FindEvents(l.ctx, 0)
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicsRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
+	var mapEvent = map[int64]types.Event{}
+	for _, tmp := range events {
+		mapEvent[tmp.Id] = types.Event{
+			ID:         tmp.Id,
+			Name:       tmp.Name,
+			SchoolYear: tmp.SchoolYear.String,
+			IsCurrent:  tmp.IsCurrent.Int64,
+		}
+	}
+
+	subs, err := l.svcCtx.SubcommitteeModel.FindSubcommittee(l.ctx, resultModel.SubcommitteeConditions{
+		EventID: 0,
+	})
+	var mapSub = map[int64]types.Subcommittee{}
+	for _, tmp := range subs {
+		mapSub[tmp.Id] = types.Subcommittee{
+			ID:        tmp.Id,
+			Name:      tmp.Name,
+			FacultyID: tmp.FacultId.Int64,
+			EventID:   tmp.EventId,
+			Level:     tmp.Level,
+		}
+	}
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicsRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
 
 	for _, topicModel = range topicsModel {
 		topic = types.Topic{
@@ -113,8 +156,8 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 			LectureInfo:     lectureMap[topicModel.LectureId],
 			DepartmentID:    topicModel.DepartmentId,
 			Status:          topicModel.Status,
-			EventId:         topicModel.EventId,
-			SubcommitteeID:  topicModel.SubcommitteeId.Int64,
+			EventId:         mapEvent[topicModel.EventId],
+			SubcommitteeID:  mapSub[topicModel.SubcommitteeId.Int64],
 			TimeStart:       topicModel.TimeStart.Int64,
 			TimeEnd:         topicModel.TimeEnd.Int64,
 			GroupStudentId:  topicModel.GroupStudentsId.Int64,
