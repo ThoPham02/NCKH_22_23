@@ -95,8 +95,8 @@ const InputMem = ({ item }) => {
     const [teacher, setTeacher] = useState(0)
     const ListMem = useSelector(itemSelector)
     const dispatch = useDispatch()
-    const handleChangle = () => {
-        console.log(teacher)
+    const handleChangle = (e) => {
+        console.log(e.target.value)
         dispatch(ItemAction.changeItem({
             index: item.index,
             lectureID: teacher,

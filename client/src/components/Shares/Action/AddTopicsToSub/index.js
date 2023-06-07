@@ -2,46 +2,20 @@ import { useEffect, useState } from "react";
 import { Button, Form, Modal, Table } from "react-bootstrap";
 import { TbFilePlus } from "react-icons/tb";
 import Confirm from "../../Confirm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { FacultySubcommittee } from "../../../../store/selectors";
-import { addTopicsToSub } from "../../../../pages/faculty/Report/facultySubcommitteeSlice";
+import { addTopicsToSub, fetchTopicsBySubcommittee } from "../../../../pages/faculty/Report/facultySubcommitteeSlice";
 import EmptyListNoti from "../../EmptyListNoti";
 
 const AddTopicsToSub = ({ subcommittee }) => {
     const [show, setShow] = useState(false);
+    const dispatch = useDispatch()
     const handleShow = () => {
+        dispatch(fetchTopicsBySubcommittee({subcommitteeID: subcommittee.id}))
         setShow(true);
     }
     const report = useSelector(FacultySubcommittee)
-    const topic = report.topics.filter(item => item.subcommitteeID === 0)
-
     const [select, setSelect] = useState([])
-    const [selectAll, setSelectAll] = useState(false)
-    const handleClick = (value) => {
-        if (select.includes(value)) {
-            setSelect(select.filter((item) => item !== value));
-        } else {
-            setSelect([...select, value]);
-        }
-    }
-    useEffect(() => {
-        if (select.length === topic.length) {
-            setSelectAll(true)
-        } else {
-            setSelectAll(false)
-        }
-    }, [select, topic])
-    const handleClickAll = () => {
-        if (selectAll) {
-            setSelect([])
-            setSelectAll(false)
-        }
-        else {
-            setSelectAll(true)
-            console.log(topic.map(item => item.id))
-            setSelect(topic.map(item => item.id))
-        }
-    }
     return (
         <>
             <Button onClick={handleShow} style={{
@@ -70,38 +44,8 @@ const AddTopicsToSub = ({ subcommittee }) => {
                         <div className="col-2 ">Tiểu ban: </div>
                         <div className="col-4">{subcommittee.name}</div>
                     </div>
-                    {topic || topic.length === 0 ?
-
-                        <Table>
-                            <thead>
-                                <tr>
-                                    <th style={{ width: "100px" }}>Chọn tất cả
-                                        <Form.Check
-                                            type={"checkbox"}
-                                            checked={selectAll}
-                                            onClick={handleClickAll}
-                                        />
-                                    </th>
-                                    <th>Đề tài<br /></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {topic.map(item => {
-                                    return (
-                                        <tr>
-                                            <td style={{ textAlign: "center" }}><Form.Check
-                                                type={"checkbox"}
-                                                id={`default-checkbox`}
-                                                checked={select.includes(item.id)}
-                                                onClick={() => handleClick(item.id)}
-                                            />
-                                            </td>
-                                            <td>{item.name}</td>
-                                        </tr>
-                                    )
-                                })}
-                            </tbody>
-                        </Table>
+                    {report.topics && report.topics.length !== 0 && report.topics.filter(item => item.subcommitteeID === 0).length !== 0?
+                        <TableTopic select={select} setSelect={setSelect} topic={report.topics.filter(item => item.subcommitteeID === 0)}/>
                         :
                         <EmptyListNoti title={"Danh sách đề tài phù hợp trống!"} />}
                 </Modal.Body>
@@ -123,6 +67,67 @@ const AddTopicsToSub = ({ subcommittee }) => {
                 </Modal.Footer>
             </Modal>
         </>
+    )
+}
+
+const TableTopic = ({select, setSelect, topic}) => {
+    const [selectAll, setSelectAll] = useState(false)
+    const handleClick = (value) => {
+        if (select.includes(value)) {
+            setSelect(select.filter((item) => item !== value));
+        } else {
+            setSelect([...select, value]);
+        }
+    }
+    useEffect(() => {
+        if (select.length === topic.length) {
+            setSelectAll(true)
+        } else {
+            setSelectAll(false)
+        }
+    }, [select, topic])
+     const handleClickAll = () => {
+        if (selectAll) {
+            setSelect([])
+            setSelectAll(false)
+        }
+        else {
+            setSelectAll(true)
+            console.log(topic.map(item => item.id))
+            setSelect(topic.map(item => item.id))
+        }
+    }
+    return (
+        <Table>
+            <thead>
+                <tr>
+                    <th style={{ width: "100px" }}>Chọn tất cả
+                        <Form.Check
+                            type={"checkbox"}
+                            checked={selectAll}
+                            onClick={handleClickAll}
+                        />
+                    </th>
+                    <th>Đề tài<br /></th>
+                </tr>
+            </thead>
+            <tbody>
+                {topic.map(item => {
+                    return (
+                        <tr>
+                            <td style={{ textAlign: "center" }}><Form.Check
+                                type={"checkbox"}
+                                id={`default-checkbox`}
+                                checked={select.includes(item.id)}
+                                onClick={() => handleClick(item.id)}
+                            />
+                            </td>
+                            <td>{item.name}</td>
+                        </tr>
+                    )
+                })}
+            </tbody>
+        </Table>
     )
 }
 
