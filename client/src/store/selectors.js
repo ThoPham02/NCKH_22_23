@@ -4,6 +4,7 @@ export const roleSelector = (state) => state.login.user.role;
 export const tokenSelector = (state) => state.login.token;
 export const departmentSelector = (state) => state.department.departments
 export const facultySelector = (state) => state.faculty.faculties
+export const itemSelector = (state) => state.ItemStore
 // share selector
 export const TopicDetailSelector = state => state.TopicDetailStore
 
@@ -28,6 +29,7 @@ export const FacultyCurrentTopic = (state) => state.FacultyTopicStore.current
 export const FacultyDoneTopic = (state) => state.FacultyTopicStore.done
 
 export const FacultySubcommittee = (state) => state.FacultySubcommitteeStore
+export const CommonSubcommitteeSelector = (state) => state.CommonSubcommitteeStore
 
 // student selector
 export const StudentMyTopicCurrent = (state) => state.StudentMyTopicStore.current
