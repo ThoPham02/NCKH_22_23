@@ -33,18 +33,18 @@ type StudentInfo struct {
 }
 
 type Topic struct {
-	ID              int64       `json:"id"`
-	Name            string      `json:"name"`
-	LectureInfo     LectureInfo `json:"lectureInfo"`
-	DepartmentID    int64       `json:"departmentID"`
-	Status          int64       `json:"status"`
-	EventId         int64       `json:"eventId"`
-	SubcommitteeID  int64       `json:"subcommitteeID"`
-	TimeStart       int64       `json:"timeStart"`
-	TimeEnd         int64       `json:"timeEnd"`
-	GroupStudentId  int64       `json:"groupStudentId"`
-	EstimateStudent int64       `json:"estimateStudent"`
-	Description     string      `json:"description"`
+	ID              int64        `json:"id"`
+	Name            string       `json:"name"`
+	LectureInfo     LectureInfo  `json:"lectureInfo"`
+	DepartmentID    int64        `json:"departmentID"`
+	Status          int64        `json:"status"`
+	EventId         Event        `json:"eventId"`
+	SubcommitteeID  Subcommittee `json:"subcommitteeID"`
+	TimeStart       int64        `json:"timeStart"`
+	TimeEnd         int64        `json:"timeEnd"`
+	GroupStudentId  int64        `json:"groupStudentId"`
+	EstimateStudent int64        `json:"estimateStudent"`
+	Description     string       `json:"description"`
 }
 
 type Student struct {
