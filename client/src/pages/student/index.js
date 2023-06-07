@@ -1,7 +1,7 @@
 import MyTopic from "./MyTopic";
+import SchoolReport from "./Report/SchoolReport";
+import SubcommitteeReport from "./Report/SubcommitteeReport";
 import Result from "./Result";
-import SubcommitteeReport from "./SubcommitteeReport";
-import SchoolReport from "./SchoolReport";
 
 export const StudentMyTopic = MyTopic;
 export const StudentSubcommitteeReport = SubcommitteeReport

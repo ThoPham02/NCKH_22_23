@@ -129,6 +129,15 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 	subs, err := l.svcCtx.SubcommitteeModel.FindSubcommittee(l.ctx, resultModel.SubcommitteeConditions{
 		EventID: 0,
 	})
+	if err != nil {
+		l.Logger.Error(err)
+		return &types.GetTopicsRes{
+			Result: types.Result{
+				Code:    common.DB_ERR_CODE,
+				Message: common.DB_ERR_MESS,
+			},
+		}, nil
+	}
 	var mapSub = map[int64]types.Subcommittee{}
 	for _, tmp := range subs {
 		mapSub[tmp.Id] = types.Subcommittee{
@@ -138,15 +147,6 @@ func (l *GetTopicsLogic) GetTopics(req *types.GetTopicsReq) (resp *types.GetTopi
 			EventID:   tmp.EventId,
 			Level:     tmp.Level,
 		}
-	}
-	if err != nil {
-		l.Logger.Error(err)
-		return &types.GetTopicsRes{
-			Result: types.Result{
-				Code:    common.DB_ERR_CODE,
-				Message: common.DB_ERR_MESS,
-			},
-		}, nil
 	}
 
 	for _, topicModel = range topicsModel {

@@ -40,6 +40,12 @@ type (
 		EstimateStudent int64        `json:"estimateStudent"`
 		Description     string       `json:"description"`
 	}
+	TopicMark {
+		ID             int64        `json:"id"`
+		Name           string       `json:"name"`
+		SubcommitteeID Subcommittee `json:"subcommitteeID"`
+		Mark           float64      `json:"mark"`
+	}
 	Student {
 		StudentID int64  `json:"studentID"`
 		Name      string `json:"name"`
@@ -229,6 +235,14 @@ type (
 	}
 )
 
+type (
+	GetTopicMarkRes {
+		Result    Result      `json:"result"`
+		Total     int64       `json:"total"`
+		TopicMark []TopicMark `json:"topicMark"`
+	}
+)
+
 service topic-api {
 	
 	@handler GetDepartmentsHandler
@@ -265,4 +279,7 @@ service topic-api {
 	
 	@handler DeleteStudentGroupHandler
 	delete /api/topic-student-group/:studentID (DeleteStudentGroupbyStudentIdReq) returns(DeleteStudentGroupbyStudentIdRes)
+	
+	@handler GetTopicMarkHandler
+	get /api/topic/mark (GetTopicsReq) returns(GetTopicMarkRes)
 }

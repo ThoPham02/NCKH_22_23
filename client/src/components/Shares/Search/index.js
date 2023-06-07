@@ -334,3 +334,41 @@ export const FacultySubcommitteeSearch = ({ facultyID }) => {
         </Form>
     )
 }
+
+export const SchoolReportSearch = ({facultyID}) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTopicsBySubcommittee({
+            facultyID: facultyID,
+        }))
+    }, [dispatch, facultyID])
+
+    const [search, setSearch] = useState("")
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchTopicsBySubcommittee({
+            search: search,
+            facultyID: facultyID,
+        }))
+    }
+    const isLoading = useSelector(FacultySubcommittee).status === "loading"
+
+
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
