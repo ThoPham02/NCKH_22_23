@@ -14,6 +14,9 @@ import { useEffect, useState } from "react";
 import { fetchCommonDoneTopics, fetchTopics } from "../../../pages/common/Topic/CommonTopicSlice";
 import { AdminStatus, LIMIT, StudentLectureStatus } from "../../../const/const";
 import { fetchDepartmentCurentTopics } from "../../../pages/department/Topic/DepartmentTopicSlice";
+import { FacultySubcommittee } from "../../../store/selectors";
+import Subcommittee from "./Subcommittee";
+import { fetchTopicsBySubcommittee } from "../../../pages/faculty/Report/facultySubcommitteeSlice";
 
 export const SearchWord = Word;
 export const SearchStatus = Status;
@@ -277,6 +280,47 @@ export const FacultyDoneTopicSearch = ({ faculty }) => {
             />
             <DateFrom dateFrom={dateFrom} setDateFrom={setDateFrom} />
             <DateTo dateTo={dateTo} setDateTo={setDateTo} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const FacultySubcommitteeSearch = ({ facultyID }) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTopicsBySubcommittee({
+            facultyID: facultyID,
+        }))
+    }, [dispatch, facultyID])
+
+    const [search, setSearch] = useState("")
+    const [subcommittee, setSubcommittee] = useState(0)
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchTopicsBySubcommittee({
+            search: search,
+            subcommitteeID: subcommittee,
+            facultyID: facultyID,
+        }))
+    }
+    const isLoading = useSelector(FacultySubcommittee).status === "loading"
+
+
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Subcommittee subcommittee={subcommittee} setSubcommittee={setSubcommittee} facultyID={facultyID}/>
             <Form.Group>
                 <Button
                     variant="primary"
