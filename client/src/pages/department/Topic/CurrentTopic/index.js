@@ -24,13 +24,13 @@ const CurrentTopic = () => {
             <DepartmentCurrentTopicSearch />
             {currentTopic.topics ?
                 <>
-                    <Table >
+                    <Table striped hover size="sm">
                         <thead>
                             <tr>
                                 <th style={{ width: "60px" }}>STT</th>
                                 <th style={{ width: "150px" }}>Giảng Viên</th>
                                 <th >Đề Tài</th>
-                                <th style={{ width: "60px" }}>Trạng Thái</th>
+                                <th style={{ width: "120px" }}>Trạng Thái</th>
                                 <th style={{ width: "60px" }}>Thao Tác</th>
                             </tr>
                         </thead>

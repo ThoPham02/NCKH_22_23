@@ -32,7 +32,7 @@ export const fetchLectureTopic = createAsyncThunk("fetchLectureTopic", async (pa
           lectureID: payload.lectureID,
         },
       });
-    
+      
       return response.data;
 })
 
@@ -51,6 +51,8 @@ export const addTopic = createAsyncThunk("addTopic", async (payload) => {
         lectureID: payload.lectureID,
       },
     });
+
+    console.log(response.data)
   
     return response.data;
   })

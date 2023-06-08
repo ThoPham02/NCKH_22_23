@@ -16,7 +16,7 @@ const SchoolReport = () => {
         <Card title={"Danh sách đề tài báo cáo cấp trường"}>
             <SchoolReportSearch facultyID={user.faculty_id} />
             {topic.school && topic.school.length > 0 ?
-                <Table>
+                <Table striped hover size="sm" >
                     <thead>
                         <tr>
                             <th>STT</th>

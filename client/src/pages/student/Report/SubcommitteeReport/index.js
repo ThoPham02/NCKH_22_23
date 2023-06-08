@@ -16,7 +16,7 @@ const SubcommitteeReport = () => {
         <Card title={"Danh sách đề tài báo cáo cấp tiểu ban"}>
             <FacultySubcommitteeSearch facultyID={user.faculty_id} />
             {topic.topics && topic.topics.length > 0 ?
-                <Table>
+                <Table striped hover size="sm" >
                     <thead>
                         <tr>
                             <th>STT</th>

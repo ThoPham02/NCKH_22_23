@@ -98,7 +98,7 @@ const TableTopic = ({select, setSelect, topic}) => {
         }
     }
     return (
-        <Table>
+        <Table striped hover size="sm">
             <thead>
                 <tr>
                     <th style={{ width: "100px" }}>Chọn tất cả
