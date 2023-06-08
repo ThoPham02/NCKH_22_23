@@ -1,9 +1,9 @@
 import { AdminLayout, LoginLayout } from "./components/Layout";
 import { PublicHome, PublicLogin, PublicTopic, PublicResult, PublicContact } from "./pages/common";
 import { FacultyDashBoard, FacultyReport, FacultyResult, FacultyTopic } from "./pages/faculty";
-import { AdminDashBoard, AdminReport, AdminResult, AdminTopic } from "./pages/admin";
-import { StudentMyTopic, StudentResult, StudentSchoolReport, StudentSubcommitteeReport } from "./pages/student";
-import { LectureMark, LectureMyTopic, LectureResult, LectureSchoolReport, LectureSubcommitteeReport } from "./pages/lecture";
+import { AdminDashBoard, AdminReport, AdminTopic } from "./pages/admin";
+import { StudentMyTopic, StudentSchoolReport, StudentSubcommitteeReport } from "./pages/student";
+import { LectureMark, LectureMyTopic, LectureSchoolReport, LectureSubcommitteeReport } from "./pages/lecture";
 import { DepartmentReport, DepartmentResult, DepartmentTopic } from "./pages/department";
 
 const publicRoutes = [
@@ -32,7 +32,7 @@ const privateRoutes = [
   { path: "/my-topic", component: StudentMyTopic, role: 1 },
   { path: "/subcommittee-report", component: StudentSubcommitteeReport, role: 1 },
   { path: "/school-report", component: StudentSchoolReport, role: 1 },
-  { path: "/result", component: StudentResult, role: 1 },
+  { path: "/result", component: PublicResult, role: 1 },
 
   // lecture routes
   { path: "/topics", component: PublicTopic, role: 2 },
@@ -40,7 +40,7 @@ const privateRoutes = [
   { path: "/subcommittee-report", component: LectureSubcommitteeReport, role: 2 },
   { path: "/school-report", component: LectureSchoolReport, role: 2 },
   { path: "/mark", component: LectureMark, role: 2 },
-  { path: "/result", component: LectureResult, role: 2 },
+  { path: "/result", component: PublicResult, role: 2 },
 
   // department routes
   { path: "/admin-home", component: AdminDashBoard, role: 3, Layout: AdminLayout },
@@ -57,7 +57,7 @@ const privateRoutes = [
   // admin routes
   { path: "/admin-home", component: AdminDashBoard, role: 5, Layout: AdminLayout },
   { path: "/admin-topic", component: AdminTopic, role: 5, Layout: AdminLayout },
-  { path: "/admin-result", component: AdminResult, role: 5, Layout: AdminLayout },
+  { path: "/admin-result", component: PublicResult, role: 5, Layout: AdminLayout },
   { path: "/admin-report", component: AdminReport, role: 5, Layout: AdminLayout },
 ];
 

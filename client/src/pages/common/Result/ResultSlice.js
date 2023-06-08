@@ -17,6 +17,7 @@ const ResultSlice = createSlice({
             .addCase(fetchTopicMarkCurrent.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.current = action.payload.topicMark
+                state.total = action.payload.total
             })
             .addCase(fetchTopicMarkDone.pending, (state, action) => {
                 state.status = "loading"
@@ -24,6 +25,7 @@ const ResultSlice = createSlice({
             .addCase(fetchTopicMarkDone.fulfilled, (state, action) => {
                 state.status = "idle"
                 state.done = action.payload.topicMark
+                state.total = action.payload.total
             })
     }
 })
