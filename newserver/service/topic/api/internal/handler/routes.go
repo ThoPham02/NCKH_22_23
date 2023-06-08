@@ -72,6 +72,11 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Path:    "/api/topic-student-group/:studentID",
 				Handler: DeleteStudentGroupHandler(serverCtx),
 			},
+			{
+				Method:  http.MethodGet,
+				Path:    "/api/result/topic-mark",
+				Handler: GetTopicMarkHandler(serverCtx),
+			},
 		},
 	)
 }

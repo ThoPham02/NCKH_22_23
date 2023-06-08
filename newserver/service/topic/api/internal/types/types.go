@@ -47,6 +47,13 @@ type Topic struct {
 	Description     string       `json:"description"`
 }
 
+type TopicMark struct {
+	ID             int64        `json:"id"`
+	Name           string       `json:"name"`
+	SubcommitteeID Subcommittee `json:"subcommitteeID"`
+	Mark           float64      `json:"mark"`
+}
+
 type Student struct {
 	StudentID int64  `json:"studentID"`
 	Name      string `json:"name"`
@@ -223,4 +230,10 @@ type GetTopicsRes struct {
 	Result Result  `json:"result"`
 	Total  int64   `json:"total"`
 	Topics []Topic `json:"topic"`
+}
+
+type GetTopicMarkRes struct {
+	Result    Result      `json:"result"`
+	Total     int64       `json:"total"`
+	TopicMark []TopicMark `json:"topicMark"`
 }

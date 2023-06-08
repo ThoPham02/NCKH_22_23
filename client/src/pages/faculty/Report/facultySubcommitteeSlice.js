@@ -32,6 +32,13 @@ const FacultySubcommitteeSLice = createSlice({
             state.status = "idle"
             state.topics = action.payload.topic
         } )
+        .addCase(fetchTopicsBySchool.pending, (state, action) => {
+            state.status = "loading"
+        })
+        .addCase(fetchTopicsBySchool.fulfilled, (state, action) => {
+            state.status = "idle"
+            state.school = action.payload.topic
+        } )
         .addCase(addTopicsToSub.pending, (state, action) => {
             state.status = "loading"
         })
@@ -57,6 +64,19 @@ export const fetchTopicsBySubcommittee = createAsyncThunk("fetchTopicsBySubcommi
             facultyID: payload.facultyID,
             search: payload.search,
             subcommitteeID: payload.subcommitteeID
+        }
+    })
+
+    return resp.data
+})
+
+export const fetchTopicsBySchool = createAsyncThunk("fetchTopicsBySchool", async (payload) => {
+    const resp = await client.get("/api/topics", {
+        params: {
+            isCurrent: 1,
+            status: 256,
+            facultyID: payload.facultyID,
+            search: payload.search,
         }
     })
 

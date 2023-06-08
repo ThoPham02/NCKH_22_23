@@ -17,6 +17,7 @@ import { fetchDepartmentCurentTopics } from "../../../pages/department/Topic/Dep
 import { FacultySubcommittee } from "../../../store/selectors";
 import Subcommittee from "./Subcommittee";
 import { fetchTopicsBySubcommittee } from "../../../pages/faculty/Report/facultySubcommitteeSlice";
+import { fetchTopicMarkCurrent, fetchTopicMarkDone } from "../../../pages/common/Result/ResultSlice";
 
 export const SearchWord = Word;
 export const SearchStatus = Status;
@@ -320,7 +321,97 @@ export const FacultySubcommitteeSearch = ({ facultyID }) => {
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
             <Word search={search} setSearch={setSearch} />
-            <Subcommittee subcommittee={subcommittee} setSubcommittee={setSubcommittee} facultyID={facultyID}/>
+            <Subcommittee subcommittee={subcommittee} setSubcommittee={setSubcommittee} facultyID={facultyID} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const SchoolReportSearch = ({ facultyID }) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTopicsBySubcommittee({
+            facultyID: facultyID,
+        }))
+    }, [dispatch, facultyID])
+
+    const [search, setSearch] = useState("")
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        dispatch(fetchTopicsBySubcommittee({
+            search: search,
+            facultyID: facultyID,
+        }))
+    }
+    const isLoading = useSelector(FacultySubcommittee).status === "loading"
+
+
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Form.Group>
+                <Button
+                    variant="primary"
+                    type="submit"
+                    className="search-submit"
+                >
+                    {isLoading ? <Loading></Loading> : <></>}
+                    Tìm kiếm
+                </Button>
+            </Form.Group>
+        </Form>
+    )
+}
+
+export const ResultSearch = ({ facultyID, isCurrent }) => {
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        dispatch(fetchTopicMarkCurrent({
+            facultyID: facultyID,
+        }))
+        dispatch(fetchTopicMarkDone({
+            facultyID: facultyID,
+        }))
+    }, [dispatch, facultyID])
+
+    const [search, setSearch] = useState("")
+    const [subcommittee, setSubcommittee] = useState(0)
+
+    const handleSubmitForm = (e) => {
+        e.preventDefault()
+        if (isCurrent) {
+            dispatch(fetchTopicMarkCurrent({
+                search: search,
+                subcommitteeID: subcommittee,
+                facultyID: facultyID,
+            }))
+        } else {
+            dispatch(fetchTopicMarkCurrent({
+                search: search,
+                subcommitteeID: subcommittee,
+                facultyID: facultyID,
+            }))
+        }
+    }
+    const isLoading = useSelector(FacultySubcommittee).status === "loading"
+
+
+    return (
+        <Form className="search" onSubmit={handleSubmitForm}>
+            <Word search={search} setSearch={setSearch} />
+            <Subcommittee subcommittee={subcommittee} setSubcommittee={setSubcommittee} facultyID={facultyID} />
             <Form.Group>
                 <Button
                     variant="primary"
