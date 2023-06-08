@@ -167,25 +167,34 @@ export const SubTimeLine = (props) => {
     const role = useSelector(roleSelector)
 
     const notiSuggest = role === 3 && stage.name === "Đề Xuất"
-    const notiRegis =  role === 3 && stage.name === "Đăng ký"
+    const notiRegis = role === 4 && stage.name === "Đăng ký"
+    const notiDo = role === 5 && stage.name === "Đăng ký"
 
-    const handleSuggestClick = () => {}
+    const handleSuggestClick = () => { }
     return (
         <>
             <CustomeProgress setStage={setStage} data={data.stages} stage={stage} />
             {notiSuggest ?
                 <div>
                     <span style={{ fontWeight: "bold", color: "#00ace9" }}>
-                        <AiTwotoneNotification />Note: 
+                        <AiTwotoneNotification />Note:
                     </span>
                     Công việc cần thực hiện trong Giai đoạn đề xuất - <Button onClick={handleSuggestClick}>Duyệt đề xuất</Button>
                 </div> : <></>}
             {notiRegis ?
                 <div>
                     <span style={{ fontWeight: "bold", color: "#00ace9" }}>
-                        <AiTwotoneNotification />Note: 
+                        <AiTwotoneNotification />Note:
                     </span>
                     Công việc cần thực hiện trong Giai đoạn đăng ký - <Button onClick={handleSuggestClick}>Duyệt đăng ký</Button>
+                </div>
+                : <></>}
+            {notiDo ?
+                <div>
+                    <span style={{ fontWeight: "bold", color: "#00ace9" }}>
+                        <notiDo />Note:
+                    </span>
+                    Công việc cần thực hiện trong Giai đoạn đăng ký - <Button onClick={handleSuggestClick}>Duyệt đề tài</Button>
                 </div>
                 : <></>}
         </>

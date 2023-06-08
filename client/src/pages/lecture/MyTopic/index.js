@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import Card from "../../../components/Shares/Card";
 import "./style.css"
 import { useDispatch, useSelector } from "react-redux";
-import { fetchTopics } from "../../common/Topic/CommonTopicSlice";
 import { LectureMyTopicSelector, userSelector } from "../../../store/selectors";
 import EmptyListNoti from "../../../components/Shares/EmptyListNoti";
 import Suggest from "../../../components/Shares/Action/Suggest";
@@ -10,12 +9,14 @@ import { Badge, Table } from "react-bootstrap";
 import { getStatus } from "../../../utils/getStatus";
 import Action from "../../../components/Shares/Action";
 import Detail from "../../../components/Shares/Action/Detail";
+import { fetchLectureTopic } from "./LectureMyTopicSlice";
+import AddReport from "../../../components/Shares/Action/AddReport";
 
 const MyTopic = () => {
     const dispatch = useDispatch()
     const user = useSelector(userSelector)
     useEffect(() => {
-        dispatch(fetchTopics({ userID: user.id }))
+        dispatch(fetchLectureTopic({ userID: user.id }))
     }, [dispatch, user.id])
 
     const topicSelector = useSelector(LectureMyTopicSelector)
@@ -48,7 +49,8 @@ const MyTopic = () => {
                                                 </td>
                                                 <td style={{ textAlign: "center" }}>{getStatus(item.status)}</td>
                                                 <td><Action todo={[
-                                                    <Detail name="Chi tiết" topicIn={item} />
+                                                    <Detail name="Chi tiết" topicIn={item} />,
+                                                    item.status === 16 ? <AddReport id={item.id}/> : <></>
                                                 ]} /></td>
                                             </tr>
                                         )

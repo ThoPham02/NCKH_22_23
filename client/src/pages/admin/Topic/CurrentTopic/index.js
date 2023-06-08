@@ -1,6 +1,6 @@
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 import { DepartmentCurrentTopicSearch } from "../../../../components/Shares/Search";
 import { DepartmentCurrentTopic } from "../../../../store/selectors";
@@ -10,6 +10,7 @@ import Action from "../../../../components/Shares/Action";
 import Detail from "../../../../components/Shares/Action/Detail";
 import { fetchDepartmentCurentTopics, updateStatus } from "../DepartmentTopicSlice";
 import Confirm from "../../../../components/Shares/Confirm";
+import PaginationCustom from "../../../../components/Shares/Pagination";
 
 const CurrentTopic = () => {
     const currentTopic = useSelector(DepartmentCurrentTopic)
@@ -18,6 +19,8 @@ const CurrentTopic = () => {
         dispatch(fetchDepartmentCurentTopics({ departmentID: 0 }))
         // eslint-disable-next-line
     }, [dispatch])
+
+    const [pagi, setPagi] = useState(1)
     return (
         <div>
             <DepartmentCurrentTopicSearch />
@@ -66,6 +69,8 @@ const CurrentTopic = () => {
                             })}
                         </tbody>
                     </Table>
+
+                    <PaginationCustom pagi={pagi} setPagi={setPagi} limit={20} total={currentTopic.topics.length}/>
                 </>
 
                 :
