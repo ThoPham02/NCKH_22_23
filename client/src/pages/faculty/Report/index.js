@@ -39,7 +39,7 @@ const Report = () => {
                                             </Accordion.Header>
                                             <Accordion.Body>
                                                 <SubCard title="Hội đồng nghiệm thu:">
-                                                    <Table>
+                                                    <Table striped hover size="sm" >
                                                         <thead>
                                                             <tr>
                                                                 <th style={{ width: "60px" }}>STT</th>
@@ -76,7 +76,7 @@ const Report = () => {
             <Card title={"Danh sách đề tài"}>
                 <FacultySubcommitteeSearch facultyID={user.faculty_id} />
                 {report.topics ?
-                    <Table >
+                    <Table striped hover size="sm" >
                         <thead>
                             <tr>
                                 <th>STT</th>

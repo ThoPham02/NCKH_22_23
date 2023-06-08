@@ -24,7 +24,7 @@ const DoneTopic = () => {
             <FacultyDoneTopicSearch />
             {doneTopic.topics ?
                 <>
-                    <Table >
+                    <Table striped hover size="sm" >
                         <thead>
                             <tr>
                                 <th style={{ width: "60px" }}>STT</th>

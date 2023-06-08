@@ -24,7 +24,7 @@ const CurrentTopic = () => {
             <FacultyCurrentTopicSearch />
             {currentTopic.topics ?
                 <>
-                    <Table >
+                    <Table striped hover size="sm" >
                         <thead>
                             <tr>
                                 <th style={{ width: "60px" }}>STT</th>

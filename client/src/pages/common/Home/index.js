@@ -29,14 +29,6 @@ const Home = () => {
   let currentExists = adminEvent.current && adminEvent.current.stages
   return (
     <div className="home">
-      {currentExists ?
-        <Card title={"NCKH đang diễn ra"}>
-          <TimeLine data={adminEvent.current} />
-        </Card>
-        :
-        <></>
-      }
-
       <Card title="Thông Báo">
         <div className="notification">
           <div className="notification-img">
@@ -56,6 +48,14 @@ const Home = () => {
           </div>
         </div>
       </Card>
+
+      {currentExists ?
+        <Card title={"NCKH đang diễn ra"}>
+          <TimeLine data={adminEvent.current} />
+        </Card>
+        :
+        <></>
+      }
 
       <Card title="Hướng dẫn">
         <div className="notification-content">
