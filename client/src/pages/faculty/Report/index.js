@@ -22,12 +22,14 @@ const Report = () => {
     const report = useSelector(FacultySubcommittee)
     const user = useSelector(userSelector)
 
+    console.log(report)
+
     return (
         <div>
             <Card title={"Danh sách tiểu ban"}>
                 <AddSubcommittee />
                 <div style={{ marginTop: "12px" }}>
-                    {report.subcommittee ?
+                    {report.subcommittee && report.subcommittee.length !== 0 ?
                         <Accordion>
                             {report.subcommittee.map((item, index) => {
                                 return (
@@ -43,7 +45,7 @@ const Report = () => {
                                                         <thead>
                                                             <tr>
                                                                 <th style={{ width: "60px" }}>STT</th>
-                                                                <th style={{ width: "200px" }}>Giảng Viên</th>
+                                                                <th style={{ width: "200px" }}>Thành Viên</th>
                                                                 <th >Liên Hệ</th>
                                                                 <th style={{ width: "200px" }}>Vai trò</th>
                                                             </tr>
@@ -53,7 +55,7 @@ const Report = () => {
                                                                 return (
                                                                     <tr>
                                                                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                                                        <td >{group.lecture.name}</td>
+                                                                        <td style={{ textAlign: "center" }}>{group.lecture.name}</td>
                                                                         <td style={{ textAlign: "center" }}>{group.lecture.email} <br /> {group.lecture.phone}</td>
                                                                         <td style={{ textAlign: "center" }}>{GroupRole[group.role - 1]}</td>
                                                                     </tr>

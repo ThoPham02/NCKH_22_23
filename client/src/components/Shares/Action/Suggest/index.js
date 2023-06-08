@@ -42,7 +42,7 @@ const Suggest = () => {
                         <Form.Group className="mb-3" >
                             <Form.Label>Tên đề tài</Form.Label>
                             <Form.Control
-                                type="text"
+                                as="textarea" rows={3}
                                 placeholder="Nhập tên đề tài"
                                 autoFocus
                                 value={name}

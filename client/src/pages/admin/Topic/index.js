@@ -12,11 +12,13 @@ const Topic = () => {
     const currentEvent = useSelector(AdminEventSelector)
     const [switchPage, setSwitchPage] = useState(false)
 
+    console.log(currentEvent)
+
     return (
         <SwitchCard switchPage={switchPage} setSwitchPage={setSwitchPage}>
             {!switchPage
                 ?
-                currentEvent && currentEvent.current?
+                currentEvent && currentEvent.current && currentEvent.current.stages && currentEvent.current.stages.length !== 0?
                     <>
                         <SubTimeLine data={currentEvent.current}/>
                         <CurrentTopic />

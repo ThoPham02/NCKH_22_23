@@ -51,14 +51,14 @@ const CurrentTopic = () => {
                                         <td style={{ textAlign: "center" }}>
                                             <Action todo={[
                                                 <Detail name="Chi tiết" topicIn={item} />,
-                                                item.status === 8 ?
+                                                item.status === 4 ?
                                                     <Confirm
                                                         title={"Duyệt đề tài"}
                                                         isAction={true}
                                                         action={updateStatus({ id: item.id, status: item.status * 2, facultyID: facultyID })}
                                                         content={"Xác nhận duyệt đề tài"}
                                                     /> : <></>,
-                                                item.status === 8 ?
+                                                item.status === 4 ?
                                                     <Confirm
                                                         title={"Hủy đề tài"}
                                                         isAction={true}

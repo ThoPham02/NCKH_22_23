@@ -93,10 +93,34 @@ const TopicDetail = (props) => {
       </SubCard>
 
       <SubCard title={"Báo cáo:"}>
-
+        <div className=" row info-title">
+          <div className="col-2">Báo Cáo Nghiên Cứu</div>
+          <div className="col-10">
+            {reports && reports.length > 0 ?
+              reports.map((item, index) => {
+                return (
+                  <div key={index} className="row">
+                    <div className="col-2"><a href="#">Tài liệu đính kèm</a> </div>
+                    <div className="col-8">{item.description} </div>
+                  </div>
+                )
+              })
+              : <>...</>}
+          </div>
+        </div>
       </SubCard>
       <SubCard title={"Kết quả:"}>
+        <div className=" row info-title">
+          <div className="col-2">Điểm Số</div>
+          <div className="col-10">
+            {marks && marks.length > 0
+              ?
+              <div>
 
+              </div>
+              : "..."}
+          </div>
+        </div>
       </SubCard>
     </div>
   );

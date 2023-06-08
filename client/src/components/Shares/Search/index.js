@@ -116,6 +116,7 @@ export const CurrentTopicsSearch = (props) => {
             search: search,
             facultyID: faculty,
             departmentID: department,
+            status: status,
             offset: offset,
             limit: limit
         }))

@@ -27,7 +27,7 @@ const DashBoard = () => {
   const [name, setName] = useState("")
   const [year, setYear] = useState("")
   const [create, setCreate] = useState(false)
-
+  
   return (
     <div className="admin_dash_board">
       <Card title={"NCKH đang diễn ra"}>
@@ -45,7 +45,7 @@ const DashBoard = () => {
                     <input
                       type="text"
                       placeholder="Tên NCKH"
-                      style={{ width: "400px" }}
+                      style={{ width: "700px" }}
                       className="input"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
@@ -93,7 +93,7 @@ const DashBoard = () => {
       <Card title={"NCKH đã thực hiện"}>
         {
           !adminEvent.doneEvent ?
-            <EmptyListNoti /> :
+            <EmptyListNoti title={"Không có NCKH nào đã hoàn thành"}/> :
             <Accordion>
               {adminEvent.doneEvent.map((item, index) => {
                 return (
