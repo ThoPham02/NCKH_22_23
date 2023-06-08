@@ -8,7 +8,7 @@ const Subcommittee = ({subcommittee, setSubcommittee, facultyID}) => {
     const dispatch = useDispatch();
   const list = useSelector(CommonSubcommitteeSelector).subcommittees;
   useEffect(() => {
-    dispatch(fetchCommonSubcommittee({facultyID}));
+    dispatch(fetchCommonSubcommittee({facultyID: facultyID}));
   }, [dispatch, facultyID]);
 
   return (

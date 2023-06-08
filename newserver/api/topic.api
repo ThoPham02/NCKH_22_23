@@ -281,5 +281,5 @@ service topic-api {
 	delete /api/topic-student-group/:studentID (DeleteStudentGroupbyStudentIdReq) returns(DeleteStudentGroupbyStudentIdRes)
 	
 	@handler GetTopicMarkHandler
-	get /api/topic/mark (GetTopicsReq) returns(GetTopicMarkRes)
+	get /api/result/topic-mark (GetTopicsReq) returns(GetTopicMarkRes)
 }

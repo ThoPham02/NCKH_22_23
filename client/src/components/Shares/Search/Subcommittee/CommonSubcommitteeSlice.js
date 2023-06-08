@@ -22,8 +22,8 @@ const CommonSubcommitteeSlice = createSlice({
 
 export const fetchCommonSubcommittee = createAsyncThunk("fetchCommonSubcommittee", async (payload) => {
   const response = await client.get("/api/subcommittees");
-  
-  return response.data.subcommittees.filter(c => c.facultyID === payload.facultyID);
+
+  return response.data.subcommittees.filter(c => !payload.facultyID || c.facultyID === payload.facultyID);
 });
 
 export const CommonSubcommitteeReducer = CommonSubcommitteeSlice.reducer;

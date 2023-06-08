@@ -10,15 +10,56 @@ const ResultSlice = createSlice({
     },
     reducers: {},
     extraReducers: builder => {
-        builder.addCase(fetchResult.pending, (state, action) => {
-
-        })
+        builder
+            .addCase(fetchTopicMarkCurrent.pending, (state, action) => {
+                state.status = "loading"
+            })
+            .addCase(fetchTopicMarkCurrent.fulfilled, (state, action) => {
+                state.status = "idle"
+                state.current = action.payload.topicMark
+            })
+            .addCase(fetchTopicMarkDone.pending, (state, action) => {
+                state.status = "loading"
+            })
+            .addCase(fetchTopicMarkDone.fulfilled, (state, action) => {
+                state.status = "idle"
+                state.done = action.payload.topicMark
+            })
     }
 })
 
+export const fetchTopicMarkCurrent = createAsyncThunk("fetchTopicMarkCurrent", async (payload) => {
+    const resp = await client.get("/api/result/topic-mark", {
+        params: {
+            search: payload.search ? payload.search : "",
+            departmentID: payload.departmentID ? payload.departmentID : 0,
+            facultyID: payload.facultyID ? payload.facultyID : 0,
+            subcommitteeID: payload.subcommitteeID ? payload.subcommitteeID : 0,
+            limit: payload.limit ? payload.limit : 0,
+            offset: payload.offset ? payload.offset : 0,
+            isCurrent: 1
+        }
+    })
 
-const fetchResult = createAsyncThunk("fetchResult", async () => {
-    const resp = await client.get()
-
-    return resp.json()
+    return resp.data
 })
+
+export const fetchTopicMarkDone = createAsyncThunk("fetchTopicMarkDone", async (payload) => {
+    const resp = await client.get("/api/result/topic-mark", {
+        params: {
+            search: payload.search ? payload.search : "",
+            departmentID: payload.departmentID ? payload.departmentID : 0,
+            facultyID: payload.facultyID ? payload.facultyID : 0,
+            subcommitteeID: payload.subcommitteeID ? payload.subcommitteeID : 0,
+            limit: payload.limit ? payload.limit : 0,
+            offset: payload.offset ? payload.offset : 0,
+            isCurrent: 2
+        }
+    })
+
+    return resp.data
+})
+
+export default ResultSlice;
+export const ResultReducer = ResultSlice.reducer;
+export const ResultActions = ResultSlice.actions;

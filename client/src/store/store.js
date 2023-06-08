@@ -14,6 +14,7 @@ import { StudentMyTopicReducer } from "../pages/student/MyTopic/StudentMyTopicSl
 import { FacultySubcommitteeReducer } from "../pages/faculty/Report/facultySubcommitteeSlice";
 import { CommonSubcommitteeReducer } from "../components/Shares/Search/Subcommittee/CommonSubcommitteeSlice";
 import { ItemReducer } from "../components/Shares/Action/AddSubcommittee/itemSlice";
+import { ResultReducer } from "../pages/common/Result/ResultSlice";
 
 const store = configureStore({
   reducer: {
@@ -30,6 +31,7 @@ const store = configureStore({
     ItemStore: ItemReducer,
 
     CommonSubcommitteeStore:  CommonSubcommitteeReducer,
+    TopicMarkStore: ResultReducer,
 
     // admin reducer
     AdminEventStore: AdminEventReducer,
