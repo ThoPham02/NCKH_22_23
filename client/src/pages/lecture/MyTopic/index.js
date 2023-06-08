@@ -60,7 +60,7 @@ const MyTopic = () => {
                     <EmptyListNoti title={"Bạn chưa có đề tài nào!"} />}
             </Card>
             <Card title={"NCKH đã hoàn thành"}>
-                {topicSelector.topics ?
+                {topicSelector.topics && topicSelector.topics.filter(i => i.eventId.isCurrent === 2).length !== 0?
                     <div>
                         <Table striped hover size="sm" >
                             <thead>

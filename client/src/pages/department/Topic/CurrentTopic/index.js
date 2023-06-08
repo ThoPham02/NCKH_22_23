@@ -28,7 +28,7 @@ const CurrentTopic = () => {
                         <thead>
                             <tr>
                                 <th style={{ width: "60px" }}>STT</th>
-                                <th style={{ width: "150px" }}>Giảng Viên</th>
+                                <th style={{ width: "200px" }}>Giảng Viên</th>
                                 <th >Đề Tài</th>
                                 <th style={{ width: "120px" }}>Trạng Thái</th>
                                 <th style={{ width: "60px" }}>Thao Tác</th>
@@ -39,20 +39,20 @@ const CurrentTopic = () => {
                                 return (
                                     <tr key={item.id}>
                                         <td style={{ textAlign: "center" }}>{index + 1}</td>
-                                        <td >{item.lectureInfo.degree + "." + item.lectureInfo.name}</td>
+                                        <td style={{ textAlign: "center" }}>{item.lectureInfo.degree + "." + item.lectureInfo.name}</td>
                                         <td >{item.name}</td>
                                         <td style={{ textAlign: "center" }}>{getStatus(item.status)}</td>
                                         <td style={{ textAlign: "center" }}>
                                             <Action todo={[
                                                 <Detail name="Chi tiết" topicIn={item} />,
-                                                item.status === 2 || item.status === 4 || item.status === 32?
+                                                item.status === 2  || item.status === 32 ?
                                                     <Confirm
                                                         title={"Duyệt đề tài"}
                                                         isAction={true}
                                                         action={updateStatus({ id: item.id, status: item.status * 2, departmentID: departmentID })}
                                                         content={"Xác nhận duyệt đề tài"}
                                                     /> : <></>,
-                                                item.status === 2 || item.status === 4 || item.status === 32?
+                                                item.status === 2 || item.status === 32 ?
                                                     <Confirm
                                                         title={"Hủy đề tài"}
                                                         isAction={true}
