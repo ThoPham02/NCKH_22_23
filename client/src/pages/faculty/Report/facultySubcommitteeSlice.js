@@ -60,7 +60,7 @@ export const fetchTopicsBySubcommittee = createAsyncThunk("fetchTopicsBySubcommi
     const resp = await client.get("/api/topics", {
         params: {
             isCurrent: 1,
-            status: 128,
+            status: 64,
             facultyID: payload.facultyID,
             search: payload.search,
             subcommitteeID: payload.subcommitteeID
@@ -74,7 +74,7 @@ export const fetchTopicsBySchool = createAsyncThunk("fetchTopicsBySchool", async
     const resp = await client.get("/api/topics", {
         params: {
             isCurrent: 1,
-            status: 256,
+            status: 128,
             facultyID: payload.facultyID,
             search: payload.search,
         }

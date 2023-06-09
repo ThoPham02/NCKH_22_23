@@ -22,8 +22,6 @@ const Report = () => {
     const report = useSelector(FacultySubcommittee)
     const user = useSelector(userSelector)
 
-    console.log(report)
-
     return (
         <div>
             <Card title={"Danh sách tiểu ban"}>
