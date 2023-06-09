@@ -16,7 +16,7 @@ const MyTopic = () => {
     const dispatch = useDispatch()
     const user = useSelector(userSelector)
     useEffect(() => {
-        dispatch(fetchLectureTopic({ userID: user.id }))
+        dispatch(fetchLectureTopic({ lectureID: user.id }))
     }, [dispatch, user.id])
 
     const topicSelector = useSelector(LectureMyTopicSelector)

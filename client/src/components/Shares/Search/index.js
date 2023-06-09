@@ -123,8 +123,16 @@ export const CurrentTopicsSearch = (props) => {
     }
 
     useEffect(() => {
-        dispatch(fetchTopics({}))
-    }, [dispatch])
+        dispatch(fetchTopics({
+            search: search,
+            facultyID: faculty,
+            departmentID: department,
+            status: status,
+            offset: offset,
+            limit: limit
+        }))
+        // eslint-disable-next-line
+    }, [dispatch, limit, offset])
 
     return (
         <Form className="search" onSubmit={handleSubmitForm}>
@@ -375,17 +383,21 @@ export const SchoolReportSearch = ({ facultyID }) => {
     )
 }
 
-export const ResultSearch = ({ facultyID, isCurrent }) => {
+export const ResultSearch = ({ facultyID, isCurrent, limit, offset }) => {
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(fetchTopicMarkCurrent({
             facultyID: facultyID,
+            limit: limit,
+            offset: offset
         }))
         dispatch(fetchTopicMarkDone({
             facultyID: facultyID,
+            limit: limit,
+            offset: offset
         }))
-    }, [dispatch, facultyID])
+    }, [dispatch, facultyID, limit, offset])
 
     const [search, setSearch] = useState("")
     const [subcommittee, setSubcommittee] = useState(0)
@@ -397,12 +409,16 @@ export const ResultSearch = ({ facultyID, isCurrent }) => {
                 search: search,
                 subcommitteeID: subcommittee,
                 facultyID: facultyID,
+                limit: limit,
+                offset: offset
             }))
         } else {
             dispatch(fetchTopicMarkCurrent({
                 search: search,
                 subcommitteeID: subcommittee,
                 facultyID: facultyID,
+                limit: limit,
+                offset: offset
             }))
         }
     }

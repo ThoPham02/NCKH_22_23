@@ -100,7 +100,13 @@ const TopicDetail = (props) => {
               reports.map((item, index) => {
                 return (
                   <div key={index} className="row">
-                    <div className="col-2"><a href="#">Tài liệu đính kèm</a> </div>
+                    <div className="col-2">
+
+                      {
+                        // eslint-disable-next-line
+                        <a href="#">Tài liệu đính kèm</a>
+                      }
+                    </div>
                     <div className="col-8">{item.description} </div>
                   </div>
                 )
