@@ -63,7 +63,6 @@ export const fetchTopicsBySubcommittee = createAsyncThunk("fetchTopicsBySubcommi
             status: 64,
             facultyID: payload.facultyID,
             search: payload.search,
-            subcommitteeID: payload.subcommitteeID
         }
     })
 

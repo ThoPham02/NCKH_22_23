@@ -15,6 +15,7 @@ const AddTopicsToSub = ({ subcommittee }) => {
         setShow(true);
     }
     const report = useSelector(FacultySubcommittee)
+    console.log(report)
     const [select, setSelect] = useState([])
     return (
         <>
@@ -44,8 +45,8 @@ const AddTopicsToSub = ({ subcommittee }) => {
                         <div className="col-2 ">Tiểu ban: </div>
                         <div className="col-4">{subcommittee.name}</div>
                     </div>
-                    {report.topics && report.topics.length !== 0 && report.topics.filter(item => item.subcommitteeID === 0).length !== 0?
-                        <TableTopic select={select} setSelect={setSelect} topic={report.topics.filter(item => item.subcommitteeID === 0)}/>
+                    {report.topics && report.topics.length !== 0 && report.topics.filter(item => item.subcommitteeID.id === 0).length !== 0?
+                        <TableTopic select={select} setSelect={setSelect} topic={report.topics.filter(item => item.subcommitteeID.id === 0)}/>
                         :
                         <EmptyListNoti title={"Danh sách đề tài phù hợp trống!"} />}
                 </Modal.Body>
